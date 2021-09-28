@@ -2,11 +2,11 @@ import glob
 import re
 import os
 import json
+import shutil
 
 __handicap = re.compile(r"^手合割：(.+)$")
 
 def main():
-
 
     # KIFUファイル一覧
     files = glob.glob("./kifu/*")
@@ -20,7 +20,7 @@ def main():
             return
 
         # insert new extention
-        newPath = os.path.join('./pibot', f"{stem}.json")
+        newPath = os.path.join('pibot', f"{stem}.json")
 
         # とりあえず KIFU を読んでみます
         rowNumber = 1
@@ -78,6 +78,9 @@ def main():
 
         with open(newPath, 'w', encoding='utf-8') as fOut:
             fOut.write(json.dumps(data, indent=4))
+
+        # ファイルの移動
+        newPath = shutil.move(file, 'kifu-done')
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":

@@ -39,8 +39,7 @@ def convert_kifu_file(path):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    new_path = shutil.move(path, 'kifu-done')
-    print(new_path)
+    newPath = shutil.move(path, 'kifu-done')
 
     return newPath
 

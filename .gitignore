@@ -1,10 +1,10 @@
 # Add
 
-kif/
-kif-done/
-kifu/
-kifu-done/
-pibot/
+kif/*.kif
+kif-done/*.kif
+kifu/*.kifu
+kifu-done/*.kifu
+pibot/*.json
 under-development/
 
 # Byte-compiled / optimized / DLL files

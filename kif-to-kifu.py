@@ -39,8 +39,7 @@ def convert_kif_file(path):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    new_path = shutil.move(path, 'kif-done')
-    print(new_path)
+    newPath = shutil.move(path, 'kif-done')
 
     return newPath
 
