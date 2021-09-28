@@ -15,7 +15,8 @@ def read_kif_file(path):
     Returns
     -------
     str
-        新しいパス
+        新しいパス。
+        KIFファイルでなかったなら空文字列
     """
 
     newPath = ""
@@ -26,7 +27,10 @@ def read_kif_file(path):
         # basename
         basename = os.path.basename(path)
         # Except old extention
-        stem = os.path.splitext(basename)[0]
+        stem, extention = os.path.splitext(basename)
+        if extention.lower() != '.kif':
+            return ""
+
         # Append new extention
         basename = f"{stem}.kifu"
 
@@ -40,14 +44,14 @@ def read_kif_file(path):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    new_path = shutil.move(path, 'input-done')
+    new_path = shutil.move(path, 'input-kif-done')
     print(new_path)
 
     return newPath
 
 def main():
     # KIFファイル一覧
-    files = glob.glob("./input/*")
+    files = glob.glob("./input-kif/*")
     for file in files:
         _newPath = read_kif_file(file)
 
