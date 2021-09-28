@@ -15,7 +15,8 @@ __move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 
 # Example: `７六歩(77)`
 # Example: `同　角(88)`
-__move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(\(\d+\))(.*)$")
+# Example: `４九角打`
+__move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同　)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(打|成)?(\(\d+\))(.*)$")
 
 # Example: `まで64手で後手の勝ち`
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
@@ -55,39 +56,49 @@ def parse_kifu_file_to_pibot(file):
 
                 # 指し手の詳細の解析
                 move = result.group(2)
-                result2 = __move_detail.match(move)
-                if result2:
-                    data[f'{rowNumber}']['Move'] = {}
-
-                    destinationFile = result2.group(1)
-                    if destinationFile:
-                        data[f'{rowNumber}']['Move']['DestinationFile'] = destinationFile
-
-                    destinationRank = result2.group(2)
-                    if destinationRank:
-                        data[f'{rowNumber}']['Move']['DestinationRank'] = destinationRank
-
-                    destination = result2.group(3)
-                    if destination:
-                        data[f'{rowNumber}']['Move']['Destination'] = destination
-
-                    pieceType = result2.group(4)
-                    if pieceType:
-                        data[f'{rowNumber}']['Move']['PieceType'] = pieceType
-
-                    source = result2.group(5)
-                    if source:
-                        # Example `(77)`
-                        square = int(source[1:-1])
-                        data[f'{rowNumber}']['Move']['SourceFile'] = square//10
-                        data[f'{rowNumber}']['Move']['SourceRank'] = square%10
-
-                    unknown = result2.group(6)
-                    if unknown:
-                        data[f'{rowNumber}']['Move']['Unknown'] = unknown
-
+                if move == '投了':
+                    data[f'{rowNumber}']['Move'] = {"Sign":"Resign"}
                 else:
-                    data[f'{rowNumber}']['Move'] = {"Unknown":move}
+
+                    result2 = __move_detail.match(move)
+                    if result2:
+                        data[f'{rowNumber}']['Move'] = {}
+
+                        destinationFile = result2.group(1)
+                        if destinationFile:
+                            data[f'{rowNumber}']['Move']['DestinationFile'] = destinationFile
+
+                        destinationRank = result2.group(2)
+                        if destinationRank:
+                            data[f'{rowNumber}']['Move']['DestinationRank'] = destinationRank
+
+                        destination = result2.group(3)
+                        if destination:
+                            data[f'{rowNumber}']['Move']['Destination'] = destination
+
+                        pieceType = result2.group(4)
+                        if pieceType:
+                            data[f'{rowNumber}']['Move']['PieceType'] = pieceType
+
+                        dropOrPromotion = result2.group(5)
+                        if dropOrPromotion=='打':
+                            data[f'{rowNumber}']['Move']['Drop'] = True
+                        elif dropOrPromotion=='成':
+                            data[f'{rowNumber}']['Move']['Promotion'] = True
+
+                        source = result2.group(6)
+                        if source:
+                            # Example `(77)`
+                            square = int(source[1:-1])
+                            data[f'{rowNumber}']['Move']['SourceFile'] = square//10
+                            data[f'{rowNumber}']['Move']['SourceRank'] = square%10
+
+                        unknown = result2.group(7)
+                        if unknown:
+                            data[f'{rowNumber}']['Move']['Unknown'] = unknown
+
+                    else:
+                        data[f'{rowNumber}']['Move'] = {"Unknown":move}
 
                 rowNumber += 1
                 continue
