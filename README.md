@@ -2,9 +2,9 @@
 
 WIP KIFパーサー
 
-## 使い方
+## KIF を KIFU に変換
 
-1. 📂`input` に `*.KIF` ファイルを入れてください
-2. ターミナルで `python.exe main.py` コマンドを実行してください
-3. 読込んだ `input/*.KIF` ファイルは、 `input-done/*.KIF` へ移動されます
-4. UTF-8形式に変換して `hidden-step1/*.kifu` ファイルに変換されます
+1. 📂`kif` に `*.kif` ファイルをたくさん入れてください
+2. ターミナルで `python.exe kif-to-kifu.py` コマンドを実行してください
+3. UTF-8形式に変換して 📂`kifu` ファイルに変換されます
+4. 読み終えた `kif/*.kif` ファイルは、 `kif-done/*.kif` へ移動されます

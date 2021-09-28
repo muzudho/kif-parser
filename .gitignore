@@ -3,6 +3,8 @@
 kif/
 kif-done/
 kifu/
+kifu-done/
+pibot/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
