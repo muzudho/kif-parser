@@ -77,7 +77,7 @@ def main():
                 rowNumber += 1
 
         with open(newPath, 'w', encoding='utf-8') as fOut:
-            fOut.write(json.dumps(data, indent=4))
+            fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
         # ファイルの移動
         newPath = shutil.move(file, 'kifu-done')
