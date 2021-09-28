@@ -27,9 +27,7 @@ def convert_kifu_to_kif_file(path):
             return ""
 
         # Append new extention
-        basename = f"{stem}.kif"
-
-        outPath = os.path.join('kif', basename)
+        outPath = os.path.join('kif', f"{stem}.kif")
 
         with codecs.open(outPath, "w", encoding='shift_jis') as fOut:
 
@@ -39,7 +37,7 @@ def convert_kifu_to_kif_file(path):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePath = shutil.move(path, 'kifu-done')
+    donePath = shutil.move(path, os.path.join('kifu-done',basename))
     return outPath, donePath
 
 def main():

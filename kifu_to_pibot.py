@@ -74,17 +74,23 @@ def parse_kifu_file_to_pibot(file):
 
                         destination = result2.group(3)
                         if destination:
-                            data[f'{rowNumber}']['Move']['Destination'] = destination
+                            if destination=='同　':
+                                data[f'{rowNumber}']['Move']['Destination'] = 'Same'
+                            else:
+                                data[f'{rowNumber}']['Move']['Destination'] = 'Unknown'
 
                         pieceType = result2.group(4)
                         if pieceType:
                             data[f'{rowNumber}']['Move']['PieceType'] = piece_type_to_en(pieceType)
 
                         dropOrPromotion = result2.group(5)
-                        if dropOrPromotion=='打':
-                            data[f'{rowNumber}']['Move']['Drop'] = True
-                        elif dropOrPromotion=='成':
-                            data[f'{rowNumber}']['Move']['Promotion'] = True
+                        if dropOrPromotion:
+                            if dropOrPromotion=='打':
+                                data[f'{rowNumber}']['Move']['Drop'] = True
+                            elif dropOrPromotion=='成':
+                                data[f'{rowNumber}']['Move']['Promotion'] = True
+                            else:
+                                data[f'{rowNumber}']['Move']['DropOrPromotion'] = 'Unknown'
 
                         source = result2.group(6)
                         if source:
@@ -157,7 +163,7 @@ def parse_kifu_file_to_pibot(file):
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # ファイルの移動
-    donePath = shutil.move(file, 'kifu-done')
+    donePath = shutil.move(file, os.path.join('kifu-done',basename))
     return outPath, donePath
 
 def main():
