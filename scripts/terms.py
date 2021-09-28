@@ -90,3 +90,23 @@ def japanese_to_number(japanese):
         return __japaneseNumber[japanese]
 
     return japanese
+
+sign_dictionary = {
+    '中断':'Stop',
+    '投了':'Resign',
+    '持将棋':'JiShogi',
+    '千日手':'Repeatation',
+    '詰み':'Checkmate',
+    '切れ負け':'TimeUp',
+    '反則勝ち':'IllegalWin',
+    '反則負け':'IllegalLose',
+    '入玉勝ち':'EnteringKingWin',
+    '不戦勝':'UnearnedWin',
+    '不戦敗':'UnearnedLose',
+}
+
+def sign_to_en(sign):
+    if sign in sign_dictionary:
+        return sign_dictionary[sign]
+
+    return sign

@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number
+from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number, sign_to_en, sign_dictionary
 
 __comment = re.compile(r"^#(.+)$")
 __explanation = re.compile(r"^\*(.+)$")
@@ -78,8 +78,8 @@ def parse_kifu_file_to_pibot(file):
 
                 # 指し手の詳細の解析
                 move = result.group(2)
-                if move == '投了':
-                    data[f'{rowNumber}']['Move'] = {"Sign":"Resign"}
+                if move in sign_dictionary.keys():
+                    data[f'{rowNumber}']['Move'] = {"Sign":sign_to_en(move)}
                 else:
 
                     result2 = __move_detail.match(move)
