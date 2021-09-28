@@ -42,3 +42,8 @@ WIP KIFパーサー、コンバーター
 3. ターミナルで `python.exe kifu_to_pibot.py` コマンドを実行してください
 4. JSON形式に変換して 📂`pibot` ファイルに変換されます
 5. 読み終えた `kifu/*.kifu` ファイルは、 `kifu-done/*.kifu` へ移動されます
+
+## Documents
+
+📖　[KIF形式を調べようぜ（＾～＾）？](https://crieit.net/drafts/6150ffc21e0de)  
+📖　[将棋の符号](https://crieit.net/drafts/615192ae93d14)  
