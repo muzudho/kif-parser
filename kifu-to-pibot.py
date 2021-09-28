@@ -5,6 +5,9 @@ import json
 import shutil
 
 __handicap = re.compile(r"^手合割：(.+)$")
+# Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
+__move = re.compile(r"^\s*(\d+)\s+([^\s]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
+
 
 def main():
 
@@ -69,6 +72,19 @@ def main():
                         data[f'{rowNumber}'] = {"Handicap":"Lost10Pieces"}
                     elif handicap == 'その他':
                         data[f'{rowNumber}'] = {"Handicap":"Other"}
+
+                    rowNumber += 1
+                    continue
+
+                # 指し手の解析
+                result = __move.match(line)
+                if result:
+                    data[f'{rowNumber}'] = {
+                        "Moves":f"{result.group(1)}",
+                        "Move":f"{result.group(2)}",
+                        "ElapsedTime":f"{result.group(3)}",
+                        "TotalElapsedTime":f"{result.group(4)}",
+                    }
 
                     rowNumber += 1
                     continue
