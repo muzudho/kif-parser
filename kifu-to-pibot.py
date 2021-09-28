@@ -4,7 +4,9 @@ import os
 import json
 import shutil
 
+__comment = re.compile(r"^#(.+)$")
 __handicap = re.compile(r"^手合割：(.+)$")
+__playerName = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
 # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
 __move = re.compile(r"^\s*(\d+)\s+([^\s]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 
@@ -34,6 +36,38 @@ def main():
 
             lines = text.split('\n')
             for line in lines:
+
+                # 指し手の解析
+                result = __move.match(line)
+                if result:
+                    data[f'{rowNumber}'] = {
+                        "Moves":f"{result.group(1)}",
+                        "Move":f"{result.group(2)}",
+                        "ElapsedTime":f"{result.group(3)}",
+                        "TotalElapsedTime":f"{result.group(4)}",
+                    }
+
+                    rowNumber += 1
+                    continue
+
+                # コメントの解析
+                result = __comment.match(line)
+                if result:
+                    data[f'{rowNumber}'] = {"Comment":f"{result.group(1)}"}
+
+                    rowNumber += 1
+                    continue
+
+                # プレイヤー名の解析
+                result = __playerName.match(line)
+                if result:
+                    data[f'{rowNumber}'] = {
+                        "PlayerPhase":f"{result.group(1)}",
+                        "PlayerName":f"{result.group(2)}",
+                    }
+
+                    rowNumber += 1
+                    continue
 
                 result = __handicap.match(line)
                 if result:
@@ -72,19 +106,6 @@ def main():
                         data[f'{rowNumber}'] = {"Handicap":"Lost10Pieces"}
                     elif handicap == 'その他':
                         data[f'{rowNumber}'] = {"Handicap":"Other"}
-
-                    rowNumber += 1
-                    continue
-
-                # 指し手の解析
-                result = __move.match(line)
-                if result:
-                    data[f'{rowNumber}'] = {
-                        "Moves":f"{result.group(1)}",
-                        "Move":f"{result.group(2)}",
-                        "ElapsedTime":f"{result.group(3)}",
-                        "TotalElapsedTime":f"{result.group(4)}",
-                    }
 
                     rowNumber += 1
                     continue
