@@ -7,9 +7,13 @@ import shutil
 __comment = re.compile(r"^#(.+)$")
 __handicap = re.compile(r"^手合割：(.+)$")
 __playerName = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
-# Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
-__move = re.compile(r"^\s*(\d+)\s+([^\s]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 
+# Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
+# Example: `  22 同　角(88)    (00:01 / 00:00:11)`
+__move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
+
+# Example: `まで64手で後手の勝ち`
+__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
 
 def main():
 
@@ -69,6 +73,12 @@ def main():
                     rowNumber += 1
                     continue
 
+                # 指し手のテーブルの先頭行
+                if line == '手数----指手---------消費時間--':
+                    # Ignored
+                    rowNumber += 1
+                    continue
+
                 result = __handicap.match(line)
                 if result:
                     handicap = result.group(1)
@@ -106,6 +116,19 @@ def main():
                         data[f'{rowNumber}'] = {"Handicap":"Lost10Pieces"}
                     elif handicap == 'その他':
                         data[f'{rowNumber}'] = {"Handicap":"Other"}
+
+                    rowNumber += 1
+                    continue
+
+                # Example: `まで64手で後手の勝ち`
+                result = __result1.match(line)
+                if result:
+                    moves = result.group(1)
+                    playerPhase = result.group(2)
+                    data[f'{rowNumber}'] = {
+                        "Winner":f"{playerPhase}",
+                        "Moves":f"{moves}",
+                    }
 
                     rowNumber += 1
                     continue
