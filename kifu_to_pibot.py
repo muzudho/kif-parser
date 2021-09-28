@@ -6,6 +6,7 @@ import shutil
 from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number
 
 __comment = re.compile(r"^#(.+)$")
+__explanation = re.compile(r"^\*(.+)$")
 __handicap = re.compile(r"^手合割：(.+)$")
 __playerName = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
 
@@ -17,6 +18,12 @@ __move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 # Example: `同　角(88)`
 # Example: `４九角打`
 __move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同　)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(打|成)?(\(\d+\))(.*)$")
+
+# Example: `00:01`
+__elapsed_time = re.compile(r"^(\d+):(\d+)$")
+
+# Example: `00:00:16`
+__total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
 # Example: `まで64手で後手の勝ち`
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
@@ -48,11 +55,26 @@ def parse_kifu_file_to_pibot(file):
             # 指し手の解析
             result = __move.match(line)
             if result:
-                data[f'{rowNumber}'] = {
-                    "Moves":f"{result.group(1)}",
-                    "ElapsedTime":f"{result.group(3)}",
-                    "TotalElapsedTime":f"{result.group(4)}",
-                }
+                data[f'{rowNumber}'] = {"Moves":f"{result.group(1)}"}
+
+                # 消費時間の解析
+                elapsedTime = result.group(3)
+                if elapsedTime:
+                    result2 = __elapsed_time.match(elapsedTime)
+                    if result2:
+                        data[f'{rowNumber}']['ElapsedTime'] = {}
+                        data[f'{rowNumber}']['ElapsedTime']['Minute'] = int(result2.group(1))
+                        data[f'{rowNumber}']['ElapsedTime']['Second'] = int(result2.group(2))
+
+                # 累計の消費時間の解析
+                totalElapsedTime = result.group(4)
+                if totalElapsedTime:
+                    result2 = __total_elapsed_time.match(totalElapsedTime)
+                    if result2:
+                        data[f'{rowNumber}']['TotalElapsedTime'] = {}
+                        data[f'{rowNumber}']['TotalElapsedTime']['Hour'] = int(result2.group(1))
+                        data[f'{rowNumber}']['TotalElapsedTime']['Minute'] = int(result2.group(2))
+                        data[f'{rowNumber}']['TotalElapsedTime']['Second'] = int(result2.group(3))
 
                 # 指し手の詳細の解析
                 move = result.group(2)
@@ -113,6 +135,14 @@ def parse_kifu_file_to_pibot(file):
             result = __comment.match(line)
             if result:
                 data[f'{rowNumber}'] = {"Comment":f"{result.group(1)}"}
+
+                rowNumber += 1
+                continue
+
+            # 指し手等の解説の解析
+            result = __explanation.match(line)
+            if result:
+                data[f'{rowNumber}'] = {"Explanation":f"{result.group(1)}"}
 
                 rowNumber += 1
                 continue
