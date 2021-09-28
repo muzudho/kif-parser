@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en
+from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en
 
 __comment = re.compile(r"^#(.+)$")
 __handicap = re.compile(r"^手合割：(.+)$")
@@ -78,7 +78,7 @@ def parse_kifu_file_to_pibot(file):
 
                         pieceType = result2.group(4)
                         if pieceType:
-                            data[f'{rowNumber}']['Move']['PieceType'] = pieceType
+                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_to_en(pieceType)
 
                         dropOrPromotion = result2.group(5)
                         if dropOrPromotion=='打':

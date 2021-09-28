@@ -36,3 +36,30 @@ def handicap_to_en(handicap):
         return __handicap[handicap]
 
     return handicap
+
+__pieceType = {
+    '玉':'King',
+    '飛':'Rook',
+    '龍':'Dragon',
+    '竜':'Dragon',
+    '角':'Bishop',
+    '馬':'Horse',
+    '金':'Gold',
+    '銀':'Silver',
+    '成銀':'PromotionSilver',
+    '全':'PromotionSilver',
+    '桂':'Knight',
+    '成桂':'PromotionKnight',
+    '圭':'PromotionKnight',
+    '香':'Lance',
+    '成香':'PromotionLance',
+    '杏':'PromotionLance',
+    '歩':'Pawn',
+    'と':'PromotionPawn',
+}
+
+def piece_type_to_en(pieceType):
+    if pieceType in __pieceType:
+        return __pieceType[pieceType]
+
+    return pieceType
