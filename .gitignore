@@ -1,9 +1,8 @@
 # Add
 
-input-kif/
-input-kif-done/
-input-kif-fail/
-hidden-step1/
+kif/
+kif-done/
+kifu/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
