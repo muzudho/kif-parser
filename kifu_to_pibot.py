@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en
+from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number
 
 __comment = re.compile(r"^#(.+)$")
 __handicap = re.compile(r"^手合割：(.+)$")
@@ -66,11 +66,11 @@ def parse_kifu_file_to_pibot(file):
 
                         destinationFile = result2.group(1)
                         if destinationFile:
-                            data[f'{rowNumber}']['Move']['DestinationFile'] = destinationFile
+                            data[f'{rowNumber}']['Move']['DestinationFile'] = japanese_to_number(destinationFile)
 
                         destinationRank = result2.group(2)
                         if destinationRank:
-                            data[f'{rowNumber}']['Move']['DestinationRank'] = destinationRank
+                            data[f'{rowNumber}']['Move']['DestinationRank'] = japanese_to_number(destinationRank)
 
                         destination = result2.group(3)
                         if destination:
