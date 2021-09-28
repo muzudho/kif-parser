@@ -13,6 +13,10 @@ __playerName = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
 # Example: `  22 同　角(88)    (00:01 / 00:00:11)`
 __move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 
+# Example: `７六歩(77)`
+# Example: `同　角(88)`
+__move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(同)?(.*)$")
+
 # Example: `まで64手で後手の勝ち`
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
 
@@ -47,10 +51,30 @@ def main():
                 if result:
                     data[f'{rowNumber}'] = {
                         "Moves":f"{result.group(1)}",
-                        "Move":f"{result.group(2)}",
                         "ElapsedTime":f"{result.group(3)}",
                         "TotalElapsedTime":f"{result.group(4)}",
                     }
+
+                    # 指し手の詳細の解析
+                    move = result.group(2)
+                    result2 = __move_detail.match(move)
+                    if result2:
+                        data[f'{rowNumber}']['Move'] = {}
+
+                        destinationFile = result2.group(1)
+                        if destinationFile:
+                            data[f'{rowNumber}']['Move']['DestinationFile'] = destinationFile
+
+                        destination = result2.group(2)
+                        if destination:
+                            data[f'{rowNumber}']['Move']['Destination'] = destination
+
+                        unknown = result2.group(3)
+                        if unknown:
+                            data[f'{rowNumber}']['Move']['Unknown'] = unknown
+
+                    else:
+                        data[f'{rowNumber}']['Move'] = {"Unknown":move}
 
                     rowNumber += 1
                     continue
@@ -102,7 +126,7 @@ def main():
                     continue
 
                 # 解析漏れ
-                data[f'{rowNumber}'] = {"Line":f"{line}"}
+                data[f'{rowNumber}'] = {"Unknown":f"{line}"}
                 rowNumber += 1
 
         with open(newPath, 'w', encoding='utf-8') as fOut:
