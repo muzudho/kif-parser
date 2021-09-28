@@ -1,48 +1,38 @@
+__player_phase = {
+    '先手':'FirstPlayer',
+    '後手':'SecondPlayer',
+    '下手':'Trainee',
+    '上手':'Trainer',
+}
+
 def player_phase_to_en(playerPhase):
-    if playerPhase=='先手':
-        return 'FirstPlayer'
-    elif playerPhase=='|後手':
-        return 'SecondPlayer'
-    elif playerPhase=='|下手':
-        return 'Trainee'
-    elif playerPhase=='|上手':
-        return 'Trainer'
+    if playerPhase in __player_phase:
+        return __player_phase[playerPhase]
+
     return playerPhase
 
+__handicap = {
+    '平手':'Hirate',
+    '香落ち':'LostLance',
+    '右香落ち':'LostRightLance',
+    '角落ち':'LostBishop',
+    '飛車落ち':'LostRook',
+    '飛香落ち':'LostRookLance',
+    '二枚落ち':'Lost2Pieces',
+    '三枚落ち':'Lost3Pieces',
+    '四枚落ち':'Lost4Pieces',
+    '五枚落ち':'Lost5Pieces',
+    '左五枚落ち':'LostLeft5Pieces',
+    '六枚落ち':'Lost6Pieces',
+    '左七枚落ち':'LostLeft7Pieces',
+    '右七枚落ち':'LostRight7Pieces',
+    '八枚落ち':'Lost8Pieces',
+    '十枚落ち':'Lost10Pieces',
+    'その他':'Other',
+}
+
 def handicap_to_en(handicap):
-    if handicap == '平手':
-        return "Hirate"
-    elif handicap == '香落ち':
-        return "LostLance"
-    elif handicap == '右香落ち':
-        return "LostRightLance"
-    elif handicap == '角落ち':
-        return "LostBishop"
-    elif handicap == '飛車落ち':
-        return "LostRook"
-    elif handicap == '飛香落ち':
-        return "LostRookLance"
-    elif handicap == '二枚落ち':
-        return "Lost2Pieces"
-    elif handicap == '三枚落ち':
-        return "Lost3Pieces"
-    elif handicap == '四枚落ち':
-        return "Lost4Pieces"
-    elif handicap == '五枚落ち':
-        return "Lost5Pieces"
-    elif handicap == '左五枚落ち':
-        return "LostLeft5Pieces"
-    elif handicap == '六枚落ち':
-        return "Lost6Pieces"
-    elif handicap == '左七枚落ち':
-        return "LostLeft7Pieces"
-    elif handicap == '右七枚落ち':
-        return "LostRight7Pieces"
-    elif handicap == '八枚落ち':
-        return "Lost8Pieces"
-    elif handicap == '十枚落ち':
-        return "Lost10Pieces"
-    elif handicap == 'その他':
-        return "Other"
+    if handicap in __handicap:
+        return __handicap[handicap]
 
     return handicap
