@@ -15,7 +15,7 @@ __move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 
 # Example: `７六歩(77)`
 # Example: `同　角(88)`
-__move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同)?(.*)$")
+__move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(.*)$")
 
 # Example: `まで64手で後手の勝ち`
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
@@ -73,7 +73,11 @@ def main():
                         if destination:
                             data[f'{rowNumber}']['Move']['Destination'] = destination
 
-                        unknown = result2.group(4)
+                        pieceType = result2.group(4)
+                        if pieceType:
+                            data[f'{rowNumber}']['Move']['PieceType'] = pieceType
+
+                        unknown = result2.group(5)
                         if unknown:
                             data[f'{rowNumber}']['Move']['Unknown'] = unknown
 
