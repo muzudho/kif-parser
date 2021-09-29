@@ -8,7 +8,7 @@ from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku,
 
 def convert_pibot_to_kifu(pibotFile):
     # basename
-    print(f"pibotFile={pibotFile}")  # TODO デバッグ消す
+    # print(f"pibotFile={pibotFile}")  # デバッグ消す
     basename = os.path.basename(pibotFile)
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
@@ -22,7 +22,7 @@ def convert_pibot_to_kifu(pibotFile):
         move_section_flag = False
         kifu_text = ""
 
-        # TODO JSON to KIFU
+        # JSON to KIFU
         for rowNumber, rowData in data.items():
 
             if rowData["Type"] == "Comment":

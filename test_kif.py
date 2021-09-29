@@ -28,7 +28,7 @@ def test_2_kif_files(kifFile):
     # kif -> pibot 変換
     pibotFile, _doneKifFile = convert_kif_to_pibot(kifFile)
 
-    # TODO pibot -> kif 変換
+    # pibot -> kif 変換
     kifFile2, _donePibotFile2 = convert_pibot_to_kif(pibotFile)
 
     kifBinary2 = None
