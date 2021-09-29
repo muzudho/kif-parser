@@ -3,7 +3,7 @@ import glob
 import json
 import shutil
 from collections import OrderedDict
-from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width
+from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width, en_to_judge
 
 
 def convert_pibot_to_kifu(pibotFile):
@@ -26,12 +26,8 @@ def convert_pibot_to_kifu(pibotFile):
 
             if rowData["Type"] == "Comment":
                 kifu_text += f"#{rowData['Comment']}\n"
-            elif rowData["Type"] == "Handicap":
-                kifu_text += f"手合割：{en_to_handicap(rowData['Handicap'])}\n"
-            elif rowData["Type"] == "Player":
-                kifu_text += f"{en_to_player_phase(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
-            elif rowData["Type"] == "Result":
-                kifu_text += f"まで{rowData['Moves']}手で{en_to_player_phase(rowData['Winner'])}の勝ち\n"
+            elif rowData["Type"] == "Explanation":
+                kifu_text += f"*{rowData['Explanation']}\n"
             elif rowData["Type"] == "Move":
                 # 指し手
 
@@ -101,9 +97,16 @@ def convert_pibot_to_kifu(pibotFile):
                 move_text += ''.ljust(spaces, ' ')
 
                 kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+            elif rowData["Type"] == "Handicap":
+                kifu_text += f"手合割：{en_to_handicap(rowData['Handicap'])}\n"
+            elif rowData["Type"] == "Player":
+                kifu_text += f"{en_to_player_phase(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+            elif rowData["Type"] == "Result":
+                kifu_text += f"まで{rowData['Moves']}手で{en_to_player_phase(rowData['Winner'])}の{en_to_judge(rowData['Judge'])}\n"
             else:
-                print(f"krowNumberey={rowNumber} rowData={rowData}")
-                kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"
+                # Error
+                print(f"Error: rowNumberey={rowNumber} rowData={rowData}")
+                return None, None
 
         # New .kifu ファイル出力
         kifuFile = os.path.join('kifu', f"{stem}.kifu")

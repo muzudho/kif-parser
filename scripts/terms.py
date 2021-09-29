@@ -54,7 +54,7 @@ def en_to_handicap(en):
 
 
 # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
-__pieceType = {
+__piece_type = {
     '玉': 'King',
     '飛': 'Rook',
     '龍': 'Dragon',
@@ -99,14 +99,14 @@ __piece_type_half_width = {
 
 
 def piece_type_to_en(pieceType):
-    if pieceType in __pieceType:
-        return __pieceType[pieceType]
+    if pieceType in __piece_type:
+        return __piece_type[pieceType]
 
     return pieceType
 
 
 def en_to_piece_type(en):
-    items = [k for k, v in __pieceType.items() if v == en]
+    items = [k for k, v in __piece_type.items() if v == en]
     return items[0]
 
 
@@ -221,3 +221,22 @@ def sign_half_width(sign):
         return __sign_half_width[sign]
 
     return sign
+
+
+# 逆引き対応
+__judge = {
+    '勝ち': 'Win',
+    '反則負け': 'IllegalLose',
+}
+
+
+def judge_to_en(judge):
+    if judge in __judge:
+        return __judge[judge]
+
+    return judge
+
+
+def en_to_judge(en):
+    items = [k for k, v in __judge.items() if v == en]
+    return items[0]

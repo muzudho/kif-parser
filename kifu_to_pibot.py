@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, zenkaku_to_number, kanji_to_number, sign_to_en, contains_sign, player_phase_to_en
+from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, zenkaku_to_number, kanji_to_number, sign_to_en, contains_sign, player_phase_to_en, judge_to_en
 
 __comment = re.compile(r"^#(.+)$")
 __explanation = re.compile(r"^\*(.+)$")
@@ -27,7 +27,7 @@ __elapsed_time = re.compile(r"^(\d+):(\d+)$")
 __total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
 # Example: `まで64手で後手の勝ち`
-__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
+__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(勝ち|反則負け)$")
 
 
 def convert_kifu_to_pibot(file):
@@ -111,7 +111,9 @@ def convert_kifu_to_pibot(file):
                             if destination == '同　':
                                 data[f'{rowNumber}']['Move']['Destination'] = 'Same'
                             else:
-                                data[f'{rowNumber}']['Move']['Destination'] = 'Unknown'
+                                # Error
+                                print(f"Error: destination={destination}")
+                                return None, None
 
                         pieceType = result2.group(4)
                         if pieceType:
@@ -125,7 +127,10 @@ def convert_kifu_to_pibot(file):
                             elif dropOrPromotion == '成':
                                 data[f'{rowNumber}']['Move']['Promotion'] = True
                             else:
-                                data[f'{rowNumber}']['Move']['DropOrPromotion'] = 'Unknown'
+                                # Error
+                                print(
+                                    f"Error: dropOrPromotion={dropOrPromotion}")
+                                return None, None
 
                         source = result2.group(6)
                         if source:
@@ -200,21 +205,20 @@ def convert_kifu_to_pibot(file):
             if result:
                 moves = result.group(1)
                 playerPhase = result.group(2)
+                judge = result.group(3)
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
-                    "Winner": f"{player_phase_to_en(playerPhase)}",
                     "Moves": f"{moves}",
+                    "Winner": f"{player_phase_to_en(playerPhase)}",
+                    "Judge": f"{judge_to_en(judge)}",
                 }
 
                 rowNumber += 1
                 continue
 
             # 解析漏れ
-            data[f'{rowNumber}'] = {
-                "Type": "Unknown",
-                "Unknown": f"{line}",
-            }
-            rowNumber += 1
+            print(f"Error: rowNumber={rowNumber} line={line}")
+            return None, None
 
     with open(outPath, 'w', encoding='utf-8') as fOut:
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
