@@ -1,3 +1,4 @@
+# 逆引き対応
 __player_phase = {
     '先手':'FirstPlayer',
     '後手':'SecondPlayer',
@@ -11,8 +12,12 @@ def player_phase_to_en(playerPhase):
 
     return playerPhase
 
+def en_to_player_phase(en):
+    playerPhaseList = [k for k, v in __player_phase.items() if v == en]
+    return playerPhaseList[0]
+
 # 逆引き対応
-handicap_dictionary = {
+__handicap = {
     '平手':'Hirate',
     '香落ち':'LostLance',
     '右香落ち':'LostRightLance',
@@ -33,10 +38,15 @@ handicap_dictionary = {
 }
 
 def handicap_to_en(handicap):
-    if handicap in handicap_dictionary:
-        return handicap_dictionary[handicap]
+    if handicap in __handicap:
+        return __handicap[handicap]
 
     return handicap
+
+def en_to_handicap(en):
+    handicapList = [k for k, v in __handicap.items() if v == en]
+    return handicapList[0]
+
 
 __pieceType = {
     '玉':'King',
