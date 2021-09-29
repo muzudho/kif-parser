@@ -55,7 +55,10 @@ def convert_kifu_file_to_pibot(file):
             # 指し手の解析
             result = __move.match(line)
             if result:
-                data[f'{rowNumber}'] = {"Moves":f"{result.group(1)}"}
+                data[f'{rowNumber}'] = {
+                    "Type":"Move",
+                    "Moves":f"{result.group(1)}"
+                }
 
                 # 消費時間の解析
                 elapsedTime = result.group(3)
@@ -134,7 +137,10 @@ def convert_kifu_file_to_pibot(file):
             # コメントの解析
             result = __comment.match(line)
             if result:
-                data[f'{rowNumber}'] = {"Comment":f"{result.group(1)}"}
+                data[f'{rowNumber}'] = {
+                    "Type":"Comment",
+                    "Comment":f"{result.group(1)}"
+                }
 
                 rowNumber += 1
                 continue
@@ -142,7 +148,10 @@ def convert_kifu_file_to_pibot(file):
             # 指し手等の解説の解析
             result = __explanation.match(line)
             if result:
-                data[f'{rowNumber}'] = {"Explanation":f"{result.group(1)}"}
+                data[f'{rowNumber}'] = {
+                    "Type":"Explanation",
+                    "Explanation":f"{result.group(1)}",
+                }
 
                 rowNumber += 1
                 continue
@@ -151,6 +160,7 @@ def convert_kifu_file_to_pibot(file):
             result = __playerName.match(line)
             if result:
                 data[f'{rowNumber}'] = {
+                    "Type":"Player",
                     "PlayerPhase":f"{player_phase_to_en(result.group(1))}",
                     "PlayerName":f"{result.group(2)}",
                 }
@@ -167,7 +177,10 @@ def convert_kifu_file_to_pibot(file):
             result = __handicap.match(line)
             if result:
                 handicap = result.group(1)
-                data[f'{rowNumber}'] = {"Handicap":handicap_to_en(handicap)}
+                data[f'{rowNumber}'] = {
+                    "Type":"Handicap",
+                    "Handicap":handicap_to_en(handicap),
+                }
 
                 rowNumber += 1
                 continue
@@ -178,6 +191,7 @@ def convert_kifu_file_to_pibot(file):
                 moves = result.group(1)
                 playerPhase = result.group(2)
                 data[f'{rowNumber}'] = {
+                    "Type":"Result",
                     "Winner":f"{playerPhase}",
                     "Moves":f"{moves}",
                 }
@@ -186,7 +200,10 @@ def convert_kifu_file_to_pibot(file):
                 continue
 
             # 解析漏れ
-            data[f'{rowNumber}'] = {"Unknown":f"{line}"}
+            data[f'{rowNumber}'] = {
+                "Type":"Unknown",
+                "Unknown":f"{line}",
+            }
             rowNumber += 1
 
     with open(outPath, 'w', encoding='utf-8') as fOut:
