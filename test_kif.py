@@ -23,7 +23,7 @@ def test_2_kif_files(kifFile):
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
     kif_1_Sha256 = create_sha256(kifBinary)
-    print(f"kif 1 Sha256={kif_1_Sha256}")
+    # print(f"kif 1 Sha256={kif_1_Sha256}")
 
     # kif -> pibot 変換
     pibotFile, _doneKifFile = convert_kif_to_pibot(kifFile)
@@ -39,7 +39,7 @@ def test_2_kif_files(kifFile):
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
     kif_2_Sha256 = create_sha256(kifBinary2)
-    print(f"kif 2 Sha256={kif_2_Sha256}")
+    # print(f"kif 2 Sha256={kif_2_Sha256}")
 
     if kif_1_Sha256 != kif_2_Sha256:
         # Error
