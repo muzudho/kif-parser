@@ -75,6 +75,28 @@ __pieceType = {
     'と': 'PromotionPawn',
 }
 
+# 半角スペース幅
+__piece_type_half_width = {
+    '玉': 2,
+    '飛': 2,
+    '龍': 2,
+    '竜': 2,
+    '角': 2,
+    '馬': 2,
+    '金': 2,
+    '銀': 2,
+    '成銀': 4,
+    '全': 2,
+    '桂': 2,
+    '成桂': 4,
+    '圭': 2,
+    '香': 2,
+    '成香': 4,
+    '杏': 2,
+    '歩': 2,
+    'と': 2,
+}
+
 
 def piece_type_to_en(pieceType):
     if pieceType in __pieceType:
@@ -86,6 +108,13 @@ def piece_type_to_en(pieceType):
 def en_to_piece_type(en):
     items = [k for k, v in __pieceType.items() if v == en]
     return items[0]
+
+
+def piece_type_half_width(piece_type):
+    if piece_type in __piece_type_half_width.keys():
+        return __piece_type_half_width[piece_type]
+
+    return piece_type
 
 
 # 逆引き対応
@@ -155,6 +184,21 @@ __sign = {
     '不戦敗': 'UnearnedLose',
 }
 
+# 半角スペースサイズ
+__sign_half_width = {
+    '中断': 4,
+    '投了': 4,
+    '持将棋': 6,
+    '千日手': 6,
+    '詰み': 4,
+    '切れ負け': 8,
+    '反則勝ち': 8,
+    '反則負け': 8,
+    '入玉勝ち': 8,
+    '不戦勝': 6,
+    '不戦敗': 6,
+}
+
 
 def contains_sign(key):
     return key in __sign.keys()
@@ -170,3 +214,10 @@ def sign_to_en(sign):
 def en_to_sign(en):
     items = [k for k, v in __sign.items() if v == en]
     return items[0]
+
+
+def sign_half_width(sign):
+    if sign in __sign_half_width.keys():
+        return __sign_half_width[sign]
+
+    return sign

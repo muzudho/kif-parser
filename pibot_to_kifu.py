@@ -4,7 +4,7 @@ import json
 import shutil
 from collections import OrderedDict
 import pprint
-from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type
+from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width
 
 
 def convert_pibot_to_kifu(pibotFile):
@@ -46,34 +46,45 @@ def convert_pibot_to_kifu(pibotFile):
 
                 move = rowData['Move']
                 move_text = ""
+                # 半角スペース幅
+                spaces = 12
 
                 if 'Sign' in move:
                     sign = en_to_sign(move['Sign'])
                     move_text += f"{sign}"
+                    spaces -= sign_half_width(sign)
 
                 if 'DestinationFile' in move:
                     destinationFile = number_to_zenkaku(
                         move['DestinationFile'])
                     destinationRank = number_to_kanji(move['DestinationRank'])
                     move_text += f"{destinationFile}{destinationRank}"
+                    spaces -= 2
 
                 if 'Destination' in move:
                     destination = move['Destination']
                     if destination == 'Same':
                         move_text += f"同　"
+                        spaces -= 4
                     else:
                         move_text += f"{destination}"
+                        spaces -= 2
 
                 if 'PieceType' in move:
                     pieceType = en_to_piece_type(move['PieceType'])
                     move_text += f"{pieceType}"
+                    spaces -= piece_type_half_width(pieceType)
 
                 if 'SourceFile' in move:
                     sourceFile = move['SourceFile']
                     sourceRank = move['SourceRank']
                     move_text += f"({sourceFile}{sourceRank})"
+                    spaces -= 4
 
-                kifu_text += f"{moves:>4} {move_text:<14}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+                # 左にスペースを詰めます
+                move_text += ''.ljust(spaces, ' ')
+
+                kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
             else:
                 print(f"krowNumberey={rowNumber} rowData={rowData}")
                 kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"
