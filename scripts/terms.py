@@ -11,7 +11,8 @@ def player_phase_to_en(playerPhase):
 
     return playerPhase
 
-__handicap = {
+# 逆引き対応
+handicap_dictionary = {
     '平手':'Hirate',
     '香落ち':'LostLance',
     '右香落ち':'LostRightLance',
@@ -32,8 +33,8 @@ __handicap = {
 }
 
 def handicap_to_en(handicap):
-    if handicap in __handicap:
-        return __handicap[handicap]
+    if handicap in handicap_dictionary:
+        return handicap_dictionary[handicap]
 
     return handicap
 
@@ -91,6 +92,7 @@ def japanese_to_number(japanese):
 
     return japanese
 
+# 逆引き対応
 sign_dictionary = {
     '中断':'Stop',
     '投了':'Resign',

@@ -4,6 +4,7 @@ import json
 import shutil
 from collections import OrderedDict
 import pprint
+from scripts.terms import handicap_dictionary
 
 def convert_pibot_to_kifu(pibotFile):
     # basename
@@ -25,6 +26,10 @@ def convert_pibot_to_kifu(pibotFile):
 
             if rowData["Type"] == "Comment":
                 kifu_text += f"#{rowData['Comment']}\n"
+            elif rowData["Type"] == "Handicap":
+                # 逆引き
+                handicapList = [k for k, v in handicap_dictionary.items() if v == rowData['Handicap']]
+                kifu_text += f"手合割：{handicapList[0]}\n"
             else:
                 print(f"krowNumberey={rowNumber} rowData={rowData}")
                 kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"
