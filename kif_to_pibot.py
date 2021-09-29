@@ -1,5 +1,5 @@
 import glob
-from kifu_to_pibot import convert_kifu_file_to_pibot
+from kifu_to_pibot import convert_kifu_to_pibot
 from kif_to_kifu import convert_kif_to_kifu_file
 
 
@@ -8,7 +8,7 @@ def convert_kif_to_pibot(kifFile):
     # print(f'kifu={kifuFile}')
 
     if kifuFile:
-        pibotFile, _doneKifuFile = convert_kifu_file_to_pibot(kifuFile)
+        pibotFile, _doneKifuFile = convert_kifu_to_pibot(kifuFile)
         # print(f'kifu={kifuFile} pibot={pibotFile}')
         return pibotFile, doneKifFile
 

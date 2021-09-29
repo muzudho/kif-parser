@@ -30,7 +30,7 @@ __total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
 
 
-def convert_kifu_file_to_pibot(file):
+def convert_kifu_to_pibot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     data = {}
@@ -229,7 +229,7 @@ def main():
     # KIFUファイル一覧
     files = glob.glob("./kifu/*")
     for file in files:
-        _outPath, _donePath = convert_kifu_file_to_pibot(file)
+        _outPath, _donePath = convert_kifu_to_pibot(file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

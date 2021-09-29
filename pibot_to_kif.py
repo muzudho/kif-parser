@@ -12,7 +12,7 @@ def convert_pibot_to_kif(pibotFile):
 
 
 def main():
-    # KIFファイル一覧
+    # PIBOTファイル一覧
     pibotFiles = glob.glob("./pibot/*")
     for pibotFile in pibotFiles:
         _kifFile, _donePibotFile = convert_pibot_to_kif(pibotFile)

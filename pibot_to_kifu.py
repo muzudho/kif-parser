@@ -119,7 +119,7 @@ def convert_pibot_to_kifu(pibotFile):
 
 
 def main():
-    # KIFファイル一覧
+    # PIBOTファイル一覧
     pibotFiles = glob.glob("./pibot/*")
     for pibotFile in pibotFiles:
         _kifuFile, _donePibotFile = convert_pibot_to_kifu(pibotFile)

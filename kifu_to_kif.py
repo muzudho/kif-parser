@@ -43,7 +43,7 @@ def convert_kifu_to_kif(kifuFile):
 
 
 def main():
-    # KIFファイル一覧
+    # KIFUファイル一覧
     kifuFiles = glob.glob("./kifu/*")
     for kifuFile in kifuFiles:
         _kifFile, _donePath = convert_kifu_to_kif(kifuFile)
