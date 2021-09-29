@@ -1,31 +1,47 @@
 import os
 import glob
 import json
+import shutil
 from collections import OrderedDict
 import pprint
 
 def convert_pibot_to_kifu(pibotFile):
     # basename
     basename = os.path.basename(pibotFile)
-    _stem, extention = os.path.splitext(basename)
+    stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
         return None, None
 
-    with open(pibotFile) as f:
-        text = f.read()
-        data = json.loads(text)
+    kifuFile = ""
+
+    with open(pibotFile, encoding='utf-8') as f:
+        data = json.loads(f.read(), object_pairs_hook=OrderedDict)
         pprint.pprint(data, width=40)
 
-    # TODO pibotFile を pibot-done へ移動したい
+        kifu_text = ""
 
-    # TODO kifuファイルを出力したい
-    return None, None
+        # TODO JSON to KIFU
+        for rowNumber, rowData in data.items():
+            print(f"krowNumberey={rowNumber} rowData={rowData}")
+            kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"
+
+        # New .kifu ファイル出力
+        kifuFile = os.path.join('kifu', f"{stem}.kifu")
+        with open(kifuFile, mode='w', encoding='utf-8') as fOut:
+            # fOut.write(kifu_text)
+            pass
+
+    # with句を抜けて、ファイルを閉じたあと
+    # ファイルの移動
+    donePibotFile = shutil.move(pibotFile, os.path.join('pibot-done',basename))
+
+    return kifuFile, donePibotFile
 
 def main():
     # KIFファイル一覧
     pibotFiles = glob.glob("./pibot/*")
     for pibotFile in pibotFiles:
-        _kifuFile, _doneKifuFile = convert_pibot_to_kifu(pibotFile)
+        _kifuFile, _donePibotFile = convert_pibot_to_kifu(pibotFile)
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
