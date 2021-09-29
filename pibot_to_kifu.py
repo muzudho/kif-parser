@@ -81,6 +81,18 @@ def convert_pibot_to_kifu(pibotFile):
                     move_text += f"{pieceType}"
                     spaces -= piece_type_half_width(pieceType)
 
+                if 'Drop' in move:
+                    drop = move['Drop']
+                    if drop:
+                        move_text += "打"
+                        spaces -= 2
+
+                if 'Promotion' in move:
+                    pro = move['Promotion']
+                    if pro:
+                        move_text += "成"
+                        spaces -= 2
+
                 if 'SourceFile' in move:
                     sourceFile = move['SourceFile']
                     sourceRank = move['SourceRank']
