@@ -4,7 +4,7 @@ import json
 import shutil
 from collections import OrderedDict
 import pprint
-from scripts.terms import en_to_handicap, en_to_player_phase
+from scripts.terms import en_to_handicap, en_to_player_phase, en_to_sign
 
 def convert_pibot_to_kifu(pibotFile):
     # basename
@@ -30,6 +30,8 @@ def convert_pibot_to_kifu(pibotFile):
                 kifu_text += f"手合割：{en_to_handicap(rowData['Handicap'])}\n"
             elif rowData["Type"] == "Player":
                 kifu_text += f"{en_to_player_phase(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+            elif rowData["Type"] == "Result":
+                kifu_text += f"まで{rowData['Moves']}手で{en_to_player_phase(rowData['Winner'])}の勝ち\n"
             else:
                 print(f"krowNumberey={rowNumber} rowData={rowData}")
                 kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"

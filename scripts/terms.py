@@ -103,7 +103,7 @@ def japanese_to_number(japanese):
     return japanese
 
 # 逆引き対応
-sign_dictionary = {
+__sign = {
     '中断':'Stop',
     '投了':'Resign',
     '持将棋':'JiShogi',
@@ -117,8 +117,15 @@ sign_dictionary = {
     '不戦敗':'UnearnedLose',
 }
 
+def contains_sign(key):
+    return key in __sign.keys()
+
 def sign_to_en(sign):
-    if sign in sign_dictionary:
-        return sign_dictionary[sign]
+    if sign in __sign:
+        return __sign[sign]
 
     return sign
+
+def en_to_sign(en):
+    signList = [k for k, v in __handicap.items() if v == en]
+    return signList[0]

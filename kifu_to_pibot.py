@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number, sign_to_en, sign_dictionary
+from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number, sign_to_en, contains_sign, player_phase_to_en
 
 __comment = re.compile(r"^#(.+)$")
 __explanation = re.compile(r"^\*(.+)$")
@@ -81,7 +81,7 @@ def convert_kifu_file_to_pibot(file):
 
                 # 指し手の詳細の解析
                 move = result.group(2)
-                if move in sign_dictionary.keys():
+                if contains_sign(move):
                     data[f'{rowNumber}']['Move'] = {"Sign":sign_to_en(move)}
                 else:
 
@@ -192,7 +192,7 @@ def convert_kifu_file_to_pibot(file):
                 playerPhase = result.group(2)
                 data[f'{rowNumber}'] = {
                     "Type":"Result",
-                    "Winner":f"{playerPhase}",
+                    "Winner":f"{player_phase_to_en(playerPhase)}",
                     "Moves":f"{moves}",
                 }
 
