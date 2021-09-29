@@ -38,8 +38,8 @@ def convert_kifu_to_kif(kifuFile):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePath = shutil.move(kifuFile, os.path.join('kifu-done', basename))
-    return kifFile, donePath
+    doneKifuFile = shutil.move(kifuFile, os.path.join('kifu-done', basename))
+    return kifFile, doneKifuFile
 
 
 def main():
