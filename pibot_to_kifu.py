@@ -3,7 +3,6 @@ import glob
 import json
 import shutil
 from collections import OrderedDict
-import pprint
 from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width
 
 
@@ -18,7 +17,6 @@ def convert_pibot_to_kifu(pibotFile):
 
     with open(pibotFile, encoding='utf-8') as f:
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
-        # pprint.pprint(data, width=40)
 
         move_section_flag = False
         kifu_text = ""
