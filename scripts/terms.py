@@ -53,6 +53,7 @@ def en_to_handicap(en):
     return items[0]
 
 
+# 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
 __pieceType = {
     '玉': 'King',
     '飛': 'Rook',
@@ -80,6 +81,11 @@ def piece_type_to_en(pieceType):
         return __pieceType[pieceType]
 
     return pieceType
+
+
+def en_to_piece_type(en):
+    items = [k for k, v in __pieceType.items() if v == en]
+    return items[0]
 
 
 # 逆引き対応

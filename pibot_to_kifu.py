@@ -4,7 +4,7 @@ import json
 import shutil
 from collections import OrderedDict
 import pprint
-from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign
+from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type
 
 
 def convert_pibot_to_kifu(pibotFile):
@@ -59,10 +59,13 @@ def convert_pibot_to_kifu(pibotFile):
 
                 if 'Destination' in move:
                     destination = move['Destination']
-                    move_text += f"{destination}"
+                    if destination == 'Same':
+                        move_text += f"同　"
+                    else:
+                        move_text += f"{destination}"
 
                 if 'PieceType' in move:
-                    pieceType = move['PieceType']
+                    pieceType = en_to_piece_type(move['PieceType'])
                     move_text += f"{pieceType}"
 
                 if 'SourceFile' in move:
@@ -70,7 +73,7 @@ def convert_pibot_to_kifu(pibotFile):
                     sourceRank = move['SourceRank']
                     move_text += f"{sourceFile}{sourceRank}"
 
-                kifu_text += f"{moves:<4} {move_text} ({elapsedTimeMinute:02}:{elapsedTimeSecond:02}) ({totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+                kifu_text += f"{moves:>4} {move_text:<14}({elapsedTimeMinute:02}:{elapsedTimeSecond:02}) ({totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
             else:
                 print(f"krowNumberey={rowNumber} rowData={rowData}")
                 kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"
