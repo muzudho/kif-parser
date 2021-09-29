@@ -18,8 +18,9 @@ def convert_pibot_to_kifu(pibotFile):
 
     with open(pibotFile, encoding='utf-8') as f:
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
-        pprint.pprint(data, width=40)
+        # pprint.pprint(data, width=40)
 
+        move_section_flag = False
         kifu_text = ""
 
         # TODO JSON to KIFU
@@ -35,6 +36,11 @@ def convert_pibot_to_kifu(pibotFile):
                 kifu_text += f"まで{rowData['Moves']}手で{en_to_player_phase(rowData['Winner'])}の勝ち\n"
             elif rowData["Type"] == "Move":
                 # 指し手
+
+                if not move_section_flag:
+                    kifu_text += "手数----指手---------消費時間--\n"
+                    move_section_flag = True
+
                 moves = rowData['Moves']
                 elapsedTime = rowData['ElapsedTime']
                 elapsedTimeMinute = elapsedTime['Minute']
@@ -92,7 +98,6 @@ def convert_pibot_to_kifu(pibotFile):
         # New .kifu ファイル出力
         kifuFile = os.path.join('kifu', f"{stem}.kifu")
         with open(kifuFile, mode='w', encoding='utf-8') as fOut:
-            print(f"kifu_text={kifu_text}")
             fOut.write(kifu_text)
 
     # with句を抜けて、ファイルを閉じたあと
