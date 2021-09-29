@@ -53,7 +53,7 @@ def convert_pibot_to_kifu(pibotFile):
                 move = rowData['Move']
                 move_text = ""
                 # 半角スペース幅
-                spaces = 12
+                spaces = 14
 
                 if 'Sign' in move:
                     sign = en_to_sign(move['Sign'])
@@ -65,12 +65,12 @@ def convert_pibot_to_kifu(pibotFile):
                         move['DestinationFile'])
                     destinationRank = number_to_kanji(move['DestinationRank'])
                     move_text += f"{destinationFile}{destinationRank}"
-                    spaces -= 2
+                    spaces -= 4
 
                 if 'Destination' in move:
                     destination = move['Destination']
                     if destination == 'Same':
-                        move_text += f"同　"
+                        move_text += "同　"
                         spaces -= 4
                     else:
                         move_text += f"{destination}"
