@@ -34,6 +34,7 @@ WIP KIFパーサー、コンバーター
 3. ターミナルで `python.exe kif_to_pibot.py` コマンドを実行してください
 4. JSON形式に変換して 📂`pibot` ファイルに変換されます
 5. 読み終えた `kif/*.kif` ファイルは、 `kif-done/*.kif` へ移動されます
+6. PIBOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
 
 ## KIFU から PIBOT へ変換
 
@@ -42,6 +43,7 @@ WIP KIFパーサー、コンバーター
 3. ターミナルで `python.exe kifu_to_pibot.py` コマンドを実行してください
 4. JSON形式に変換して 📂`pibot` ファイルに変換されます
 5. 読み終えた `kifu/*.kifu` ファイルは、 `kifu-done/*.kifu` へ移動されます
+6. PIBOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
 
 ## Documents
 
