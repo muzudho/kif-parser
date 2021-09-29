@@ -71,9 +71,9 @@ def convert_pibot_to_kifu(pibotFile):
                 if 'SourceFile' in move:
                     sourceFile = move['SourceFile']
                     sourceRank = move['SourceRank']
-                    move_text += f"{sourceFile}{sourceRank}"
+                    move_text += f"({sourceFile}{sourceRank})"
 
-                kifu_text += f"{moves:>4} {move_text:<14}({elapsedTimeMinute:02}:{elapsedTimeSecond:02}) ({totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+                kifu_text += f"{moves:>4} {move_text:<14}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
             else:
                 print(f"krowNumberey={rowNumber} rowData={rowData}")
                 kifu_text += f"krowNumberey={rowNumber} rowData={rowData}\n"
