@@ -2,6 +2,8 @@
 
 WIP KIFパーサー、コンバーター  
 
+**DANGER:** このパーサーは、このプロジェクトの各📂フォルダーに入れたファイルを壊し得ます。棋譜ファイルはバックアップを取って使ってください。  
+
 ![20210929shogi7-kif.png](docs/img/20210929shogi7-kif-50per.png)  
 👆　.kif file (kif ←→ kifu), (kif → PIBOT)  
 
