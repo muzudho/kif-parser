@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, japanese_to_number, sign_to_en, contains_sign, player_phase_to_en
+from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, zenkaku_to_number, kanji_to_number, sign_to_en, contains_sign, player_phase_to_en
 
 __comment = re.compile(r"^#(.+)$")
 __explanation = re.compile(r"^\*(.+)$")
@@ -17,7 +17,8 @@ __move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
 # Example: `７六歩(77)`
 # Example: `同　角(88)`
 # Example: `４九角打`
-__move_detail = re.compile(r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同　)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(打|成)?(\(\d+\))?(.*)$")
+__move_detail = re.compile(
+    r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同　)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(打|成)?(\(\d+\))?(.*)$")
 
 # Example: `00:01`
 __elapsed_time = re.compile(r"^(\d+):(\d+)$")
@@ -27,6 +28,7 @@ __total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
 # Example: `まで64手で後手の勝ち`
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の勝ち$")
+
 
 def convert_kifu_file_to_pibot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
@@ -56,8 +58,8 @@ def convert_kifu_file_to_pibot(file):
             result = __move.match(line)
             if result:
                 data[f'{rowNumber}'] = {
-                    "Type":"Move",
-                    "Moves":f"{result.group(1)}"
+                    "Type": "Move",
+                    "Moves": f"{result.group(1)}"
                 }
 
                 # 消費時間の解析
@@ -66,8 +68,10 @@ def convert_kifu_file_to_pibot(file):
                     result2 = __elapsed_time.match(elapsedTime)
                     if result2:
                         data[f'{rowNumber}']['ElapsedTime'] = {}
-                        data[f'{rowNumber}']['ElapsedTime']['Minute'] = int(result2.group(1))
-                        data[f'{rowNumber}']['ElapsedTime']['Second'] = int(result2.group(2))
+                        data[f'{rowNumber}']['ElapsedTime']['Minute'] = int(
+                            result2.group(1))
+                        data[f'{rowNumber}']['ElapsedTime']['Second'] = int(
+                            result2.group(2))
 
                 # 累計の消費時間の解析
                 totalElapsedTime = result.group(4)
@@ -75,14 +79,17 @@ def convert_kifu_file_to_pibot(file):
                     result2 = __total_elapsed_time.match(totalElapsedTime)
                     if result2:
                         data[f'{rowNumber}']['TotalElapsedTime'] = {}
-                        data[f'{rowNumber}']['TotalElapsedTime']['Hour'] = int(result2.group(1))
-                        data[f'{rowNumber}']['TotalElapsedTime']['Minute'] = int(result2.group(2))
-                        data[f'{rowNumber}']['TotalElapsedTime']['Second'] = int(result2.group(3))
+                        data[f'{rowNumber}']['TotalElapsedTime']['Hour'] = int(
+                            result2.group(1))
+                        data[f'{rowNumber}']['TotalElapsedTime']['Minute'] = int(
+                            result2.group(2))
+                        data[f'{rowNumber}']['TotalElapsedTime']['Second'] = int(
+                            result2.group(3))
 
                 # 指し手の詳細の解析
                 move = result.group(2)
                 if contains_sign(move):
-                    data[f'{rowNumber}']['Move'] = {"Sign":sign_to_en(move)}
+                    data[f'{rowNumber}']['Move'] = {"Sign": sign_to_en(move)}
                 else:
 
                     result2 = __move_detail.match(move)
@@ -91,28 +98,31 @@ def convert_kifu_file_to_pibot(file):
 
                         destinationFile = result2.group(1)
                         if destinationFile:
-                            data[f'{rowNumber}']['Move']['DestinationFile'] = japanese_to_number(destinationFile)
+                            data[f'{rowNumber}']['Move']['DestinationFile'] = zenkaku_to_number(
+                                destinationFile)
 
                         destinationRank = result2.group(2)
                         if destinationRank:
-                            data[f'{rowNumber}']['Move']['DestinationRank'] = japanese_to_number(destinationRank)
+                            data[f'{rowNumber}']['Move']['DestinationRank'] = kanji_to_number(
+                                destinationRank)
 
                         destination = result2.group(3)
                         if destination:
-                            if destination=='同　':
+                            if destination == '同　':
                                 data[f'{rowNumber}']['Move']['Destination'] = 'Same'
                             else:
                                 data[f'{rowNumber}']['Move']['Destination'] = 'Unknown'
 
                         pieceType = result2.group(4)
                         if pieceType:
-                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_to_en(pieceType)
+                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_to_en(
+                                pieceType)
 
                         dropOrPromotion = result2.group(5)
                         if dropOrPromotion:
-                            if dropOrPromotion=='打':
+                            if dropOrPromotion == '打':
                                 data[f'{rowNumber}']['Move']['Drop'] = True
-                            elif dropOrPromotion=='成':
+                            elif dropOrPromotion == '成':
                                 data[f'{rowNumber}']['Move']['Promotion'] = True
                             else:
                                 data[f'{rowNumber}']['Move']['DropOrPromotion'] = 'Unknown'
@@ -122,14 +132,14 @@ def convert_kifu_file_to_pibot(file):
                             # Example `(77)`
                             square = int(source[1:-1])
                             data[f'{rowNumber}']['Move']['SourceFile'] = square//10
-                            data[f'{rowNumber}']['Move']['SourceRank'] = square%10
+                            data[f'{rowNumber}']['Move']['SourceRank'] = square % 10
 
                         unknown = result2.group(7)
                         if unknown:
                             data[f'{rowNumber}']['Move']['Unknown'] = unknown
 
                     else:
-                        data[f'{rowNumber}']['Move'] = {"Unknown":move}
+                        data[f'{rowNumber}']['Move'] = {"Unknown": move}
 
                 rowNumber += 1
                 continue
@@ -138,8 +148,8 @@ def convert_kifu_file_to_pibot(file):
             result = __comment.match(line)
             if result:
                 data[f'{rowNumber}'] = {
-                    "Type":"Comment",
-                    "Comment":f"{result.group(1)}"
+                    "Type": "Comment",
+                    "Comment": f"{result.group(1)}"
                 }
 
                 rowNumber += 1
@@ -149,8 +159,8 @@ def convert_kifu_file_to_pibot(file):
             result = __explanation.match(line)
             if result:
                 data[f'{rowNumber}'] = {
-                    "Type":"Explanation",
-                    "Explanation":f"{result.group(1)}",
+                    "Type": "Explanation",
+                    "Explanation": f"{result.group(1)}",
                 }
 
                 rowNumber += 1
@@ -160,9 +170,9 @@ def convert_kifu_file_to_pibot(file):
             result = __playerName.match(line)
             if result:
                 data[f'{rowNumber}'] = {
-                    "Type":"Player",
-                    "PlayerPhase":f"{player_phase_to_en(result.group(1))}",
-                    "PlayerName":f"{result.group(2)}",
+                    "Type": "Player",
+                    "PlayerPhase": f"{player_phase_to_en(result.group(1))}",
+                    "PlayerName": f"{result.group(2)}",
                 }
 
                 rowNumber += 1
@@ -178,8 +188,8 @@ def convert_kifu_file_to_pibot(file):
             if result:
                 handicap = result.group(1)
                 data[f'{rowNumber}'] = {
-                    "Type":"Handicap",
-                    "Handicap":handicap_to_en(handicap),
+                    "Type": "Handicap",
+                    "Handicap": handicap_to_en(handicap),
                 }
 
                 rowNumber += 1
@@ -191,9 +201,9 @@ def convert_kifu_file_to_pibot(file):
                 moves = result.group(1)
                 playerPhase = result.group(2)
                 data[f'{rowNumber}'] = {
-                    "Type":"Result",
-                    "Winner":f"{player_phase_to_en(playerPhase)}",
-                    "Moves":f"{moves}",
+                    "Type": "Result",
+                    "Winner": f"{player_phase_to_en(playerPhase)}",
+                    "Moves": f"{moves}",
                 }
 
                 rowNumber += 1
@@ -201,8 +211,8 @@ def convert_kifu_file_to_pibot(file):
 
             # 解析漏れ
             data[f'{rowNumber}'] = {
-                "Type":"Unknown",
-                "Unknown":f"{line}",
+                "Type": "Unknown",
+                "Unknown": f"{line}",
             }
             rowNumber += 1
 
@@ -210,8 +220,9 @@ def convert_kifu_file_to_pibot(file):
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # ファイルの移動
-    donePath = shutil.move(file, os.path.join('kifu-done',basename))
+    donePath = shutil.move(file, os.path.join('kifu-done', basename))
     return outPath, donePath
+
 
 def main():
 
@@ -219,6 +230,7 @@ def main():
     files = glob.glob("./kifu/*")
     for file in files:
         _outPath, _donePath = convert_kifu_file_to_pibot(file)
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
