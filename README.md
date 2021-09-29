@@ -8,8 +8,8 @@ WIP KIFパーサー、コンバーター
 ![20210929shogi8-kifu.png](docs/img/20210929shogi8-kifu-50per.png)  
 👆　.kifu file (kifu ←→ kif), (kifu → PIBOT)  
 
-![20210929shogi9-pibot.png](docs/img/20210929shogi9-pibot-50per.png)  
-👆　PIBOT (.json file. Unofficial format. Work in progress)  
+![20210930shogi10-pibot-50per.png](docs/img/20210930shogi10-pibot-50per.png)  
+👆　PIBOT (.json file. Unofficial format, Not permanent save format. Work in progress)  
 
 ## KIF から KIFU へ変換
 
