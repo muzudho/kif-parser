@@ -5,6 +5,7 @@ kif-done/*.kif
 kifu/*.kifu
 kifu-done/*.kifu
 pibot/*.json
+pibot-done/*.json
 under-development/
 
 # Byte-compiled / optimized / DLL files
