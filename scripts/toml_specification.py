@@ -110,7 +110,7 @@ class MoveStatementP():
         return self._move_statement.match(line)
 
     def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
-        toml_text = f'[Moves.{moves}]\n'
+        toml_text = f'[moves.{moves}]\n'
 
         elapsedTimeHour = 0
         elapsedTimeMinute = elapsedTime['Minute']
@@ -123,13 +123,13 @@ class MoveStatementP():
         totalElapsedTimeMinute = totalElapsedTime['Minute']
         totalElapsedTimeSecond = totalElapsedTime['Second']
 
-        move_text = ""
+        move_to_text = ""
 
         # 移動した駒（チェスでは歩は省く）
         if 'PieceType' in move:
             pieceType = piece_type_p.from_pivot(move['PieceType'])
             if pieceType != 'P':
-                move_text += pieceType
+                move_to_text += pieceType
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
@@ -138,44 +138,47 @@ class MoveStatementP():
             destinationFile = move['DestinationFile']
             destinationRank = alphabet_number_p.from_pivot(
                 move['DestinationRank'])
-            move_text += f'{destinationFile}{destinationRank}'
+            move_to_text += f'{destinationFile}{destinationRank}'
 
         if 'Destination' in move:
             destination = move['Destination']
-            if destination == 'Same':
+            if destination == 'same':
                 # TODO チェスに「同」は無さそう？
-                move_text += 'Same'
+                move_to_text += 'same'
             else:
-                move_text += f"""Unknown='''{destination}'''
-"""
+                # TODO エラーにしたい
+                move_to_text += destination
 
-        toml_text += f"""Move='{move_text}'
-"""
+        # 投了なども行き先欄に書く
+        if 'Sign' in move:
+            sign = sign_p.from_pivot(move['Sign'])
+            move_to_text += f"{sign}"
+
+        move_from_text = ""
 
         if 'SourceFile' in move:
             sourceFile = move['SourceFile']
             sourceRank = alphabet_number_p.from_pivot(move['SourceRank'])
-            toml_text += f"""Source='{sourceFile}{sourceRank}'
-"""
+            move_from_text += f""", from = '{sourceFile}{sourceRank}'"""
 
-        if 'Sign' in move:
-            sign = sign_p.from_pivot(move['Sign'])
-            toml_text += f"{sign}"
+        toml_text += f"""move = {{ to = '{move_to_text}'{move_from_text} }}
+"""
 
         if 'Drop' in move:
             drop = move['Drop']
             if drop:
-                toml_text += """Drop=true
+                toml_text += """drop=true
 """
 
         if 'Promotion' in move:
             pro = move['Promotion']
             if pro:
-                toml_text += """Promotion=true
+                toml_text += """promotion=true
 """
 
-        toml_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
-        toml_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
+        # 経過時間
+        toml_text += f"""elapsed = {{ cur = {elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}, some = {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02} }}
+"""
 
         return toml_text
 
