@@ -42,12 +42,16 @@ def convert_pivot_to_toml(pivotFile):
                 # 指し手
 
                 if not move_section_flag:
-                    kifu_text += "手数----指手---------消費時間--\n"
+                    kifu_text += "[Moves]\n"
                     move_section_flag = True
 
                 moves = rowData['Moves']
                 elapsedTime = rowData['ElapsedTime']
+                elapsedTimeHour = 0
                 elapsedTimeMinute = elapsedTime['Minute']
+                if 60 < elapsedTimeMinute:
+                    elapsedTimeHour = elapsedTimeMinute // 60
+                    elapsedTimeMinute = elapsedTimeMinute % 60
                 elapsedTimeSecond = elapsedTime['Second']
                 totalElapsedTime = rowData['TotalElapsedTime']
                 totalElapsedTimeHour = totalElapsedTime['Hour']
@@ -104,27 +108,30 @@ def convert_pivot_to_toml(pivotFile):
                     move_text += f"({sourceFile}{sourceRank})"
                     spaces -= 4
 
-                # 左にスペースを詰めます
-                move_text += ''.ljust(spaces, ' ')
-
-                kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+                kifu_text += f'[Moves.{moves}]\n'
+                kifu_text += f"Move='{move_text}'\n"
+                kifu_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
+                kifu_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
             elif rowData["Type"] == "Handicap":
                 kifu_text += f"Handicap='{handicap_p.from_pivot(rowData['Handicap'])}'\n"
             elif rowData["Type"] == "Player":
                 kifu_text += f"{player_phase_p.from_pivot(rowData['PlayerPhase'])}='''{rowData['PlayerName']}'''\n"
             elif rowData["Type"] == "Result":
+                kifu_text += f'[Result]\n'
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
-                    kifu_text += judge_statement1_p.from_pivot(
-                        rowData['Moves'], rowData['Winner'], rowData['Judge'])
+                    kifu_text += f"Last-moves='{rowData['Moves']}'\n"
+                    kifu_text += f"Winner='{rowData['Winner']}'\n"
+                    kifu_text += f"Judge='{rowData['Judge']}'\n"
                 elif 'Reason' in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    kifu_text += judge_statement3_p.from_pivot(
-                        rowData['Moves'], rowData['Reason'], rowData['Winner'], rowData['Judge'])
+                    kifu_text += f"Last-moves='{rowData['Moves']}'\n"
+                    kifu_text += f"Reason='{rowData['Reason']}'\n"
+                    kifu_text += f"Winner='{rowData['Winner']}'\n"
+                    kifu_text += f"Judge='{rowData['Judge']}'\n"
                 else:
                     # Example: `まで63手で中断`
-                    kifu_text += judge_statement2_p.from_pivot(
-                        rowData['Moves'], rowData['Judge'])
+                    kifu_text += f"Judge='{rowData['Judge']}'\n"
             else:
                 # Error
                 print(f"Error: rowNumberey={rowNumber} rowData={rowData}")
