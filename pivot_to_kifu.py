@@ -5,11 +5,7 @@ import sys
 import shutil
 from collections import OrderedDict
 from scripts.kifu_specification import player_phase_p, handicap_p, zenkaku_number_p, kanji_number_p, sign_p, \
-    piece_type_p, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P
-
-__judge_statement1_p = JudgeStatement1P()
-__judge_statement2_p = JudgeStatement2P()
-__judge_statement3_p = JudgeStatement3P()
+    piece_type_p, judge_statement1_p, judge_statement2_p, judge_statement3_p
 
 
 def convert_pivot_to_kifu(pivotFile):
@@ -119,15 +115,15 @@ def convert_pivot_to_kifu(pivotFile):
             elif rowData["Type"] == "Result":
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
-                    kifu_text += __judge_statement1_p.from_pivot(
+                    kifu_text += judge_statement1_p.from_pivot(
                         rowData['Moves'], rowData['Winner'], rowData['Judge'])
                 elif 'Reason' in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    kifu_text += __judge_statement3_p.from_pivot(
+                    kifu_text += judge_statement3_p.from_pivot(
                         rowData['Moves'], rowData['Reason'], rowData['Winner'], rowData['Judge'])
                 else:
                     # Example: `まで63手で中断`
-                    kifu_text += __judge_statement2_p.from_pivot(
+                    kifu_text += judge_statement2_p.from_pivot(
                         rowData['Moves'], rowData['Judge'])
             else:
                 # Error

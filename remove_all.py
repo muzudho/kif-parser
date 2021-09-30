@@ -39,6 +39,18 @@ def main():
         print(f"Remove: {pivot_file}")
         os.remove(pivot_file)
 
+    # TOMLファイル一覧
+    toml_files = glob.glob("./toml/*.toml")
+    for toml_file in toml_files:
+        print(f"Remove: {toml_file}")
+        os.remove(toml_file)
+
+    # PIBOTファイル一覧
+    toml_files = glob.glob("./toml-done/*.toml")
+    for toml_file in toml_files:
+        print(f"Remove: {toml_file}")
+        os.remove(toml_file)
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":

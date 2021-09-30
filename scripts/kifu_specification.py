@@ -96,6 +96,9 @@ class HandicapP():
         return self._handicap_statement.match(line)
 
 
+handicap_p = HandicapP()
+
+
 class MoveStatementP():
     def __init__(self):
         # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`

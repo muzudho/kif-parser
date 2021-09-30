@@ -117,21 +117,18 @@ def convert_pivot_to_toml(pivotFile):
             elif rowData["Type"] == "Player":
                 kifu_text += f"{player_phase_p.from_pivot(rowData['PlayerPhase'])}='''{rowData['PlayerName']}'''\n"
             elif rowData["Type"] == "Result":
-                kifu_text += f'[Result]\n'
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
-                    kifu_text += f"Last-moves='{rowData['Moves']}'\n"
-                    kifu_text += f"Winner='{rowData['Winner']}'\n"
-                    kifu_text += f"Judge='{rowData['Judge']}'\n"
+                    kifu_text += judge_statement1_p.from_pivot(
+                        rowData['Moves'], rowData['Winner'], rowData['Judge'])
                 elif 'Reason' in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    kifu_text += f"Last-moves='{rowData['Moves']}'\n"
-                    kifu_text += f"Reason='{rowData['Reason']}'\n"
-                    kifu_text += f"Winner='{rowData['Winner']}'\n"
-                    kifu_text += f"Judge='{rowData['Judge']}'\n"
+                    kifu_text += judge_statement3_p.from_pivot(
+                        rowData['Moves'], rowData['Reason'], rowData['Winner'], rowData['Judge'])
                 else:
                     # Example: `まで63手で中断`
-                    kifu_text += f"Judge='{rowData['Judge']}'\n"
+                    kifu_text += judge_statement2_p.from_pivot(
+                        rowData['Moves'], rowData['Judge'])
             else:
                 # Error
                 print(f"Error: rowNumberey={rowNumber} rowData={rowData}")
