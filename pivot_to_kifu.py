@@ -78,17 +78,17 @@ def convert_pivot_to_kifu(pivotFile):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePibotFile = shutil.move(
+    donePivotFile = shutil.move(
         pivotFile, os.path.join('pivot-done', basename))
 
-    return kifuFile, donePibotFile
+    return kifuFile, donePivotFile
 
 
 def main():
-    # PIBOTファイル一覧
+    # PIVOTファイル一覧
     pivot_files = glob.glob("./pivot/*.json")
     for pivot_file in pivot_files:
-        _kifuFile, _donePibotFile = convert_pivot_to_kifu(pivot_file)
+        _kifuFile, _donePivotFile = convert_pivot_to_kifu(pivot_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

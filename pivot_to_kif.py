@@ -4,20 +4,20 @@ from kifu_to_kif import convert_kifu_to_kif
 
 
 def convert_pivot_to_kif(pivotFile):
-    kifuFile, donePibotFile = convert_pivot_to_kifu(pivotFile)
+    kifuFile, donePivotFile = convert_pivot_to_kifu(pivotFile)
     if kifuFile is None:
         return None, None
 
     # kifu to kif
     kifFile, _doneKifuFile = convert_kifu_to_kif(kifuFile)
-    return kifFile, donePibotFile
+    return kifFile, donePivotFile
 
 
 def main():
-    # PIBOTファイル一覧
+    # PIVOTファイル一覧
     pivot_files = glob.glob("./pivot/*.json")
     for pivot_file in pivot_files:
-        _kifFile, _donePibotFile = convert_pivot_to_kif(pivot_file)
+        _kifFile, _donePivotFile = convert_pivot_to_kif(pivot_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

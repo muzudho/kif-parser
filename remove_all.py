@@ -27,13 +27,13 @@ def main():
         print(f"Remove: {kifu_file}")
         os.remove(kifu_file)
 
-    # PIBOTファイル一覧
+    # PIVOTファイル一覧
     pivot_files = glob.glob("./pivot/*.json")
     for pivot_file in pivot_files:
         print(f"Remove: {pivot_file}")
         os.remove(pivot_file)
 
-    # PIBOTファイル一覧
+    # PIVOTファイル一覧
     pivot_files = glob.glob("./pivot-done/*.json")
     for pivot_file in pivot_files:
         print(f"Remove: {pivot_file}")
@@ -45,7 +45,7 @@ def main():
         print(f"Remove: {toml_file}")
         os.remove(toml_file)
 
-    # PIBOTファイル一覧
+    # PIVOTファイル一覧
     toml_files = glob.glob("./toml-done/*.toml")
     for toml_file in toml_files:
         print(f"Remove: {toml_file}")

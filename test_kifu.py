@@ -28,7 +28,7 @@ def test_2_kifu_files(kifuFile):
     pivotFile, _doneKifuFile = convert_kifu_to_pivot(kifuFile)
 
     # pivot -> kifu 変換
-    kifuFile2, _donePibotFile2 = convert_pivot_to_kifu(pivotFile)
+    kifuFile2, _donePivotFile2 = convert_pivot_to_kifu(pivotFile)
 
     kifuBinary2 = None
 

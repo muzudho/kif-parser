@@ -29,7 +29,7 @@ def test_2_kif_files(kifFile):
     pivotFile, _doneKifFile = convert_kif_to_pivot(kifFile)
 
     # pivot -> kif 変換
-    kifFile2, _donePibotFile2 = convert_pivot_to_kif(pivotFile)
+    kifFile2, _donePivotFile2 = convert_pivot_to_kif(pivotFile)
 
     kifBinary2 = None
 

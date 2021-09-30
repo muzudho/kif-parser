@@ -21,10 +21,10 @@ class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応
         self._player_phase = {
-            'First-player': 'FirstPlayer',
-            'Second-player': 'SecondPlayer',
-            'Trainee': 'Trainee',
-            'Trainer': 'Trainer',
+            'first-player': 'FirstPlayer',
+            'second-player': 'SecondPlayer',
+            'trainee': 'Trainee',
+            'trainer': 'Trainer',
         }
 
     def to_pivot(self, player_phase):
@@ -61,23 +61,23 @@ class HandicapP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
-            'Hirate': 'Hirate',
-            'Lost-lance': 'LostLance',
-            'Lost-right-lance': 'LostRightLance',
-            'Lost-bishop': 'LostBishop',
-            'Lost-rook': 'LostRook',
-            'Lost-rook-lance': 'LostRookLance',
-            'Lost-2-pieces': 'Lost2Pieces',
-            'Lost-3-pieces': 'Lost3Pieces',
-            'Lost-4-pieces': 'Lost4Pieces',
-            'Lost-5-pieces': 'Lost5Pieces',
-            'Lost-left-5-pieces': 'LostLeft5Pieces',
-            'Lost-6-pieces': 'Lost6Pieces',
-            'Lost-left-7-pieces': 'LostLeft7Pieces',
-            'Lost-right-7-pieces': 'LostRight7Pieces',
-            'Lost-8-pieces': 'Lost8Pieces',
-            'Lost-10-pieces': 'Lost10Pieces',
-            'Other': 'Other',
+            'hirate': 'Hirate',
+            'lost-lance': 'LostLance',
+            'lost-right-lance': 'LostRightLance',
+            'lost-bishop': 'LostBishop',
+            'lost-rook': 'LostRook',
+            'lost-rook-lance': 'LostRookLance',
+            'lost-2-pieces': 'Lost2Pieces',
+            'lost-3-pieces': 'Lost3Pieces',
+            'lost-4-pieces': 'Lost4Pieces',
+            'lost-5-pieces': 'Lost5Pieces',
+            'lost-left-5-pieces': 'LostLeft5Pieces',
+            'lost-6-pieces': 'Lost6Pieces',
+            'lost-left-7-pieces': 'LostLeft7Pieces',
+            'lost-right-7-pieces': 'LostRight7Pieces',
+            'lost-8-pieces': 'Lost8Pieces',
+            'lost-10-pieces': 'Lost10Pieces',
+            'other': 'Other',
         }
 
         self._handicap_statement = re.compile(r"^手合割：(.+)$")
@@ -246,18 +246,18 @@ class SignP():
     def __init__(self):
         # 逆引き対応
         self._sign = {
-            'Stop': 'Stop',
-            'Resign': 'Resign',
-            'Ji-shogi': 'JiShogi',
-            'Repeatation': 'Repeatation',
-            'Checkmate': 'Checkmate',
-            'Time-up-lose': 'TimeUpLose',
-            'Illegal-win': 'IllegalWin',
-            'Illegal-lose': 'IllegalLose',
-            'Entering-king-win': 'EnteringKingWin',
-            'Unearned-win': 'UnearnedWin',
-            'Unearned-lose': 'UnearnedLose',
-            'Win': 'Win',  # 追加
+            'stop': 'Stop',
+            'resign': 'Resign',
+            'ji-shogi': 'JiShogi',
+            'repeatation': 'Repeatation',
+            'checkmate': 'Checkmate',
+            'time-up-lose': 'TimeUpLose',
+            'illegal-win': 'IllegalWin',
+            'illegal-lose': 'IllegalLose',
+            'entering-king-win': 'EnteringKingWin',
+            'unearned-win': 'UnearnedWin',
+            'unearned-lose': 'UnearnedLose',
+            'win': 'Win',  # 追加
         }
 
     def contains(self, key):
@@ -306,10 +306,10 @@ class JudgeStatement1P():
 
     def from_pivot(self, moves, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"""[Result]
-Last-moves='{moves}'
-Winner='{player_phase_p.from_pivot(winner)}'
-Judge='{sign_p.from_pivot(judge)}'
+        return f"""[result]
+last-moves='{moves}'
+winner='{player_phase_p.from_pivot(winner)}'
+judge='{sign_p.from_pivot(judge)}'
 """
 
 
@@ -326,9 +326,9 @@ class JudgeStatement2P():
 
     def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
-        return f"""[Result]
-Last-moves='{moves}'
-Judge='{sign_p.from_pivot(judge)}'
+        return f"""[result]
+last-moves='{moves}'
+judge='{sign_p.from_pivot(judge)}'
 """
 
 
@@ -346,11 +346,11 @@ class JudgeStatement3P():
 
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"""[Result]
-Last-moves='{moves}'
-Reason='{reason}'
-Winner='{player_phase_p.from_pivot(winner)}'
-Judge='{sign_p.from_pivot(judge)}'
+        return f"""[result]
+last-moves='{moves}'
+reason='{reason}'
+winner='{player_phase_p.from_pivot(winner)}'
+judge='{sign_p.from_pivot(judge)}'
 """
 
 
@@ -361,7 +361,7 @@ class ReasonP():
     def __init__(self):
         # 逆引き対応
         self._reason = {
-            '時間切れ': 'TimeUp',
+            'time-up': 'TimeUp',
         }
 
     def to_pivot(self, reason):
