@@ -6,6 +6,8 @@ kifu/*.kifu
 kifu-done/*.kifu
 pivot/*.json
 pivot-done/*.json
+toml/*.toml
+toml-done/*.toml
 under-development/
 
 # Byte-compiled / optimized / DLL files
