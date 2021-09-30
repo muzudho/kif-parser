@@ -5,7 +5,7 @@ import sys
 import shutil
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, handicap_p, zenkaku_number_p, kanji_number_p, sign_p, \
-    piece_type_p, judge_statement1_p, judge_statement2_p, judge_statement3_p
+    piece_type_p, judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
 def convert_pivot_to_toml(pivotFile):
@@ -45,63 +45,12 @@ def convert_pivot_to_toml(pivotFile):
                     kifu_text += "[Moves]\n"
                     move_section_flag = True
 
-                moves = rowData['Moves']
-                elapsedTime = rowData['ElapsedTime']
-                elapsedTimeHour = 0
-                elapsedTimeMinute = elapsedTime['Minute']
-                if 60 < elapsedTimeMinute:
-                    elapsedTimeHour = elapsedTimeMinute // 60
-                    elapsedTimeMinute = elapsedTimeMinute % 60
-                elapsedTimeSecond = elapsedTime['Second']
-                totalElapsedTime = rowData['TotalElapsedTime']
-                totalElapsedTimeHour = totalElapsedTime['Hour']
-                totalElapsedTimeMinute = totalElapsedTime['Minute']
-                totalElapsedTimeSecond = totalElapsedTime['Second']
+                kifu_text += move_statement_p.from_pivot(
+                    moves=rowData['Moves'],
+                    elapsedTime=rowData['ElapsedTime'],
+                    totalElapsedTime=rowData['TotalElapsedTime'],
+                    move=rowData['Move'])
 
-                move = rowData['Move']
-                move_text = ""
-
-                if 'Sign' in move:
-                    sign = sign_p.from_pivot(move['Sign'])
-                    move_text += f"{sign}"
-
-                if 'DestinationFile' in move:
-                    destinationFile = zenkaku_number_p.from_pivot(
-                        move['DestinationFile'])
-                    destinationRank = kanji_number_p.from_pivot(
-                        move['DestinationRank'])
-                    move_text += f"{destinationFile}{destinationRank}"
-
-                if 'Destination' in move:
-                    destination = move['Destination']
-                    if destination == 'Same':
-                        move_text += "同　"
-                    else:
-                        move_text += f"{destination}"
-
-                if 'PieceType' in move:
-                    pieceType = piece_type_p.from_pivot(move['PieceType'])
-                    move_text += f"{pieceType}"
-
-                if 'Drop' in move:
-                    drop = move['Drop']
-                    if drop:
-                        move_text += "打"
-
-                if 'Promotion' in move:
-                    pro = move['Promotion']
-                    if pro:
-                        move_text += "成"
-
-                if 'SourceFile' in move:
-                    sourceFile = move['SourceFile']
-                    sourceRank = move['SourceRank']
-                    move_text += f"({sourceFile}{sourceRank})"
-
-                kifu_text += f'[Moves.{moves}]\n'
-                kifu_text += f"Move='{move_text}'\n"
-                kifu_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
-                kifu_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
             elif rowData["Type"] == "Handicap":
                 kifu_text += f"Handicap='{handicap_p.from_pivot(rowData['Handicap'])}'\n"
             elif rowData["Type"] == "Player":

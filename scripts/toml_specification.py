@@ -109,6 +109,69 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
+    def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
+        kifu_text = ""
+
+        elapsedTimeHour = 0
+        elapsedTimeMinute = elapsedTime['Minute']
+        if 60 < elapsedTimeMinute:
+            elapsedTimeHour = elapsedTimeMinute // 60
+            elapsedTimeMinute = elapsedTimeMinute % 60
+        elapsedTimeSecond = elapsedTime['Second']
+
+        totalElapsedTimeHour = totalElapsedTime['Hour']
+        totalElapsedTimeMinute = totalElapsedTime['Minute']
+        totalElapsedTimeSecond = totalElapsedTime['Second']
+
+        move_text = ""
+
+        if 'Sign' in move:
+            sign = sign_p.from_pivot(move['Sign'])
+            move_text += f"{sign}"
+
+        if 'DestinationFile' in move:
+            destinationFile = zenkaku_number_p.from_pivot(
+                move['DestinationFile'])
+            destinationRank = kanji_number_p.from_pivot(
+                move['DestinationRank'])
+            move_text += f"{destinationFile}{destinationRank}"
+
+        if 'Destination' in move:
+            destination = move['Destination']
+            if destination == 'Same':
+                move_text += "同　"
+            else:
+                move_text += f"{destination}"
+
+        if 'PieceType' in move:
+            pieceType = piece_type_p.from_pivot(move['PieceType'])
+            move_text += f"{pieceType}"
+
+        if 'Drop' in move:
+            drop = move['Drop']
+            if drop:
+                move_text += "打"
+
+        if 'Promotion' in move:
+            pro = move['Promotion']
+            if pro:
+                move_text += "成"
+
+        if 'SourceFile' in move:
+            sourceFile = move['SourceFile']
+            sourceRank = move['SourceRank']
+            move_text += f"({sourceFile}{sourceRank})"
+
+        kifu_text += f'[Moves.{moves}]\n'
+        kifu_text += f"Move='{move_text}'\n"
+        kifu_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
+        kifu_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
+
+        return kifu_text
+
+
+move_statement_p = MoveStatementP()
+
 
 class MoveP():
     def __init__(self):

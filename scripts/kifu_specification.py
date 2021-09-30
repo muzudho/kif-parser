@@ -109,6 +109,75 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
+    def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
+        kifu_text = ""
+
+        elapsedTimeMinute = elapsedTime['Minute']
+        elapsedTimeSecond = elapsedTime['Second']
+
+        totalElapsedTimeHour = totalElapsedTime['Hour']
+        totalElapsedTimeMinute = totalElapsedTime['Minute']
+        totalElapsedTimeSecond = totalElapsedTime['Second']
+
+        move_text = ""
+        # 半角スペース幅
+        spaces = 14
+
+        if 'Sign' in move:
+            sign = sign_p.from_pivot(move['Sign'])
+            move_text += f"{sign}"
+            spaces -= sign_p.half_width(sign)
+
+        if 'DestinationFile' in move:
+            destinationFile = zenkaku_number_p.from_pivot(
+                move['DestinationFile'])
+            destinationRank = kanji_number_p.from_pivot(
+                move['DestinationRank'])
+            move_text += f"{destinationFile}{destinationRank}"
+            spaces -= 4
+
+        if 'Destination' in move:
+            destination = move['Destination']
+            if destination == 'Same':
+                move_text += "同　"
+                spaces -= 4
+            else:
+                move_text += f"{destination}"
+                spaces -= 2
+
+        if 'PieceType' in move:
+            pieceType = piece_type_p.from_pivot(move['PieceType'])
+            move_text += f"{pieceType}"
+            spaces -= piece_type_p.half_width(pieceType)
+
+        if 'Drop' in move:
+            drop = move['Drop']
+            if drop:
+                move_text += "打"
+                spaces -= 2
+
+        if 'Promotion' in move:
+            pro = move['Promotion']
+            if pro:
+                move_text += "成"
+                spaces -= 2
+
+        if 'SourceFile' in move:
+            sourceFile = move['SourceFile']
+            sourceRank = move['SourceRank']
+            move_text += f"({sourceFile}{sourceRank})"
+            spaces -= 4
+
+        # 左にスペースを詰めます
+        move_text += ''.ljust(spaces, ' ')
+
+        kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+
+        return kifu_text
+
+
+move_statement_p = MoveStatementP()
+
 
 class MoveP():
     def __init__(self):
@@ -185,6 +254,9 @@ class PieceTypeP():
         return piece_type
 
 
+piece_type_p = PieceTypeP()
+
+
 class ZenkakuNumberP():
     def __init__(self):
         # 逆引き対応
@@ -212,6 +284,9 @@ class ZenkakuNumberP():
         return items[0]
 
 
+zenkaku_number_p = ZenkakuNumberP()
+
+
 class KanjiNumberP():
     def __init__(self):
         # 逆引き対応
@@ -236,6 +311,9 @@ class KanjiNumberP():
     def from_pivot(self, kanji_number):
         items = [k for k, v in self._kanji_number.items() if v == kanji_number]
         return items[0]
+
+
+kanji_number_p = KanjiNumberP()
 
 
 class SignP():
