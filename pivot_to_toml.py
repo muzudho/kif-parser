@@ -42,7 +42,7 @@ def convert_pivot_to_toml(pivotFile):
                 # 指し手
 
                 if not move_section_flag:
-                    kifu_text += "[Moves]\n"
+                    kifu_text += "[moves]\n"
                     move_section_flag = True
 
                 kifu_text += move_statement_p.from_pivot(

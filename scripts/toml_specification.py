@@ -110,7 +110,7 @@ class MoveStatementP():
         return self._move_statement.match(line)
 
     def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
-        toml_text = f'[moves.{moves}]\n'
+        toml_text = ''
 
         elapsedTimeHour = 0
         elapsedTimeMinute = elapsedTime['Minute']
@@ -149,6 +149,12 @@ class MoveStatementP():
                 # TODO エラーにしたい
                 move_to_text += destination
 
+        # 成り
+        if 'Promotion' in move:
+            pro = move['Promotion']
+            if pro:
+                move_to_text += '+'
+
         # 投了なども行き先欄に書く
         if 'Sign' in move:
             sign = sign_p.from_pivot(move['Sign'])
@@ -156,28 +162,29 @@ class MoveStatementP():
 
         move_from_text = ""
 
+        # 移動元
         if 'SourceFile' in move:
             sourceFile = move['SourceFile']
             sourceRank = alphabet_number_p.from_pivot(move['SourceRank'])
-            move_from_text += f""", from = '{sourceFile}{sourceRank}'"""
+            move_from_text += f'{sourceFile}{sourceRank}'
 
-        toml_text += f"""move = {{ to = '{move_to_text}'{move_from_text} }}
-"""
-
+        # 打
         if 'Drop' in move:
             drop = move['Drop']
             if drop:
-                toml_text += """drop=true
-"""
+                move_from_text += 'drop'
 
-        if 'Promotion' in move:
-            pro = move['Promotion']
-            if pro:
-                toml_text += """promotion=true
-"""
+        if move_from_text != '':
+            move_from_text = f""", from = '{move_from_text}'"""
+            pass
+
+        move_text = f"""to = '{move_to_text}'{move_from_text}"""
 
         # 経過時間
-        toml_text += f"""elapsed = {{ cur = {elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}, some = {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02} }}
+        elapsed_text = f"""elapsed = {elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}, sum = {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}"""
+
+        # 指し手
+        toml_text += f"""{moves} = {{ {move_text}, {elapsed_text} }}
 """
 
         return toml_text
