@@ -1,10 +1,10 @@
 import glob
-from pibot_to_kifu import convert_pibot_to_kifu
+from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import convert_kifu_to_kif
 
 
-def convert_pibot_to_kif(pibotFile):
-    kifuFile, donePibotFile = convert_pibot_to_kifu(pibotFile)
+def convert_pivot_to_kif(pivotFile):
+    kifuFile, donePibotFile = convert_pivot_to_kifu(pivotFile)
     if kifuFile is None:
         return None, None
 
@@ -15,9 +15,9 @@ def convert_pibot_to_kif(pibotFile):
 
 def main():
     # PIBOTファイル一覧
-    pibotFiles = glob.glob("./pibot/*")
-    for pibotFile in pibotFiles:
-        _kifFile, _donePibotFile = convert_pibot_to_kif(pibotFile)
+    pivotFiles = glob.glob("./pivot/*")
+    for pivotFile in pivotFiles:
+        _kifFile, _donePibotFile = convert_pivot_to_kif(pivotFile)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

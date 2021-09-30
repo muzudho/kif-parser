@@ -16,14 +16,14 @@ __judge_statement2_p = JudgeStatement2P()
 __judge_statement3_p = JudgeStatement3P()
 
 
-def convert_pibot_to_kifu(pibotFile):
+def convert_pivot_to_kifu(pivotFile):
     # basename
 
     try:
-        basename = os.path.basename(pibotFile)
+        basename = os.path.basename(pivotFile)
     except:
         # デバッグ消す
-        print(f"Error: pibotFile={pibotFile} except={sys.exc_info()[0]}")
+        print(f"Error: pivotFile={pivotFile} except={sys.exc_info()[0]}")
         raise
         # return None, None
 
@@ -33,7 +33,7 @@ def convert_pibot_to_kifu(pibotFile):
 
     kifuFile = ""
 
-    with open(pibotFile, encoding='utf-8') as f:
+    with open(pivotFile, encoding='utf-8') as f:
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
 
         move_section_flag = False
@@ -68,14 +68,14 @@ def convert_pibot_to_kifu(pibotFile):
                 spaces = 14
 
                 if 'Sign' in move:
-                    sign = __sign_p.from_pibot(move['Sign'])
+                    sign = __sign_p.from_pivot(move['Sign'])
                     move_text += f"{sign}"
                     spaces -= __sign_p.half_width(sign)
 
                 if 'DestinationFile' in move:
-                    destinationFile = __zenkaku_number_p.from_pibot(
+                    destinationFile = __zenkaku_number_p.from_pivot(
                         move['DestinationFile'])
-                    destinationRank = __kanji_number_p.from_pibot(
+                    destinationRank = __kanji_number_p.from_pivot(
                         move['DestinationRank'])
                     move_text += f"{destinationFile}{destinationRank}"
                     spaces -= 4
@@ -90,7 +90,7 @@ def convert_pibot_to_kifu(pibotFile):
                         spaces -= 2
 
                 if 'PieceType' in move:
-                    pieceType = __piece_type_p.from_pibot(move['PieceType'])
+                    pieceType = __piece_type_p.from_pivot(move['PieceType'])
                     move_text += f"{pieceType}"
                     spaces -= __piece_type_p.half_width(pieceType)
 
@@ -117,21 +117,21 @@ def convert_pibot_to_kifu(pibotFile):
 
                 kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
             elif rowData["Type"] == "Handicap":
-                kifu_text += f"手合割：{__handicap_p.from_pibot(rowData['Handicap'])}\n"
+                kifu_text += f"手合割：{__handicap_p.from_pivot(rowData['Handicap'])}\n"
             elif rowData["Type"] == "Player":
-                kifu_text += f"{player_phase_p.from_pibot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+                kifu_text += f"{player_phase_p.from_pivot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
             elif rowData["Type"] == "Result":
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
-                    kifu_text += __judge_statement1_p.from_pibot(
+                    kifu_text += __judge_statement1_p.from_pivot(
                         rowData['Moves'], rowData['Winner'], rowData['Judge'])
                 elif 'Reason' in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    kifu_text += __judge_statement3_p.from_pibot(
+                    kifu_text += __judge_statement3_p.from_pivot(
                         rowData['Moves'], rowData['Reason'], rowData['Winner'], rowData['Judge'])
                 else:
                     # Example: `まで63手で中断`
-                    kifu_text += __judge_statement2_p.from_pibot(
+                    kifu_text += __judge_statement2_p.from_pivot(
                         rowData['Moves'], rowData['Judge'])
             else:
                 # Error
@@ -146,16 +146,16 @@ def convert_pibot_to_kifu(pibotFile):
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
     donePibotFile = shutil.move(
-        pibotFile, os.path.join('pibot-done', basename))
+        pivotFile, os.path.join('pivot-done', basename))
 
     return kifuFile, donePibotFile
 
 
 def main():
     # PIBOTファイル一覧
-    pibotFiles = glob.glob("./pibot/*")
-    for pibotFile in pibotFiles:
-        _kifuFile, _donePibotFile = convert_pibot_to_kifu(pibotFile)
+    pivotFiles = glob.glob("./pivot/*")
+    for pivotFile in pivotFiles:
+        _kifuFile, _donePibotFile = convert_pivot_to_kifu(pivotFile)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

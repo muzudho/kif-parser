@@ -2,8 +2,8 @@ import glob
 import shutil
 import os
 from scripts.test_lib import create_sha256
-from kifu_to_pibot import convert_kifu_to_pibot
-from pibot_to_kifu import convert_pibot_to_kifu
+from kifu_to_pivot import convert_kifu_to_pivot
+from pivot_to_kifu import convert_pivot_to_kifu
 
 
 def test_2_kifu_files(kifuFile):
@@ -24,11 +24,11 @@ def test_2_kifu_files(kifuFile):
     # ファイルをバイナリ形式で読み込んで SHA256 生成
     kifu_1_Sha256 = create_sha256(kifuBinary)
 
-    # kifu -> pibot 変換
-    pibotFile, _doneKifuFile = convert_kifu_to_pibot(kifuFile)
+    # kifu -> pivot 変換
+    pivotFile, _doneKifuFile = convert_kifu_to_pivot(kifuFile)
 
-    # pibot -> kifu 変換
-    kifuFile2, _donePibotFile2 = convert_pibot_to_kifu(pibotFile)
+    # pivot -> kifu 変換
+    kifuFile2, _donePibotFile2 = convert_pivot_to_kifu(pivotFile)
 
     kifuBinary2 = None
 
@@ -41,7 +41,7 @@ def test_2_kifu_files(kifuFile):
 
     if kifu_1_Sha256 != kifu_2_Sha256:
         # Error
-        print("Not match")
+        print("Not match SHA256")
         return None
 
     # Ok

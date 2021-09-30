@@ -10,7 +10,7 @@ WIP KIFパーサー、コンバーター
 ![20210929shogi8-kifu.png](docs/img/20210929shogi8-kifu-50per.png)  
 👆　.kifu file (kifu ←→ kif), (kifu → PIBOT)  
 
-![20210930shogi10-pibot-50per.png](docs/img/20210930shogi10-pibot-50per.png)  
+![20210930shogi10-pivot-50per.png](docs/img/20210930shogi10-pivot-50per.png)  
 👆　PIBOT (.json file. Unofficial format, Not permanent save format. Work in progress)  
 
 ## KIF から KIFU へ変換
@@ -33,8 +33,8 @@ WIP KIFパーサー、コンバーター
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
 2. 📂`kif` に `*.kif` ファイルをたくさん入れてください
-3. ターミナルで `python.exe kif_to_pibot.py` コマンドを実行してください
-4. JSON形式に変換して 📂`pibot` へ出力されます
+3. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
+4. JSON形式に変換して 📂`pivot` へ出力されます
 5. 読み終えた `kif/*.kif` ファイルは、 `kif-done/*.kif` へ移動されます
 6. PIBOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
 
@@ -42,28 +42,42 @@ WIP KIFパーサー、コンバーター
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
 2. 📂`kifu` に `*.kifu` ファイルをたくさん入れてください
-3. ターミナルで `python.exe kifu_to_pibot.py` コマンドを実行してください
-4. JSON形式に変換して 📂`pibot` へ出力されます
+3. ターミナルで `python.exe kifu_to_pivot.py` コマンドを実行してください
+4. JSON形式に変換して 📂`pivot` へ出力されます
 5. 読み終えた `kifu/*.kifu` ファイルは、 `kifu-done/*.kifu` へ移動されます
 6. PIBOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
 
 ## PIBOT から KIF へ変換
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`pibot` に `*.json` ファイルをたくさん入れてください
-3. ターミナルで `python.exe pibot_to_kif.py` コマンドを実行してください
+2. 📂`pivot` に `*.json` ファイルをたくさん入れてください
+3. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
 4. KIF形式に変換して 📂`kif` へ出力されます
-5. 読み終えた `pibot/*.json` ファイルは、 `pibot-done/*.json` へ移動されます
+5. 読み終えた `pivot/*.json` ファイルは、 `pivot-done/*.json` へ移動されます
 6. PIBOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
 
 ## PIBOT から KIFU へ変換
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`pibot` に `*.json` ファイルをたくさん入れてください
-3. ターミナルで `python.exe pibot_to_kifu.py` コマンドを実行してください
+2. 📂`pivot` に `*.json` ファイルをたくさん入れてください
+3. ターミナルで `python.exe pivot_to_kifu.py` コマンドを実行してください
 4. KIFU形式に変換して 📂`kifu` へ出力されます
-5. 読み終えた `pibot/*.json` ファイルは、 `pibot-done/*.json` へ移動されます
+5. 読み終えた `pivot/*.json` ファイルは、 `pivot-done/*.json` へ移動されます
 6. PIBOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
+
+## 棋譜ファイルを全部消す
+
+指定のフォルダーの中のものは、棋譜ファイル以外も削除されるかもしれませんので、  
+指定のフォルダーには壊されたくないものは置かないでください  
+
+1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
+2. ターミナルで `python.exe remove_all.py` コマンドを実行してください
+3. 📂`kif` フォルダーの中の 📄`*.kif` ファイルは削除されます
+4. 📂`kif-done` フォルダーの中の 📄`*.kif` ファイルは削除されます
+5. 📂`kifu` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+6. 📂`kifu-done` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+7. 📂`pivot` フォルダーの中の 📄`*.json` ファイルは削除されます
+8. 📂`pivot-done` フォルダーの中の 📄`*.json` ファイルは削除されます
 
 ## Documents
 

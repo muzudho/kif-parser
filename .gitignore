@@ -4,8 +4,8 @@ kif/*.kif
 kif-done/*.kif
 kifu/*.kifu
 kifu-done/*.kifu
-pibot/*.json
-pibot-done/*.json
+pivot/*.json
+pivot-done/*.json
 under-development/
 
 # Byte-compiled / optimized / DLL files

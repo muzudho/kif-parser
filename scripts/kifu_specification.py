@@ -27,13 +27,13 @@ class PlayerPhaseP():
             '上手': 'Trainer',
         }
 
-    def to_pibot(self, player_phase):
+    def to_pivot(self, player_phase):
         if player_phase in self._player_phase:
             return self._player_phase[player_phase]
 
         return player_phase
 
-    def from_pibot(self, player_phase):
+    def from_pivot(self, player_phase):
         items = [k for k, v in self._player_phase.items() if v == player_phase]
         return items[0]
 
@@ -74,13 +74,13 @@ class HandicapP():
 
         self._handicap_statement = re.compile(r"^手合割：(.+)$")
 
-    def to_pibot(self, handicap):
+    def to_pivot(self, handicap):
         if handicap in self._handicap:
             return self._handicap[handicap]
 
         return handicap
 
-    def from_pibot(self, handicap):
+    def from_pivot(self, handicap):
         items = [k for k, v in self._handicap.items() if v == handicap]
         return items[0]
 
@@ -157,13 +157,13 @@ class PieceTypeP():
             'と': 2,
         }
 
-    def to_pibot(self, piece_type):
+    def to_pivot(self, piece_type):
         if piece_type in self._piece_type:
             return self._piece_type[piece_type]
 
         return piece_type
 
-    def from_pibot(self, piece_type):
+    def from_pivot(self, piece_type):
         items = [k for k, v in self._piece_type.items() if v == piece_type]
         return items[0]
 
@@ -189,13 +189,13 @@ class ZenkakuNumberP():
             '９': 9,
         }
 
-    def to_pibot(self, zenkaku_number):
+    def to_pivot(self, zenkaku_number):
         if zenkaku_number in self._zenkaku_number:
             return self._zenkaku_number[zenkaku_number]
 
         return zenkaku_number
 
-    def from_pibot(self, zenkaku_number):
+    def from_pivot(self, zenkaku_number):
         items = [k for k, v in self._zenkaku_number.items() if v ==
                  zenkaku_number]
         return items[0]
@@ -216,13 +216,13 @@ class KanjiNumberP():
             '九': 9,
         }
 
-    def to_pibot(self, kanji_number):
+    def to_pivot(self, kanji_number):
         if kanji_number in self._kanji_number:
             return self._kanji_number[kanji_number]
 
         return kanji_number
 
-    def from_pibot(self, kanji_number):
+    def from_pivot(self, kanji_number):
         items = [k for k, v in self._kanji_number.items() if v == kanji_number]
         return items[0]
 
@@ -264,13 +264,13 @@ class SignP():
     def contains(self, key):
         return key in self._sign.keys()
 
-    def to_pibot(self, sign):
+    def to_pivot(self, sign):
         if sign in self._sign:
             return self._sign[sign]
 
         return sign
 
-    def from_pibot(self, sign):
+    def from_pivot(self, sign):
         items = [k for k, v in self._sign.items() if v == sign]
         return items[0]
 
@@ -311,22 +311,22 @@ class JudgeStatement1P():
     def match(self, line):
         return self._judge_statement1.match(line)
 
-    def from_pibot(self, moves, winner, judge):
+    def from_pivot(self, moves, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"まで{moves}手で{player_phase_p.from_pibot(winner)}の{sign_p.from_pibot(judge)}\n"
+        return f"まで{moves}手で{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
 
 
 class JudgeStatement2P():
     def __init__(self):
         # Example: `まで63手で中断`
-        self._judge_statement2 = re.compile(r"^まで(\d+)手で(中断|持将棋)$")
+        self._judge_statement2 = re.compile(r"^まで(\d+)手で(中断|持将棋|千日手)$")
 
     def match(self, line):
         return self._judge_statement2.match(line)
 
-    def from_pibot(self, moves, judge):
+    def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
-        return f"まで{moves}手で{sign_p.from_pibot(judge)}\n"
+        return f"まで{moves}手で{sign_p.from_pivot(judge)}\n"
 
 
 class JudgeStatement3P():
@@ -338,9 +338,9 @@ class JudgeStatement3P():
     def match(self, line):
         return self._judge_statement2.match(line)
 
-    def from_pibot(self, moves, reason, winner, judge):
+    def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"まで{moves}手で{reason}により{player_phase_p.from_pibot(winner)}の{sign_p.from_pibot(judge)}\n"
+        return f"まで{moves}手で{reason}により{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
 
 
 class ReasonP():
@@ -350,12 +350,12 @@ class ReasonP():
             '時間切れ': 'TimeUp',
         }
 
-    def to_pibot(self, reason):
+    def to_pivot(self, reason):
         if reason in self._reason:
             return self._reason[reason]
 
         return reason
 
-    def from_pibot(self, reason):
+    def from_pivot(self, reason):
         items = [k for k, v in self._reason.items() if v == reason]
         return items[0]

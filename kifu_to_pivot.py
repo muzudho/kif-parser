@@ -19,7 +19,7 @@ __judge_statement3_p = JudgeStatement3P()
 __reason_p = ReasonP()
 
 
-def convert_kifu_to_pibot(file):
+def convert_kifu_to_pivot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     piece_type_p = PieceTypeP()
@@ -35,7 +35,7 @@ def convert_kifu_to_pibot(file):
         return
 
     # insert new extention
-    outPath = os.path.join('pibot', f"{stem}.json")
+    outPath = os.path.join('pivot', f"{stem}.json")
 
     # とりあえず KIFU を読んでみます
     rowNumber = 1
@@ -83,7 +83,7 @@ def convert_kifu_to_pibot(file):
                 move = result.group(2)
                 if sign_p.contains(move):
                     data[f'{rowNumber}']['Move'] = {
-                        "Sign": sign_p.to_pibot(move)}
+                        "Sign": sign_p.to_pivot(move)}
                 else:
 
                     result2 = __move_p.match(move)
@@ -92,12 +92,12 @@ def convert_kifu_to_pibot(file):
 
                         destinationFile = result2.group(1)
                         if destinationFile:
-                            data[f'{rowNumber}']['Move']['DestinationFile'] = zenkaku_number_p.to_pibot(
+                            data[f'{rowNumber}']['Move']['DestinationFile'] = zenkaku_number_p.to_pivot(
                                 destinationFile)
 
                         destinationRank = result2.group(2)
                         if destinationRank:
-                            data[f'{rowNumber}']['Move']['DestinationRank'] = kanji_number_p.to_pibot(
+                            data[f'{rowNumber}']['Move']['DestinationRank'] = kanji_number_p.to_pivot(
                                 destinationRank)
 
                         destination = result2.group(3)
@@ -111,7 +111,7 @@ def convert_kifu_to_pibot(file):
 
                         pieceType = result2.group(4)
                         if pieceType:
-                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_p.to_pibot(
+                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_p.to_pivot(
                                 pieceType)
 
                         dropOrPromotion = result2.group(5)
@@ -170,7 +170,7 @@ def convert_kifu_to_pibot(file):
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Player",
-                    "PlayerPhase": f"{player_phase_p.to_pibot(result.group(1))}",
+                    "PlayerPhase": f"{player_phase_p.to_pivot(result.group(1))}",
                     "PlayerName": f"{result.group(2)}",
                 }
 
@@ -188,7 +188,7 @@ def convert_kifu_to_pibot(file):
                 handicap = result.group(1)
                 data[f'{rowNumber}'] = {
                     "Type": "Handicap",
-                    "Handicap": __handicap_p.to_pibot(handicap),
+                    "Handicap": __handicap_p.to_pivot(handicap),
                 }
 
                 rowNumber += 1
@@ -203,8 +203,8 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Winner": f"{player_phase_p.to_pibot(playerPhase)}",
-                    "Judge": f"{sign_p.to_pibot(judge)}",
+                    "Winner": f"{player_phase_p.to_pivot(playerPhase)}",
+                    "Judge": f"{sign_p.to_pivot(judge)}",
                 }
 
                 rowNumber += 1
@@ -218,7 +218,7 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Judge": f"{sign_p.to_pibot(judge)}",
+                    "Judge": f"{sign_p.to_pivot(judge)}",
                 }
 
                 rowNumber += 1
@@ -234,9 +234,9 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Reason": f"{__reason_p.to_pibot(reason)}",
-                    "Winner": f"{player_phase_p.to_pibot(playerPhase)}",
-                    "Judge": f"{sign_p.to_pibot(judge)}",
+                    "Reason": f"{__reason_p.to_pivot(reason)}",
+                    "Winner": f"{player_phase_p.to_pivot(playerPhase)}",
+                    "Judge": f"{sign_p.to_pivot(judge)}",
                 }
 
                 rowNumber += 1
@@ -259,7 +259,7 @@ def main():
     # KIFUファイル一覧
     files = glob.glob("./kifu/*")
     for file in files:
-        _outPath, _donePath = convert_kifu_to_pibot(file)
+        _outPath, _donePath = convert_kifu_to_pivot(file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

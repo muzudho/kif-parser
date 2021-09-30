@@ -2,8 +2,8 @@ import glob
 import shutil
 import os
 from scripts.test_lib import create_sha256
-from kif_to_pibot import convert_kif_to_pibot
-from pibot_to_kif import convert_pibot_to_kif
+from kif_to_pivot import convert_kif_to_pivot
+from pivot_to_kif import convert_pivot_to_kif
 
 
 def test_2_kif_files(kifFile):
@@ -25,11 +25,11 @@ def test_2_kif_files(kifFile):
     kif_1_Sha256 = create_sha256(kifBinary)
     # print(f"kif 1 Sha256={kif_1_Sha256}")
 
-    # kif -> pibot 変換
-    pibotFile, _doneKifFile = convert_kif_to_pibot(kifFile)
+    # kif -> pivot 変換
+    pivotFile, _doneKifFile = convert_kif_to_pivot(kifFile)
 
-    # pibot -> kif 変換
-    kifFile2, _donePibotFile2 = convert_pibot_to_kif(pibotFile)
+    # pivot -> kif 変換
+    kifFile2, _donePibotFile2 = convert_pivot_to_kif(pivotFile)
 
     kifBinary2 = None
 
@@ -43,7 +43,7 @@ def test_2_kif_files(kifFile):
 
     if kif_1_Sha256 != kif_2_Sha256:
         # Error
-        print("Not match")
+        print("Not match SHA256")
         return None
 
     # Ok
