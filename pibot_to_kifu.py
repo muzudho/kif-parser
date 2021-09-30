@@ -4,15 +4,16 @@ import json
 import sys
 import shutil
 from collections import OrderedDict
-from scripts.kifu_specification import PlayerPhaseP, HandicapP, ZenkakuNumberP, KanjiNumberP, SignP, PieceTypeP, JudgeP
+from scripts.kifu_specification import player_phase_p, HandicapP, ZenkakuNumberP, KanjiNumberP, SignP, PieceTypeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P
 
-__player_phase_p = PlayerPhaseP()
 __handicap_p = HandicapP()
 __zenkaku_number_p = ZenkakuNumberP()
 __kanji_number_p = KanjiNumberP()
 __sign_p = SignP()
 __piece_type_p = PieceTypeP()
-__judge_p = JudgeP()
+__judge_statement1_p = JudgeStatement1P()
+__judge_statement2_p = JudgeStatement2P()
+__judge_statement3_p = JudgeStatement3P()
 
 
 def convert_pibot_to_kifu(pibotFile):
@@ -118,17 +119,20 @@ def convert_pibot_to_kifu(pibotFile):
             elif rowData["Type"] == "Handicap":
                 kifu_text += f"手合割：{__handicap_p.from_pibot(rowData['Handicap'])}\n"
             elif rowData["Type"] == "Player":
-                kifu_text += f"{__player_phase_p.from_pibot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+                kifu_text += f"{player_phase_p.from_pibot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
             elif rowData["Type"] == "Result":
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
-                    kifu_text += f"まで{rowData['Moves']}手で{__player_phase_p.from_pibot(rowData['Winner'])}の{__judge_p.from_pibot(rowData['Judge'])}\n"
+                    kifu_text += __judge_statement1_p.from_pibot(
+                        rowData['Moves'], rowData['Winner'], rowData['Judge'])
                 elif 'Reason' in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    kifu_text += f"まで{rowData['Moves']}手で{rowData['Reason']}により{__player_phase_p.from_pibot(rowData['Winner'])}の{__judge_p.from_pibot(rowData['Judge'])}\n"
+                    kifu_text += __judge_statement3_p.from_pibot(
+                        rowData['Moves'], rowData['Reason'], rowData['Winner'], rowData['Judge'])
                 else:
                     # Example: `まで63手で中断`
-                    kifu_text += f"まで{rowData['Moves']}手で{__judge_p.from_pibot(rowData['Judge'])}\n"
+                    kifu_text += __judge_statement2_p.from_pibot(
+                        rowData['Moves'], rowData['Judge'])
             else:
                 # Error
                 print(f"Error: rowNumberey={rowNumber} rowData={rowData}")

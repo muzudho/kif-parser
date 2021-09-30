@@ -5,14 +5,15 @@ from kif_to_kifu import convert_kif_to_kifu_file
 
 def convert_kif_to_pibot(kifFile):
     kifuFile, doneKifFile = convert_kif_to_kifu_file(kifFile)
-    # print(f'kifu={kifuFile}')
+    if kifuFile is None:
+        return None, None
 
     if kifuFile:
         pibotFile, _doneKifuFile = convert_kifu_to_pibot(kifuFile)
         # print(f'kifu={kifuFile} pibot={pibotFile}')
         return pibotFile, doneKifFile
 
-    return None, None, None
+    return None, None
 
 
 def main():

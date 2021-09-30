@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, PlayerPhaseP, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
+from scripts.kifu_specification import CommentP, ExplanationP, player_phase_p, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
@@ -22,12 +22,9 @@ __reason_p = ReasonP()
 def convert_kifu_to_pibot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
-    player_phase_p = PlayerPhaseP()
     piece_type_p = PieceTypeP()
     zenkaku_number_p = ZenkakuNumberP()
     kanji_number_p = KanjiNumberP()
-    sign_p = SignP()
-    judge_p = JudgeP()
 
     data = {}
 
@@ -207,7 +204,7 @@ def convert_kifu_to_pibot(file):
                     "Type": "Result",
                     "Moves": f"{moves}",
                     "Winner": f"{player_phase_p.to_pibot(playerPhase)}",
-                    "Judge": f"{judge_p.to_pibot(judge)}",
+                    "Judge": f"{sign_p.to_pibot(judge)}",
                 }
 
                 rowNumber += 1
@@ -221,7 +218,7 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Judge": f"{judge_p.to_pibot(judge)}",
+                    "Judge": f"{sign_p.to_pibot(judge)}",
                 }
 
                 rowNumber += 1
@@ -239,7 +236,7 @@ def convert_kifu_to_pibot(file):
                     "Moves": f"{moves}",
                     "Reason": f"{__reason_p.to_pibot(reason)}",
                     "Winner": f"{player_phase_p.to_pibot(playerPhase)}",
-                    "Judge": f"{judge_p.to_pibot(judge)}",
+                    "Judge": f"{sign_p.to_pibot(judge)}",
                 }
 
                 rowNumber += 1

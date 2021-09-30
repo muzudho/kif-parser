@@ -38,6 +38,9 @@ class PlayerPhaseP():
         return items[0]
 
 
+player_phase_p = PlayerPhaseP()
+
+
 class PlayerNameP():
     def __init__(self):
         self._player_name_statement = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
@@ -239,6 +242,7 @@ class SignP():
             '入玉勝ち': 'EnteringKingWin',
             '不戦勝': 'UnearnedWin',
             '不戦敗': 'UnearnedLose',
+            '勝ち': 'Win',  # 追加
         }
 
         # 半角スペースサイズ
@@ -254,6 +258,7 @@ class SignP():
             '入玉勝ち': 8,
             '不戦勝': 6,
             '不戦敗': 6,
+            '勝ち': 4,
         }
 
     def contains(self, key):
@@ -274,6 +279,9 @@ class SignP():
             return self._sign_half_width[sign]
 
         return sign
+
+
+sign_p = SignP()
 
 
 class ElapsedTimeP():
@@ -303,6 +311,10 @@ class JudgeStatement1P():
     def match(self, line):
         return self._judge_statement1.match(line)
 
+    def from_pibot(self, moves, winner, judge):
+        # Example: `まで64手で後手の勝ち`
+        return f"まで{moves}手で{player_phase_p.from_pibot(winner)}の{sign_p.from_pibot(judge)}\n"
+
 
 class JudgeStatement2P():
     def __init__(self):
@@ -311,6 +323,10 @@ class JudgeStatement2P():
 
     def match(self, line):
         return self._judge_statement2.match(line)
+
+    def from_pibot(self, moves, judge):
+        # Example: `まで63手で中断`
+        return f"まで{moves}手で{sign_p.from_pibot(judge)}\n"
 
 
 class JudgeStatement3P():
@@ -321,6 +337,10 @@ class JudgeStatement3P():
 
     def match(self, line):
         return self._judge_statement2.match(line)
+
+    def from_pibot(self, moves, reason, winner, judge):
+        # Example: `まで52手で時間切れにより後手の勝ち`
+        return f"まで{moves}手で{reason}により{player_phase_p.from_pibot(winner)}の{sign_p.from_pibot(judge)}\n"
 
 
 class ReasonP():
@@ -338,24 +358,4 @@ class ReasonP():
 
     def from_pibot(self, reason):
         items = [k for k, v in self._reason.items() if v == reason]
-        return items[0]
-
-
-class JudgeP():
-    def __init__(self):
-        # 逆引き対応
-        self._judge = {
-            '中断': 'Stop',
-            '反則負け': 'IllegalLose',
-            '勝ち': 'Win',
-        }
-
-    def to_pibot(self, judge):
-        if judge in self._judge:
-            return self._judge[judge]
-
-        return judge
-
-    def from_pibot(self, judge):
-        items = [k for k, v in self._judge.items() if v == judge]
         return items[0]

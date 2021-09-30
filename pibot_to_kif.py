@@ -5,6 +5,8 @@ from kifu_to_kif import convert_kifu_to_kif
 
 def convert_pibot_to_kif(pibotFile):
     kifuFile, donePibotFile = convert_pibot_to_kifu(pibotFile)
+    if kifuFile is None:
+        return None, None
 
     # kifu to kif
     kifFile, _doneKifuFile = convert_kifu_to_kif(kifuFile)
