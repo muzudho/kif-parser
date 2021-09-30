@@ -3,12 +3,10 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, player_phase_p, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
+from scripts.kifu_specification import CommentP, ExplanationP, player_phase_p, player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
-__handicap_p = HandicapP()
-__player_name_p = PlayerNameP()
 __move_statement_p = MoveStatementP()
 __move_p = MoveP()
 __elapsed_time_p = ElapsedTimeP()
@@ -166,7 +164,7 @@ def convert_kifu_to_pivot(file):
                 continue
 
             # プレイヤー名の解析
-            result = __player_name_p.match(line)
+            result = player_statement_p.match(line)
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Player",
@@ -183,12 +181,12 @@ def convert_kifu_to_pivot(file):
                 rowNumber += 1
                 continue
 
-            result = __handicap_p.match(line)
+            result = handicap_p.match(line)
             if result:
                 handicap = result.group(1)
                 data[f'{rowNumber}'] = {
                     "Type": "Handicap",
-                    "Handicap": __handicap_p.to_pivot(handicap),
+                    "Handicap": handicap_p.to_pivot(handicap),
                 }
 
                 rowNumber += 1

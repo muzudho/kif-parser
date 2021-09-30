@@ -21,10 +21,10 @@ class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応
         self._player_phase = {
-            '先手': 'FirstPlayer',
-            '後手': 'SecondPlayer',
-            '下手': 'Trainee',
-            '上手': 'Trainer',
+            'First-player': 'FirstPlayer',
+            'Second-player': 'SecondPlayer',
+            'Trainee': 'Trainee',
+            'Trainer': 'Trainer',
         }
 
     def to_pivot(self, player_phase):
@@ -61,23 +61,23 @@ class HandicapP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
-            '平手': 'Hirate',
-            '香落ち': 'LostLance',
-            '右香落ち': 'LostRightLance',
-            '角落ち': 'LostBishop',
-            '飛車落ち': 'LostRook',
-            '飛香落ち': 'LostRookLance',
-            '二枚落ち': 'Lost2Pieces',
-            '三枚落ち': 'Lost3Pieces',
-            '四枚落ち': 'Lost4Pieces',
-            '五枚落ち': 'Lost5Pieces',
-            '左五枚落ち': 'LostLeft5Pieces',
-            '六枚落ち': 'Lost6Pieces',
-            '左七枚落ち': 'LostLeft7Pieces',
-            '右七枚落ち': 'LostRight7Pieces',
-            '八枚落ち': 'Lost8Pieces',
-            '十枚落ち': 'Lost10Pieces',
-            'その他': 'Other',
+            'Hirate': 'Hirate',
+            'Lost-lance': 'LostLance',
+            'Lost-right-lance': 'LostRightLance',
+            'Lost-bishop': 'LostBishop',
+            'Lost-rook': 'LostRook',
+            'Lost-rook-lance': 'LostRookLance',
+            'Lost-2-pieces': 'Lost2Pieces',
+            'Lost-3-pieces': 'Lost3Pieces',
+            'Lost-4-pieces': 'Lost4Pieces',
+            'Lost-5-pieces': 'Lost5Pieces',
+            'Lost-left-5-pieces': 'LostLeft5Pieces',
+            'Lost-6-pieces': 'Lost6Pieces',
+            'Lost-left-7-pieces': 'LostLeft7Pieces',
+            'Lost-right-7-pieces': 'LostRight7Pieces',
+            'Lost-8-pieces': 'Lost8Pieces',
+            'Lost-10-pieces': 'Lost10Pieces',
+            'Other': 'Other',
         }
 
         self._handicap_statement = re.compile(r"^手合割：(.+)$")
@@ -94,6 +94,9 @@ class HandicapP():
 
     def match(self, line):
         return self._handicap_statement.match(line)
+
+
+handicap_p = HandicapP()
 
 
 class MoveStatementP():
@@ -182,6 +185,9 @@ class PieceTypeP():
         return piece_type
 
 
+piece_type_p = PieceTypeP()
+
+
 class ZenkakuNumberP():
     def __init__(self):
         # 逆引き対応
@@ -209,6 +215,9 @@ class ZenkakuNumberP():
         return items[0]
 
 
+zenkaku_number_p = ZenkakuNumberP()
+
+
 class KanjiNumberP():
     def __init__(self):
         # 逆引き対応
@@ -233,6 +242,9 @@ class KanjiNumberP():
     def from_pivot(self, kanji_number):
         items = [k for k, v in self._kanji_number.items() if v == kanji_number]
         return items[0]
+
+
+kanji_number_p = KanjiNumberP()
 
 
 class SignP():
@@ -324,6 +336,9 @@ class JudgeStatement1P():
         return f"まで{moves}手で{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
 
 
+judge_statement1_p = JudgeStatement1P()
+
+
 class JudgeStatement2P():
     def __init__(self):
         # Example: `まで63手で中断`
@@ -335,6 +350,9 @@ class JudgeStatement2P():
     def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
         return f"まで{moves}手で{sign_p.from_pivot(judge)}\n"
+
+
+judge_statement2_p = JudgeStatement2P()
 
 
 class JudgeStatement3P():
@@ -349,6 +367,9 @@ class JudgeStatement3P():
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
         return f"まで{moves}手で{reason}により{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
+
+
+judge_statement3_p = JudgeStatement3P()
 
 
 class ReasonP():

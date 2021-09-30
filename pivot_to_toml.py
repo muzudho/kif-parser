@@ -4,16 +4,8 @@ import json
 import sys
 import shutil
 from collections import OrderedDict
-from scripts.kifu_specification import player_phase_p, HandicapP, ZenkakuNumberP, KanjiNumberP, SignP, PieceTypeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P
-
-__handicap_p = HandicapP()
-__zenkaku_number_p = ZenkakuNumberP()
-__kanji_number_p = KanjiNumberP()
-__sign_p = SignP()
-__piece_type_p = PieceTypeP()
-__judge_statement1_p = JudgeStatement1P()
-__judge_statement2_p = JudgeStatement2P()
-__judge_statement3_p = JudgeStatement3P()
+from scripts.toml_specification import player_phase_p, handicap_p, zenkaku_number_p, kanji_number_p, sign_p, \
+    piece_type_p, judge_statement1_p, judge_statement2_p, judge_statement3_p
 
 
 def convert_pivot_to_toml(pivotFile):
@@ -68,14 +60,14 @@ def convert_pivot_to_toml(pivotFile):
                 spaces = 14
 
                 if 'Sign' in move:
-                    sign = __sign_p.from_pivot(move['Sign'])
+                    sign = sign_p.from_pivot(move['Sign'])
                     move_text += f"{sign}"
-                    spaces -= __sign_p.half_width(sign)
+                    spaces -= sign_p.half_width(sign)
 
                 if 'DestinationFile' in move:
-                    destinationFile = __zenkaku_number_p.from_pivot(
+                    destinationFile = zenkaku_number_p.from_pivot(
                         move['DestinationFile'])
-                    destinationRank = __kanji_number_p.from_pivot(
+                    destinationRank = kanji_number_p.from_pivot(
                         move['DestinationRank'])
                     move_text += f"{destinationFile}{destinationRank}"
                     spaces -= 4
@@ -90,9 +82,9 @@ def convert_pivot_to_toml(pivotFile):
                         spaces -= 2
 
                 if 'PieceType' in move:
-                    pieceType = __piece_type_p.from_pivot(move['PieceType'])
+                    pieceType = piece_type_p.from_pivot(move['PieceType'])
                     move_text += f"{pieceType}"
-                    spaces -= __piece_type_p.half_width(pieceType)
+                    spaces -= piece_type_p.half_width(pieceType)
 
                 if 'Drop' in move:
                     drop = move['Drop']
@@ -117,21 +109,21 @@ def convert_pivot_to_toml(pivotFile):
 
                 kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
             elif rowData["Type"] == "Handicap":
-                kifu_text += f"手合割：{__handicap_p.from_pivot(rowData['Handicap'])}\n"
+                kifu_text += f"Handicap='{handicap_p.from_pivot(rowData['Handicap'])}'\n"
             elif rowData["Type"] == "Player":
                 kifu_text += f"{player_phase_p.from_pivot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
             elif rowData["Type"] == "Result":
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
-                    kifu_text += __judge_statement1_p.from_pivot(
+                    kifu_text += judge_statement1_p.from_pivot(
                         rowData['Moves'], rowData['Winner'], rowData['Judge'])
                 elif 'Reason' in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    kifu_text += __judge_statement3_p.from_pivot(
+                    kifu_text += judge_statement3_p.from_pivot(
                         rowData['Moves'], rowData['Reason'], rowData['Winner'], rowData['Judge'])
                 else:
                     # Example: `まで63手で中断`
-                    kifu_text += __judge_statement2_p.from_pivot(
+                    kifu_text += judge_statement2_p.from_pivot(
                         rowData['Moves'], rowData['Judge'])
             else:
                 # Error
