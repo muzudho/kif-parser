@@ -4,7 +4,9 @@ import json
 import sys
 import shutil
 from collections import OrderedDict
-from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width, en_to_judge
+from scripts.kifu_terms import PlayerPhaseP, en_to_handicap, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width, en_to_judge
+
+__player_phase_p = PlayerPhaseP()
 
 
 def convert_pibot_to_kifu(pibotFile):
@@ -109,9 +111,9 @@ def convert_pibot_to_kifu(pibotFile):
             elif rowData["Type"] == "Handicap":
                 kifu_text += f"手合割：{en_to_handicap(rowData['Handicap'])}\n"
             elif rowData["Type"] == "Player":
-                kifu_text += f"{en_to_player_phase(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+                kifu_text += f"{__player_phase_p.from_en(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
             elif rowData["Type"] == "Result":
-                kifu_text += f"まで{rowData['Moves']}手で{en_to_player_phase(rowData['Winner'])}の{en_to_judge(rowData['Judge'])}\n"
+                kifu_text += f"まで{rowData['Moves']}手で{__player_phase_p.from_en(rowData['Winner'])}の{en_to_judge(rowData['Judge'])}\n"
             else:
                 # Error
                 print(f"Error: rowNumberey={rowNumber} rowData={rowData}")

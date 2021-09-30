@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.terms import player_phase_to_en, handicap_to_en, piece_type_to_en, zenkaku_to_number, kanji_to_number, sign_to_en, contains_sign, player_phase_to_en, judge_to_en
+from scripts.kifu_terms import PlayerPhaseP, handicap_to_en, piece_type_to_en, zenkaku_to_number, kanji_to_number, sign_to_en, contains_sign, judge_to_en
 
 __comment = re.compile(r"^#(.+)$")
 __explanation = re.compile(r"^\*(.+)$")
@@ -27,12 +27,14 @@ __elapsed_time = re.compile(r"^(\d+):(\d+)$")
 __total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
 # Example: `まで64手で後手の勝ち`
-__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(勝ち|反則負け)$")
+__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(中断|反則負け|勝ち)$")
 
 
 def convert_kifu_to_pibot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
+    player_phase_p = PlayerPhaseP()
+
     data = {}
 
     # basename
@@ -176,7 +178,7 @@ def convert_kifu_to_pibot(file):
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Player",
-                    "PlayerPhase": f"{player_phase_to_en(result.group(1))}",
+                    "PlayerPhase": f"{player_phase_p.to_en(result.group(1))}",
                     "PlayerName": f"{result.group(2)}",
                 }
 
@@ -209,7 +211,7 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Winner": f"{player_phase_to_en(playerPhase)}",
+                    "Winner": f"{player_phase_p.to_en(playerPhase)}",
                     "Judge": f"{judge_to_en(judge)}",
                 }
 

@@ -1,22 +1,22 @@
-# 逆引き対応
-__player_phase = {
-    '先手': 'FirstPlayer',
-    '後手': 'SecondPlayer',
-    '下手': 'Trainee',
-    '上手': 'Trainer',
-}
+class PlayerPhaseP():
+    def __init__(self):
+        # 逆引き対応
+        self._player_phase = {
+            '先手': 'FirstPlayer',
+            '後手': 'SecondPlayer',
+            '下手': 'Trainee',
+            '上手': 'Trainer',
+        }
 
+    def to_en(self, playerPhase):
+        if playerPhase in self._player_phase:
+            return self._player_phase[playerPhase]
 
-def player_phase_to_en(playerPhase):
-    if playerPhase in __player_phase:
-        return __player_phase[playerPhase]
+        return playerPhase
 
-    return playerPhase
-
-
-def en_to_player_phase(en):
-    items = [k for k, v in __player_phase.items() if v == en]
-    return items[0]
+    def from_en(self, en):
+        items = [k for k, v in self._player_phase.items() if v == en]
+        return items[0]
 
 
 # 逆引き対応
