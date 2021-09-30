@@ -121,7 +121,11 @@ def convert_pibot_to_kifu(pibotFile):
                 kifu_text += f"{__player_phase_p.from_pibot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
             elif rowData["Type"] == "Result":
                 if 'Winner' in rowData:
+                    # Example: `まで64手で後手の勝ち`
                     kifu_text += f"まで{rowData['Moves']}手で{__player_phase_p.from_pibot(rowData['Winner'])}の{__judge_p.from_pibot(rowData['Judge'])}\n"
+                elif 'Reason' in rowData:
+                    # Example: `まで52手で時間切れにより後手の勝ち`
+                    kifu_text += f"まで{rowData['Moves']}手で{rowData['Reason']}により{__player_phase_p.from_pibot(rowData['Winner'])}の{__judge_p.from_pibot(rowData['Judge'])}\n"
                 else:
                     # Example: `まで63手で中断`
                     kifu_text += f"まで{rowData['Moves']}手で{__judge_p.from_pibot(rowData['Judge'])}\n"

@@ -331,7 +331,7 @@ class ReasonP():
         }
 
     def to_pibot(self, reason):
-        if reason in self.v:
+        if reason in self._reason:
             return self._reason[reason]
 
         return reason
