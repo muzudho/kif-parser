@@ -233,7 +233,7 @@ class SignP():
             '持将棋': 'JiShogi',
             '千日手': 'Repeatation',
             '詰み': 'Checkmate',
-            '切れ負け': 'TimeUp',
+            '切れ負け': 'TimeUpLose',
             '反則勝ち': 'IllegalWin',
             '反則負け': 'IllegalLose',
             '入玉勝ち': 'EnteringKingWin',
@@ -307,10 +307,38 @@ class JudgeStatement1P():
 class JudgeStatement2P():
     def __init__(self):
         # Example: `まで63手で中断`
-        self._judge_statement2 = re.compile(r"^まで(\d+)手で(中断)$")
+        self._judge_statement2 = re.compile(r"^まで(\d+)手で(中断|持将棋)$")
 
     def match(self, line):
         return self._judge_statement2.match(line)
+
+
+class JudgeStatement3P():
+    def __init__(self):
+        # Example: `まで52手で時間切れにより後手の勝ち`
+        self._judge_statement2 = re.compile(
+            r"^まで(\d+)手で(時間切れ)により(先手|後手|下手|上手)の(勝ち)$")
+
+    def match(self, line):
+        return self._judge_statement2.match(line)
+
+
+class ReasonP():
+    def __init__(self):
+        # 逆引き対応
+        self._reason = {
+            '時間切れ': 'TimeUp',
+        }
+
+    def to_pibot(self, reason):
+        if reason in self.v:
+            return self._reason[reason]
+
+        return reason
+
+    def from_pibot(self, reason):
+        items = [k for k, v in self._reason.items() if v == reason]
+        return items[0]
 
 
 class JudgeP():

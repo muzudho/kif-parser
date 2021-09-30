@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, PlayerPhaseP, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P
+from scripts.kifu_specification import CommentP, ExplanationP, PlayerPhaseP, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
@@ -15,6 +15,8 @@ __elapsed_time_p = ElapsedTimeP()
 __total_elapsed_time_p = TotalElapsedTimeP()
 __judge_statement1_p = JudgeStatement1P()
 __judge_statement2_p = JudgeStatement2P()
+__judge_statement3_p = JudgeStatement3P()
+__reason_p = ReasonP()
 
 
 def convert_kifu_to_pibot(file):
@@ -219,6 +221,24 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
+                    "Judge": f"{judge_p.to_pibot(judge)}",
+                }
+
+                rowNumber += 1
+                continue
+
+            # Example: `まで52手で時間切れにより後手の勝ち`
+            result = __judge_statement3_p.match(line)
+            if result:
+                moves = result.group(1)
+                reason = result.group(2)
+                playerPhase = result.group(3)
+                judge = result.group(4)
+                data[f'{rowNumber}'] = {
+                    "Type": "Result",
+                    "Moves": f"{moves}",
+                    "Reason": f"{__reason_p.to_pibot(reason)}",
+                    "Winner": f"{player_phase_p.to_pibot(playerPhase)}",
                     "Judge": f"{judge_p.to_pibot(judge)}",
                 }
 
