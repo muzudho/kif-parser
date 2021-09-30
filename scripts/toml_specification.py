@@ -110,7 +110,7 @@ class MoveStatementP():
         return self._move_statement.match(line)
 
     def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
-        kifu_text = ""
+        kifu_text = f'[Moves.{moves}]\n'
 
         elapsedTimeHour = 0
         elapsedTimeMinute = elapsedTime['Minute']
@@ -123,47 +123,51 @@ class MoveStatementP():
         totalElapsedTimeMinute = totalElapsedTime['Minute']
         totalElapsedTimeSecond = totalElapsedTime['Second']
 
-        move_text = ""
+        if 'SourceFile' in move:
+            sourceFile = move['SourceFile']
+            sourceRank = move['SourceRank']
+            kifu_text += f"""Source-file={sourceFile}
+Source-rank={sourceRank}
+"""
+
+        if 'DestinationFile' in move:
+            destinationFile = move['DestinationFile']
+            destinationRank = move['DestinationRank']
+            kifu_text += f"""Destination-file={destinationFile}
+Destination-rank={destinationRank}
+"""
 
         if 'Sign' in move:
             sign = sign_p.from_pivot(move['Sign'])
-            move_text += f"{sign}"
-
-        if 'DestinationFile' in move:
-            destinationFile = zenkaku_number_p.from_pivot(
-                move['DestinationFile'])
-            destinationRank = kanji_number_p.from_pivot(
-                move['DestinationRank'])
-            move_text += f"{destinationFile}{destinationRank}"
+            kifu_text += f"{sign}"
 
         if 'Destination' in move:
             destination = move['Destination']
             if destination == 'Same':
-                move_text += "同　"
+                # TODO チェスに「同」は無さそう？
+                kifu_text += """Destination='Same'
+"""
             else:
-                move_text += f"{destination}"
+                kifu_text += f"""Unknown='''{destination}'''
+"""
 
         if 'PieceType' in move:
             pieceType = piece_type_p.from_pivot(move['PieceType'])
-            move_text += f"{pieceType}"
+            kifu_text += f"""Piece-type='{pieceType}'
+"""
 
         if 'Drop' in move:
             drop = move['Drop']
             if drop:
-                move_text += "打"
+                kifu_text += """Drop=true
+"""
 
         if 'Promotion' in move:
             pro = move['Promotion']
             if pro:
-                move_text += "成"
+                kifu_text += """Promotion=true
+"""
 
-        if 'SourceFile' in move:
-            sourceFile = move['SourceFile']
-            sourceRank = move['SourceRank']
-            move_text += f"({sourceFile}{sourceRank})"
-
-        kifu_text += f'[Moves.{moves}]\n'
-        kifu_text += f"Move='{move_text}'\n"
         kifu_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
         kifu_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
 
@@ -219,97 +223,22 @@ class PieceTypeP():
 piece_type_p = PieceTypeP()
 
 
-class ZenkakuNumberP():
-    def __init__(self):
-        # 逆引き対応
-        self._zenkaku_number = {
-            '１': 1,
-            '２': 2,
-            '３': 3,
-            '４': 4,
-            '５': 5,
-            '６': 6,
-            '７': 7,
-            '８': 8,
-            '９': 9,
-        }
-
-    def to_pivot(self, zenkaku_number):
-        if zenkaku_number in self._zenkaku_number:
-            return self._zenkaku_number[zenkaku_number]
-
-        return zenkaku_number
-
-    def from_pivot(self, zenkaku_number):
-        items = [k for k, v in self._zenkaku_number.items() if v ==
-                 zenkaku_number]
-        return items[0]
-
-
-zenkaku_number_p = ZenkakuNumberP()
-
-
-class KanjiNumberP():
-    def __init__(self):
-        # 逆引き対応
-        self._kanji_number = {
-            '一': 1,
-            '二': 2,
-            '三': 3,
-            '四': 4,
-            '五': 5,
-            '六': 6,
-            '七': 7,
-            '八': 8,
-            '九': 9,
-        }
-
-    def to_pivot(self, kanji_number):
-        if kanji_number in self._kanji_number:
-            return self._kanji_number[kanji_number]
-
-        return kanji_number
-
-    def from_pivot(self, kanji_number):
-        items = [k for k, v in self._kanji_number.items() if v == kanji_number]
-        return items[0]
-
-
-kanji_number_p = KanjiNumberP()
-
-
 class SignP():
     def __init__(self):
         # 逆引き対応
         self._sign = {
-            '中断': 'Stop',
-            '投了': 'Resign',
-            '持将棋': 'JiShogi',
-            '千日手': 'Repeatation',
-            '詰み': 'Checkmate',
-            '切れ負け': 'TimeUpLose',
-            '反則勝ち': 'IllegalWin',
-            '反則負け': 'IllegalLose',
-            '入玉勝ち': 'EnteringKingWin',
-            '不戦勝': 'UnearnedWin',
-            '不戦敗': 'UnearnedLose',
-            '勝ち': 'Win',  # 追加
-        }
-
-        # 半角スペースサイズ
-        self._sign_half_width = {
-            '中断': 4,
-            '投了': 4,
-            '持将棋': 6,
-            '千日手': 6,
-            '詰み': 4,
-            '切れ負け': 8,
-            '反則勝ち': 8,
-            '反則負け': 8,
-            '入玉勝ち': 8,
-            '不戦勝': 6,
-            '不戦敗': 6,
-            '勝ち': 4,
+            'Stop': 'Stop',
+            'Resign': 'Resign',
+            'Ji-shogi': 'JiShogi',
+            'Repeatation': 'Repeatation',
+            'Checkmate': 'Checkmate',
+            'Time-up-lose': 'TimeUpLose',
+            'Illegal-win': 'IllegalWin',
+            'Illegal-lose': 'IllegalLose',
+            'Entering-king-win': 'EnteringKingWin',
+            'Unearned-win': 'UnearnedWin',
+            'Unearned-lose': 'UnearnedLose',
+            'Win': 'Win',  # 追加
         }
 
     def contains(self, key):
@@ -324,12 +253,6 @@ class SignP():
     def from_pivot(self, sign):
         items = [k for k, v in self._sign.items() if v == sign]
         return items[0]
-
-    def half_width(self, sign):
-        if sign in self._sign_half_width.keys():
-            return self._sign_half_width[sign]
-
-        return sign
 
 
 sign_p = SignP()
