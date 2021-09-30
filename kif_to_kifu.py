@@ -4,7 +4,7 @@ import os
 import codecs
 
 
-def convert_kif_to_kifu(path):
+def convert_kif_to_kifu(kif_file):
     """(1) kif フォルダーの *.kifファイルを読み取ります
     (2) *.kifuファイルを kifu フォルダーへ生成します
     (3) 読み終えた *.kifファイルは kif-done フォルダーへ移動します
@@ -19,10 +19,10 @@ def convert_kif_to_kifu(path):
     outPath = ""
 
     # シフトJISエンコードのテキストファイルの読み込み
-    with codecs.open(path, "r", encoding='shift_jis') as f:
+    with codecs.open(kif_file, "r", encoding='shift_jis') as f:
 
         # basename
-        basename = os.path.basename(path)
+        basename = os.path.basename(kif_file)
         stem, extention = os.path.splitext(basename)
         if extention.lower() != '.kif':
             return None, None
@@ -38,7 +38,7 @@ def convert_kif_to_kifu(path):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePath = shutil.move(path, os.path.join('kif-done', basename))
+    donePath = shutil.move(kif_file, os.path.join('kif-done', basename))
     return outPath, donePath
 
 
