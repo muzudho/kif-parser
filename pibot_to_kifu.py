@@ -4,9 +4,15 @@ import json
 import sys
 import shutil
 from collections import OrderedDict
-from scripts.kifu_terms import PlayerPhaseP, en_to_handicap, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width, en_to_judge
+from scripts.kifu_specification import PlayerPhaseP, HandicapP, ZenkakuNumberP, KanjiNumberP, SignP, PieceTypeP, JudgeP
 
 __player_phase_p = PlayerPhaseP()
+__handicap_p = HandicapP()
+__zenkaku_number_p = ZenkakuNumberP()
+__kanji_number_p = KanjiNumberP()
+__sign_p = SignP()
+__piece_type_p = PieceTypeP()
+__judge_p = JudgeP()
 
 
 def convert_pibot_to_kifu(pibotFile):
@@ -61,14 +67,15 @@ def convert_pibot_to_kifu(pibotFile):
                 spaces = 14
 
                 if 'Sign' in move:
-                    sign = en_to_sign(move['Sign'])
+                    sign = __sign_p.from_pibot(move['Sign'])
                     move_text += f"{sign}"
-                    spaces -= sign_half_width(sign)
+                    spaces -= __sign_p.half_width(sign)
 
                 if 'DestinationFile' in move:
-                    destinationFile = number_to_zenkaku(
+                    destinationFile = __zenkaku_number_p.from_pibot(
                         move['DestinationFile'])
-                    destinationRank = number_to_kanji(move['DestinationRank'])
+                    destinationRank = __kanji_number_p.from_pibot(
+                        move['DestinationRank'])
                     move_text += f"{destinationFile}{destinationRank}"
                     spaces -= 4
 
@@ -82,9 +89,9 @@ def convert_pibot_to_kifu(pibotFile):
                         spaces -= 2
 
                 if 'PieceType' in move:
-                    pieceType = en_to_piece_type(move['PieceType'])
+                    pieceType = __piece_type_p.from_pibot(move['PieceType'])
                     move_text += f"{pieceType}"
-                    spaces -= piece_type_half_width(pieceType)
+                    spaces -= __piece_type_p.half_width(pieceType)
 
                 if 'Drop' in move:
                     drop = move['Drop']
@@ -109,11 +116,11 @@ def convert_pibot_to_kifu(pibotFile):
 
                 kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
             elif rowData["Type"] == "Handicap":
-                kifu_text += f"手合割：{en_to_handicap(rowData['Handicap'])}\n"
+                kifu_text += f"手合割：{__handicap_p.from_pibot(rowData['Handicap'])}\n"
             elif rowData["Type"] == "Player":
-                kifu_text += f"{__player_phase_p.from_en(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+                kifu_text += f"{__player_phase_p.from_pibot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
             elif rowData["Type"] == "Result":
-                kifu_text += f"まで{rowData['Moves']}手で{__player_phase_p.from_en(rowData['Winner'])}の{en_to_judge(rowData['Judge'])}\n"
+                kifu_text += f"まで{rowData['Moves']}手で{__player_phase_p.from_pibot(rowData['Winner'])}の{__judge_p.from_pibot(rowData['Judge'])}\n"
             else:
                 # Error
                 print(f"Error: rowNumberey={rowNumber} rowData={rowData}")

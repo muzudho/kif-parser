@@ -3,7 +3,7 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_terms import PlayerPhaseP, handicap_to_en, piece_type_to_en, zenkaku_to_number, kanji_to_number, sign_to_en, contains_sign, judge_to_en
+from scripts.kifu_specification import PlayerPhaseP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP
 
 __comment = re.compile(r"^#(.+)$")
 __explanation = re.compile(r"^\*(.+)$")
@@ -27,13 +27,21 @@ __elapsed_time = re.compile(r"^(\d+):(\d+)$")
 __total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
 # Example: `まで64手で後手の勝ち`
-__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(中断|反則負け|勝ち)$")
+__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(反則負け|勝ち)$")
+# Example: `まで63手で中断`
+__result2 = re.compile(r"^まで(\d+)手で中断$")
 
 
 def convert_kifu_to_pibot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     player_phase_p = PlayerPhaseP()
+    handicap_p = HandicapP()
+    piece_type_p = PieceTypeP()
+    zenkaku_number_p = ZenkakuNumberP()
+    kanji_number_p = KanjiNumberP()
+    sign_p = SignP()
+    judge_p = JudgeP()
 
     data = {}
 
@@ -90,8 +98,9 @@ def convert_kifu_to_pibot(file):
 
                 # 指し手の詳細の解析
                 move = result.group(2)
-                if contains_sign(move):
-                    data[f'{rowNumber}']['Move'] = {"Sign": sign_to_en(move)}
+                if sign_p.contains(move):
+                    data[f'{rowNumber}']['Move'] = {
+                        "Sign": sign_p.to_pibot(move)}
                 else:
 
                     result2 = __move_detail.match(move)
@@ -100,12 +109,12 @@ def convert_kifu_to_pibot(file):
 
                         destinationFile = result2.group(1)
                         if destinationFile:
-                            data[f'{rowNumber}']['Move']['DestinationFile'] = zenkaku_to_number(
+                            data[f'{rowNumber}']['Move']['DestinationFile'] = zenkaku_number_p.to_pibot(
                                 destinationFile)
 
                         destinationRank = result2.group(2)
                         if destinationRank:
-                            data[f'{rowNumber}']['Move']['DestinationRank'] = kanji_to_number(
+                            data[f'{rowNumber}']['Move']['DestinationRank'] = kanji_number_p.to_pibot(
                                 destinationRank)
 
                         destination = result2.group(3)
@@ -119,7 +128,7 @@ def convert_kifu_to_pibot(file):
 
                         pieceType = result2.group(4)
                         if pieceType:
-                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_to_en(
+                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_p.to_pibot(
                                 pieceType)
 
                         dropOrPromotion = result2.group(5)
@@ -178,7 +187,7 @@ def convert_kifu_to_pibot(file):
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Player",
-                    "PlayerPhase": f"{player_phase_p.to_en(result.group(1))}",
+                    "PlayerPhase": f"{player_phase_p.to_pibot(result.group(1))}",
                     "PlayerName": f"{result.group(2)}",
                 }
 
@@ -196,7 +205,7 @@ def convert_kifu_to_pibot(file):
                 handicap = result.group(1)
                 data[f'{rowNumber}'] = {
                     "Type": "Handicap",
-                    "Handicap": handicap_to_en(handicap),
+                    "Handicap": handicap_p.to_pibot(handicap),
                 }
 
                 rowNumber += 1
@@ -211,8 +220,22 @@ def convert_kifu_to_pibot(file):
                 data[f'{rowNumber}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Winner": f"{player_phase_p.to_en(playerPhase)}",
-                    "Judge": f"{judge_to_en(judge)}",
+                    "Winner": f"{player_phase_p.to_pibot(playerPhase)}",
+                    "Judge": f"{judge_p.to_pibot(judge)}",
+                }
+
+                rowNumber += 1
+                continue
+
+            # Example: `まで63手で中断`
+            result = __result2.match(line)
+            if result:
+                moves = result.group(1)
+                judge = result.group(2)
+                data[f'{rowNumber}'] = {
+                    "Type": "Result",
+                    "Moves": f"{moves}",
+                    "Judge": f"{judge_p.to_pibot(judge)}",
                 }
 
                 rowNumber += 1
