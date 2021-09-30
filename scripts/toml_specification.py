@@ -126,46 +126,20 @@ class PieceTypeP():
     def __init__(self):
         # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
         self._piece_type = {
-            '玉': 'King',
-            '飛': 'Rook',
-            '龍': 'Dragon',
-            '竜': 'Dragon',
-            '角': 'Bishop',
-            '馬': 'Horse',
-            '金': 'Gold',
-            '銀': 'Silver',
-            '成銀': 'PromotionSilver',
-            '全': 'PromotionSilver',
-            '桂': 'Knight',
-            '成桂': 'PromotionKnight',
-            '圭': 'PromotionKnight',
-            '香': 'Lance',
-            '成香': 'PromotionLance',
-            '杏': 'PromotionLance',
-            '歩': 'Pawn',
-            'と': 'PromotionPawn',
-        }
-
-        # 半角スペース幅
-        self._piece_type_half_width = {
-            '玉': 2,
-            '飛': 2,
-            '龍': 2,
-            '竜': 2,
-            '角': 2,
-            '馬': 2,
-            '金': 2,
-            '銀': 2,
-            '成銀': 4,
-            '全': 2,
-            '桂': 2,
-            '成桂': 4,
-            '圭': 2,
-            '香': 2,
-            '成香': 4,
-            '杏': 2,
-            '歩': 2,
-            'と': 2,
+            'King': 'King',
+            'Rook': 'Rook',
+            'Dragon': 'Dragon',
+            'Bishop': 'Bishop',
+            'Horse': 'Horse',
+            'Gold': 'Gold',
+            'Silver': 'Silver',
+            'Promotion-silver': 'PromotionSilver',
+            'Knight': 'Knight',
+            'Promotion-knight': 'PromotionKnight',
+            'Lance': 'Lance',
+            'Promotion-lance': 'PromotionLance',
+            'Pawn': 'Pawn',
+            'Promotion-pawn': 'PromotionPawn',
         }
 
     def to_pivot(self, piece_type):
@@ -177,12 +151,6 @@ class PieceTypeP():
     def from_pivot(self, piece_type):
         items = [k for k, v in self._piece_type.items() if v == piece_type]
         return items[0]
-
-    def half_width(self, piece_type):
-        if piece_type in self._piece_type_half_width.keys():
-            return self._piece_type_half_width[piece_type]
-
-        return piece_type
 
 
 piece_type_p = PieceTypeP()

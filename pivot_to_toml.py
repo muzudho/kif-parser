@@ -60,13 +60,10 @@ def convert_pivot_to_toml(pivotFile):
 
                 move = rowData['Move']
                 move_text = ""
-                # 半角スペース幅
-                spaces = 14
 
                 if 'Sign' in move:
                     sign = sign_p.from_pivot(move['Sign'])
                     move_text += f"{sign}"
-                    spaces -= sign_p.half_width(sign)
 
                 if 'DestinationFile' in move:
                     destinationFile = zenkaku_number_p.from_pivot(
@@ -74,39 +71,32 @@ def convert_pivot_to_toml(pivotFile):
                     destinationRank = kanji_number_p.from_pivot(
                         move['DestinationRank'])
                     move_text += f"{destinationFile}{destinationRank}"
-                    spaces -= 4
 
                 if 'Destination' in move:
                     destination = move['Destination']
                     if destination == 'Same':
                         move_text += "同　"
-                        spaces -= 4
                     else:
                         move_text += f"{destination}"
-                        spaces -= 2
 
                 if 'PieceType' in move:
                     pieceType = piece_type_p.from_pivot(move['PieceType'])
                     move_text += f"{pieceType}"
-                    spaces -= piece_type_p.half_width(pieceType)
 
                 if 'Drop' in move:
                     drop = move['Drop']
                     if drop:
                         move_text += "打"
-                        spaces -= 2
 
                 if 'Promotion' in move:
                     pro = move['Promotion']
                     if pro:
                         move_text += "成"
-                        spaces -= 2
 
                 if 'SourceFile' in move:
                     sourceFile = move['SourceFile']
                     sourceRank = move['SourceRank']
                     move_text += f"({sourceFile}{sourceRank})"
-                    spaces -= 4
 
                 kifu_text += f'[Moves.{moves}]\n'
                 kifu_text += f"Move='{move_text}'\n"
