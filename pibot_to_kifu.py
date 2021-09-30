@@ -1,6 +1,7 @@
 import os
 import glob
 import json
+import sys
 import shutil
 from collections import OrderedDict
 from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku, number_to_kanji, en_to_sign, en_to_piece_type, sign_half_width, piece_type_half_width, en_to_judge
@@ -8,8 +9,15 @@ from scripts.terms import en_to_handicap, en_to_player_phase, number_to_zenkaku,
 
 def convert_pibot_to_kifu(pibotFile):
     # basename
-    # print(f"pibotFile={pibotFile}")  # デバッグ消す
-    basename = os.path.basename(pibotFile)
+
+    try:
+        basename = os.path.basename(pibotFile)
+    except:
+        # デバッグ消す
+        print(f"Error: pibotFile={pibotFile} except={sys.exc_info()[0]}")
+        raise
+        # return None, None
+
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
         return None, None

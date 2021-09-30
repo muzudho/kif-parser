@@ -225,8 +225,9 @@ def sign_half_width(sign):
 
 # 逆引き対応
 __judge = {
-    '勝ち': 'Win',
+    '中断': 'Stop',
     '反則負け': 'IllegalLose',
+    '勝ち': 'Win',
 }
 
 
