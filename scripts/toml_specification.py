@@ -110,7 +110,7 @@ class MoveStatementP():
         return self._move_statement.match(line)
 
     def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
-        kifu_text = f'[Moves.{moves}]\n'
+        toml_text = f'[Moves.{moves}]\n'
 
         elapsedTimeHour = 0
         elapsedTimeMinute = elapsedTime['Minute']
@@ -123,55 +123,61 @@ class MoveStatementP():
         totalElapsedTimeMinute = totalElapsedTime['Minute']
         totalElapsedTimeSecond = totalElapsedTime['Second']
 
-        if 'SourceFile' in move:
-            sourceFile = move['SourceFile']
-            sourceRank = move['SourceRank']
-            kifu_text += f"""Source-file={sourceFile}
-Source-rank={sourceRank}
-"""
+        move_text = ""
 
+        # 移動した駒（チェスでは歩は省く）
+        if 'PieceType' in move:
+            pieceType = piece_type_p.from_pivot(move['PieceType'])
+            if pieceType != 'P':
+                move_text += pieceType
+
+        # TODO 「x」pivotに駒を取ったという情報が欲しい
+
+        # 行き先
         if 'DestinationFile' in move:
             destinationFile = move['DestinationFile']
-            destinationRank = move['DestinationRank']
-            kifu_text += f"""Destination-file={destinationFile}
-Destination-rank={destinationRank}
-"""
-
-        if 'Sign' in move:
-            sign = sign_p.from_pivot(move['Sign'])
-            kifu_text += f"{sign}"
+            destinationRank = alphabet_number_p.from_pivot(
+                move['DestinationRank'])
+            move_text += f'{destinationFile}{destinationRank}'
 
         if 'Destination' in move:
             destination = move['Destination']
             if destination == 'Same':
                 # TODO チェスに「同」は無さそう？
-                kifu_text += """Destination='Same'
-"""
+                move_text += 'Same'
             else:
-                kifu_text += f"""Unknown='''{destination}'''
+                move_text += f"""Unknown='''{destination}'''
 """
 
-        if 'PieceType' in move:
-            pieceType = piece_type_p.from_pivot(move['PieceType'])
-            kifu_text += f"""Piece-type='{pieceType}'
+        toml_text += f"""Move='{move_text}'
 """
+
+        if 'SourceFile' in move:
+            sourceFile = move['SourceFile']
+            sourceRank = alphabet_number_p.from_pivot(move['SourceRank'])
+            toml_text += f"""Source='{sourceFile}{sourceRank}'
+"""
+
+        if 'Sign' in move:
+            sign = sign_p.from_pivot(move['Sign'])
+            toml_text += f"{sign}"
 
         if 'Drop' in move:
             drop = move['Drop']
             if drop:
-                kifu_text += """Drop=true
+                toml_text += """Drop=true
 """
 
         if 'Promotion' in move:
             pro = move['Promotion']
             if pro:
-                kifu_text += """Promotion=true
+                toml_text += """Promotion=true
 """
 
-        kifu_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
-        kifu_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
+        toml_text += f"Elapsed={elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}\n"
+        toml_text += f"Total-elapsed={totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}\n"
 
-        return kifu_text
+        return toml_text
 
 
 move_statement_p = MoveStatementP()
@@ -190,23 +196,26 @@ class MoveP():
 
 
 class PieceTypeP():
+    """先後を区別しない駒の種類"""
+
     def __init__(self):
         # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
+        # SFEN を参考にします
         self._piece_type = {
-            'King': 'King',
-            'Rook': 'Rook',
-            'Dragon': 'Dragon',
-            'Bishop': 'Bishop',
-            'Horse': 'Horse',
-            'Gold': 'Gold',
-            'Silver': 'Silver',
-            'Promotion-silver': 'PromotionSilver',
-            'Knight': 'Knight',
-            'Promotion-knight': 'PromotionKnight',
-            'Lance': 'Lance',
-            'Promotion-lance': 'PromotionLance',
-            'Pawn': 'Pawn',
-            'Promotion-pawn': 'PromotionPawn',
+            'K': 'King',
+            'R': 'Rook',
+            '+R': 'Dragon',
+            'B': 'Bishop',
+            '+B': 'Horse',
+            'G': 'Gold',
+            'S': 'Silver',
+            '+S': 'PromotionSilver',
+            'N': 'Knight',
+            '+N': 'PromotionKnight',
+            'L': 'Lance',
+            '+L': 'PromotionLance',
+            'P': 'Pawn',
+            '+P': 'PromotionPawn',
         }
 
     def to_pivot(self, piece_type):
@@ -354,3 +363,32 @@ class ReasonP():
     def from_pivot(self, reason):
         items = [k for k, v in self._reason.items() if v == reason]
         return items[0]
+
+
+class AlphabetNumberP():
+    def __init__(self):
+        # 逆引き対応
+        self._alphabet_number = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+            'f': 6,
+            'g': 7,
+            'h': 8,
+            'i': 9,
+        }
+
+    def to_pivot(self, alphabet):
+        if alphabet in self._alphabet_number:
+            return self._alphabet_number[alphabet]
+
+        return alphabet
+
+    def from_pivot(self, number):
+        items = [k for k, v in self._alphabet_number.items() if v == number]
+        return items[0]
+
+
+alphabet_number_p = AlphabetNumberP()
