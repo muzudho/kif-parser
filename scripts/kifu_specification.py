@@ -1,3 +1,22 @@
+import re
+
+
+class CommentP():
+    def __init__(self):
+        self._comment_statement = re.compile(r"^#(.+)$")
+
+    def match(self, line):
+        return self._comment_statement.match(line)
+
+
+class ExplanationP():
+    def __init__(self):
+        self._explanation_statement = re.compile(r"^\*(.+)$")
+
+    def match(self, line):
+        return self._explanation_statement.match(line)
+
+
 class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応
@@ -17,6 +36,14 @@ class PlayerPhaseP():
     def from_pibot(self, player_phase):
         items = [k for k, v in self._player_phase.items() if v == player_phase]
         return items[0]
+
+
+class PlayerNameP():
+    def __init__(self):
+        self._player_name_statement = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
+
+    def match(self, line):
+        return self._player_name_statement.match(line)
 
 
 class HandicapP():
@@ -42,6 +69,8 @@ class HandicapP():
             'その他': 'Other',
         }
 
+        self._handicap_statement = re.compile(r"^手合割：(.+)$")
+
     def to_pibot(self, handicap):
         if handicap in self._handicap:
             return self._handicap[handicap]
@@ -51,6 +80,9 @@ class HandicapP():
     def from_pibot(self, handicap):
         items = [k for k, v in self._handicap.items() if v == handicap]
         return items[0]
+
+    def match(self, line):
+        return self._handicap_statement.match(line)
 
 
 class PieceTypeP():

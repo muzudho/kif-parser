@@ -3,12 +3,12 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import PlayerPhaseP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP
+from scripts.kifu_specification import CommentP, ExplanationP, PlayerPhaseP, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP
 
-__comment = re.compile(r"^#(.+)$")
-__explanation = re.compile(r"^\*(.+)$")
-__handicap = re.compile(r"^手合割：(.+)$")
-__playerName = re.compile(r"^(先手|後手|下手|上手)：(.+)$")
+__comment_p = CommentP()
+__explanation_p = ExplanationP()
+__handicap_p = HandicapP()
+__player_name_p = PlayerNameP()
 
 # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
 # Example: `  22 同　角(88)    (00:01 / 00:00:11)`
@@ -29,14 +29,13 @@ __total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 # Example: `まで64手で後手の勝ち`
 __result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(反則負け|勝ち)$")
 # Example: `まで63手で中断`
-__result2 = re.compile(r"^まで(\d+)手で中断$")
+__result2 = re.compile(r"^まで(\d+)手で(中断)$")
 
 
 def convert_kifu_to_pibot(file):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     player_phase_p = PlayerPhaseP()
-    handicap_p = HandicapP()
     piece_type_p = PieceTypeP()
     zenkaku_number_p = ZenkakuNumberP()
     kanji_number_p = KanjiNumberP()
@@ -161,7 +160,7 @@ def convert_kifu_to_pibot(file):
                 continue
 
             # コメントの解析
-            result = __comment.match(line)
+            result = __comment_p.match(line)
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Comment",
@@ -172,7 +171,7 @@ def convert_kifu_to_pibot(file):
                 continue
 
             # 指し手等の解説の解析
-            result = __explanation.match(line)
+            result = __explanation_p.match(line)
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Explanation",
@@ -183,7 +182,7 @@ def convert_kifu_to_pibot(file):
                 continue
 
             # プレイヤー名の解析
-            result = __playerName.match(line)
+            result = __player_name_p.match(line)
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Player",
@@ -200,12 +199,12 @@ def convert_kifu_to_pibot(file):
                 rowNumber += 1
                 continue
 
-            result = __handicap.match(line)
+            result = __handicap_p.match(line)
             if result:
                 handicap = result.group(1)
                 data[f'{rowNumber}'] = {
                     "Type": "Handicap",
-                    "Handicap": handicap_p.to_pibot(handicap),
+                    "Handicap": __handicap_p.to_pibot(handicap),
                 }
 
                 rowNumber += 1
