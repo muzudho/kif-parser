@@ -54,10 +54,9 @@ def test_2_kif_files(kifFile):
 
 def main():
     # KIFファイル一覧
-    kifFiles = glob.glob("./kif/*")
-    for kifFile in kifFiles:
-
-        _doneKifFile = test_2_kif_files(kifFile)
+    kif_files = glob.glob("./kif/*.kif")
+    for kif_file in kif_files:
+        _doneKifFile = test_2_kif_files(kif_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

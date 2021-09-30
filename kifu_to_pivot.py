@@ -257,9 +257,9 @@ def convert_kifu_to_pivot(file):
 def main():
 
     # KIFUファイル一覧
-    files = glob.glob("./kifu/*")
-    for file in files:
-        _outPath, _donePath = convert_kifu_to_pivot(file)
+    kifu_files = glob.glob("./kifu/*.kifu")
+    for kifu_file in kifu_files:
+        _outPath, _donePath = convert_kifu_to_pivot(kifu_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

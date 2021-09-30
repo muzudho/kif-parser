@@ -15,9 +15,9 @@ def convert_pivot_to_kif(pivotFile):
 
 def main():
     # PIBOTファイル一覧
-    pivotFiles = glob.glob("./pivot/*")
-    for pivotFile in pivotFiles:
-        _kifFile, _donePibotFile = convert_pivot_to_kif(pivotFile)
+    pivot_files = glob.glob("./pivot/*.json")
+    for pivot_file in pivot_files:
+        _kifFile, _donePibotFile = convert_pivot_to_kif(pivot_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

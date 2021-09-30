@@ -3,7 +3,8 @@ import shutil
 import os
 import codecs
 
-def convert_kif_to_kifu_file(path):
+
+def convert_kif_to_kifu(path):
     """(1) kif フォルダーの *.kifファイルを読み取ります
     (2) *.kifuファイルを kifu フォルダーへ生成します
     (3) 読み終えた *.kifファイルは kif-done フォルダーへ移動します
@@ -24,7 +25,7 @@ def convert_kif_to_kifu_file(path):
         basename = os.path.basename(path)
         stem, extention = os.path.splitext(basename)
         if extention.lower() != '.kif':
-            return ""
+            return None, None
 
         # Append new extention
         outPath = os.path.join('kifu', f"{stem}.kifu")
@@ -37,14 +38,16 @@ def convert_kif_to_kifu_file(path):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePath = shutil.move(path, os.path.join('kif-done',basename))
+    donePath = shutil.move(path, os.path.join('kif-done', basename))
     return outPath, donePath
+
 
 def main():
     # KIFファイル一覧
-    files = glob.glob("./kif/*")
-    for file in files:
-        _outPath, _donePath = convert_kif_to_kifu_file(file)
+    kif_files = glob.glob("./kif/*.kif")
+    for kif_file in kif_files:
+        _outPath, _donePath = convert_kif_to_kifu(kif_file)
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":

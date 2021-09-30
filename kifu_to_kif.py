@@ -44,9 +44,9 @@ def convert_kifu_to_kif(kifuFile):
 
 def main():
     # KIFUファイル一覧
-    kifuFiles = glob.glob("./kifu/*")
-    for kifuFile in kifuFiles:
-        _kifFile, _donePath = convert_kifu_to_kif(kifuFile)
+    kifu_files = glob.glob("./kifu/*.kifu")
+    for kifu_file in kifu_files:
+        _kifFile, _donePath = convert_kifu_to_kif(kifu_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

@@ -1,10 +1,10 @@
 import glob
 from kifu_to_pivot import convert_kifu_to_pivot
-from kif_to_kifu import convert_kif_to_kifu_file
+from kif_to_kifu import convert_kif_to_kifu
 
 
 def convert_kif_to_pivot(kifFile):
-    kifuFile, doneKifFile = convert_kif_to_kifu_file(kifFile)
+    kifuFile, doneKifFile = convert_kif_to_kifu(kifFile)
     if kifuFile is None:
         return None, None
 
@@ -18,9 +18,9 @@ def convert_kif_to_pivot(kifFile):
 
 def main():
     # KIFファイル一覧
-    kifFiles = glob.glob("./kif/*")
-    for kifFile in kifFiles:
-        _pivotFile, _doneKifFile = convert_kif_to_pivot(kifFile)
+    kif_files = glob.glob("./kif/*.kif")
+    for kif_file in kif_files:
+        _pivotFile, _doneKifFile = convert_kif_to_pivot(kif_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

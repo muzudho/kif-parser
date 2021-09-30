@@ -52,10 +52,9 @@ def test_2_kifu_files(kifuFile):
 
 def main():
     # KIFUファイル一覧
-    kifuFiles = glob.glob("./kifu/*")
-    for kifuFile in kifuFiles:
-
-        _doneKifuFile = test_2_kifu_files(kifuFile)
+    kifu_files = glob.glob("./kifu/*.kifu")
+    for kifu_file in kifu_files:
+        _doneKifuFile = test_2_kifu_files(kifu_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
