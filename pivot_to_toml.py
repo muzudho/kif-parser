@@ -111,7 +111,7 @@ def convert_pivot_to_toml(pivotFile):
             elif rowData["Type"] == "Handicap":
                 kifu_text += f"Handicap='{handicap_p.from_pivot(rowData['Handicap'])}'\n"
             elif rowData["Type"] == "Player":
-                kifu_text += f"{player_phase_p.from_pivot(rowData['PlayerPhase'])}：{rowData['PlayerName']}\n"
+                kifu_text += f"{player_phase_p.from_pivot(rowData['PlayerPhase'])}='''{rowData['PlayerName']}'''\n"
             elif rowData["Type"] == "Result":
                 if 'Winner' in rowData:
                     # Example: `まで64手で後手の勝ち`
