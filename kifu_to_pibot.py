@@ -3,33 +3,18 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, PlayerPhaseP, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP
+from scripts.kifu_specification import CommentP, ExplanationP, PlayerPhaseP, PlayerNameP, HandicapP, PieceTypeP, ZenkakuNumberP, KanjiNumberP, SignP, JudgeP, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
 __handicap_p = HandicapP()
 __player_name_p = PlayerNameP()
-
-# Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
-# Example: `  22 同　角(88)    (00:01 / 00:00:11)`
-__move = re.compile(r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
-
-# Example: `７六歩(77)`
-# Example: `同　角(88)`
-# Example: `４九角打`
-__move_detail = re.compile(
-    r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同　)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(打|成)?(\(\d+\))?(.*)$")
-
-# Example: `00:01`
-__elapsed_time = re.compile(r"^(\d+):(\d+)$")
-
-# Example: `00:00:16`
-__total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
-
-# Example: `まで64手で後手の勝ち`
-__result1 = re.compile(r"^まで(\d+)手で(先手|後手|下手|上手)の(反則負け|勝ち)$")
-# Example: `まで63手で中断`
-__result2 = re.compile(r"^まで(\d+)手で(中断)$")
+__move_statement_p = MoveStatementP()
+__move_p = MoveP()
+__elapsed_time_p = ElapsedTimeP()
+__total_elapsed_time_p = TotalElapsedTimeP()
+__judge_statement1_p = JudgeStatement1P()
+__judge_statement2_p = JudgeStatement2P()
 
 
 def convert_kifu_to_pibot(file):
@@ -64,7 +49,7 @@ def convert_kifu_to_pibot(file):
         for line in lines:
 
             # 指し手の解析
-            result = __move.match(line)
+            result = __move_statement_p.match(line)
             if result:
                 data[f'{rowNumber}'] = {
                     "Type": "Move",
@@ -74,7 +59,7 @@ def convert_kifu_to_pibot(file):
                 # 消費時間の解析
                 elapsedTime = result.group(3)
                 if elapsedTime:
-                    result2 = __elapsed_time.match(elapsedTime)
+                    result2 = __elapsed_time_p.match(elapsedTime)
                     if result2:
                         data[f'{rowNumber}']['ElapsedTime'] = {}
                         data[f'{rowNumber}']['ElapsedTime']['Minute'] = int(
@@ -85,7 +70,7 @@ def convert_kifu_to_pibot(file):
                 # 累計の消費時間の解析
                 totalElapsedTime = result.group(4)
                 if totalElapsedTime:
-                    result2 = __total_elapsed_time.match(totalElapsedTime)
+                    result2 = __total_elapsed_time_p.match(totalElapsedTime)
                     if result2:
                         data[f'{rowNumber}']['TotalElapsedTime'] = {}
                         data[f'{rowNumber}']['TotalElapsedTime']['Hour'] = int(
@@ -102,7 +87,7 @@ def convert_kifu_to_pibot(file):
                         "Sign": sign_p.to_pibot(move)}
                 else:
 
-                    result2 = __move_detail.match(move)
+                    result2 = __move_p.match(move)
                     if result2:
                         data[f'{rowNumber}']['Move'] = {}
 
@@ -211,7 +196,7 @@ def convert_kifu_to_pibot(file):
                 continue
 
             # Example: `まで64手で後手の勝ち`
-            result = __result1.match(line)
+            result = __judge_statement1_p.match(line)
             if result:
                 moves = result.group(1)
                 playerPhase = result.group(2)
@@ -227,7 +212,7 @@ def convert_kifu_to_pibot(file):
                 continue
 
             # Example: `まで63手で中断`
-            result = __result2.match(line)
+            result = __judge_statement2_p.match(line)
             if result:
                 moves = result.group(1)
                 judge = result.group(2)

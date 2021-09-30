@@ -85,6 +85,29 @@ class HandicapP():
         return self._handicap_statement.match(line)
 
 
+class MoveStatementP():
+    def __init__(self):
+        # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
+        # Example: `  22 同　角(88)    (00:01 / 00:00:11)`
+        self._move_statement = re.compile(
+            r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
+
+    def match(self, line):
+        return self._move_statement.match(line)
+
+
+class MoveP():
+    def __init__(self):
+        # Example: `７六歩(77)`
+        # Example: `同　角(88)`
+        # Example: `４九角打`
+        self._move = re.compile(
+            r"^(１|２|３|４|５|６|７|８|９)?(一|二|三|四|五|六|七|八|九)?(同　)?(玉|飛|龍|竜|角|馬|金|銀|成銀|全|桂|成桂|圭|香|成香|杏|歩|と)(打|成)?(\(\d+\))?(.*)$")
+
+    def match(self, line):
+        return self._move.match(line)
+
+
 class PieceTypeP():
     def __init__(self):
         # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
@@ -251,6 +274,43 @@ class SignP():
             return self._sign_half_width[sign]
 
         return sign
+
+
+class ElapsedTimeP():
+    def __init__(self):
+        # Example: `00:01`
+        self._elapsed_time = re.compile(r"^(\d+):(\d+)$")
+
+    def match(self, line):
+        return self._elapsed_time.match(line)
+
+
+class TotalElapsedTimeP():
+    def __init__(self):
+        # Example: `00:00:16`
+        self._total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
+
+    def match(self, line):
+        return self._total_elapsed_time.match(line)
+
+
+class JudgeStatement1P():
+    def __init__(self):
+        # Example: `まで64手で後手の勝ち`
+        self._judge_statement1 = re.compile(
+            r"^まで(\d+)手で(先手|後手|下手|上手)の(反則負け|勝ち)$")
+
+    def match(self, line):
+        return self._judge_statement1.match(line)
+
+
+class JudgeStatement2P():
+    def __init__(self):
+        # Example: `まで63手で中断`
+        self._judge_statement2 = re.compile(r"^まで(\d+)手で(中断)$")
+
+    def match(self, line):
+        return self._judge_statement2.match(line)
 
 
 class JudgeP():
