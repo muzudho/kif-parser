@@ -18,7 +18,7 @@ __judge_statement3_p = JudgeStatement3P()
 __reason_p = ReasonP()
 
 
-def convert_kifu_to_pivot(file):
+def convert_kifu_to_pivot(file, output_folder='pivot', done_folder='kifu-done'):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     piece_type_p = PieceTypeP()
@@ -34,7 +34,7 @@ def convert_kifu_to_pivot(file):
         return
 
     # insert new extention
-    outPath = os.path.join('pivot', f"{stem}.json")
+    outPath = os.path.join(output_folder, f"{stem}.json")
 
     # とりあえず KIFU を読んでみます
     row_number = 1
@@ -261,7 +261,7 @@ def convert_kifu_to_pivot(file):
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # ファイルの移動
-    donePath = shutil.move(file, os.path.join('kifu-done', basename))
+    donePath = shutil.move(file, os.path.join(done_folder, basename))
     return outPath, donePath
 
 

@@ -20,19 +20,17 @@ WIP .KIF file (Shogi format) Parser, Converter.
 
 ## KIF から KIFU へ変換
 
-1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
-3. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
-4. UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
-5. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
+2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
+3. UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
 ## KIFU から KIF へ変換
 
-1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`input` フォルダーに 📄`*.kifu` ファイルをたくさん入れてください
-3. ターミナルで `python.exe kifu_to_kif.py` コマンドを実行してください
-4. Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
-5. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+1. 📂`input` フォルダーに 📄`*.kifu` ファイルをたくさん入れてください
+2. ターミナルで `python.exe kifu_to_kif.py` コマンドを実行してください
+3. Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
 ## KIF から PIVOT へ変換
 
@@ -85,6 +83,16 @@ WIP .KIF file (Shogi format) Parser, Converter.
 8. 📂`pivot-done` フォルダーの中の 📄`*.json` ファイルは削除されます
 9. 📂`toml` フォルダーの中の 📄`*.toml` ファイルは削除されます
 10. 📂`toml-done` フォルダーの中の 📄`*.toml` ファイルは削除されます
+
+## 出力ファイルを全部消す
+
+📂`output` フォルダーに、消されてこまるファイルを置かないでください  
+
+2. ターミナルで `python.exe remove_all_output.py` コマンドを実行してください
+3. 📂`output` フォルダーの中の 📄`*.kif` ファイルは削除されます
+5. 📂`output` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+7. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
+9. 📂`output` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
 ## kif-done フォルダーから kif フォルダーへファイルを逆移動
 
