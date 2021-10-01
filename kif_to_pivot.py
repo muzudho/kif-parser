@@ -24,7 +24,7 @@ def convert_kif_to_pivot(kif_file, output_folder='temporary/pivot'):
 def __main(debug=False):
     if not debug:
         # 出力フォルダーを空っぽにします
-        remove_all_output()
+        remove_all_output(echo=False)
 
     copy_kif_from_input()
 
@@ -38,7 +38,7 @@ def __main(debug=False):
 
     if not debug:
         # 変換の途中で作ったファイルは削除します
-        remove_all_temporary()
+        remove_all_temporary(echo=False)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

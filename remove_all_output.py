@@ -2,7 +2,7 @@ import os
 import glob
 
 
-def remove_all_output():
+def remove_all_output(echo=True):
     file_patterns = ('./output/*.kif',
                      './output/*.kifu',
                      './output/*.json',
@@ -12,7 +12,8 @@ def remove_all_output():
         # 出力ファイル一覧
         files = glob.glob(file_pattern)
         for file in files:
-            print(f"Remove: {file}")
+            if echo:
+                print(f"Remove: {file}")
             os.remove(file)
 
 
