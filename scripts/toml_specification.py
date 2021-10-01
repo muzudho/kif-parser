@@ -1,3 +1,4 @@
+from os import error
 import re
 
 
@@ -125,68 +126,64 @@ class MoveStatementP():
         totalElapsedTimeMinute = totalElapsedTime['Minute']
         totalElapsedTimeSecond = totalElapsedTime['Second']
 
-        move_to_text = ""
+        key_value_pairs = []
 
-        # 移動した駒（チェスでは歩は省く）
+        # 移動した駒
         if 'PieceType' in move:
-            pieceType = piece_type_p.from_pivot(move['PieceType'])
-            if pieceType != 'P':
-                move_to_text += pieceType
+            piece_type = piece_type_p.from_pivot(move['PieceType'])
+            key_value_pairs.append(f"piece-type='{piece_type}'")
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
+        if 'SourceFile' in move:
+            # 移動元（打のときは、 SourceFile, SourceRank ともにありません）
+            source_square = int(move['SourceFile']) * \
+                10 + int(move['SourceRank'])
+            key_value_pairs.append(f"from = {source_square}")
+        elif 'Drop' in move:
+            # 打
+            drop = move['Drop']
+            if drop:
+                key_value_pairs.append(f"drop = true")
+
         # 行き先
         if 'DestinationFile' in move:
-            destinationFile = move['DestinationFile']
-            destinationRank = alphabet_number_p.from_pivot(
-                move['DestinationRank'])
-            move_to_text += f'{destinationFile}{destinationRank}'
+            destination_square = int(
+                move['DestinationFile']) * 10 + int(move['DestinationRank'])
+            key_value_pairs.append(
+                f"to = {destination_square}")
 
-        if 'Destination' in move:
+        elif 'Destination' in move:
             destination = move['Destination']
-            if destination == 'same':
+            if destination == 'Same':
                 # TODO チェスに「同」は無さそう？
-                move_to_text += 'same'
+                key_value_pairs.append(f"to-same = true")
             else:
-                # TODO エラーにしたい
-                move_to_text += destination
+                # Error
+                raise error(f'unknown destination={destination}')
 
         # 成り
         if 'Promotion' in move:
             pro = move['Promotion']
             if pro:
-                move_to_text += '+'
+                key_value_pairs.append(f"promotion = true")
 
         # 投了なども行き先欄に書く
         if 'Sign' in move:
             sign = sign_p.from_pivot(move['Sign'])
-            move_to_text += f"{sign}"
-
-        move_from_text = ""
-
-        # 移動元
-        if 'SourceFile' in move:
-            sourceFile = move['SourceFile']
-            sourceRank = alphabet_number_p.from_pivot(move['SourceRank'])
-            move_from_text += f'{sourceFile}{sourceRank}'
-
-        # 打
-        if 'Drop' in move:
-            drop = move['Drop']
-            if drop:
-                move_from_text += 'drop'
-
-        if move_from_text != '':
-            move_from_text = f""", from = '{move_from_text}'"""
-            pass
-
-        move_text = f"""to = '{move_to_text}'{move_from_text}"""
+            key_value_pairs.append(f"sign = '{sign}'")
 
         # 経過時間
-        elapsed_text = f"""elapsed = {elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}, sum = {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}"""
+        key_value_pairs.append(
+            f"""elapsed = {elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}""")
+
+        key_value_pairs.append(
+            f"""sum = {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}""")
+
+        table_items = ', '.join(key_value_pairs)
 
         # 指し手
-        toml_text += f"""{moves} = {{ {move_text}, {elapsed_text} }}
+        toml_text += f"""{moves} = {{ {table_items} }}
 """
 
         return toml_text
