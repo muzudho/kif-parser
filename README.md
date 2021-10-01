@@ -102,20 +102,18 @@ WIP .KIF file (Shogi format) Parser, Converter.
 
 ### 動作テスト .kif変換
 
-(Copy: input->kif) (Convert: kif->pivot)、(Convert: pivot->kif) 変換が壊れていないかテストします  
+(Copy: input->kif) (Convert: kif->kifu->pivot)、(Convert: pivot->kifu->kif) 変換が壊れていないかテストします  
 
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe test_kif.py` コマンドを実行してください
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
 4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
-### 動作テスト KIFU -> PIVOT -> KIFU
+### 動作テスト .kifu変換
 
-(KIFU -> PIVOT)、(PIVOT -> KIFU) 変換が壊れていないかテストします  
+(Copy: input->kifu) (Convert kifu->pivot)、(Convert: pivot->kifu) 変換が壊れていないかテストします  
 
-1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`kifu` に `*.kifu` ファイルをたくさん入れてください
-3. ターミナルで `python.exe test_kifu.py` コマンドを実行してください
-4. KIFU を PIVOT へ変換し、 PIVOT から KIFU を復元するテストが行われます。  
-   成功すれば、読み終えた `kifu/*.kifu` ファイルは、 📂`kifu-done` へファイルが移動します
-5. PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
+1. 📂`input` に `*.kifu` ファイルをたくさん入れてください
+2. ターミナルで `python.exe test_kifu.py` コマンドを実行してください
+3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください

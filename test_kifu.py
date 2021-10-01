@@ -4,6 +4,7 @@ import os
 from scripts.test_lib import create_sha256
 from kifu_to_pivot import convert_kifu_to_pivot
 from pivot_to_kifu import convert_pivot_to_kifu
+from kifu_to_kif import copy_kifu_from_input
 
 
 def test_2_kifu_files(kifuFile):
@@ -51,6 +52,8 @@ def test_2_kifu_files(kifuFile):
 
 
 def main():
+    copy_kifu_from_input()
+
     # KIFUファイル一覧
     kifu_files = glob.glob("./kifu/*.kifu")
     for kifu_file in kifu_files:
