@@ -43,7 +43,7 @@ def test_2_kif_files(kifFile):
 
     if kif_1_Sha256 != kif_2_Sha256:
         # Error
-        print("Not match SHA256")
+        print(f"Not match SHA256. basename={basename}")
         return None
 
     # Ok

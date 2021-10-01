@@ -41,7 +41,7 @@ def test_2_kifu_files(kifuFile):
 
     if kifu_1_Sha256 != kifu_2_Sha256:
         # Error
-        print("Not match SHA256")
+        print(f"Not match SHA256. basename={basename}")
         return None
 
     # Ok

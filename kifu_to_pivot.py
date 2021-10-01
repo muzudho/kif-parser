@@ -49,37 +49,39 @@ def convert_kifu_to_pivot(file):
             # 指し手の解析
             result = __move_statement_p.match(line)
             if result:
+                moves = result.group(1)
+                move = result.group(2)
+                elapsedTime = result.group(3)
+                totalElapsedTime = result.group(4)
+
                 data[f'{row_number}'] = {
                     "Type": "Move",
-                    "Moves": f"{result.group(1)}"
+                    "Moves": f"{moves}"
                 }
 
                 # 消費時間の解析
-                elapsedTime = result.group(3)
                 if elapsedTime:
                     result2 = __elapsed_time_p.match(elapsedTime)
                     if result2:
+                        minute = int(result2.group(1))
+                        second = int(result2.group(2))
                         data[f'{row_number}']['ElapsedTime'] = {}
-                        data[f'{row_number}']['ElapsedTime']['Minute'] = int(
-                            result2.group(1))
-                        data[f'{row_number}']['ElapsedTime']['Second'] = int(
-                            result2.group(2))
+                        data[f'{row_number}']['ElapsedTime']['Minute'] = minute
+                        data[f'{row_number}']['ElapsedTime']['Second'] = second
 
                 # 累計の消費時間の解析
-                totalElapsedTime = result.group(4)
                 if totalElapsedTime:
                     result2 = __total_elapsed_time_p.match(totalElapsedTime)
                     if result2:
+                        hour = int(result2.group(1))
+                        minute = int(result2.group(2))
+                        second = int(result2.group(3))
                         data[f'{row_number}']['TotalElapsedTime'] = {}
-                        data[f'{row_number}']['TotalElapsedTime']['Hour'] = int(
-                            result2.group(1))
-                        data[f'{row_number}']['TotalElapsedTime']['Minute'] = int(
-                            result2.group(2))
-                        data[f'{row_number}']['TotalElapsedTime']['Second'] = int(
-                            result2.group(3))
+                        data[f'{row_number}']['TotalElapsedTime']['Hour'] = hour
+                        data[f'{row_number}']['TotalElapsedTime']['Minute'] = minute
+                        data[f'{row_number}']['TotalElapsedTime']['Second'] = second
 
                 # 指し手の詳細の解析
-                move = result.group(2)
                 if sign_p.contains(move):
                     data[f'{row_number}']['Move'] = {
                         "Sign": sign_p.to_pivot(move)}
@@ -91,13 +93,14 @@ def convert_kifu_to_pivot(file):
 
                         destinationFile = result2.group(1)
                         if destinationFile:
-                            data[f'{row_number}']['Move']['DestinationFile'] = zenkaku_number_p.to_pivot(
+                            dstFile = zenkaku_number_p.to_pivot(
                                 destinationFile)
+                            data[f'{row_number}']['Move']['DestinationFile'] = dstFile
 
                         destinationRank = result2.group(2)
                         if destinationRank:
-                            data[f'{row_number}']['Move']['DestinationRank'] = kanji_number_p.to_pivot(
-                                destinationRank)
+                            dstRank = kanji_number_p.to_pivot(destinationRank)
+                            data[f'{row_number}']['Move']['DestinationRank'] = dstRank
 
                         destination = result2.group(3)
                         if destination:
@@ -110,8 +113,8 @@ def convert_kifu_to_pivot(file):
 
                         pieceType = result2.group(4)
                         if pieceType:
-                            data[f'{row_number}']['Move']['PieceType'] = piece_type_p.to_pivot(
-                                pieceType)
+                            pct = piece_type_p.to_pivot(pieceType)
+                            data[f'{row_number}']['Move']['PieceType'] = pct
 
                         dropOrPromotion = result2.group(5)
                         if dropOrPromotion:
@@ -129,8 +132,10 @@ def convert_kifu_to_pivot(file):
                         if source:
                             # Example `(77)`
                             square = int(source[1:-1])
-                            data[f'{row_number}']['Move']['SourceFile'] = square//10
-                            data[f'{row_number}']['Move']['SourceRank'] = square % 10
+                            srcFile = square//10
+                            srcRank = square % 10
+                            data[f'{row_number}']['Move']['SourceFile'] = srcFile
+                            data[f'{row_number}']['Move']['SourceRank'] = srcRank
 
                         unknown = result2.group(7)
                         if unknown:
