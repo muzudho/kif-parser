@@ -18,7 +18,7 @@ def undo_kif(kif_file, output_folder='temporary/kif_d'):
 
 def main():
     # KIFファイル一覧
-    kif_files = glob.glob("./kif-done/*.kif")
+    kif_files = glob.glob("./temporary/kif-done_d/*.kif")
     for kif_file in kif_files:
         _undone_kif_file = undo_kif(kif_file)
 
