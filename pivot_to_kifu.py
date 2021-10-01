@@ -8,7 +8,18 @@ from scripts.kifu_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def convert_pivot_to_kifu(pivotFile):
+def copy_pivot_from_input():
+    """inputフォルダーにある `*.json` ファイルを pivotフォルダーへコピーします"""
+
+    input_files = glob.glob("./input/*.pivot")
+    for input_file in input_files:
+        # basename
+        basename = os.path.basename(input_file)
+        copy_file = os.path.join('kif', basename)
+        shutil.copyfile(input_file, copy_file)
+
+
+def convert_pivot_to_kifu(pivotFile, output_folder='kifu', done_folder='pivot-done'):
     # basename
 
     try:
@@ -72,23 +83,26 @@ def convert_pivot_to_kifu(pivotFile):
                 return None, None
 
         # New .kifu ファイル出力
-        kifuFile = os.path.join('kifu', f"{stem}.kifu")
+        kifuFile = os.path.join(output_folder, f"{stem}.kifu")
         with open(kifuFile, mode='w', encoding='utf-8') as fOut:
             fOut.write(kifu_text)
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
     donePivotFile = shutil.move(
-        pivotFile, os.path.join('pivot-done', basename))
+        pivotFile, os.path.join(done_folder, basename))
 
     return kifuFile, donePivotFile
 
 
 def main():
+    copy_pivot_from_input()
+
     # PIVOTファイル一覧
     pivot_files = glob.glob("./pivot/*.json")
     for pivot_file in pivot_files:
-        _kifuFile, _donePivotFile = convert_pivot_to_kifu(pivot_file)
+        _kifuFile, _donePivotFile = convert_pivot_to_kifu(
+            pivot_file, output_folder='output')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
