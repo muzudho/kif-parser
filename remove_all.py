@@ -40,7 +40,7 @@ def main():
         os.remove(pivot_file)
 
     # TOMLファイル一覧
-    toml_files = glob.glob("./temporary/toml_d/*.toml")
+    toml_files = glob.glob("./temporary/toml/*.toml")
     for toml_file in toml_files:
         print(f"Remove: {toml_file}")
         os.remove(toml_file)

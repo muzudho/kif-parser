@@ -8,7 +8,7 @@ from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d', done_folder='temporary/pivot-done'):
+def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml', done_folder='temporary/pivot-done'):
     # basename
 
     try:
