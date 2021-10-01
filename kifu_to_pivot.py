@@ -270,7 +270,7 @@ def main():
     copy_kifu_from_input()
 
     # KIFUファイル一覧
-    kifu_files = glob.glob("./kifu/*.kifu")
+    kifu_files = glob.glob("./temporary/kifu_d/*.kifu")
     for kifu_file in kifu_files:
         _outPath, _donePath = convert_kifu_to_pivot(
             kifu_file, output_folder='output')

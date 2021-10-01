@@ -14,7 +14,7 @@ def convert_kif_to_pivot(kif_file, output_folder='pivot'):
     if pivot_file is None:
         return None, None
 
-    # print(f'kifu={kifu_file} pivot={pivot_file}')
+    # print(f'kifu_file={kifu_file} pivot={pivot_file}')
     return pivot_file, doneKifFile
 
 

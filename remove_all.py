@@ -16,7 +16,7 @@ def main():
         os.remove(kif_file)
 
     # KIFUファイル一覧
-    kifu_files = glob.glob("./kifu/*.kifu")
+    kifu_files = glob.glob("./temporary/kifu_d/*.kifu")
     for kifu_file in kifu_files:
         print(f"Remove: {kifu_file}")
         os.remove(kifu_file)

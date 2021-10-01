@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-def undo_kifu(kifu_file):
+def undo_kifu(kifu_file, output_folder='temporary/kifu_d'):
     # basename
     basename = os.path.basename(kifu_file)
     _stem, extention = os.path.splitext(basename)
@@ -11,7 +11,8 @@ def undo_kifu(kifu_file):
         return None
 
     # kifuフォルダーへ移動します
-    undone_kifu_file = shutil.move(kifu_file, os.path.join('kifu', basename))
+    undone_kifu_file = shutil.move(
+        kifu_file, os.path.join(output_folder, basename))
     return undone_kifu_file
 
 

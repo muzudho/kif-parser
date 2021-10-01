@@ -7,7 +7,7 @@ input/*.toml
 
 temporary/kif_d/*.kif
 kif-done/*.kif
-kifu/*.kifu
+temporary/kifu_d/*.kifu
 kifu-done/*.kifu
 
 output/*.kif
