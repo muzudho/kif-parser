@@ -17,7 +17,7 @@ output/*.toml
 
 temporary/pivot_d/*.json
 pivot-done/*.json
-toml/*.toml
+temporary/toml_d/*.toml
 toml-done/*.toml
 under-development/
 

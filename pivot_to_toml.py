@@ -8,7 +8,7 @@ from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def convert_pivot_to_toml(pivotFile):
+def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d'):
     # basename
 
     try:
@@ -74,7 +74,7 @@ def convert_pivot_to_toml(pivotFile):
                 return None, None
 
         # New .kifu ファイル出力
-        tomlFile = os.path.join('toml', f"{stem}.toml")
+        tomlFile = os.path.join(output_folder, f"{stem}.toml")
         with open(tomlFile, mode='w', encoding='utf-8') as fOut:
             fOut.write(kifu_text)
 

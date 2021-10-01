@@ -76,7 +76,7 @@ WIP .KIF file (Shogi format) Parser, Converter.
 6. 📂`kifu-done` フォルダーの中の 📄`*.kifu` ファイルは削除されます
 7. 📂`temporary/pivot_d` フォルダーの中の 📄`*.json` ファイルは削除されます
 8. 📂`pivot-done` フォルダーの中の 📄`*.json` ファイルは削除されます
-9. 📂`toml` フォルダーの中の 📄`*.toml` ファイルは削除されます
+9. 📂`temporary/toml_d` フォルダーの中の 📄`*.toml` ファイルは削除されます
 10. 📂`toml-done` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
 ## 出力ファイルを全部消す
