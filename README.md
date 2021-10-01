@@ -41,12 +41,11 @@ WIP .KIF file (Shogi format) Parser, Converter.
 4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 ## KIFU から PIVOT へ変換
 
-1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`kifu` に `*.kifu` ファイルをたくさん入れてください
+2. 📂`input` フォルダーに `*.kifu` ファイルをたくさん入れてください
 3. ターミナルで `python.exe kifu_to_pivot.py` コマンドを実行してください
-4. JSON形式に変換して 📂`pivot` へ出力されます
-5. 読み終えた `kifu/*.kifu` ファイルは、 `kifu-done/*.kifu` へ移動されます
-6. PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
+3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
+   PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
 ## PIVOT から KIF へ変換
 

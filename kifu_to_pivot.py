@@ -4,6 +4,7 @@ import os
 import json
 import shutil
 from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player_phase_p, player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
+from kifu_to_kif import copy_kifu_from_input
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
@@ -266,11 +267,13 @@ def convert_kifu_to_pivot(file, output_folder='pivot', done_folder='kifu-done'):
 
 
 def main():
+    copy_kifu_from_input()
 
     # KIFUファイル一覧
     kifu_files = glob.glob("./kifu/*.kifu")
     for kifu_file in kifu_files:
-        _outPath, _donePath = convert_kifu_to_pivot(kifu_file)
+        _outPath, _donePath = convert_kifu_to_pivot(
+            kifu_file, output_folder='output')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
