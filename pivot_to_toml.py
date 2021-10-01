@@ -8,24 +8,22 @@ from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml', done_folder='temporary/pivot-done'):
-    # basename
+def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folder='temporary/pivot-done'):
 
+    # basename
     try:
-        basename = os.path.basename(pivotFile)
+        basename = os.path.basename(pivot_file)
     except:
-        # デバッグ消す
-        print(f"Error: pivotFile={pivotFile} except={sys.exc_info()[0]}")
+        print(f"Error: pivot_file={pivot_file} except={sys.exc_info()[0]}")
         raise
-        # return None, None
 
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
         return None, None
 
-    tomlFile = ""
+    toml_file = ""
 
-    with open(pivotFile, encoding='utf-8') as f:
+    with open(pivot_file, encoding='utf-8') as f:
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
 
         move_section_flag = False
@@ -74,16 +72,16 @@ def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml', done_folder
                 return None, None
 
         # New .kifu ファイル出力
-        tomlFile = os.path.join(output_folder, f"{stem}.toml")
-        with open(tomlFile, mode='w', encoding='utf-8') as fOut:
+        toml_file = os.path.join(output_folder, f"{stem}.toml")
+        with open(toml_file, mode='w', encoding='utf-8') as fOut:
             fOut.write(kifu_text)
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
     done_pivot_file = shutil.move(
-        pivotFile, os.path.join(done_folder, basename))
+        pivot_file, os.path.join(done_folder, basename))
 
-    return tomlFile, done_pivot_file
+    return toml_file, done_pivot_file
 
 
 def main():

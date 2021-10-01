@@ -5,7 +5,12 @@ import os
 
 def undo_kif(kif_file, output_folder='temporary/kif'):
     # basename
-    basename = os.path.basename(kif_file)
+    try:
+        basename = os.path.basename(kif_file)
+    except:
+        print(f"Error: kif_file={kif_file} except={sys.exc_info()[0]}")
+        raise
+
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kif':
         return None

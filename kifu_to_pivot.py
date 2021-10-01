@@ -21,7 +21,7 @@ __judge_statement2_p = JudgeStatement2P()
 __judge_statement3_p = JudgeStatement3P()
 
 
-def convert_kifu_to_pivot(file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
+def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     piece_type_p = PieceTypeP()
@@ -31,17 +31,22 @@ def convert_kifu_to_pivot(file, output_folder='temporary/pivot', done_folder='te
     data = {}
 
     # basename
-    basename = os.path.basename(file)
+    try:
+        basename = os.path.basename(kifu_file)
+    except:
+        print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+        raise
+
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kifu':
         return
 
     # insert new extention
-    outPath = os.path.join(output_folder, f"{stem}.json")
+    out_path = os.path.join(output_folder, f"{stem}.json")
 
     # とりあえず KIFU を読んでみます
     row_number = 1
-    with open(file, encoding='utf-8') as f:
+    with open(kifu_file, encoding='utf-8') as f:
 
         s = f.read()
         text = s.rstrip()
@@ -260,12 +265,12 @@ def convert_kifu_to_pivot(file, output_folder='temporary/pivot', done_folder='te
             print(f"Error: row_number={row_number} line={line}")
             return None, None
 
-    with open(outPath, 'w', encoding='utf-8') as fOut:
+    with open(out_path, 'w', encoding='utf-8') as fOut:
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # ファイルの移動
-    donePath = shutil.move(file, os.path.join(done_folder, basename))
-    return outPath, donePath
+    done_path = shutil.move(kifu_file, os.path.join(done_folder, basename))
+    return out_path, done_path
 
 
 def main():

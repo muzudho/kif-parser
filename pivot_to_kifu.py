@@ -14,21 +14,24 @@ def copy_pivot_from_input(output_folder='temporary/kif'):
     input_files = glob.glob("./input/*.pivot")
     for input_file in input_files:
         # basename
-        basename = os.path.basename(input_file)
+        try:
+            basename = os.path.basename(input_file)
+        except:
+            print(f"Error: input_file={input_file} except={sys.exc_info()[0]}")
+            raise
+
         copy_file = os.path.join(output_folder, basename)
         shutil.copyfile(input_file, copy_file)
 
 
-def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu', done_folder='temporary/pivot-done'):
+def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done'):
     # basename
 
     try:
-        basename = os.path.basename(pivotFile)
+        basename = os.path.basename(pivot_file)
     except:
-        # デバッグ消す
-        print(f"Error: pivotFile={pivotFile} except={sys.exc_info()[0]}")
+        print(f"Error: pivot_file={pivot_file} except={sys.exc_info()[0]}")
         raise
-        # return None, None
 
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
@@ -36,7 +39,7 @@ def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu', done_folder
 
     kifuFile = ""
 
-    with open(pivotFile, encoding='utf-8') as f:
+    with open(pivot_file, encoding='utf-8') as f:
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
 
         move_section_flag = False
@@ -92,7 +95,7 @@ def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu', done_folder
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
     donePivotFile = shutil.move(
-        pivotFile, os.path.join(done_folder, basename))
+        pivot_file, os.path.join(done_folder, basename))
 
     return kifuFile, donePivotFile
 

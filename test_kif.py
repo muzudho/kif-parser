@@ -1,6 +1,7 @@
 import glob
 import shutil
 import os
+import sys
 from scripts.test_lib import create_sha256
 from kif_to_pivot import convert_kif_to_pivot
 from pivot_to_kif import convert_pivot_to_kif
@@ -9,7 +10,12 @@ from kif_to_kifu import copy_kif_from_input
 
 def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folder='temporary/kif-done'):
     # basename
-    basename = os.path.basename(kif_file)
+    try:
+        basename = os.path.basename(kif_file)
+    except:
+        print(f"Error: kif_file={kif_file} except={sys.exc_info()[0]}")
+        raise
+
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kif':
         return ""

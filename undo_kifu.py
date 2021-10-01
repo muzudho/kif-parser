@@ -5,7 +5,12 @@ import os
 
 def undo_kifu(kifu_file, output_folder='temporary/kifu'):
     # basename
-    basename = os.path.basename(kifu_file)
+    try:
+        basename = os.path.basename(kifu_file)
+    except:
+        print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+        raise
+
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kifu':
         return None

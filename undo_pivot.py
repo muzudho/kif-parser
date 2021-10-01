@@ -5,7 +5,12 @@ import os
 
 def undo_pivot(pivot_file, output_folder='temporary/pivot'):
     # basename
-    basename = os.path.basename(pivot_file)
+    try:
+        basename = os.path.basename(pivot_file)
+    except:
+        print(f"Error: pivot_file={pivot_file} except={sys.exc_info()[0]}")
+        raise
+
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
         return None

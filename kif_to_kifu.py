@@ -2,6 +2,7 @@ import glob
 import shutil
 import os
 import codecs
+import sys
 
 
 def copy_kif_from_input(output_folder='temporary/kif'):
@@ -10,7 +11,12 @@ def copy_kif_from_input(output_folder='temporary/kif'):
     input_files = glob.glob("./input/*.kif")
     for input_file in input_files:
         # basename
-        basename = os.path.basename(input_file)
+        try:
+            basename = os.path.basename(input_file)
+        except:
+            print(f"Error: input_file={input_file} except={sys.exc_info()[0]}")
+            raise
+
         copy_file = os.path.join(output_folder, basename)
         shutil.copyfile(input_file, copy_file)
 
@@ -33,7 +39,12 @@ def convert_kif_to_kifu(kif_file, output_folder='temporary/kifu', done_folder='t
     with codecs.open(kif_file, "r", encoding='shift_jis') as f:
 
         # basename
-        basename = os.path.basename(kif_file)
+        try:
+            basename = os.path.basename(kif_file)
+        except:
+            print(f"Error: kif_file={kif_file} except={sys.exc_info()[0]}")
+            raise
+
         stem, extention = os.path.splitext(basename)
         if extention.lower() != '.kif':
             return None, None

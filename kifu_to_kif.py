@@ -10,7 +10,12 @@ def copy_kifu_from_input(output_folder='temporary/kifu'):
     input_files = glob.glob("./input/*.kifu")
     for input_file in input_files:
         # basename
-        basename = os.path.basename(input_file)
+        try:
+            basename = os.path.basename(input_file)
+        except:
+            print(f"Error: input_file={input_file} except={sys.exc_info()[0]}")
+            raise
+
         copy_file = os.path.join(output_folder, basename)
         shutil.copyfile(input_file, copy_file)
 
@@ -33,7 +38,12 @@ def convert_kifu_to_kif(kifu_file, output_folder='temporary/kif', done_folder='t
     with codecs.open(kifu_file, "r", encoding='utf-8') as f:
 
         # basename
-        basename = os.path.basename(kifu_file)
+        try:
+            basename = os.path.basename(kifu_file)
+        except:
+            print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+            raise
+
         stem, extention = os.path.splitext(basename)
         if extention.lower() != '.kifu':
             return ""

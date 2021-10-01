@@ -9,7 +9,12 @@ from kifu_to_kif import copy_kifu_from_input
 
 def test_2_kifu_files(kifu_file, output_folder_2nd='temporary/kifu-2nd', done_folder='temporary/kifu-done'):
     # basename
-    basename = os.path.basename(kifu_file)
+    try:
+        basename = os.path.basename(kifu_file)
+    except:
+        print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+        raise
+
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kifu':
         return ""
