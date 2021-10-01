@@ -61,22 +61,24 @@ class HandicapP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
-            'hirate': 'Hirate',
-            'lost-lance': 'LostLance',
-            'lost-right-lance': 'LostRightLance',
-            'lost-bishop': 'LostBishop',
-            'lost-rook': 'LostRook',
-            'lost-rook-lance': 'LostRookLance',
-            'lost-2-pieces': 'Lost2Pieces',
-            'lost-3-pieces': 'Lost3Pieces',
-            'lost-4-pieces': 'Lost4Pieces',
-            'lost-5-pieces': 'Lost5Pieces',
-            'lost-left-5-pieces': 'LostLeft5Pieces',
-            'lost-6-pieces': 'Lost6Pieces',
-            'lost-left-7-pieces': 'LostLeft7Pieces',
-            'lost-right-7-pieces': 'LostRight7Pieces',
-            'lost-8-pieces': 'Lost8Pieces',
-            'lost-10-pieces': 'Lost10Pieces',
+            'even': 'Hirate',
+            'without left lance': 'LostLance',  # 香落ち（左の香が落ちる）
+            'without right lance': 'LostRightLance',  # 右香落ち
+            'without the bishop': 'LostBishop',  # 角落ち
+            'without the rook': 'LostRook',  # 飛車落ち
+            'without a rook, left lance': 'LostRookLance',  # 飛香落ち（飛車と左の香）
+            'without a rook, a bishop': 'Lost2Pieces',  # ２枚落ち
+            'without a rook, a bishop, left lance': 'Lost3Pieces',  # ３枚落ち（飛、角、左香）
+            'without a rook, a bishop, 2 lances': 'Lost4Pieces',  # ４枚落ち（飛、角、両香）
+            'without a rook, a bishop, left knight, 2 lances': 'Lost5Pieces',  # ５枚落ち（飛、角、左桂、両香）
+            'without left 5 pieces': 'LostLeft5Pieces',  # 左５枚落ち
+            'without a hisha, a kaku, 2 kyoushas, 2 keimas': 'Lost6Pieces',  # ６枚落ち
+            'without left 7 pieces': 'LostLeft7Pieces',  # 左七枚落ち
+            'without right 7 pieces': 'LostRight7Pieces',  # 右七枚落ち
+            # ８枚落ち（飛、角、両銀、両桂、両香）
+            'without a rook, a bishop, 2 silvers, 2 knights, 2 lances': 'Lost8Pieces',
+            # １０枚落ち（飛、角、両金、両銀、両桂、両香）
+            'without a rook, a bishop, 2 golds, 2 silvers, 2knight, 2 lances': 'Lost10Pieces',
             'other': 'Other',
         }
 
@@ -307,7 +309,7 @@ class JudgeStatement1P():
     def from_pivot(self, moves, winner, judge):
         # Example: `まで64手で後手の勝ち`
         return f"""[result]
-last-moves='{moves}'
+last-moves={moves}
 winner='{player_phase_p.from_pivot(winner)}'
 judge='{sign_p.from_pivot(judge)}'
 """
@@ -327,7 +329,7 @@ class JudgeStatement2P():
     def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
         return f"""[result]
-last-moves='{moves}'
+last-moves={moves}
 judge='{sign_p.from_pivot(judge)}'
 """
 
@@ -347,7 +349,7 @@ class JudgeStatement3P():
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
         return f"""[result]
-last-moves='{moves}'
+last-moves={moves}
 reason='{reason}'
 winner='{player_phase_p.from_pivot(winner)}'
 judge='{sign_p.from_pivot(judge)}'

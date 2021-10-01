@@ -8,6 +8,12 @@ class CommentP():
     def match(self, line):
         return self._comment_statement.match(line)
 
+    def to_pibot(self, data, row_number, comment):
+        data[f'{row_number}'] = {
+            "Type": "Comment",
+            "Comment": f"{comment}"
+        }
+
 
 class ExplanationP():
     def __init__(self):
@@ -15,6 +21,26 @@ class ExplanationP():
 
     def match(self, line):
         return self._explanation_statement.match(line)
+
+    def to_pibot(self, data, row_number, explanation):
+        data[f'{row_number}'] = {
+            "Type": "Explanation",
+            "Explanation": f"{explanation}",
+        }
+
+
+class BookmarkP():
+    def __init__(self):
+        self._bookmark_statement = re.compile(r"^\&(.+)$")
+
+    def match(self, line):
+        return self._bookmark_statement.match(line)
+
+    def to_pibot(self, data, row_number, bookmark):
+        data[f'{row_number}'] = {
+            "Type": "Bookmark",
+            "Bookmark": f"{bookmark}",
+        }
 
 
 class PlayerPhaseP():
@@ -405,6 +431,9 @@ class JudgeStatement1P():
         return f"まで{moves}手で{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
 
 
+judge_statement1_p = JudgeStatement1P()
+
+
 class JudgeStatement2P():
     def __init__(self):
         # Example: `まで63手で中断`
@@ -416,6 +445,9 @@ class JudgeStatement2P():
     def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
         return f"まで{moves}手で{sign_p.from_pivot(judge)}\n"
+
+
+judge_statement2_p = JudgeStatement2P()
 
 
 class JudgeStatement3P():
@@ -430,6 +462,9 @@ class JudgeStatement3P():
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
         return f"まで{moves}手で{reason}により{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
+
+
+judge_statement3_p = JudgeStatement3P()
 
 
 class ReasonP():

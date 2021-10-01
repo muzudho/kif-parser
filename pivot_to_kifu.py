@@ -4,8 +4,8 @@ import json
 import sys
 import shutil
 from collections import OrderedDict
-from scripts.kifu_specification import player_phase_p, handicap_p, zenkaku_number_p, kanji_number_p, sign_p, \
-    piece_type_p, judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
+from scripts.kifu_specification import player_phase_p, handicap_p, \
+    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
 def convert_pivot_to_kifu(pivotFile):

@@ -3,10 +3,11 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, player_phase_p, player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
+from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player_phase_p, player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
+__bookmark_p = BookmarkP()
 __move_statement_p = MoveStatementP()
 __move_p = MoveP()
 __elapsed_time_p = ElapsedTimeP()
@@ -36,7 +37,7 @@ def convert_kifu_to_pivot(file):
     outPath = os.path.join('pivot', f"{stem}.json")
 
     # とりあえず KIFU を読んでみます
-    rowNumber = 1
+    row_number = 1
     with open(file, encoding='utf-8') as f:
 
         s = f.read()
@@ -48,7 +49,7 @@ def convert_kifu_to_pivot(file):
             # 指し手の解析
             result = __move_statement_p.match(line)
             if result:
-                data[f'{rowNumber}'] = {
+                data[f'{row_number}'] = {
                     "Type": "Move",
                     "Moves": f"{result.group(1)}"
                 }
@@ -58,10 +59,10 @@ def convert_kifu_to_pivot(file):
                 if elapsedTime:
                     result2 = __elapsed_time_p.match(elapsedTime)
                     if result2:
-                        data[f'{rowNumber}']['ElapsedTime'] = {}
-                        data[f'{rowNumber}']['ElapsedTime']['Minute'] = int(
+                        data[f'{row_number}']['ElapsedTime'] = {}
+                        data[f'{row_number}']['ElapsedTime']['Minute'] = int(
                             result2.group(1))
-                        data[f'{rowNumber}']['ElapsedTime']['Second'] = int(
+                        data[f'{row_number}']['ElapsedTime']['Second'] = int(
                             result2.group(2))
 
                 # 累計の消費時間の解析
@@ -69,39 +70,39 @@ def convert_kifu_to_pivot(file):
                 if totalElapsedTime:
                     result2 = __total_elapsed_time_p.match(totalElapsedTime)
                     if result2:
-                        data[f'{rowNumber}']['TotalElapsedTime'] = {}
-                        data[f'{rowNumber}']['TotalElapsedTime']['Hour'] = int(
+                        data[f'{row_number}']['TotalElapsedTime'] = {}
+                        data[f'{row_number}']['TotalElapsedTime']['Hour'] = int(
                             result2.group(1))
-                        data[f'{rowNumber}']['TotalElapsedTime']['Minute'] = int(
+                        data[f'{row_number}']['TotalElapsedTime']['Minute'] = int(
                             result2.group(2))
-                        data[f'{rowNumber}']['TotalElapsedTime']['Second'] = int(
+                        data[f'{row_number}']['TotalElapsedTime']['Second'] = int(
                             result2.group(3))
 
                 # 指し手の詳細の解析
                 move = result.group(2)
                 if sign_p.contains(move):
-                    data[f'{rowNumber}']['Move'] = {
+                    data[f'{row_number}']['Move'] = {
                         "Sign": sign_p.to_pivot(move)}
                 else:
 
                     result2 = __move_p.match(move)
                     if result2:
-                        data[f'{rowNumber}']['Move'] = {}
+                        data[f'{row_number}']['Move'] = {}
 
                         destinationFile = result2.group(1)
                         if destinationFile:
-                            data[f'{rowNumber}']['Move']['DestinationFile'] = zenkaku_number_p.to_pivot(
+                            data[f'{row_number}']['Move']['DestinationFile'] = zenkaku_number_p.to_pivot(
                                 destinationFile)
 
                         destinationRank = result2.group(2)
                         if destinationRank:
-                            data[f'{rowNumber}']['Move']['DestinationRank'] = kanji_number_p.to_pivot(
+                            data[f'{row_number}']['Move']['DestinationRank'] = kanji_number_p.to_pivot(
                                 destinationRank)
 
                         destination = result2.group(3)
                         if destination:
                             if destination == '同　':
-                                data[f'{rowNumber}']['Move']['Destination'] = 'Same'
+                                data[f'{row_number}']['Move']['Destination'] = 'Same'
                             else:
                                 # Error
                                 print(f"Error: destination={destination}")
@@ -109,15 +110,15 @@ def convert_kifu_to_pivot(file):
 
                         pieceType = result2.group(4)
                         if pieceType:
-                            data[f'{rowNumber}']['Move']['PieceType'] = piece_type_p.to_pivot(
+                            data[f'{row_number}']['Move']['PieceType'] = piece_type_p.to_pivot(
                                 pieceType)
 
                         dropOrPromotion = result2.group(5)
                         if dropOrPromotion:
                             if dropOrPromotion == '打':
-                                data[f'{rowNumber}']['Move']['Drop'] = True
+                                data[f'{row_number}']['Move']['Drop'] = True
                             elif dropOrPromotion == '成':
-                                data[f'{rowNumber}']['Move']['Promotion'] = True
+                                data[f'{row_number}']['Move']['Promotion'] = True
                             else:
                                 # Error
                                 print(
@@ -128,120 +129,127 @@ def convert_kifu_to_pivot(file):
                         if source:
                             # Example `(77)`
                             square = int(source[1:-1])
-                            data[f'{rowNumber}']['Move']['SourceFile'] = square//10
-                            data[f'{rowNumber}']['Move']['SourceRank'] = square % 10
+                            data[f'{row_number}']['Move']['SourceFile'] = square//10
+                            data[f'{row_number}']['Move']['SourceRank'] = square % 10
 
                         unknown = result2.group(7)
                         if unknown:
-                            data[f'{rowNumber}']['Move']['Unknown'] = unknown
+                            data[f'{row_number}']['Move']['Unknown'] = unknown
 
                     else:
-                        data[f'{rowNumber}']['Move'] = {"Unknown": move}
+                        data[f'{row_number}']['Move'] = {"Unknown": move}
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # コメントの解析
             result = __comment_p.match(line)
             if result:
-                data[f'{rowNumber}'] = {
-                    "Type": "Comment",
-                    "Comment": f"{result.group(1)}"
-                }
+                comment = result.group(1)
+                __comment_p.to_pibot(data, row_number, comment)
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # 指し手等の解説の解析
             result = __explanation_p.match(line)
             if result:
-                data[f'{rowNumber}'] = {
-                    "Type": "Explanation",
-                    "Explanation": f"{result.group(1)}",
-                }
+                explanation = result.group(1)
+                __explanation_p.to_pibot(data, row_number, explanation)
 
-                rowNumber += 1
+                row_number += 1
+                continue
+
+            # しおりの解析
+            result = __bookmark_p.match(line)
+            if result:
+                bookmark = result.group(1)
+                __bookmark_p.to_pibot(data, row_number, bookmark)
+
+                row_number += 1
                 continue
 
             # プレイヤー名の解析
             result = player_statement_p.match(line)
             if result:
-                data[f'{rowNumber}'] = {
+                player_phase = player_phase_p.to_pivot(result.group(1))
+                player_name = result.group(2)
+                data[f'{row_number}'] = {
                     "Type": "Player",
-                    "PlayerPhase": f"{player_phase_p.to_pivot(result.group(1))}",
-                    "PlayerName": f"{result.group(2)}",
+                    "PlayerPhase": f"{player_phase}",
+                    "PlayerName": f"{player_name}",
                 }
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # 指し手のテーブルの先頭行
             if line == '手数----指手---------消費時間--':
                 # Ignored
-                rowNumber += 1
+                row_number += 1
                 continue
 
             result = handicap_p.match(line)
             if result:
-                handicap = result.group(1)
-                data[f'{rowNumber}'] = {
+                handicap = handicap_p.to_pivot(result.group(1))
+                data[f'{row_number}'] = {
                     "Type": "Handicap",
-                    "Handicap": handicap_p.to_pivot(handicap),
+                    "Handicap": handicap,
                 }
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # Example: `まで64手で後手の勝ち`
             result = __judge_statement1_p.match(line)
             if result:
                 moves = result.group(1)
-                playerPhase = result.group(2)
-                judge = result.group(3)
-                data[f'{rowNumber}'] = {
+                playerPhase = player_phase_p.to_pivot(result.group(2))
+                judge = sign_p.to_pivot(result.group(3))
+                data[f'{row_number}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Winner": f"{player_phase_p.to_pivot(playerPhase)}",
-                    "Judge": f"{sign_p.to_pivot(judge)}",
+                    "Winner": f"{playerPhase}",
+                    "Judge": f"{judge}",
                 }
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # Example: `まで63手で中断`
             result = __judge_statement2_p.match(line)
             if result:
                 moves = result.group(1)
-                judge = result.group(2)
-                data[f'{rowNumber}'] = {
+                judge = sign_p.to_pivot(result.group(2))
+                data[f'{row_number}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Judge": f"{sign_p.to_pivot(judge)}",
+                    "Judge": f"{judge}",
                 }
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # Example: `まで52手で時間切れにより後手の勝ち`
             result = __judge_statement3_p.match(line)
             if result:
                 moves = result.group(1)
-                reason = result.group(2)
-                playerPhase = result.group(3)
-                judge = result.group(4)
-                data[f'{rowNumber}'] = {
+                reason = __reason_p.to_pivot(result.group(2))
+                playerPhase = player_phase_p.to_pivot(result.group(3))
+                judge = sign_p.to_pivot(result.group(4))
+                data[f'{row_number}'] = {
                     "Type": "Result",
                     "Moves": f"{moves}",
-                    "Reason": f"{__reason_p.to_pivot(reason)}",
-                    "Winner": f"{player_phase_p.to_pivot(playerPhase)}",
-                    "Judge": f"{sign_p.to_pivot(judge)}",
+                    "Reason": f"{reason}",
+                    "Winner": f"{playerPhase}",
+                    "Judge": f"{judge}",
                 }
 
-                rowNumber += 1
+                row_number += 1
                 continue
 
             # 解析漏れ
-            print(f"Error: rowNumber={rowNumber} line={line}")
+            print(f"Error: row_number={row_number} line={line}")
             return None, None
 
     with open(outPath, 'w', encoding='utf-8') as fOut:
