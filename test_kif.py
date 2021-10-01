@@ -4,6 +4,7 @@ import os
 from scripts.test_lib import create_sha256
 from kif_to_pivot import convert_kif_to_pivot
 from pivot_to_kif import convert_pivot_to_kif
+from kif_to_kifu import copy_kif_from_input
 
 
 def test_2_kif_files(kifFile):
@@ -53,6 +54,8 @@ def test_2_kif_files(kifFile):
 
 
 def main():
+    copy_kif_from_input()
+
     # KIFファイル一覧
     kif_files = glob.glob("./kif/*.kif")
     for kif_file in kif_files:
