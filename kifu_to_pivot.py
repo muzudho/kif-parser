@@ -4,8 +4,8 @@ import json
 import shutil
 from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player_phase_p, \
     player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, \
-    MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, \
-    JudgeStatement2P, JudgeStatement3P, reason_p
+    MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, judge_statement1_p, \
+    judge_statement2_p, judge_statement3_p, reason_p
 from kifu_to_kif import copy_kifu_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
@@ -19,9 +19,6 @@ __move_statement_p = MoveStatementP()
 __move_p = MoveP()
 __elapsed_time_p = ElapsedTimeP()
 __total_elapsed_time_p = TotalElapsedTimeP()
-__judge_statement1_p = JudgeStatement1P()
-__judge_statement2_p = JudgeStatement2P()
-__judge_statement3_p = JudgeStatement3P()
 
 
 def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
@@ -217,49 +214,36 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 continue
 
             # Example: `まで64手で後手の勝ち`
-            result = __judge_statement1_p.match(line)
+            result = judge_statement1_p.match(line)
             if result:
                 moves = result.group(1)
                 playerPhase = player_phase_p.to_pivot(result.group(2))
                 judge = sign_p.to_pivot(result.group(3))
-                data[f'{row_number}'] = {
-                    "type": "Result",
-                    "moves": f"{moves}",
-                    "winner": f"{playerPhase}",
-                    "judge": f"{judge}",
-                }
+                judge_statement1_p.to_pivot(
+                    data, row_number, moves, playerPhase, judge)
 
                 row_number += 1
                 continue
 
             # Example: `まで63手で中断`
-            result = __judge_statement2_p.match(line)
+            result = judge_statement2_p.match(line)
             if result:
                 moves = result.group(1)
                 judge = sign_p.to_pivot(result.group(2))
-                data[f'{row_number}'] = {
-                    "type": "Result",
-                    "moves": f"{moves}",
-                    "judge": f"{judge}",
-                }
+                judge_statement2_p.to_pivot(data, row_number, moves, judge)
 
                 row_number += 1
                 continue
 
             # Example: `まで52手で時間切れにより後手の勝ち`
-            result = __judge_statement3_p.match(line)
+            result = judge_statement3_p.match(line)
             if result:
                 moves = result.group(1)
                 reason = reason_p.to_pivot(result.group(2))
                 playerPhase = player_phase_p.to_pivot(result.group(3))
                 judge = sign_p.to_pivot(result.group(4))
-                data[f'{row_number}'] = {
-                    "type": "Result",
-                    "moves": f"{moves}",
-                    "reason": f"{reason}",
-                    "winner": f"{playerPhase}",
-                    "judge": f"{judge}",
-                }
+                judge_statement3_p.to_pivot(
+                    data, row_number, moves, reason, playerPhase, judge)
 
                 row_number += 1
                 continue
