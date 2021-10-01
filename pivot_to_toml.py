@@ -37,7 +37,11 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             if rowData["type"] == "Comment":
                 comment = rowData["comment"]
-                toml_text += f'#{comment}\n'
+                # TOMLのコメントにすると、パーサーがコメントを読み込んでくれないので、
+                # コメントにはしません
+                # TODO 文字列エスケープどうする？
+                # TODO コメントが複数あることに対応できない（名前の重複）
+                toml_text += f"comment='''{comment}'''\n"
             elif rowData["type"] == "Explanation":
                 explanation = rowData["explanation"]
                 # TODO 文字列エスケープどうする？

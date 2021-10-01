@@ -60,6 +60,7 @@ def convert_toml_to_pivot(toml_file, output_folder='temporary/pivot', done_folde
         text = s.rstrip()
 
         try:
+            # XXX コメントの読込はサポートしないとのこと
             toml_dict = tomli.loads(text)
             print(f"toml_dict={toml_dict}")
         except tomli.TOMLDecodeError:
