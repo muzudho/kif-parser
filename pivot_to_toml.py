@@ -8,7 +8,7 @@ from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d'):
+def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d', done_folder='temporary/pivot-done_d'):
     # basename
 
     try:
@@ -81,7 +81,7 @@ def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d'):
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
     donePivotFile = shutil.move(
-        pivotFile, os.path.join('pivot-done', basename))
+        pivotFile, os.path.join(done_folder, basename))
 
     return tomlFile, donePivotFile
 

@@ -18,7 +18,7 @@ def undo_pivot(pivot_file, output_folder='temporary/pivot_d'):
 
 def main():
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./pivot-done/*.json")
+    pivot_files = glob.glob("./temporary/pivot-done_d/*.json")
     for pivot_file in pivot_files:
         _undone_pivot_file = undo_pivot(pivot_file)
 

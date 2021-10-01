@@ -19,7 +19,7 @@ def copy_pivot_from_input(output_folder='temporary/kif_d'):
         shutil.copyfile(input_file, copy_file)
 
 
-def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu_d', done_folder='pivot-done'):
+def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu_d', done_folder='temporary/pivot-done_d'):
     # basename
 
     try:
