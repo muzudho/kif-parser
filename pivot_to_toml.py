@@ -80,10 +80,10 @@ def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml', done_folder
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePivotFile = shutil.move(
+    done_pivot_file = shutil.move(
         pivotFile, os.path.join(done_folder, basename))
 
-    return tomlFile, donePivotFile
+    return tomlFile, done_pivot_file
 
 
 def main():

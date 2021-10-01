@@ -1,8 +1,11 @@
 # kif-parser
 
-WIP .KIF file (Shogi format) Parser, Converter.  
+Work in progress.  
 
-**DANGER:** このパーサーは、このプロジェクトの各📂フォルダーに入れたファイルを壊し得ます。棋譜ファイルはバックアップを取って使ってください。  
+* Convert from `*.kif` (shogi format) file to `*.kifu` (shogi format) file. And vice versa
+* Convert from `*.kifu` file to `*.json` PIVOT file. And vice versa.  
+  All files will be converted to PIVOT files once.
+* **WIP** Convert from `*.json` PIVOT file to `*.toml` (shogi format) file
 
 ![20211001shogi2.png](docs/img/20211001shogi2.png)  
 
