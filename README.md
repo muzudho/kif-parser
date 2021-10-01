@@ -21,18 +21,18 @@ WIP .KIF file (Shogi format) Parser, Converter.
 ## KIF から KIFU へ変換
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`input` に 📄`*.kif` ファイルをたくさん入れてください
+2. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 3. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
-4. UTF-8形式に変換して 📂`output` へ 📄`*.kifu` ファイルが出力されます
+4. UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
 5. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
 ## KIFU から KIF へ変換
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`kifu` に `*.kifu` ファイルをたくさん入れてください
+2. 📂`input` フォルダーに 📄`*.kifu` ファイルをたくさん入れてください
 3. ターミナルで `python.exe kifu_to_kif.py` コマンドを実行してください
-4. Shift-JIS形式に変換して 📂`kif` へ出力されます
-5. 読み終えた `kifu/*.kifu` ファイルは、 `kifu-done/*.kifu` へ移動されます
+4. Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
+5. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
 ## KIF から PIVOT へ変換
 

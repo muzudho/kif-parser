@@ -4,7 +4,18 @@ import os
 import codecs
 
 
-def convert_kifu_to_kif(kifuFile):
+def copy_kifu_from_input():
+    """inputフォルダーにある `*.kifu` ファイルを kifuフォルダーへコピーします"""
+
+    input_files = glob.glob("./input/*.kifu")
+    for input_file in input_files:
+        # basename
+        basename = os.path.basename(input_file)
+        copy_file = os.path.join('kifu', basename)
+        shutil.copyfile(input_file, copy_file)
+
+
+def convert_kifu_to_kif(kifuFile, output_folder='kif', done_folder='kifu-done'):
     """(1) kifu フォルダーの *.kifuファイルを読み取ります
     (2) *.kifファイルを kif フォルダーへ生成します
     (3) 読み終えた *.kifuファイルは kifu-done フォルダーへ移動します
@@ -28,7 +39,7 @@ def convert_kifu_to_kif(kifuFile):
             return ""
 
         # New file
-        kifFile = os.path.join('kif', f"{stem}.kif")
+        kifFile = os.path.join(output_folder, f"{stem}.kif")
 
         with codecs.open(kifFile, "w", encoding='shift_jis') as fOut:
 
@@ -38,15 +49,18 @@ def convert_kifu_to_kif(kifuFile):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    doneKifuFile = shutil.move(kifuFile, os.path.join('kifu-done', basename))
+    doneKifuFile = shutil.move(kifuFile, os.path.join(done_folder, basename))
     return kifFile, doneKifuFile
 
 
 def main():
+    copy_kifu_from_input()
+
     # KIFUファイル一覧
     kifu_files = glob.glob("./kifu/*.kifu")
     for kifu_file in kifu_files:
-        _kifFile, _donePath = convert_kifu_to_kif(kifu_file)
+        _kifFile, _donePath = convert_kifu_to_kif(
+            kifu_file, output_folder='output')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
