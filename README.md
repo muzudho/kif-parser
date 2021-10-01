@@ -26,14 +26,14 @@ Work in progress.
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
 3. UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## KIFU から KIF へ変換
 
 1. 📂`input` フォルダーに 📄`*.kifu` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kifu_to_kif.py` コマンドを実行してください
 3. Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## KIF から PIVOT へ変換
 
@@ -41,14 +41,14 @@ Work in progress.
 2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
 3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 ## KIFU から PIVOT へ変換
 
 1. 📂`input` フォルダーに `*.kifu` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kifu_to_pivot.py` コマンドを実行してください
 3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## PIVOT から KIF へ変換
 
@@ -56,7 +56,7 @@ Work in progress.
 2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
 3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## PIVOT から KIFU へ変換
 
@@ -64,7 +64,7 @@ Work in progress.
 2. ターミナルで `python.exe pivot_to_kifu.py` コマンドを実行してください
 3. KIFU形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## 棋譜ファイルを全部消す
 
@@ -72,7 +72,7 @@ Work in progress.
 指定のフォルダーには壊されたくないものは置かないでください  
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. ターミナルで `python.exe remove_all.py` コマンドを実行してください
+2. ターミナルで `python.exe remove_all_temporary.py` コマンドを実行してください
 3. 📂`temporary/kif` フォルダーの中の 📄`*.kif` ファイルは削除されます
 4. 📂`temporary/kif-done` フォルダーの中の 📄`*.kif` ファイルは削除されます
 5. 📂`temporary/kifu` フォルダーの中の 📄`*.kifu` ファイルは削除されます
@@ -113,7 +113,7 @@ Work in progress.
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe test_kif.py` コマンドを実行してください
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ### 動作テスト .kifu変換
 
@@ -122,4 +122,4 @@ Work in progress.
 1. 📂`input` に `*.kifu` ファイルをたくさん入れてください
 2. ターミナルで `python.exe test_kifu.py` コマンドを実行してください
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
