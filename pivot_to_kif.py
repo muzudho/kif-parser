@@ -19,7 +19,7 @@ def main():
     copy_kif_from_input()
 
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./pivot/*.json")
+    pivot_files = glob.glob("./temporary/pivot_d/*.json")
     for pivot_file in pivot_files:
         _kifFile, _donePivotFile = convert_pivot_to_kif(
             pivot_file, output_folder='output')

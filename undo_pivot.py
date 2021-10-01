@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-def undo_pivot(pivot_file):
+def undo_pivot(pivot_file, output_folder='temporary/pivot_d'):
     # basename
     basename = os.path.basename(pivot_file)
     _stem, extention = os.path.splitext(basename)
@@ -12,7 +12,7 @@ def undo_pivot(pivot_file):
 
     # pivotフォルダーへ移動します
     undone_pivot_file = shutil.move(
-        pivot_file, os.path.join('pivot', basename))
+        pivot_file, os.path.join(output_folder, basename))
     return undone_pivot_file
 
 

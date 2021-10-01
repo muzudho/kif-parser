@@ -70,11 +70,11 @@ WIP .KIF file (Shogi format) Parser, Converter.
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
 2. ターミナルで `python.exe remove_all.py` コマンドを実行してください
-3. 📂`kif` フォルダーの中の 📄`*.kif` ファイルは削除されます
+3. 📂`temporary/kif_d` フォルダーの中の 📄`*.kif` ファイルは削除されます
 4. 📂`kif-done` フォルダーの中の 📄`*.kif` ファイルは削除されます
-5. 📂`kifu` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+5. 📂`temporary/kifu_d` フォルダーの中の 📄`*.kifu` ファイルは削除されます
 6. 📂`kifu-done` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-7. 📂`pivot` フォルダーの中の 📄`*.json` ファイルは削除されます
+7. 📂`temporary/pivot_d` フォルダーの中の 📄`*.json` ファイルは削除されます
 8. 📂`pivot-done` フォルダーの中の 📄`*.json` ファイルは削除されます
 9. 📂`toml` フォルダーの中の 📄`*.toml` ファイルは削除されます
 10. 📂`toml-done` フォルダーの中の 📄`*.toml` ファイルは削除されます

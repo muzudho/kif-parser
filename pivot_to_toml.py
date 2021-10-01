@@ -88,7 +88,7 @@ def convert_pivot_to_toml(pivotFile):
 
 def main():
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./pivot/*.json")
+    pivot_files = glob.glob("./temporary/pivot_d/*.json")
     for pivot_file in pivot_files:
         _tomlFile, _donePivotFile = convert_pivot_to_toml(pivot_file)
 

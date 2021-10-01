@@ -99,7 +99,7 @@ def main():
     copy_pivot_from_input()
 
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./pivot/*.json")
+    pivot_files = glob.glob("./temporary/pivot_d/*.json")
     for pivot_file in pivot_files:
         _kifuFile, _donePivotFile = convert_pivot_to_kifu(
             pivot_file, output_folder='output')

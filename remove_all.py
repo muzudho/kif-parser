@@ -28,7 +28,7 @@ def main():
         os.remove(kifu_file)
 
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./pivot/*.json")
+    pivot_files = glob.glob("./temporary/pivot_d/*.json")
     for pivot_file in pivot_files:
         print(f"Remove: {pivot_file}")
         os.remove(pivot_file)

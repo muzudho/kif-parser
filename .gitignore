@@ -15,7 +15,7 @@ output/*.kifu
 output/*.json
 output/*.toml
 
-pivot/*.json
+temporary/pivot_d/*.json
 pivot-done/*.json
 toml/*.toml
 toml-done/*.toml
