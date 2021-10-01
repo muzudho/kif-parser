@@ -4,19 +4,19 @@ import os
 import codecs
 
 
-def copy_kif_from_input():
+def copy_kif_from_input(output_folder='temporary/kif_d'):
     """inputフォルダーにある `*.kif` ファイルを kifフォルダーへコピーします"""
 
     input_files = glob.glob("./input/*.kif")
     for input_file in input_files:
         # basename
         basename = os.path.basename(input_file)
-        copy_file = os.path.join('kif', basename)
+        copy_file = os.path.join(output_folder, basename)
         shutil.copyfile(input_file, copy_file)
 
 
 def convert_kif_to_kifu(kif_file, output_folder='kifu', done_folder='kif-done'):
-    """(1) kif フォルダーの *.kifファイルを読み取ります
+    """(1) kif_file(*.kif)ファイルを読み取ります
     (2) *.kifuファイルを kifu フォルダーへ生成します
     (3) 読み終えた *.kifファイルは kif-done フォルダーへ移動します
 
@@ -57,7 +57,7 @@ def main():
     copy_kif_from_input()
 
     # KIFファイル一覧
-    kif_files = glob.glob("./kif/*.kif")
+    kif_files = glob.glob("./temporary/kif_d/*.kif")
     for kif_file in kif_files:
         _outPath, _donePath = convert_kif_to_kifu(
             kif_file, output_folder='output')

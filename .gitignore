@@ -5,7 +5,7 @@ input/*.kifu
 input/*.json
 input/*.toml
 
-kif/*.kif
+temporary/kif_d/*.kif
 kif-done/*.kif
 kifu/*.kifu
 kifu-done/*.kifu

@@ -4,7 +4,7 @@ import glob
 
 def main():
     # KIFファイル一覧
-    kif_files = glob.glob("./kif/*.kif")
+    kif_files = glob.glob("./temporary/kif_d/*.kif")
     for kif_file in kif_files:
         print(f"Remove: {kif_file}")
         os.remove(kif_file)

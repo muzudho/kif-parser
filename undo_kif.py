@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-def undo_kif(kif_file):
+def undo_kif(kif_file, output_folder='temporary/kif_d'):
     # basename
     basename = os.path.basename(kif_file)
     _stem, extention = os.path.splitext(basename)
@@ -11,7 +11,8 @@ def undo_kif(kif_file):
         return None
 
     # kifフォルダーへ移動します
-    undone_kif_file = shutil.move(kif_file, os.path.join('kif', basename))
+    undone_kif_file = shutil.move(
+        kif_file, os.path.join(output_folder, basename))
     return undone_kif_file
 
 

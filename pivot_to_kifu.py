@@ -8,14 +8,14 @@ from scripts.kifu_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def copy_pivot_from_input():
+def copy_pivot_from_input(output_folder='temporary/kif_d'):
     """inputフォルダーにある `*.json` ファイルを pivotフォルダーへコピーします"""
 
     input_files = glob.glob("./input/*.pivot")
     for input_file in input_files:
         # basename
         basename = os.path.basename(input_file)
-        copy_file = os.path.join('kif', basename)
+        copy_file = os.path.join(output_folder, basename)
         shutil.copyfile(input_file, copy_file)
 
 

@@ -57,7 +57,7 @@ def main():
     copy_kif_from_input()
 
     # KIFファイル一覧
-    kif_files = glob.glob("./kif/*.kif")
+    kif_files = glob.glob("./temporary/kif_d/*.kif")
     for kif_file in kif_files:
         _doneKifFile = test_2_kif_files(kif_file)
 

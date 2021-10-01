@@ -15,8 +15,8 @@ def copy_kifu_from_input():
         shutil.copyfile(input_file, copy_file)
 
 
-def convert_kifu_to_kif(kifuFile, output_folder='kif', done_folder='kifu-done'):
-    """(1) kifu フォルダーの *.kifuファイルを読み取ります
+def convert_kifu_to_kif(kifu_file, output_folder='temporary/kif_d', done_folder='kifu-done'):
+    """(1) kifu_file(*.kifu)ファイルを読み取ります
     (2) *.kifファイルを kif フォルダーへ生成します
     (3) 読み終えた *.kifuファイルは kifu-done フォルダーへ移動します
 
@@ -30,10 +30,10 @@ def convert_kifu_to_kif(kifuFile, output_folder='kif', done_folder='kifu-done'):
     kifFile = ""
 
     # シフトJISエンコードのテキストファイルの読み込み
-    with codecs.open(kifuFile, "r", encoding='utf-8') as f:
+    with codecs.open(kifu_file, "r", encoding='utf-8') as f:
 
         # basename
-        basename = os.path.basename(kifuFile)
+        basename = os.path.basename(kifu_file)
         stem, extention = os.path.splitext(basename)
         if extention.lower() != '.kifu':
             return ""
@@ -49,7 +49,7 @@ def convert_kifu_to_kif(kifuFile, output_folder='kif', done_folder='kifu-done'):
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    doneKifuFile = shutil.move(kifuFile, os.path.join(done_folder, basename))
+    doneKifuFile = shutil.move(kifu_file, os.path.join(done_folder, basename))
     return kifFile, doneKifuFile
 
 
