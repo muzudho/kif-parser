@@ -88,6 +88,13 @@ class PlayerStatementP():
     def match(self, line):
         return self._player_name_statement.match(line)
 
+    def to_pivot(self, data, row_number, player_phase, player_name):
+        data[f'{row_number}'] = {
+            "type": "Player",
+            "playerPhase": f"{player_phase}",
+            "playerName": f"{player_name}",
+        }
+
 
 player_statement_p = PlayerStatementP()
 
@@ -419,6 +426,11 @@ class ElapsedTimeP():
     def match(self, line):
         return self._elapsed_time.match(line)
 
+    def to_pivot(self, data, row_number, minute, second):
+        data[f'{row_number}']["elapsedTime"] = {}
+        data[f'{row_number}']["elapsedTime"]["minute"] = minute
+        data[f'{row_number}']["elapsedTime"]["second"] = second
+
 
 elapsed_time_p = ElapsedTimeP()
 
@@ -430,6 +442,12 @@ class TotalElapsedTimeP():
 
     def match(self, line):
         return self._total_elapsed_time.match(line)
+
+    def to_pivot(self, data, row_number, hour, minute, second):
+        data[f'{row_number}']["totalElapsedTime"] = {}
+        data[f'{row_number}']["totalElapsedTime"]["hour"] = hour
+        data[f'{row_number}']["totalElapsedTime"]["minute"] = minute
+        data[f'{row_number}']["totalElapsedTime"]["second"] = second
 
 
 total_elapsed_time_p = TotalElapsedTimeP()

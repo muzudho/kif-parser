@@ -64,9 +64,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                     if result2:
                         minute = int(result2.group(1))
                         second = int(result2.group(2))
-                        data[f'{row_number}']["elapsedTime"] = {}
-                        data[f'{row_number}']["elapsedTime"]["minute"] = minute
-                        data[f'{row_number}']["elapsedTime"]["second"] = second
+                        elapsed_time_p.to_pivot(
+                            data, row_number, minute, second)
 
                 # 累計の消費時間の解析
                 if totalElapsedTime:
@@ -75,15 +74,13 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                         hour = int(result2.group(1))
                         minute = int(result2.group(2))
                         second = int(result2.group(3))
-                        data[f'{row_number}']["totalElapsedTime"] = {}
-                        data[f'{row_number}']["totalElapsedTime"]["hour"] = hour
-                        data[f'{row_number}']["totalElapsedTime"]["minute"] = minute
-                        data[f'{row_number}']["totalElapsedTime"]["second"] = second
+                        total_elapsed_time_p.to_pivot(
+                            data, row_number, hour, minute, second)
 
                 # 指し手の詳細の解析
                 if sign_p.contains(move):
-                    data[f'{row_number}']["move"] = {
-                        "sign": sign_p.to_pivot(move)}
+                    move = sign_p.to_pivot(move)
+                    data[f'{row_number}']["move"] = {"sign": move}
                 else:
 
                     result2 = move_p.match(move)
@@ -178,11 +175,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             if result:
                 player_phase = player_phase_p.to_pivot(result.group(1))
                 player_name = result.group(2)
-                data[f'{row_number}'] = {
-                    "type": "Player",
-                    "playerPhase": f"{player_phase}",
-                    "playerName": f"{player_name}",
-                }
+                player_statement_p.to_pivot(
+                    data, row_number, player_phase, player_name)
 
                 row_number += 1
                 continue
