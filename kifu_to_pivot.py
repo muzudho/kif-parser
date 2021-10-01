@@ -8,6 +8,9 @@ from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player
     MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, \
     JudgeStatement2P, JudgeStatement3P, reason_p
 from kifu_to_kif import copy_kifu_from_input
+import argparse
+from remove_all_temporary import remove_all_temporary
+
 
 __comment_p = CommentP()
 __explanation_p = ExplanationP()
@@ -273,7 +276,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
     return out_path, done_path
 
 
-def main():
+def main(debug=False):
     copy_kifu_from_input()
 
     # KIFUファイル一覧
@@ -282,7 +285,20 @@ def main():
         _outPath, _donePath = convert_kifu_to_pivot(
             kifu_file, output_folder='output')
 
+    if not debug:
+        # 変換の途中で作ったファイルは削除します
+        remove_all_temporary()
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    main()
+    # Description
+    parser = argparse.ArgumentParser(
+        description='Convert from .kifu file to .json (PIVOT) file.')
+    # `--` - Option arg
+    # `action='store_true'` - Flag
+    parser.add_argument(
+        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+    args = parser.parse_args()
+
+    main(debug=args.debug)

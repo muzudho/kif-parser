@@ -2,6 +2,8 @@ import glob
 import shutil
 import os
 import codecs
+import argparse
+from remove_all_temporary import remove_all_temporary
 
 
 def copy_kifu_from_input(output_folder='temporary/kifu'):
@@ -63,7 +65,7 @@ def convert_kifu_to_kif(kifu_file, output_folder='temporary/kif', done_folder='t
     return kif_file, doneKifuFile
 
 
-def main():
+def main(debug=False):
     copy_kifu_from_input()
 
     # KIFUファイル一覧
@@ -72,7 +74,20 @@ def main():
         _kifFile, _donePath = convert_kifu_to_kif(
             kifu_file, output_folder='output')
 
+    if not debug:
+        # 変換の途中で作ったファイルは削除します
+        remove_all_temporary()
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    main()
+    # Description
+    parser = argparse.ArgumentParser(
+        description='Convert from .kifu file to .kif file.')
+    # `--` - Option arg
+    # `action='store_true'` - Flag
+    parser.add_argument(
+        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+    args = parser.parse_args()
+
+    main(debug=args.debug)

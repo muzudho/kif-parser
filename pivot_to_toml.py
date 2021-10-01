@@ -6,6 +6,8 @@ import shutil
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
+import argparse
+from remove_all_temporary import remove_all_temporary
 
 
 def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folder='temporary/pivot-done'):
@@ -84,13 +86,26 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
     return toml_file, done_pivot_file
 
 
-def main():
+def main(debug=False):
     # PIVOTファイル一覧
     pivot_files = glob.glob("./temporary/pivot/*.json")
     for pivot_file in pivot_files:
         _tomlFile, _donePivotFile = convert_pivot_to_toml(pivot_file)
 
+    if not debug:
+        # 変換の途中で作ったファイルは削除します
+        remove_all_temporary()
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    main()
+    # Description
+    parser = argparse.ArgumentParser(
+        description='Convert from .json (PIVOT) file to .toml file.')
+    # `--` - Option arg
+    # `action='store_true'` - Flag
+    parser.add_argument(
+        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+    args = parser.parse_args()
+
+    main(debug=args.debug)

@@ -6,6 +6,8 @@ import shutil
 from collections import OrderedDict
 from scripts.kifu_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
+import argparse
+from remove_all_temporary import remove_all_temporary
 
 
 def copy_pivot_from_input(output_folder='temporary/kif'):
@@ -100,7 +102,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
     return kifuFile, donePivotFile
 
 
-def main():
+def main(debug=False):
     copy_pivot_from_input()
 
     # PIVOTファイル一覧
@@ -109,7 +111,20 @@ def main():
         _kifuFile, _donePivotFile = convert_pivot_to_kifu(
             pivot_file, output_folder='output')
 
+    if not debug:
+        # 変換の途中で作ったファイルは削除します
+        remove_all_temporary()
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    main()
+    # Description
+    parser = argparse.ArgumentParser(
+        description='Convert from .json (PIVOT) file to .kifu file.')
+    # `--` - Option arg
+    # `action='store_true'` - Flag
+    parser.add_argument(
+        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+    args = parser.parse_args()
+
+    main(debug=args.debug)

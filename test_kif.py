@@ -6,6 +6,8 @@ from scripts.test_lib import create_sha256
 from kif_to_pivot import convert_kif_to_pivot
 from pivot_to_kif import convert_pivot_to_kif
 from kif_to_kifu import copy_kif_from_input
+import argparse
+from remove_all_temporary import remove_all_temporary
 
 
 def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folder='temporary/kif-done'):
@@ -69,7 +71,7 @@ def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folde
     return done_kif_file
 
 
-def main():
+def main(debug=False):
     # `input` フォルダーから `temporary/kif` フォルダーへ `*.kif` ファイルを移動します
     copy_kif_from_input()
 
@@ -78,7 +80,20 @@ def main():
     for kif_file in kif_files:
         _done_kif_file = test_2_kif_files(kif_file)
 
+    if not debug:
+        # 変換の途中で作ったファイルは削除します
+        remove_all_temporary()
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    main()
+    # Description
+    parser = argparse.ArgumentParser(
+        description='Test .kif Convert.')
+    # `--` - Option arg
+    # `action='store_true'` - Flag
+    parser.add_argument(
+        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+    args = parser.parse_args()
+
+    main(debug=args.debug)

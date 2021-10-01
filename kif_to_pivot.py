@@ -2,6 +2,8 @@ import glob
 from kifu_to_pivot import convert_kifu_to_pivot
 from kif_to_kifu import convert_kif_to_kifu
 from kif_to_kifu import copy_kif_from_input
+import argparse
+from remove_all_temporary import remove_all_temporary
 
 
 def convert_kif_to_pivot(kif_file, output_folder='temporary/pivot'):
@@ -18,7 +20,7 @@ def convert_kif_to_pivot(kif_file, output_folder='temporary/pivot'):
     return pivot_file, doneKifFile
 
 
-def main():
+def main(debug=False):
     copy_kif_from_input()
 
     # KIFファイル一覧
@@ -27,7 +29,20 @@ def main():
         _pivotFile, _doneKifFile = convert_kif_to_pivot(
             kif_file, output_folder='output')
 
+    if not debug:
+        # 変換の途中で作ったファイルは削除します
+        remove_all_temporary()
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    main()
+    # Description
+    parser = argparse.ArgumentParser(
+        description='Convert from .kif file to .json (PIVOT) file.')
+    # `--` - Option arg
+    # `action='store_true'` - Flag
+    parser.add_argument(
+        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+    args = parser.parse_args()
+
+    main(debug=args.debug)
