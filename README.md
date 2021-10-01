@@ -86,11 +86,21 @@ Work in progress.
 
 📂`output` フォルダーに、消されてこまるファイルを置かないでください  
 
-2. ターミナルで `python.exe remove_all_output.py` コマンドを実行してください
-3. 📂`output` フォルダーの中の 📄`*.kif` ファイルは削除されます
-5. 📂`output` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-7. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
-9. 📂`output` フォルダーの中の 📄`*.toml` ファイルは削除されます
+1. ターミナルで `python.exe remove_all_output.py` コマンドを実行してください
+2. 📂`output` フォルダーの中の 📄`*.kif` ファイルは削除されます
+3. 📂`output` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+4. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
+5. 📂`output` フォルダーの中の 📄`*.toml` ファイルは削除されます
+
+## 入力ファイルを全部消す
+
+**DANGER** 📂`input` フォルダーの中身を消すコマンドです  
+
+1. ターミナルで `python.exe remove_all_input_danger.py` コマンドを実行してください
+2. 📂`input` フォルダーの中の 📄`*.kif` ファイルは削除されます
+3. 📂`input` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+4. 📂`input` フォルダーの中の 📄`*.json` ファイルは削除されます
+5. 📂`input` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
 ## temporary/kif-done フォルダーから kif フォルダーへファイルを逆移動
 

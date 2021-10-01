@@ -4,9 +4,14 @@ from kif_to_pivot import convert_kif_to_pivot
 from pivot_to_toml import convert_pivot_to_toml
 import argparse
 from remove_all_temporary import remove_all_temporary
+from remove_all_output import remove_all_output
 
 
-def main(debug=False):
+def __main(debug=False):
+    if not debug:
+        # 出力フォルダーを空っぽにします
+        remove_all_output()
+
     copy_kif_from_input()
 
     # KIFファイル一覧
@@ -37,4 +42,4 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
-    main(debug=args.debug)
+    __main(debug=args.debug)

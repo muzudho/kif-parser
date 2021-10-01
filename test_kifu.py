@@ -7,6 +7,7 @@ from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
+from remove_all_output import remove_all_output
 import sys
 
 
@@ -61,7 +62,11 @@ def test_2_kifu_files(kifu_file, output_folder_2nd='temporary/kifu-2nd', done_fo
     return done_kifu_file
 
 
-def main(debug=False):
+def __main(debug=False):
+    if not debug:
+        # 出力フォルダーを空っぽにします
+        remove_all_output()
+
     copy_kifu_from_input()
 
     # KIFUファイル一覧
@@ -85,4 +90,4 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
-    main(debug=args.debug)
+    __main(debug=args.debug)

@@ -8,6 +8,7 @@ from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 import argparse
 from remove_all_temporary import remove_all_temporary
+from remove_all_output import remove_all_output
 
 
 def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folder='temporary/pivot-done'):
@@ -101,7 +102,11 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
     return toml_file, done_pivot_file
 
 
-def main(debug=False):
+def __main(debug=False):
+    if not debug:
+        # 出力フォルダーを空っぽにします
+        remove_all_output()
+
     # PIVOTファイル一覧
     pivot_files = glob.glob("./temporary/pivot/*.json")
     for pivot_file in pivot_files:
@@ -125,4 +130,4 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
-    main(debug=args.debug)
+    __main(debug=args.debug)

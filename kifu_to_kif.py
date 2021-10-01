@@ -4,6 +4,7 @@ import os
 import codecs
 import argparse
 from remove_all_temporary import remove_all_temporary
+from remove_all_output import remove_all_output
 import sys
 
 
@@ -66,7 +67,11 @@ def convert_kifu_to_kif(kifu_file, output_folder='temporary/kif', done_folder='t
     return kif_file, doneKifuFile
 
 
-def main(debug=False):
+def __main(debug=False):
+    if not debug:
+        # 出力フォルダーを空っぽにします
+        remove_all_output()
+
     copy_kifu_from_input()
 
     # KIFUファイル一覧
@@ -94,4 +99,4 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
-    main(debug=args.debug)
+    __main(debug=args.debug)

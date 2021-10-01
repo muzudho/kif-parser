@@ -8,6 +8,7 @@ from pivot_to_kif import convert_pivot_to_kif
 from kif_to_kifu import copy_kif_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
+from remove_all_output import remove_all_output
 
 
 def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folder='temporary/kif-done'):
@@ -71,7 +72,11 @@ def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folde
     return done_kif_file
 
 
-def main(debug=False):
+def __main(debug=False):
+    if not debug:
+        # 出力フォルダーを空っぽにします
+        remove_all_output()
+
     # `input` フォルダーから `temporary/kif` フォルダーへ `*.kif` ファイルを移動します
     copy_kif_from_input()
 
@@ -96,4 +101,4 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
-    main(debug=args.debug)
+    __main(debug=args.debug)
