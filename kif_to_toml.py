@@ -15,6 +15,7 @@ def main(debug=False):
         pivot_file, _doneKifFile = convert_kif_to_pivot(
             kif_file, output_folder='output')
         if pivot_file is None:
+            print(f"Parse fail. kif_file={kif_file}")
             continue
 
         _tomlFile, _done_pivot_file = convert_pivot_to_toml(

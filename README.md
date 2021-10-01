@@ -18,7 +18,7 @@ Work in progress.
 ![20210929shogi8-kifu.png](docs/img/20210929shogi8-kifu-50per.png)  
 👆　.kifu file (Convert: kifu ←→ kif), (kifu → PIVOT)  
 
-![20210930shogi10-pivot-50per.png](docs/img/20210930shogi10-pivot-50per.png)  
+![20211002shogi3-50per.png](docs/img/20211002shogi3-50per.png)  
 👆　PIVOT (.json file. Unofficial format, Not permanent save format. Work in progress)  
 
 ## KIF から KIFU へ変換
