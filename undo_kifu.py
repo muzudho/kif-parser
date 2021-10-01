@@ -1,6 +1,7 @@
 import glob
 import shutil
 import os
+import sys
 
 
 def undo_kifu(kifu_file, output_folder='temporary/kifu'):

@@ -7,6 +7,7 @@ from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
+import sys
 
 
 def test_2_kifu_files(kifu_file, output_folder_2nd='temporary/kifu-2nd', done_folder='temporary/kifu-done'):

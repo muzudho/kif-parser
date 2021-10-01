@@ -1,5 +1,4 @@
 import glob
-import re
 import os
 import json
 import shutil
@@ -10,6 +9,7 @@ from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player
 from kifu_to_kif import copy_kifu_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
+import sys
 
 
 __comment_p = CommentP()
@@ -66,8 +66,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 totalElapsedTime = result.group(4)
 
                 data[f'{row_number}'] = {
-                    "Type": "Move",
-                    "Moves": f"{moves}"
+                    "type": "Move",
+                    "moves": f"{moves}"
                 }
 
                 # 消費時間の解析
@@ -76,9 +76,9 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                     if result2:
                         minute = int(result2.group(1))
                         second = int(result2.group(2))
-                        data[f'{row_number}']['ElapsedTime'] = {}
-                        data[f'{row_number}']['ElapsedTime']['Minute'] = minute
-                        data[f'{row_number}']['ElapsedTime']['Second'] = second
+                        data[f'{row_number}']["elapsedTime"] = {}
+                        data[f'{row_number}']["elapsedTime"]["minute"] = minute
+                        data[f'{row_number}']["elapsedTime"]["second"] = second
 
                 # 累計の消費時間の解析
                 if totalElapsedTime:
@@ -87,36 +87,36 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                         hour = int(result2.group(1))
                         minute = int(result2.group(2))
                         second = int(result2.group(3))
-                        data[f'{row_number}']['TotalElapsedTime'] = {}
-                        data[f'{row_number}']['TotalElapsedTime']['Hour'] = hour
-                        data[f'{row_number}']['TotalElapsedTime']['Minute'] = minute
-                        data[f'{row_number}']['TotalElapsedTime']['Second'] = second
+                        data[f'{row_number}']["totalElapsedTime"] = {}
+                        data[f'{row_number}']["totalElapsedTime"]["hour"] = hour
+                        data[f'{row_number}']["totalElapsedTime"]["minute"] = minute
+                        data[f'{row_number}']["totalElapsedTime"]["second"] = second
 
                 # 指し手の詳細の解析
                 if sign_p.contains(move):
-                    data[f'{row_number}']['Move'] = {
-                        "Sign": sign_p.to_pivot(move)}
+                    data[f'{row_number}']["move"] = {
+                        "sign": sign_p.to_pivot(move)}
                 else:
 
                     result2 = __move_p.match(move)
                     if result2:
-                        data[f'{row_number}']['Move'] = {}
+                        data[f'{row_number}']["move"] = {}
 
                         destinationFile = result2.group(1)
                         if destinationFile:
                             dstFile = zenkaku_number_p.to_pivot(
                                 destinationFile)
-                            data[f'{row_number}']['Move']['DestinationFile'] = dstFile
+                            data[f'{row_number}']["move"]["destinationFile"] = dstFile
 
                         destinationRank = result2.group(2)
                         if destinationRank:
                             dstRank = kanji_number_p.to_pivot(destinationRank)
-                            data[f'{row_number}']['Move']['DestinationRank'] = dstRank
+                            data[f'{row_number}']["move"]["destinationRank"] = dstRank
 
                         destination = result2.group(3)
                         if destination:
                             if destination == '同　':
-                                data[f'{row_number}']['Move']['Destination'] = 'Same'
+                                data[f'{row_number}']["move"]["destination"] = 'Same'
                             else:
                                 # Error
                                 print(f"Error: destination={destination}")
@@ -125,14 +125,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                         pieceType = result2.group(4)
                         if pieceType:
                             pct = piece_type_p.to_pivot(pieceType)
-                            data[f'{row_number}']['Move']['PieceType'] = pct
+                            data[f'{row_number}']["move"]["pieceType"] = pct
 
                         dropOrPromotion = result2.group(5)
                         if dropOrPromotion:
                             if dropOrPromotion == '打':
-                                data[f'{row_number}']['Move']['Drop'] = True
+                                data[f'{row_number}']["move"]["drop"] = True
                             elif dropOrPromotion == '成':
-                                data[f'{row_number}']['Move']['Promotion'] = True
+                                data[f'{row_number}']["move"]["promotion"] = True
                             else:
                                 # Error
                                 print(
@@ -145,15 +145,15 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                             square = int(source[1:-1])
                             srcFile = square//10
                             srcRank = square % 10
-                            data[f'{row_number}']['Move']['SourceFile'] = srcFile
-                            data[f'{row_number}']['Move']['SourceRank'] = srcRank
+                            data[f'{row_number}']["move"]["sourceFile"] = srcFile
+                            data[f'{row_number}']["move"]["sourceRank"] = srcRank
 
                         unknown = result2.group(7)
                         if unknown:
-                            data[f'{row_number}']['Move']['Unknown'] = unknown
+                            data[f'{row_number}']["move"]['Unknown'] = unknown
 
                     else:
-                        data[f'{row_number}']['Move'] = {"Unknown": move}
+                        data[f'{row_number}']["move"] = {"Unknown": move}
 
                 row_number += 1
                 continue
@@ -191,9 +191,9 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 player_phase = player_phase_p.to_pivot(result.group(1))
                 player_name = result.group(2)
                 data[f'{row_number}'] = {
-                    "Type": "Player",
-                    "PlayerPhase": f"{player_phase}",
-                    "PlayerName": f"{player_name}",
+                    "type": "Player",
+                    "playerPhase": f"{player_phase}",
+                    "playerName": f"{player_name}",
                 }
 
                 row_number += 1
@@ -209,8 +209,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             if result:
                 handicap = handicap_p.to_pivot(result.group(1))
                 data[f'{row_number}'] = {
-                    "Type": "Handicap",
-                    "Handicap": handicap,
+                    "type": "Handicap",
+                    "handicap": handicap,
                 }
 
                 row_number += 1
@@ -223,10 +223,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 playerPhase = player_phase_p.to_pivot(result.group(2))
                 judge = sign_p.to_pivot(result.group(3))
                 data[f'{row_number}'] = {
-                    "Type": "Result",
-                    "Moves": f"{moves}",
-                    "Winner": f"{playerPhase}",
-                    "Judge": f"{judge}",
+                    "type": "Result",
+                    "moves": f"{moves}",
+                    "winner": f"{playerPhase}",
+                    "judge": f"{judge}",
                 }
 
                 row_number += 1
@@ -238,9 +238,9 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 moves = result.group(1)
                 judge = sign_p.to_pivot(result.group(2))
                 data[f'{row_number}'] = {
-                    "Type": "Result",
-                    "Moves": f"{moves}",
-                    "Judge": f"{judge}",
+                    "type": "Result",
+                    "moves": f"{moves}",
+                    "judge": f"{judge}",
                 }
 
                 row_number += 1
@@ -254,11 +254,11 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 playerPhase = player_phase_p.to_pivot(result.group(3))
                 judge = sign_p.to_pivot(result.group(4))
                 data[f'{row_number}'] = {
-                    "Type": "Result",
-                    "Moves": f"{moves}",
-                    "Reason": f"{reason}",
-                    "Winner": f"{playerPhase}",
-                    "Judge": f"{judge}",
+                    "type": "Result",
+                    "moves": f"{moves}",
+                    "reason": f"{reason}",
+                    "winner": f"{playerPhase}",
+                    "judge": f"{judge}",
                 }
 
                 row_number += 1

@@ -21,6 +21,7 @@ class ExplanationP():
 class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応
+        # このディクショナリーのキーは、 JSON のキーにもなる
         self._player_phase = {
             'first-player': 'FirstPlayer',
             'second-player': 'SecondPlayer',
@@ -116,45 +117,45 @@ class MoveStatementP():
         toml_text = ''
 
         elapsedTimeHour = 0
-        elapsedTimeMinute = elapsedTime['Minute']
+        elapsedTimeMinute = elapsedTime["minute"]
         if 60 < elapsedTimeMinute:
             elapsedTimeHour = elapsedTimeMinute // 60
             elapsedTimeMinute = elapsedTimeMinute % 60
-        elapsedTimeSecond = elapsedTime['Second']
+        elapsedTimeSecond = elapsedTime["second"]
 
-        totalElapsedTimeHour = totalElapsedTime['Hour']
-        totalElapsedTimeMinute = totalElapsedTime['Minute']
-        totalElapsedTimeSecond = totalElapsedTime['Second']
+        totalElapsedTimeHour = totalElapsedTime["hour"]
+        totalElapsedTimeMinute = totalElapsedTime["minute"]
+        totalElapsedTimeSecond = totalElapsedTime["second"]
 
         key_value_pairs = []
 
         # 移動した駒
-        if 'PieceType' in move:
-            piece_type = piece_type_p.from_pivot(move['PieceType'])
+        if "pieceType" in move:
+            piece_type = piece_type_p.from_pivot(move["pieceType"])
             key_value_pairs.append(f"piece-type='{piece_type}'")
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
-        if 'SourceFile' in move:
+        if "sourceFile" in move:
             # 移動元（打のときは、 SourceFile, SourceRank ともにありません）
-            source_square = int(move['SourceFile']) * \
-                10 + int(move['SourceRank'])
+            source_square = int(move["sourceFile"]) * \
+                10 + int(move["sourceRank"])
             key_value_pairs.append(f"from = {source_square}")
-        elif 'Drop' in move:
+        elif "drop" in move:
             # 打
-            drop = move['Drop']
+            drop = move["drop"]
             if drop:
                 key_value_pairs.append(f"drop = true")
 
         # 行き先
-        if 'DestinationFile' in move:
+        if "destinationFile" in move:
             destination_square = int(
-                move['DestinationFile']) * 10 + int(move['DestinationRank'])
+                move["destinationFile"]) * 10 + int(move["destinationRank"])
             key_value_pairs.append(
                 f"to = {destination_square}")
 
-        elif 'Destination' in move:
-            destination = move['Destination']
+        elif "destination" in move:
+            destination = move["destination"]
             if destination == 'Same':
                 # TODO チェスに「同」は無さそう？
                 key_value_pairs.append(f"to-same = true")
@@ -163,14 +164,14 @@ class MoveStatementP():
                 raise error(f'unknown destination={destination}')
 
         # 成り
-        if 'Promotion' in move:
-            pro = move['Promotion']
+        if "promotion" in move:
+            pro = move["promotion"]
             if pro:
                 key_value_pairs.append(f"promotion = true")
 
         # 投了なども行き先欄に書く
-        if 'Sign' in move:
-            sign = sign_p.from_pivot(move['Sign'])
+        if "sign" in move:
+            sign = sign_p.from_pivot(move["sign"])
             key_value_pairs.append(f"sign = '{sign}'")
 
         # 経過時間

@@ -4,6 +4,7 @@ import os
 import codecs
 import argparse
 from remove_all_temporary import remove_all_temporary
+import sys
 
 
 def copy_kifu_from_input(output_folder='temporary/kifu'):

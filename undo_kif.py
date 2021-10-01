@@ -1,6 +1,7 @@
 import glob
 import shutil
 import os
+import sys
 
 
 def undo_kif(kif_file, output_folder='temporary/kif'):

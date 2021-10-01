@@ -10,8 +10,8 @@ class CommentP():
 
     def to_pibot(self, data, row_number, comment):
         data[f'{row_number}'] = {
-            "Type": "Comment",
-            "Comment": f"{comment}"
+            "type": "Comment",
+            "comment": f"{comment}"
         }
 
 
@@ -24,8 +24,8 @@ class ExplanationP():
 
     def to_pibot(self, data, row_number, explanation):
         data[f'{row_number}'] = {
-            "Type": "Explanation",
-            "Explanation": f"{explanation}",
+            "type": "Explanation",
+            "explanation": f"{explanation}",
         }
 
 
@@ -38,8 +38,8 @@ class BookmarkP():
 
     def to_pibot(self, data, row_number, bookmark):
         data[f'{row_number}'] = {
-            "Type": "Bookmark",
-            "Bookmark": f"{bookmark}",
+            "type": "Bookmark",
+            "bookmark": f"{bookmark}",
         }
 
 
@@ -138,32 +138,32 @@ class MoveStatementP():
     def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
         kifu_text = ""
 
-        elapsedTimeMinute = elapsedTime['Minute']
-        elapsedTimeSecond = elapsedTime['Second']
+        elapsedTimeMinute = elapsedTime["minute"]
+        elapsedTimeSecond = elapsedTime["second"]
 
-        totalElapsedTimeHour = totalElapsedTime['Hour']
-        totalElapsedTimeMinute = totalElapsedTime['Minute']
-        totalElapsedTimeSecond = totalElapsedTime['Second']
+        totalElapsedTimeHour = totalElapsedTime["hour"]
+        totalElapsedTimeMinute = totalElapsedTime["minute"]
+        totalElapsedTimeSecond = totalElapsedTime["second"]
 
         move_text = ""
         # 半角スペース幅
         spaces = 14
 
-        if 'Sign' in move:
-            sign = sign_p.from_pivot(move['Sign'])
+        if "sign" in move:
+            sign = sign_p.from_pivot(move["sign"])
             move_text += f"{sign}"
             spaces -= sign_p.half_width(sign)
 
-        if 'DestinationFile' in move:
+        if "destinationFile" in move:
             destinationFile = zenkaku_number_p.from_pivot(
-                move['DestinationFile'])
+                move["destinationFile"])
             destinationRank = kanji_number_p.from_pivot(
-                move['DestinationRank'])
+                move["destinationRank"])
             move_text += f"{destinationFile}{destinationRank}"
             spaces -= 4
 
-        if 'Destination' in move:
-            destination = move['Destination']
+        if "destination" in move:
+            destination = move["destination"]
             if destination == 'Same':
                 move_text += "同　"
                 spaces -= 4
@@ -171,26 +171,26 @@ class MoveStatementP():
                 move_text += f"{destination}"
                 spaces -= 2
 
-        if 'PieceType' in move:
-            pieceType = piece_type_p.from_pivot(move['PieceType'])
+        if "pieceType" in move:
+            pieceType = piece_type_p.from_pivot(move["pieceType"])
             move_text += f"{pieceType}"
             spaces -= piece_type_p.half_width(pieceType)
 
-        if 'Drop' in move:
-            drop = move['Drop']
+        if "drop" in move:
+            drop = move["drop"]
             if drop:
                 move_text += "打"
                 spaces -= 2
 
-        if 'Promotion' in move:
-            pro = move['Promotion']
+        if "promotion" in move:
+            pro = move["promotion"]
             if pro:
                 move_text += "成"
                 spaces -= 2
 
-        if 'SourceFile' in move:
-            sourceFile = move['SourceFile']
-            sourceRank = move['SourceRank']
+        if "sourceFile" in move:
+            sourceFile = move["sourceFile"]
+            sourceRank = move["sourceRank"]
             move_text += f"({sourceFile}{sourceRank})"
             spaces -= 4
 

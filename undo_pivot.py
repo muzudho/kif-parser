@@ -1,6 +1,7 @@
 import glob
 import shutil
 import os
+import sys
 
 
 def undo_pivot(pivot_file, output_folder='temporary/pivot'):
