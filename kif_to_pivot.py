@@ -8,12 +8,9 @@ def convert_kif_to_pivot(kifFile):
     if kifuFile is None:
         return None, None
 
-    if kifuFile:
-        pivotFile, _doneKifuFile = convert_kifu_to_pivot(kifuFile)
-        # print(f'kifu={kifuFile} pivot={pivotFile}')
-        return pivotFile, doneKifFile
-
-    return None, None
+    pivotFile, _doneKifuFile = convert_kifu_to_pivot(kifuFile)
+    # print(f'kifu={kifuFile} pivot={pivotFile}')
+    return pivotFile, doneKifFile
 
 
 def main():
