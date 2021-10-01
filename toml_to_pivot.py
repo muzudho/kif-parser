@@ -2,32 +2,51 @@ import glob
 import os
 import json
 import shutil
-from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
+
+"""
+from scripts.toml_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
     player_statement_p, handicap_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p
-from kifu_to_kif import copy_kifu_from_input
+"""
+
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
 import sys
+import tomli
 
 
-def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
-    """KIFUファイルを読込んで、JSONファイルを出力します
-    """
+def copy_toml_from_input(output_folder='temporary/toml'):
+    """inputフォルダーにある `*.toml` ファイルを output_folder へコピーします"""
+
+    input_files = glob.glob("./input/*.toml")
+    for input_file in input_files:
+        # basename
+        try:
+            basename = os.path.basename(input_file)
+        except:
+            print(f"Error: input_file={input_file} except={sys.exc_info()[0]}")
+            raise
+
+        copy_file = os.path.join(output_folder, basename)
+        shutil.copyfile(input_file, copy_file)
+
+
+def convert_toml_to_pivot(toml_file, output_folder='temporary/pivot', done_folder='temporary/toml-done'):
+    """.tomlファイルを読込んで、JSON (PIVOT) ファイルを出力します"""
 
     data = {}
 
     # basename
     try:
-        basename = os.path.basename(kifu_file)
+        basename = os.path.basename(toml_file)
     except:
-        print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+        print(f"Error: toml_file={toml_file} except={sys.exc_info()[0]}")
         raise
 
     stem, extention = os.path.splitext(basename)
-    if extention.lower() != '.kifu':
+    if extention.lower() != '.toml':
         return
 
     # insert new extention
@@ -35,11 +54,20 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
 
     # とりあえず KIFU を読んでみます
     row_number = 1
-    with open(kifu_file, encoding='utf-8') as f:
+    with open(toml_file, encoding='utf-8') as f:
 
         s = f.read()
         text = s.rstrip()
 
+        try:
+            toml_dict = tomli.loads(text)
+            print(f"toml_dict={toml_dict}")
+        except tomli.TOMLDecodeError:
+            # 構文エラーなど
+            print(f"Yep, definitely not valid. toml_file={toml_file}")
+            raise
+
+        """
         lines = text.split('\n')
         for line in lines:
 
@@ -239,8 +267,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # ファイルの移動
-    done_path = shutil.move(kifu_file, os.path.join(done_folder, basename))
+    done_path = shutil.move(toml_file, os.path.join(done_folder, basename))
     return out_path, done_path
+        """
+        return None, None
 
 
 def __main(debug=False):
@@ -248,16 +278,16 @@ def __main(debug=False):
         # 出力フォルダーを空っぽにします
         remove_all_output(echo=False)
 
-    copy_kifu_from_input()
+    copy_toml_from_input()
 
-    # KIFUファイル一覧
-    kifu_files = glob.glob("./temporary/kifu/*.kifu")
-    for kifu_file in kifu_files:
-        out_path, _done_path = convert_kifu_to_pivot(
-            kifu_file, output_folder='output')
+    # TOMLファイル一覧
+    toml_files = glob.glob("./temporary/toml/*.toml")
+    for toml_file in toml_files:
+        out_path, _done_path = convert_toml_to_pivot(
+            toml_file, output_folder='output')
 
         if out_path is None:
-            print(f"Parse fail. kifu_file={kifu_file}")
+            print(f"Parse fail. toml_file={toml_file}")
 
     if not debug:
         # 変換の途中で作ったファイルは削除します
@@ -268,7 +298,7 @@ def __main(debug=False):
 if __name__ == "__main__":
     # Description
     parser = argparse.ArgumentParser(
-        description='Convert from .kifu file to .json (PIVOT) file.')
+        description='Convert from .toml file to .json (PIVOT) file.')
     # `--` - Option arg
     # `action='store_true'` - Flag
     parser.add_argument(

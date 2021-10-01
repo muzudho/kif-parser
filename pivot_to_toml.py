@@ -30,25 +30,30 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
 
         move_section_flag = False
-        kifu_text = ""
+        toml_text = ""
 
-        # JSON to KIFU
+        # JSON to TOML
         for rowNumber, rowData in data.items():
 
             if rowData["type"] == "Comment":
                 comment = rowData["comment"]
-                kifu_text += f'#{comment}\n'
+                toml_text += f'#{comment}\n'
             elif rowData["type"] == "Explanation":
                 explanation = rowData["explanation"]
-                kifu_text += f"*{explanation}\n"
+                # TODO 文字列エスケープどうする？
+                toml_text += f"explanation='''{explanation}'''\n"
+            elif rowData["type"] == "Bookmark":
+                bookmark = rowData["bookmark"]
+                # TODO 文字列エスケープどうする？
+                toml_text += f"bookmark='''{bookmark}'''\n"
             elif rowData["type"] == "Move":
                 # 指し手
 
                 if not move_section_flag:
-                    kifu_text += "[moves]\n"
+                    toml_text += "[moves]\n"
                     move_section_flag = True
 
-                kifu_text += move_statement_p.from_pivot(
+                toml_text += move_statement_p.from_pivot(
                     moves=rowData["moves"],
                     elapsedTime=rowData["elapsedTime"],
                     totalElapsedTime=rowData["totalElapsedTime"],
@@ -56,12 +61,12 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             elif rowData["type"] == "Handicap":
                 handicap = handicap_p.from_pivot(rowData["handicap"])
-                kifu_text += f"handicap='{handicap}'\n"
+                toml_text += f"handicap='{handicap}'\n"
             elif rowData["type"] == "Player":
                 player_phase = player_phase_p.from_pivot(
                     rowData["playerPhase"])
                 player_name = rowData["playerName"]
-                kifu_text += f"{player_phase}='''{player_name}'''\n"
+                toml_text += f"{player_phase}='''{player_name}'''\n"
             elif rowData["type"] == "Result":
                 if "reason" in rowData:
                     # Example: `まで52手で時間切れにより後手の勝ち`
@@ -69,20 +74,20 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     reason = rowData['reason']
                     winner = rowData["winner"]
                     judge = rowData["judge"]
-                    kifu_text += judge_statement3_p.from_pivot(
+                    toml_text += judge_statement3_p.from_pivot(
                         moves, reason, winner, judge)
                 elif "winner" in rowData:
                     # Example: `まで64手で後手の勝ち`
                     moves = rowData["moves"]
                     winner = rowData["winner"]
                     judge = rowData["judge"]
-                    kifu_text += judge_statement1_p.from_pivot(
+                    toml_text += judge_statement1_p.from_pivot(
                         moves, winner, judge)
                 else:
                     # Example: `まで63手で中断`
                     moves = rowData["moves"]
                     judge = rowData["judge"]
-                    kifu_text += judge_statement2_p.from_pivot(
+                    toml_text += judge_statement2_p.from_pivot(
                         moves, judge)
             else:
                 # Error
@@ -92,7 +97,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
         # New .kifu ファイル出力
         toml_file = os.path.join(output_folder, f"{stem}.toml")
         with open(toml_file, mode='w', encoding='utf-8') as fOut:
-            fOut.write(kifu_text)
+            fOut.write(toml_text)
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動

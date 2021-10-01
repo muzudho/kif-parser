@@ -21,6 +21,14 @@ Work in progress.
 ![20211002shogi3-50per.png](docs/img/20211002shogi3-50per.png)  
 👆　PIVOT (.json file. Unofficial format, Not permanent save format. Work in progress)  
 
+## Set up
+
+```shell
+# もし、 .kif を .toml に変換したいなら
+pip install tomli
+```
+
+
 ## KIF から KIFU へ変換
 
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
