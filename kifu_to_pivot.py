@@ -2,23 +2,14 @@ import glob
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player_phase_p, \
+from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
     player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, \
-    MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, judge_statement1_p, \
+    move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p
 from kifu_to_kif import copy_kifu_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
 import sys
-
-
-__comment_p = CommentP()
-__explanation_p = ExplanationP()
-__bookmark_p = BookmarkP()
-__move_statement_p = MoveStatementP()
-__move_p = MoveP()
-__elapsed_time_p = ElapsedTimeP()
-__total_elapsed_time_p = TotalElapsedTimeP()
 
 
 def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
@@ -55,7 +46,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
         for line in lines:
 
             # 指し手の解析
-            result = __move_statement_p.match(line)
+            result = move_statement_p.match(line)
             if result:
                 moves = result.group(1)
                 move = result.group(2)
@@ -69,7 +60,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
 
                 # 消費時間の解析
                 if elapsedTime:
-                    result2 = __elapsed_time_p.match(elapsedTime)
+                    result2 = elapsed_time_p.match(elapsedTime)
                     if result2:
                         minute = int(result2.group(1))
                         second = int(result2.group(2))
@@ -79,7 +70,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
 
                 # 累計の消費時間の解析
                 if totalElapsedTime:
-                    result2 = __total_elapsed_time_p.match(totalElapsedTime)
+                    result2 = total_elapsed_time_p.match(totalElapsedTime)
                     if result2:
                         hour = int(result2.group(1))
                         minute = int(result2.group(2))
@@ -95,7 +86,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                         "sign": sign_p.to_pivot(move)}
                 else:
 
-                    result2 = __move_p.match(move)
+                    result2 = move_p.match(move)
                     if result2:
                         data[f'{row_number}']["move"] = {}
 
@@ -156,28 +147,28 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 continue
 
             # コメントの解析
-            result = __comment_p.match(line)
+            result = comment_p.match(line)
             if result:
                 comment = result.group(1)
-                __comment_p.to_pibot(data, row_number, comment)
+                comment_p.to_pibot(data, row_number, comment)
 
                 row_number += 1
                 continue
 
             # 指し手等の解説の解析
-            result = __explanation_p.match(line)
+            result = explanation_p.match(line)
             if result:
                 explanation = result.group(1)
-                __explanation_p.to_pibot(data, row_number, explanation)
+                explanation_p.to_pibot(data, row_number, explanation)
 
                 row_number += 1
                 continue
 
             # しおりの解析
-            result = __bookmark_p.match(line)
+            result = bookmark_p.match(line)
             if result:
                 bookmark = result.group(1)
-                __bookmark_p.to_pibot(data, row_number, bookmark)
+                bookmark_p.to_pibot(data, row_number, bookmark)
 
                 row_number += 1
                 continue

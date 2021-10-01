@@ -15,6 +15,9 @@ class CommentP():
         }
 
 
+comment_p = CommentP()
+
+
 class ExplanationP():
     def __init__(self):
         self._explanation_statement = re.compile(r"^\*(.+)$")
@@ -29,6 +32,9 @@ class ExplanationP():
         }
 
 
+explanation_p = ExplanationP()
+
+
 class BookmarkP():
     def __init__(self):
         self._bookmark_statement = re.compile(r"^\&(.+)$")
@@ -41,6 +47,9 @@ class BookmarkP():
             "type": "Bookmark",
             "bookmark": f"{bookmark}",
         }
+
+
+bookmark_p = BookmarkP()
 
 
 class PlayerPhaseP():
@@ -215,6 +224,9 @@ class MoveP():
 
     def match(self, line):
         return self._move.match(line)
+
+
+move_p = MoveP()
 
 
 class PieceTypeP():
@@ -408,6 +420,9 @@ class ElapsedTimeP():
         return self._elapsed_time.match(line)
 
 
+elapsed_time_p = ElapsedTimeP()
+
+
 class TotalElapsedTimeP():
     def __init__(self):
         # Example: `00:00:16`
@@ -415,6 +430,9 @@ class TotalElapsedTimeP():
 
     def match(self, line):
         return self._total_elapsed_time.match(line)
+
+
+total_elapsed_time_p = TotalElapsedTimeP()
 
 
 class JudgeStatement1P():
