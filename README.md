@@ -49,12 +49,11 @@ WIP .KIF file (Shogi format) Parser, Converter.
 
 ## PIVOT から KIF へ変換
 
-1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 📂`pivot` に `*.json` ファイルをたくさん入れてください
-3. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
-4. KIF形式に変換して 📂`kif` へ出力されます
-5. 読み終えた `pivot/*.json` ファイルは、 `pivot-done/*.json` へ移動されます
-6. PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
+1. 📂`input` フォルダーに `*.json` 形式のPIVOTファイルをたくさん入れてください
+2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
+3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
+   PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
+4. ゴミファイルが溜まっているので消すために、`python.exe remove_all.py` コマンドを実行してください
 
 ## PIVOT から KIFU へ変換
 
