@@ -19,7 +19,7 @@ __judge_statement3_p = JudgeStatement3P()
 __reason_p = ReasonP()
 
 
-def convert_kifu_to_pivot(file, output_folder='temporary/pivot_d', done_folder='kifu-done'):
+def convert_kifu_to_pivot(file, output_folder='temporary/pivot_d', done_folder='temporary/kifu-done_d'):
     """KIFUファイルを読込んで、JSONファイルを出力します
     """
     piece_type_p = PieceTypeP()

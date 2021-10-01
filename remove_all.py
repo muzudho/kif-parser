@@ -22,7 +22,7 @@ def main():
         os.remove(kifu_file)
 
     # KIFUファイル一覧
-    kifu_files = glob.glob("./kifu-done/*.kifu")
+    kifu_files = glob.glob("./temporary/kifu-done_d/*.kifu")
     for kifu_file in kifu_files:
         print(f"Remove: {kifu_file}")
         os.remove(kifu_file)

@@ -15,10 +15,10 @@ def copy_kifu_from_input(output_folder='temporary/kifu_d'):
         shutil.copyfile(input_file, copy_file)
 
 
-def convert_kifu_to_kif(kifu_file, output_folder='temporary/kif_d', done_folder='kifu-done'):
+def convert_kifu_to_kif(kifu_file, output_folder='temporary/kif_d', done_folder='temporary/kifu-done_d'):
     """(1) kifu_file(*.kifu)ファイルを読み取ります
     (2) *.kifファイルを kif フォルダーへ生成します
-    (3) 読み終えた *.kifuファイルは kifu-done フォルダーへ移動します
+    (3) 読み終えた *.kifuファイルは done_folder フォルダーへ移動します
 
     Returns
     -------

@@ -18,7 +18,7 @@ def undo_kifu(kifu_file, output_folder='temporary/kifu_d'):
 
 def main():
     # KIFUファイル一覧
-    kifu_files = glob.glob("./kifu-done/*.kifu")
+    kifu_files = glob.glob("./temporary/kifu-done_d/*.kifu")
     for kifu_file in kifu_files:
         _undone_kifu_file = undo_kifu(kifu_file)
 

@@ -7,7 +7,7 @@ from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
 
 
-def test_2_kifu_files(kifuFile):
+def test_2_kifu_files(kifuFile, done_folder='temporary/kifu-done_d'):
     # basename
     basename = os.path.basename(kifuFile)
     _stem, extention = os.path.splitext(basename)
@@ -47,7 +47,8 @@ def test_2_kifu_files(kifuFile):
 
     # Ok
     # ファイルの移動
-    doneKifuFile = shutil.move(kifuFile, os.path.join('kifu-done', basename))
+    doneKifuFile = shutil.move(kifuFile, os.path.join(
+        done_folder, basename))
     return doneKifuFile
 
 
