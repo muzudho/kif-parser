@@ -23,8 +23,11 @@ def main(debug=False):
     # PIVOTファイル一覧
     pivot_files = glob.glob("./temporary/pivot/*.json")
     for pivot_file in pivot_files:
-        _kifFile, _donePivotFile = convert_pivot_to_kif(
+        kif_file, _done_pivot_file = convert_pivot_to_kif(
             pivot_file, output_folder='output')
+
+        if kif_file is None:
+            print(f"Parse fail. pivot_file={pivot_file}")
 
     if not debug:
         # 変換の途中で作ったファイルは削除します

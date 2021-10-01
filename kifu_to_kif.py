@@ -72,8 +72,11 @@ def main(debug=False):
     # KIFUファイル一覧
     kifu_files = glob.glob("./temporary/kifu/*.kifu")
     for kifu_file in kifu_files:
-        _kifFile, _donePath = convert_kifu_to_kif(
+        kif_file, _done_path = convert_kifu_to_kif(
             kifu_file, output_folder='output')
+
+        if kif_file is None:
+            print(f"Parse fail. kifu_file={kifu_file}")
 
     if not debug:
         # 変換の途中で作ったファイルは削除します

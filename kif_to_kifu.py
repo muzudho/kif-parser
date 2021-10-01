@@ -62,8 +62,8 @@ def convert_kif_to_kifu(kif_file, output_folder='temporary/kifu', done_folder='t
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePath = shutil.move(kif_file, os.path.join(done_folder, basename))
-    return out_path, donePath
+    done_path = shutil.move(kif_file, os.path.join(done_folder, basename))
+    return out_path, done_path
 
 
 def main(debug=False):
@@ -72,8 +72,10 @@ def main(debug=False):
     # KIFファイル一覧
     kif_files = glob.glob("./temporary/kif/*.kif")
     for kif_file in kif_files:
-        _outPath, _donePath = convert_kif_to_kifu(
+        out_path, _done_path = convert_kif_to_kifu(
             kif_file, output_folder='output')
+        if out_path is None:
+            print(f"Parse fail. kif_file={kif_file}")
 
     if not debug:
         # 変換の途中で作ったファイルは削除します

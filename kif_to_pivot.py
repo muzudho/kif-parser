@@ -26,8 +26,10 @@ def main(debug=False):
     # KIFファイル一覧
     kif_files = glob.glob("./temporary/kif/*.kif")
     for kif_file in kif_files:
-        _pivotFile, _doneKifFile = convert_kif_to_pivot(
+        pivot_File, _done_kif_file = convert_kif_to_pivot(
             kif_file, output_folder='output')
+        if pivot_File is None:
+            print(f"Parse fail. kif_file={kif_file}")
 
     if not debug:
         # 変換の途中で作ったファイルは削除します

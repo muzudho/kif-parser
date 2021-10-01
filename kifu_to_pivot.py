@@ -251,8 +251,11 @@ def main(debug=False):
     # KIFUファイル一覧
     kifu_files = glob.glob("./temporary/kifu/*.kifu")
     for kifu_file in kifu_files:
-        _outPath, _donePath = convert_kifu_to_pivot(
+        out_path, _done_path = convert_kifu_to_pivot(
             kifu_file, output_folder='output')
+
+        if out_path is None:
+            print(f"Parse fail. kifu_file={kifu_file}")
 
     if not debug:
         # 変換の途中で作ったファイルは削除します
