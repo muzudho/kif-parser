@@ -2,6 +2,8 @@
 
 input/*.kif
 input/*.kifu
+input/*.json
+input/*.toml
 
 kif/*.kif
 kif-done/*.kif
@@ -10,6 +12,8 @@ kifu-done/*.kifu
 
 output/*.kif
 output/*.kifu
+output/*.json
+output/*.toml
 
 pivot/*.json
 pivot-done/*.json
