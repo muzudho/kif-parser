@@ -27,7 +27,7 @@ def convert_kif_to_kifu(kif_file, output_folder='kifu', done_folder='kif-done'):
         KIFファイルでなかったなら空文字列
     """
 
-    outPath = ""
+    out_path = ""
 
     # シフトJISエンコードのテキストファイルの読み込み
     with codecs.open(kif_file, "r", encoding='shift_jis') as f:
@@ -39,9 +39,9 @@ def convert_kif_to_kifu(kif_file, output_folder='kifu', done_folder='kif-done'):
             return None, None
 
         # Append new extention
-        outPath = os.path.join(output_folder, f"{stem}.kifu")
+        out_path = os.path.join(output_folder, f"{stem}.kifu")
 
-        with codecs.open(outPath, "w", encoding='utf-8') as fOut:
+        with codecs.open(out_path, "w", encoding='utf-8') as fOut:
 
             # UTF-8形式に変換して保存
             for row in f:
@@ -50,7 +50,7 @@ def convert_kif_to_kifu(kif_file, output_folder='kifu', done_folder='kif-done'):
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
     donePath = shutil.move(kif_file, os.path.join(done_folder, basename))
-    return outPath, donePath
+    return out_path, donePath
 
 
 def main():

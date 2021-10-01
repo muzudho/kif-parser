@@ -4,15 +4,18 @@ from kif_to_kifu import convert_kif_to_kifu
 from kif_to_kifu import copy_kif_from_input
 
 
-def convert_kif_to_pivot(kifFile, output_folder='pivot'):
-    kifuFile, doneKifFile = convert_kif_to_kifu(kifFile)
-    if kifuFile is None:
+def convert_kif_to_pivot(kif_file, output_folder='pivot'):
+    kifu_file, doneKifFile = convert_kif_to_kifu(kif_file)
+    if kifu_file is None:
         return None, None
 
-    pivotFile, _doneKifuFile = convert_kifu_to_pivot(
-        kifuFile, output_folder=output_folder)
-    # print(f'kifu={kifuFile} pivot={pivotFile}')
-    return pivotFile, doneKifFile
+    pivot_file, _doneKifuFile = convert_kifu_to_pivot(
+        kifu_file, output_folder=output_folder)
+    if pivot_file is None:
+        return None, None
+
+    # print(f'kifu={kifu_file} pivot={pivot_file}')
+    return pivot_file, doneKifFile
 
 
 def main():

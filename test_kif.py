@@ -7,39 +7,47 @@ from pivot_to_kif import convert_pivot_to_kif
 from kif_to_kifu import copy_kif_from_input
 
 
-def test_2_kif_files(kifFile):
+def test_2_kif_files(kif_file):
     # basename
-    basename = os.path.basename(kifFile)
+    basename = os.path.basename(kif_file)
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kif':
         return ""
 
-    kifBinary = None
+    kif_binary = None
 
     # 読み取り専用、バイナリ
-    with open(kifFile, 'rb') as f:
-        kifBinary = f.read()
+    with open(kif_file, 'rb') as f:
+        kif_binary = f.read()
 
     # print(binaryData)
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
-    kif_1_Sha256 = create_sha256(kifBinary)
+    kif_1_Sha256 = create_sha256(kif_binary)
     # print(f"kif 1 Sha256={kif_1_Sha256}")
 
     # kif -> pivot 変換
-    pivotFile, _doneKifFile = convert_kif_to_pivot(kifFile)
+    pivot_file, _doneKifFile = convert_kif_to_pivot(kif_file)
+    if pivot_file is None:
+        # Error
+        print(f"convert kif to pivot_file fail. kif_file={kif_file}")
+        return None
 
     # pivot -> kif 変換
-    kifFile2, _donePivotFile2 = convert_pivot_to_kif(pivotFile)
+    kif_file2, _donePivotFile2 = convert_pivot_to_kif(pivot_file)
+    if kif_file2 is None:
+        # Error
+        print(f"convert pivot to kif fail. kif_file2={kif_file2}")
+        return None
 
-    kifBinary2 = None
+    kif_binary2 = None
 
     # 読み取り専用、バイナリ
-    with open(kifFile2, 'rb') as f:
-        kifBinary2 = f.read()
+    with open(kif_file2, 'rb') as f:
+        kif_binary2 = f.read()
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
-    kif_2_Sha256 = create_sha256(kifBinary2)
+    kif_2_Sha256 = create_sha256(kif_binary2)
     # print(f"kif 2 Sha256={kif_2_Sha256}")
 
     if kif_1_Sha256 != kif_2_Sha256:
@@ -49,11 +57,12 @@ def test_2_kif_files(kifFile):
 
     # Ok
     # ファイルの移動
-    doneKifFile = shutil.move(kifFile, os.path.join('kif-done', basename))
+    doneKifFile = shutil.move(kif_file, os.path.join('kif-done', basename))
     return doneKifFile
 
 
 def main():
+    # `input` フォルダーから `temporary/kif_d` フォルダーへ `*.kif` ファイルを移動します
     copy_kif_from_input()
 
     # KIFファイル一覧
