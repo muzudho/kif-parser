@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-def undo_kifu(kifu_file, output_folder='temporary/kifu_d'):
+def undo_kifu(kifu_file, output_folder='temporary/kifu'):
     # basename
     basename = os.path.basename(kifu_file)
     _stem, extention = os.path.splitext(basename)
@@ -18,7 +18,7 @@ def undo_kifu(kifu_file, output_folder='temporary/kifu_d'):
 
 def main():
     # KIFUファイル一覧
-    kifu_files = glob.glob("./temporary/kifu-done_d/*.kifu")
+    kifu_files = glob.glob("./temporary/kifu-done/*.kifu")
     for kifu_file in kifu_files:
         _undone_kifu_file = undo_kifu(kifu_file)
 

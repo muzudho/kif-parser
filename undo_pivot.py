@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-def undo_pivot(pivot_file, output_folder='temporary/pivot_d'):
+def undo_pivot(pivot_file, output_folder='temporary/pivot'):
     # basename
     basename = os.path.basename(pivot_file)
     _stem, extention = os.path.splitext(basename)
@@ -18,7 +18,7 @@ def undo_pivot(pivot_file, output_folder='temporary/pivot_d'):
 
 def main():
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot-done_d/*.json")
+    pivot_files = glob.glob("./temporary/pivot-done/*.json")
     for pivot_file in pivot_files:
         _undone_pivot_file = undo_pivot(pivot_file)
 

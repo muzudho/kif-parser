@@ -4,7 +4,7 @@ from kifu_to_kif import convert_kifu_to_kif
 from kif_to_kifu import copy_kif_from_input
 
 
-def convert_pivot_to_kif(pivotFile, output_folder='temporary/kif_d'):
+def convert_pivot_to_kif(pivotFile, output_folder='temporary/kif'):
     kifuFile, donePivotFile = convert_pivot_to_kifu(pivotFile)
     if kifuFile is None:
         return None, None
@@ -19,7 +19,7 @@ def main():
     copy_kif_from_input()
 
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot_d/*.json")
+    pivot_files = glob.glob("./temporary/pivot/*.json")
     for pivot_file in pivot_files:
         _kifFile, _donePivotFile = convert_pivot_to_kif(
             pivot_file, output_folder='output')

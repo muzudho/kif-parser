@@ -70,14 +70,14 @@ WIP .KIF file (Shogi format) Parser, Converter.
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
 2. ターミナルで `python.exe remove_all.py` コマンドを実行してください
-3. 📂`temporary/kif_d` フォルダーの中の 📄`*.kif` ファイルは削除されます
-4. 📂`temporary/kif-done_d` フォルダーの中の 📄`*.kif` ファイルは削除されます
-5. 📂`temporary/kifu_d` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-6. 📂`temporary/kifu-done_d` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-7. 📂`temporary/pivot_d` フォルダーの中の 📄`*.json` ファイルは削除されます
-8. 📂`temporary/pivot-done_d` フォルダーの中の 📄`*.json` ファイルは削除されます
+3. 📂`temporary/kif` フォルダーの中の 📄`*.kif` ファイルは削除されます
+4. 📂`temporary/kif-done` フォルダーの中の 📄`*.kif` ファイルは削除されます
+5. 📂`temporary/kifu` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+6. 📂`temporary/kifu-done` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+7. 📂`temporary/pivot` フォルダーの中の 📄`*.json` ファイルは削除されます
+8. 📂`temporary/pivot-done` フォルダーの中の 📄`*.json` ファイルは削除されます
 9. 📂`temporary/toml_d` フォルダーの中の 📄`*.toml` ファイルは削除されます
-10. 📂`toml-done` フォルダーの中の 📄`*.toml` ファイルは削除されます
+10. 📂`temporary/toml-done` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
 ## 出力ファイルを全部消す
 
@@ -89,12 +89,12 @@ WIP .KIF file (Shogi format) Parser, Converter.
 7. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
 9. 📂`output` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
-## temporary/kif-done_d フォルダーから kif フォルダーへファイルを逆移動
+## temporary/kif-done フォルダーから kif フォルダーへファイルを逆移動
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
 2. 注意。これは壊れたファイルを元に戻す機能では **ありません**
 3. ターミナルで `python.exe undo_kif.py` コマンドを実行してください
-4. 📂`temporary/kifu-done_d` フォルダーにあるファイルが 📂`kifu` へ移動します
+4. 📂`temporary/kifu-done` フォルダーにあるファイルが 📂`kifu` へ移動します
 
 ## Documents
 

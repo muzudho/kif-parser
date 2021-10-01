@@ -7,7 +7,7 @@ from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
 
 
-def test_2_kifu_files(kifuFile, done_folder='temporary/kifu-done_d'):
+def test_2_kifu_files(kifuFile, done_folder='temporary/kifu-done'):
     # basename
     basename = os.path.basename(kifuFile)
     _stem, extention = os.path.splitext(basename)
@@ -56,7 +56,7 @@ def main():
     copy_kifu_from_input()
 
     # KIFUファイル一覧
-    kifu_files = glob.glob("./temporary/kifu_d/*.kifu")
+    kifu_files = glob.glob("./temporary/kifu/*.kifu")
     for kifu_file in kifu_files:
         _doneKifuFile = test_2_kifu_files(kifu_file)
 

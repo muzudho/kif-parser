@@ -8,7 +8,7 @@ from scripts.toml_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d', done_folder='temporary/pivot-done_d'):
+def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d', done_folder='temporary/pivot-done'):
     # basename
 
     try:
@@ -88,7 +88,7 @@ def convert_pivot_to_toml(pivotFile, output_folder='temporary/toml_d', done_fold
 
 def main():
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot_d/*.json")
+    pivot_files = glob.glob("./temporary/pivot/*.json")
     for pivot_file in pivot_files:
         _tomlFile, _donePivotFile = convert_pivot_to_toml(pivot_file)
 

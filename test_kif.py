@@ -7,7 +7,7 @@ from pivot_to_kif import convert_pivot_to_kif
 from kif_to_kifu import copy_kif_from_input
 
 
-def test_2_kif_files(kif_file, done_folder='temporary/kif-done_d'):
+def test_2_kif_files(kif_file, done_folder='temporary/kif-done'):
     # basename
     basename = os.path.basename(kif_file)
     _stem, extention = os.path.splitext(basename)
@@ -62,11 +62,11 @@ def test_2_kif_files(kif_file, done_folder='temporary/kif-done_d'):
 
 
 def main():
-    # `input` フォルダーから `temporary/kif_d` フォルダーへ `*.kif` ファイルを移動します
+    # `input` フォルダーから `temporary/kif` フォルダーへ `*.kif` ファイルを移動します
     copy_kif_from_input()
 
     # KIFファイル一覧
-    kif_files = glob.glob("./temporary/kif_d/*.kif")
+    kif_files = glob.glob("./temporary/kif/*.kif")
     for kif_file in kif_files:
         _doneKifFile = test_2_kif_files(kif_file)
 

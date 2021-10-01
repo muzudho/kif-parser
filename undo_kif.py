@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-def undo_kif(kif_file, output_folder='temporary/kif_d'):
+def undo_kif(kif_file, output_folder='temporary/kif'):
     # basename
     basename = os.path.basename(kif_file)
     _stem, extention = os.path.splitext(basename)
@@ -18,7 +18,7 @@ def undo_kif(kif_file, output_folder='temporary/kif_d'):
 
 def main():
     # KIFファイル一覧
-    kif_files = glob.glob("./temporary/kif-done_d/*.kif")
+    kif_files = glob.glob("./temporary/kif-done/*.kif")
     for kif_file in kif_files:
         _undone_kif_file = undo_kif(kif_file)
 

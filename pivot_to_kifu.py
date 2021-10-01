@@ -8,7 +8,7 @@ from scripts.kifu_specification import player_phase_p, handicap_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
 
 
-def copy_pivot_from_input(output_folder='temporary/kif_d'):
+def copy_pivot_from_input(output_folder='temporary/kif'):
     """inputフォルダーにある `*.json` ファイルを pivotフォルダーへコピーします"""
 
     input_files = glob.glob("./input/*.pivot")
@@ -19,7 +19,7 @@ def copy_pivot_from_input(output_folder='temporary/kif_d'):
         shutil.copyfile(input_file, copy_file)
 
 
-def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu_d', done_folder='temporary/pivot-done_d'):
+def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu', done_folder='temporary/pivot-done'):
     # basename
 
     try:
@@ -49,6 +49,8 @@ def convert_pivot_to_kifu(pivotFile, output_folder='temporary/kifu_d', done_fold
                 kifu_text += f"#{rowData['Comment']}\n"
             elif rowData["Type"] == "Explanation":
                 kifu_text += f"*{rowData['Explanation']}\n"
+            elif rowData["Type"] == "Bookmark":
+                kifu_text += f"&{rowData['Bookmark']}\n"
             elif rowData["Type"] == "Move":
                 # 指し手
                 if not move_section_flag:
@@ -99,7 +101,7 @@ def main():
     copy_pivot_from_input()
 
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot_d/*.json")
+    pivot_files = glob.glob("./temporary/pivot/*.json")
     for pivot_file in pivot_files:
         _kifuFile, _donePivotFile = convert_pivot_to_kifu(
             pivot_file, output_folder='output')

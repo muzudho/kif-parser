@@ -5,20 +5,20 @@ input/*.kifu
 input/*.json
 input/*.toml
 
-temporary/kif_d/*.kif
-temporary/kif-done_d/*.kif
-temporary/kifu_d/*.kifu
-temporary/kifu-done_d/*.kifu
+temporary/kif/*.kif
+temporary/kif-done/*.kif
+temporary/kifu/*.kifu
+temporary/kifu-done/*.kifu
 
 output/*.kif
 output/*.kifu
 output/*.json
 output/*.toml
 
-temporary/pivot_d/*.json
-temporary/pivot-done_d/*.json
+temporary/pivot/*.json
+temporary/pivot-done/*.json
 temporary/toml_d/*.toml
-toml-done/*.toml
+temporary/toml-done/*.toml
 under-development/
 
 # Byte-compiled / optimized / DLL files
