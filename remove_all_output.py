@@ -3,10 +3,10 @@ import glob
 
 
 def main():
-    file_patterns = ('./output/*.kif')
-    file_patterns = ('./output/*.kifu')
-    file_patterns = ('./output/*.json')
-    file_patterns = ('./output/*.toml')
+    file_patterns = ('./output/*.kif',
+                     './output/*.kifu',
+                     './output/*.json',
+                     './output/*.toml')
 
     for file_pattern in file_patterns:
         # 出力ファイル一覧
