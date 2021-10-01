@@ -1,9 +1,16 @@
 # Add
 
+input/*.kif
+input/*.kifu
+
 kif/*.kif
 kif-done/*.kif
 kifu/*.kifu
 kifu-done/*.kifu
+
+output/*.kif
+output/*.kifu
+
 pivot/*.json
 pivot-done/*.json
 toml/*.toml
