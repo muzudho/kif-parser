@@ -3,7 +3,10 @@ import re
 import os
 import json
 import shutil
-from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player_phase_p, player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, JudgeStatement2P, JudgeStatement3P, ReasonP
+from scripts.kifu_specification import CommentP, ExplanationP, BookmarkP, player_phase_p, \
+    player_statement_p, handicap_p, PieceTypeP, ZenkakuNumberP, KanjiNumberP, sign_p, \
+    MoveStatementP, MoveP, ElapsedTimeP, TotalElapsedTimeP, JudgeStatement1P, \
+    JudgeStatement2P, JudgeStatement3P, reason_p
 from kifu_to_kif import copy_kifu_from_input
 
 __comment_p = CommentP()
@@ -16,7 +19,6 @@ __total_elapsed_time_p = TotalElapsedTimeP()
 __judge_statement1_p = JudgeStatement1P()
 __judge_statement2_p = JudgeStatement2P()
 __judge_statement3_p = JudgeStatement3P()
-__reason_p = ReasonP()
 
 
 def convert_kifu_to_pivot(file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
@@ -240,7 +242,7 @@ def convert_kifu_to_pivot(file, output_folder='temporary/pivot', done_folder='te
             result = __judge_statement3_p.match(line)
             if result:
                 moves = result.group(1)
-                reason = __reason_p.to_pivot(result.group(2))
+                reason = reason_p.to_pivot(result.group(2))
                 playerPhase = player_phase_p.to_pivot(result.group(3))
                 judge = sign_p.to_pivot(result.group(4))
                 data[f'{row_number}'] = {

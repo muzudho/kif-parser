@@ -7,7 +7,7 @@ from pivot_to_kif import convert_pivot_to_kif
 from kif_to_kifu import copy_kif_from_input
 
 
-def test_2_kif_files(kif_file, done_folder='temporary/kif-done'):
+def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folder='temporary/kif-done'):
     # basename
     basename = os.path.basename(kif_file)
     _stem, extention = os.path.splitext(basename)
@@ -27,27 +27,28 @@ def test_2_kif_files(kif_file, done_folder='temporary/kif-done'):
     # print(f"kif 1 Sha256={kif_1_Sha256}")
 
     # kif -> pivot 変換
-    pivot_file, _doneKifFile = convert_kif_to_pivot(kif_file)
+    pivot_file, _done_kif_file = convert_kif_to_pivot(kif_file)
     if pivot_file is None:
         # Error
         print(f"convert kif to pivot_file fail. kif_file={kif_file}")
         return None
 
     # pivot -> kif 変換
-    kif_file2, _donePivotFile2 = convert_pivot_to_kif(pivot_file)
-    if kif_file2 is None:
+    kif_file_2nd, _done_pivot_file_2nd = convert_pivot_to_kif(
+        pivot_file, output_folder=output_folder_2nd)
+    if kif_file_2nd is None:
         # Error
-        print(f"convert pivot to kif fail. kif_file2={kif_file2}")
+        print(f"convert pivot to kif fail. kif_file_2nd={kif_file_2nd}")
         return None
 
-    kif_binary2 = None
+    kif_binary_2nd = None
 
     # 読み取り専用、バイナリ
-    with open(kif_file2, 'rb') as f:
-        kif_binary2 = f.read()
+    with open(kif_file_2nd, 'rb') as f:
+        kif_binary_2nd = f.read()
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
-    kif_2_Sha256 = create_sha256(kif_binary2)
+    kif_2_Sha256 = create_sha256(kif_binary_2nd)
     # print(f"kif 2 Sha256={kif_2_Sha256}")
 
     if kif_1_Sha256 != kif_2_Sha256:
@@ -57,8 +58,9 @@ def test_2_kif_files(kif_file, done_folder='temporary/kif-done'):
 
     # Ok
     # ファイルの移動
-    doneKifFile = shutil.move(kif_file, os.path.join(done_folder, basename))
-    return doneKifFile
+    done_kif_file = shutil.move(
+        kif_file_2nd, os.path.join(done_folder, basename))
+    return done_kif_file
 
 
 def main():
@@ -68,7 +70,7 @@ def main():
     # KIFファイル一覧
     kif_files = glob.glob("./temporary/kif/*.kif")
     for kif_file in kif_files:
-        _doneKifFile = test_2_kif_files(kif_file)
+        _done_kif_file = test_2_kif_files(kif_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

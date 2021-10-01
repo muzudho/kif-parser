@@ -453,15 +453,15 @@ judge_statement2_p = JudgeStatement2P()
 class JudgeStatement3P():
     def __init__(self):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        self._judge_statement2 = re.compile(
+        self._judge_statement3 = re.compile(
             r"^まで(\d+)手で(時間切れ)により(先手|後手|下手|上手)の(勝ち)$")
 
     def match(self, line):
-        return self._judge_statement2.match(line)
+        return self._judge_statement3.match(line)
 
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"まで{moves}手で{reason}により{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
+        return f"まで{moves}手で{reason_p.from_pivot(reason)}により{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
 
 
 judge_statement3_p = JudgeStatement3P()
@@ -483,3 +483,6 @@ class ReasonP():
     def from_pivot(self, reason):
         items = [k for k, v in self._reason.items() if v == reason]
         return items[0]
+
+
+reason_p = ReasonP()
