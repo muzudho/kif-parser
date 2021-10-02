@@ -8,19 +8,52 @@
 * [.kifファイルの利用実態の調査](./docs/examples)
 * .KIF に変わる棋譜保存フォーマット仕様の提案、および　その変換アルゴリズム。
 
+## Set up - このスクリプトの使い方
+
+リリース時に必要なフォルダー階層は以下の通りです  
+
+```plain
+/kif-parser
+    /input
+        # ここに *.kif, *.kifu, *.toml, *.json のいずれかを置きます
+    /output
+        # ここに変換後のファイルが出力されます。スクリプト実行時にここに置いてある棋譜ファイルは削除されます
+    /scripts
+    /temporary # このフォルダーの下で棋譜ファイルのコピー、編集、削除が行われます
+        /kif
+        /kif-done
+        /kifu
+        /kifu-done
+        /pivot
+        /pivot-done
+        /toml
+        /toml-done
+
+    kif_to_kifu.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
+    kif_to_pivot.py
+    kif_to_toml.py
+    kifu_to_kif.py
+    kifu_to_pivot.py
+    LICENSE
+    pivot_to_kif.py
+    pivot_to_kifu.py
+    pivot_to_toml.py
+    remove_all_output.py
+    remove_all_temporary.py
+    toml_to_pivot.py
+```
+
 ## KIF から KIFU へ変換
 
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
-3. UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
+3. 📄`input/*.kif` は UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
 
 ## KIFU から KIF へ変換
 
 1. 📂`input` フォルダーに 📄`*.kifu` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kifu_to_kif.py` コマンドを実行してください
-3. Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
+3. 📄`input/*.kifu` は Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
 
 ## Documents
 

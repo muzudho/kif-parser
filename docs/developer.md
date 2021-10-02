@@ -6,14 +6,13 @@
 2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
 3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
+
 ## KIFU から PIVOT へ変換
 
 1. 📂`input` フォルダーに `*.kifu` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kifu_to_pivot.py` コマンドを実行してください
 3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## PIVOT から KIF へ変換
 
@@ -21,7 +20,6 @@
 2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
 3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## PIVOT から KIFU へ変換
 
@@ -29,7 +27,6 @@
 2. ターミナルで `python.exe pivot_to_kifu.py` コマンドを実行してください
 3. KIFU形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
    PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
 ## (WIP) PIVOT から TOML へ変換
 
@@ -125,6 +122,9 @@ pip install tomli
 |comment|コメント行|
 |explanation|指し手へのコメント行|
 |bookmark|しおり|
+|startTime|開始日時の行|
+|endTime|終了日時の行|
+|handicap|手合い割の行|
 |player|対局者の手番、対局者名行|
 |variationLabel|変化手順のジャンプ先ラベル|
 |result|どちらの勝ち、といった終局時のメッセージ行。盤面作成時などには無いこともある|
