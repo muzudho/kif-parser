@@ -36,15 +36,23 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
         # 棋譜は 文書構造であり 意味でまとまってないので（コメントはどこにでもある）
         # それでは不便なので ある程度の区画にまとめます
+        # また、コメントが何に係っているのか分からないので、順序を変えることが正しく行えません
+        #
+        # * "<COMMENT>" section
+        # * "<EXPLANATION>" section
+        # * "<BOOKMARK>" section
+        # * "<GAMEINFO>" section
+        # * "<MOVES>" section
+        # * "<RESULT>" section
+        pre_section_type = ""  # 分かりやすい目印
         section_count = 0
-        pre_section_type = ""
 
         # JSON to TOML
         for row_number, row_data in data.items():
 
             row_type = row_data["type"]
 
-            if pre_section_type == "Comment" and row_type != "Comment":
+            if pre_section_type == "<COMMENT>" and row_type != "Comment":
                 # 連続するコメント行の切り替わり時
                 items = "''',\n    '''".join(comment_buffer)
                 comment_buffer = ""
@@ -58,7 +66,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # ]
                 buffer += f"""comment = [\n    '''{items}'''\n]\n"""
 
-            if pre_section_type == "Explanation" and row_type != "Explanation":
+            if pre_section_type == "<EXPLANATION>" and row_type != "Explanation":
                 # 連続する解説の切り替わり時
                 items = "''',\n    '''".join(comment_buffer)
                 comment_buffer = ""
@@ -80,7 +88,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # 1. コメントに キーが無いことによる重複を避けてください
                 # 2. コメント行は連続することを考慮し、常に配列にします
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<COMMENT>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # flush
@@ -97,13 +105,13 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # TODO 文字列エスケープどうする？
                 comment_buffer.append(comment)
 
-                pre_section_type = row_type
+                pre_section_type = "<COMMENT>"
 
             elif row_type == "Explanation":
                 # 1. 指し手等へのコメントに キーが無いことによる重複を避けてください
                 # 2. 指し手等へのコメント行は連続することを考慮し、常に配列にします
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<EXPLANATION>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # flush
@@ -118,12 +126,13 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # TODO 文字列エスケープどうする？
                 explanation_buffer.append(explanation)
 
-                pre_section_type = row_type
+                pre_section_type = "<EXPLANATION>"
 
             elif row_type == "Bookmark":
-                # しおりに キーが無いことによる重複を避けてください
+                # 1. しおりに キーが無いことによる重複を避けてください
+                # 2. しおりは連続する用途ではありません（だから連続しても別のセクションとして扱います）
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<BOOKMARK>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # flush
@@ -131,19 +140,19 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 # しおり１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = f"""[[section.bookmark]]\n"""
+                buffer = ""
 
                 bookmark = row_data["bookmark"]
 
                 # TODO 文字列エスケープどうする？
                 buffer += f"""bookmark='''{bookmark}'''\n"""
 
-                pre_section_type = row_type
+                pre_section_type = "<BOOKMARK>"
 
             elif row_type == "Move":
                 # 指し手
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<MOVES>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer
@@ -156,29 +165,29 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     totalElapsedTime=row_data["totalElapsedTime"],
                     move=row_data["move"])
 
-                pre_section_type = row_type
+                pre_section_type = "<MOVES>"
 
             elif row_type == "Handicap":
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[section.handicap]]
+                    buffer = f"""[[section]]
 """
 
                 handicap = handicap_p.from_pivot(row_data["handicap"])
                 buffer += f"handicap='{handicap}'\n"
 
-                pre_section_type = row_type
+                pre_section_type = "<GAMEINFO>"
 
             elif row_type == "Player":
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[section.player]]
+                    buffer = f"""[[section]]
 """
 
                 player_phase = player_phase_p.from_pivot(
@@ -189,15 +198,15 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 buffer += f"""{player_phase}='''{player_name}'''
 """
 
-                pre_section_type = row_type
+                pre_section_type = "<GAMEINFO>"
 
             elif row_type == "Result":
 
-                if pre_section_type != row_type:
+                if pre_section_type != "<RESULT>":
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[section.result]]
+                    buffer = f"""[[section]]
 """
 
                 if "reason" in row_data:
@@ -222,7 +231,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     buffer += judge_statement2_p.from_pivot(
                         moves, judge)
 
-                pre_section_type = row_type
+                pre_section_type = "<RESULT>"
 
             else:
                 # Error

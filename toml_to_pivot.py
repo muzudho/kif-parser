@@ -60,9 +60,12 @@ def convert_toml_to_pivot(toml_file, output_folder='temporary/pivot', done_folde
         text = s.rstrip()
 
         try:
-            # XXX コメントの読込はサポートしないとのこと
+            # tomliは、コメントの読込をサポートしないとのこと
             toml_dict = tomli.loads(text)
+
+            # 日付のところが `datetime.time(0, 0)` と出力される
             print(f"toml_dict={toml_dict}")
+
         except tomli.TOMLDecodeError:
             # 構文エラーなど
             print(f"Yep, definitely not valid. toml_file={toml_file}")
