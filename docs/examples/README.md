@@ -22,3 +22,8 @@ CSA形式は コンピューター将棋ソフト同士が通信対局を行う�
 ## [shogigui]20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22.kif
 
 ShogiGUI で WCSC31の きふわらべ を自己対局させた `.kif` ファイルを `.kifu` へ変換したものです。  
+
+## [shogigui]bookmark.kifu
+
+ShogiGUI で 「変化」の機能が見たくて しおり を試しに使ってみたもの。  
+指し手へのコメントも複数行付けた。  
