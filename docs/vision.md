@@ -7,41 +7,7 @@
 * どの形式のファイルも、 PIVOT （中間）ファイルに変換できるものとし、また、 PIVOT から元の形式に戻せるものとします
   * ただし `.kif` ファイルは PIVOT に直接変換せず、 `.kifu` 変換を経由するものとします
 
-
-## Research - 調査
-
-### .kif
-
-![20210929shogi7-kif.png](../docs/img/20210929shogi7-kif-50per.png)  
-👆 `.kif` ファイル。 文字エンコーディングが Shift-JIS なので国際化に向きません。国産の既存のGUIで普及しています。  
-**このファイルをテキストエディターで直接編集している利用者はほぼ居らず、ShogiGUIなどのソフトへ入力、出力するだけと聞きます**  
-
-また、桁ぞろえや 前ゼロなど 表記は、 **ソフトによって異なります**  
-
-`.kif` 形式を使っているソフトの例:  
-
-* [柿木将棋](http://kakinoki.o.oo7.jp/) - .kif 形式のオリジナル。 しかし「変化」手順は仕様にありません
-* [将棋所](http://shogidokoro.starfree.jp/)
-* [Shogi GUI](http://shogigui.siganus.com/)
-* [将棋ウォーズ](https://shogiwars.heroz.jp/?locale=ja)
-
-`.kif` 形式のファイルを配布しているサイトの例:  
-
-* [floodgate](http://wdoor.c.u-tokyo.ac.jp/shogi/floodgate.html)
-* [世界コンピュータ将棋選手権](http://www2.computer-shogi.org/)
-* [将棋電王トーナメント](https://denou.jp/tournament2017/)
-* [世界将棋AI 電竜戦](https://denryu-sen.jp/)
-
-### .kifu
-
-![20210929shogi8-kifu.png](../docs/img/20210929shogi8-kifu-50per.png)  
-👆 `.kifu` ファイル。 `.kif` を UTF-8 に変換したファイルです。国産の既存のGUIで普及していません。  
-将棋は日本が最大のユーザー数ですから、自然、まだ普及していません  
-
 ## Proposal - 提案
-
-一番困っているのは、これから新しく GUI や、関連ソフトを作ろうとしている新規の GUI 開発者側の人です。  
-もうGUIを作った人、将棋を指す人、観る人、思考エンジンを作る人は困っていません。  
 
 そこで 2021年現在、人気の高いプログラム言語の Python, Java Script で標準で実装されている JSON ファイル形式を  
 中心に据え直し、 `.kif` へエクスポートできるアルゴリズムを Work in progress (作業中)です。  
