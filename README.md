@@ -141,19 +141,19 @@ pip install tomli
 4. 📂`input` フォルダーの中の 📄`*.json` ファイルは削除されます
 5. 📂`input` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
-## 危険な操作 - 出力フォルダーの内容を、入力フォルダーへ写す
+## 危険な操作 - 出力フォルダーの内容を、入力フォルダーへ移動
 
 **DANGER** 📂`input` フォルダーの中身を上書きするコマンドです  
 
 1. ターミナルで `python.exe move_output_to_input_danger.py` コマンドを実行してください
 2. 📂`output` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へ移動します
 
-## 危険な操作 - テストデータ フォルダーの内容を、入力フォルダーへ写す
+## 危険な操作 - テストデータ フォルダーの内容を、入力フォルダーへコピー
 
 **DANGER** 📂`input` フォルダーの中身を上書きするコマンドです  
 
-1. ターミナルで `python.exe move_test_data_to_input_danger.py` コマンドを実行してください
-2. 📂`test_data` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へ移動します
+1. ターミナルで `python.exe copy_test_data_to_input_danger.py` コマンドを実行してください
+2. 📂`test_data` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へコピーします
 
 ## Documents
 

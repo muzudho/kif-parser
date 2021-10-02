@@ -4,7 +4,7 @@ import os
 import sys
 
 
-def move_test_data_to_input_danger(test_data_file, output_folder='input'):
+def copy_test_data_to_input_danger(test_data_file, output_folder='input'):
     # basename
     try:
         basename = os.path.basename(test_data_file)
@@ -18,7 +18,7 @@ def move_test_data_to_input_danger(test_data_file, output_folder='input'):
         return None
 
     # output_folderへ移動します
-    undone_test_data_file = shutil.move(
+    undone_test_data_file = shutil.copyfile(
         test_data_file, os.path.join(output_folder, basename))
     return undone_test_data_file
 
@@ -33,7 +33,7 @@ def main():
         # 出力ファイル一覧
         test_data_files = glob.glob(test_data_file_pattern)
         for test_data_file in test_data_files:
-            _undone_test_data_file = move_test_data_to_input_danger(
+            _undone_test_data_file = copy_test_data_to_input_danger(
                 test_data_file)
 
 

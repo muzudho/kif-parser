@@ -19,6 +19,10 @@ temporary/pivot/*.json
 temporary/pivot-done/*.json
 temporary/toml/*.toml
 temporary/toml-done/*.toml
+test-data/*.kif
+test-data/*.kifu
+test-data/*.json
+test-data/*.toml
 under-development/
 
 # Byte-compiled / optimized / DLL files
