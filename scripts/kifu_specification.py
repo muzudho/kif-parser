@@ -8,7 +8,7 @@ class CommentP():
     def match(self, line):
         return self._comment_statement.match(line)
 
-    def to_pibot(self, data, row_number, comment):
+    def to_pivot(self, data, row_number, comment):
         data[f'{row_number}'] = {
             "type": "Comment",
             "comment": f"{comment}"
@@ -25,7 +25,7 @@ class ExplanationP():
     def match(self, line):
         return self._explanation_statement.match(line)
 
-    def to_pibot(self, data, row_number, explanation):
+    def to_pivot(self, data, row_number, explanation):
         data[f'{row_number}'] = {
             "type": "Explanation",
             "explanation": f"{explanation}",
@@ -42,7 +42,7 @@ class BookmarkP():
     def match(self, line):
         return self._bookmark_statement.match(line)
 
-    def to_pibot(self, data, row_number, bookmark):
+    def to_pivot(self, data, row_number, bookmark):
         data[f'{row_number}'] = {
             "type": "Bookmark",
             "bookmark": f"{bookmark}",

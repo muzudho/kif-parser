@@ -18,6 +18,9 @@ class ExplanationP():
         return self._explanation_statement.match(line)
 
 
+explanation_p = ExplanationP()
+
+
 class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応

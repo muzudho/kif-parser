@@ -149,7 +149,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             result = comment_p.match(line)
             if result:
                 comment = result.group(1)
-                comment_p.to_pibot(data, row_number, comment)
+                comment_p.to_pivot(data, row_number, comment)
 
                 row_number += 1
                 continue
@@ -158,7 +158,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             result = explanation_p.match(line)
             if result:
                 explanation = result.group(1)
-                explanation_p.to_pibot(data, row_number, explanation)
+                explanation_p.to_pivot(data, row_number, explanation)
 
                 row_number += 1
                 continue
@@ -167,7 +167,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             result = bookmark_p.match(line)
             if result:
                 bookmark = result.group(1)
-                bookmark_p.to_pibot(data, row_number, bookmark)
+                bookmark_p.to_pivot(data, row_number, bookmark)
 
                 row_number += 1
                 continue
