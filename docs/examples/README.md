@@ -18,3 +18,7 @@ CSA形式は コンピューター将棋ソフト同士が通信対局を行う�
 [floodgate](http://wdoor.c.u-tokyo.ac.jp/shogi/) では 拡張CSA形式の `.csa` フォーマットの棋譜ファイルをダウンロードできます。  
 これは CSA形式に 評価値、読み筋、コメントを追加できるようにしたものです。  
 [電王トーナメント](https://denou.jp/tournament2017/) や、 [電竜戦](https://denryu-sen.jp/) でも使われています。  
+
+## [shogigui]20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22.kif
+
+ShogiGUI で WCSC31の きふわらべ を自己対局させた `.kif` ファイルを `.kifu` へ変換したものです。  
