@@ -1,25 +1,42 @@
 # kif-parser
 
-Work in progress.  
+作業中です。 .KIF （本将棋の棋譜形式）ファイルの利用実態の調査、 問題点の洗い出し、 .KIF に変わる棋譜保存フォーマット仕様の提案、および　その変換アルゴリズム。  
 
-* Convert from `*.kif` (shogi format) file to `*.kifu` (shogi format) file. And vice versa
-* Convert from `*.kifu` file to `*.json` PIVOT file. And vice versa.  
-  All files will be converted to PIVOT files once.
-* **WIP** Convert from `*.json` PIVOT file to `*.toml` (shogi format) file
+## Overview - 全体図
 
 ![20211001shogi2.png](docs/img/20211001shogi2.png)  
 
-![20211001shogi1-50per.png](docs/img/20211001shogi1-50per.png)  
-👆　.toml file (Convert: .kif -> .kifu -> PIVOT -> toml), Work in progress  
+* どの形式のファイルも、 PIVOT （中間）ファイルに変換できるものとし、また、 PIVOT から元の形式に戻せるものとします
+  * ただし `.kif` ファイルは PIVOT に直接変換せず、 `.kifu` 変換を経由するものとします
+
+## Research - 調査
+
+### .kif
 
 ![20210929shogi7-kif.png](docs/img/20210929shogi7-kif-50per.png)  
-👆　.kif file (Convert: kif ←→ kifu), (kif → PIVOT)  
+👆 `.kif` ファイル。 文字エンコーディングが Shift-JIS なので国際化に向きません。国産の既存のGUIで普及しています。  
+**このファイルをテキストエディターで直接編集している利用者はほぼ居らず、ShogiGUIなどのソフトへ入力、出力するだけと聞きます**  
 
 ![20210929shogi8-kifu.png](docs/img/20210929shogi8-kifu-50per.png)  
-👆　.kifu file (Convert: kifu ←→ kif), (kifu → PIVOT)  
+👆 `.kifu` ファイル。 `.kif` を UTF-8 に変換したファイルです。国産の既存のGUIで普及していません。  
+将棋は日本が最大の市場ですから、自然、まだ普及していません  
+
+## Proposal - 提案
+
+一番困っているのは、これから新しく GUI や、関連ソフトを作ろうとしている新規の GUI 開発者側の人です。  
+もうGUIを作った人、将棋を指す人、観る人、思考エンジンを作る人は困っていません。  
+
+そこで 2021年現在、人気の高いプログラム言語の Python, Java Script で標準で実装されている JSON ファイル形式を  
+中心に据え直し、 `.kif` へエクスポートできるアルゴリズムを Work in progress (作業中)です。  
 
 ![20211002shogi3-50per.png](docs/img/20211002shogi3-50per.png)  
-👆　PIVOT (.json file. Unofficial format, Not permanent save format. Work in progress)  
+👆 `.json` ファイル。 仕様は未定  
+
+また、もっと ハードコアな開発者向けに、 `.toml` 形式も先行して準備します。  
+コメント、文字列型、ヒアドキュメント、整数型、浮動小数点型、時刻型やリスト、連想配列など プログラマー寄りの設定ファイル形式です  
+
+![20211002shogi4-per.png](docs/img/20211002shogi4-per.png)  
+👆 `.toml` ファイル。 仕様は未定。  
 
 ## Set up
 

@@ -306,8 +306,7 @@ class JudgeStatement1P():
 
     def from_pivot(self, moves, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"""[result]
-last-moves={moves}
+        return f"""last-moves={moves}
 winner='{player_phase_p.from_pivot(winner)}'
 judge='{sign_p.from_pivot(judge)}'
 """
@@ -326,8 +325,7 @@ class JudgeStatement2P():
 
     def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
-        return f"""[result]
-last-moves={moves}
+        return f"""last-moves={moves}
 judge='{sign_p.from_pivot(judge)}'
 """
 
@@ -346,8 +344,7 @@ class JudgeStatement3P():
 
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"""[result]
-last-moves={moves}
+        return f"""last-moves={moves}
 reason='{reason_p.from_pivot(reason)}'
 winner='{player_phase_p.from_pivot(winner)}'
 judge='{sign_p.from_pivot(judge)}'
