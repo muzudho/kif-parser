@@ -19,7 +19,7 @@
 
 ![20210929shogi8-kifu.png](docs/img/20210929shogi8-kifu-50per.png)  
 👆 `.kifu` ファイル。 `.kif` を UTF-8 に変換したファイルです。国産の既存のGUIで普及していません。  
-将棋は日本が最大の市場ですから、自然、まだ普及していません  
+将棋は日本が最大のユーザー数ですから、自然、まだ普及していません  
 
 ## Proposal - 提案
 
@@ -174,6 +174,7 @@ pip install tomli
 
 ## Documents
 
-📖　[棋譜ファイル KIF 形式](http://kakinoki.o.oo7.jp/kif_format.html)  
+📖　[棋譜ファイル KIF 形式](http://kakinoki.o.oo7.jp/kif_format.html) - オリジナルである柿木将棋での仕様  
+📖　[分岐棋譜→単一棋譜変換プログラム](http://www.hakusa.net/computer/free/kifuconv.html) - オリジナルにはない「変化」の説明  
 📖　[KIF形式を調べようぜ（＾～＾）？](https://crieit.net/drafts/6150ffc21e0de)  
 📖　[将棋の符号](https://crieit.net/drafts/615192ae93d14)  

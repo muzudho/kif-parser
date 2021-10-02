@@ -5,7 +5,8 @@ import sys
 import shutil
 from collections import OrderedDict
 from scripts.kifu_specification import player_phase_p, handicap_p, \
-    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
+    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
+    variation_label_statement_p
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
@@ -49,61 +50,66 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
         kifu_text = ""
 
         # JSON to KIFU
-        for rowNumber, rowData in data.items():
+        for row_number, row_data in data.items():
 
-            if rowData["type"] == "Comment":
-                comment = rowData["comment"]
+            if row_data["type"] == "Comment":
+                comment = row_data["comment"]
                 kifu_text += f'#{comment}\n'
-            elif rowData["type"] == "Explanation":
-                explanation = rowData["explanation"]
+            elif row_data["type"] == "Explanation":
+                explanation = row_data["explanation"]
                 kifu_text += f"*{explanation}\n"
-            elif rowData["type"] == "Bookmark":
-                bookmark = rowData["bookmark"]
+            elif row_data["type"] == "Bookmark":
+                bookmark = row_data["bookmark"]
                 kifu_text += f"&{bookmark}\n"
-            elif rowData["type"] == "Move":
+            elif row_data["type"] == "Move":
                 # 指し手
                 if not move_section_flag:
                     kifu_text += "手数----指手---------消費時間--\n"
                     move_section_flag = True
 
                 kifu_text += move_statement_p.from_pivot(
-                    moves=rowData["moves"],
-                    elapsedTime=rowData["elapsedTime"],
-                    totalElapsedTime=rowData["totalElapsedTime"],
-                    move=rowData["move"])
-            elif rowData["type"] == "Handicap":
-                handicap = handicap_p.from_pivot(rowData["handicap"])
+                    moves=row_data["moves"],
+                    elapsedTime=row_data["elapsedTime"],
+                    totalElapsedTime=row_data["totalElapsedTime"],
+                    move=row_data["move"])
+            elif row_data["type"] == "Handicap":
+                handicap = handicap_p.from_pivot(row_data["handicap"])
                 kifu_text += f"手合割：{handicap}\n"
-            elif rowData["type"] == "Player":
+            elif row_data["type"] == "Player":
                 player_phase = player_phase_p.from_pivot(
-                    rowData["playerPhase"])
-                player_name = rowData["playerName"]
+                    row_data["playerPhase"])
+                player_name = row_data["playerName"]
                 kifu_text += f"{player_phase}：{player_name}\n"
-            elif rowData["type"] == "Result":
-                if "reason" in rowData:
+            elif row_data["type"] == "VariationLabel":
+                moves = variation_label_statement_p.from_pivot(
+                    row_data["moves"])
+                kifu_text += variation_label_statement_p.to_pivot(moves)
+            elif row_data["type"] == "Result":
+                if "reason" in row_data:
                     # Example: `まで52手で時間切れにより後手の勝ち`
-                    moves = rowData["moves"]
-                    reason = rowData['reason']
-                    winner = rowData["winner"]
-                    judge = rowData["judge"]
+                    moves = row_data["moves"]
+                    reason = row_data['reason']
+                    winner = row_data["winner"]
+                    judge = row_data["judge"]
                     kifu_text += judge_statement3_p.from_pivot(
                         moves, reason, winner, judge)
-                elif "winner" in rowData:
+                elif "winner" in row_data:
                     # Example: `まで64手で後手の勝ち`
-                    moves = rowData["moves"]
-                    winner = rowData["winner"]
-                    judge = rowData["judge"]
+                    moves = row_data["moves"]
+                    winner = row_data["winner"]
+                    judge = row_data["judge"]
                     kifu_text += judge_statement1_p.from_pivot(
                         moves, winner, judge)
                 else:
                     # Example: `まで63手で中断`
-                    moves = rowData["moves"]
-                    judge = rowData["judge"]
+                    moves = row_data["moves"]
+                    judge = row_data["judge"]
                     kifu_text += judge_statement2_p.from_pivot(
                         moves, judge)
             else:
                 # Error
-                print(f"Error: rowNumberey={rowNumber} rowData={rowData}")
+                print(
+                    f"Error: unimplemented row_number={row_number} row_data={row_data}")
                 return None, None
 
         # New .kifu ファイル出力

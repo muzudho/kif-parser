@@ -5,7 +5,7 @@ import shutil
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
     player_statement_p, handicap_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
-    judge_statement2_p, judge_statement3_p, reason_p
+    judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p
 from kifu_to_kif import copy_kifu_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
@@ -14,8 +14,7 @@ import sys
 
 
 def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
-    """KIFUファイルを読込んで、JSONファイルを出力します
-    """
+    """KIFUファイルを読込んで、JSONファイルを出力します"""
 
     data = {}
 
@@ -42,6 +41,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
 
         lines = text.split('\n')
         for line in lines:
+
+            # 空行は読み飛ばします。「変化」の直前に有ったりします
+            if line.strip() == '':
+                continue
 
             # 指し手の解析
             result = move_statement_p.match(line)
@@ -131,9 +134,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                             data[f'{row_number}']["move"]["sourceFile"] = srcFile
                             data[f'{row_number}']["move"]["sourceRank"] = srcRank
 
-                        unknown = result2.group(7)
-                        if unknown:
-                            data[f'{row_number}']["move"]['Unknown'] = unknown
+                        # 後ろにコメントが書けるはず
+                        unimplemented = result2.group(7)
+                        if unimplemented:
+                            data[f'{row_number}']["move"]["unimplemented"] = unimplemented
 
                     else:
                         data[f'{row_number}']["move"] = {"Unknown": move}
@@ -164,6 +168,16 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             if result:
                 bookmark = result.group(1)
                 bookmark_p.to_pibot(data, row_number, bookmark)
+
+                row_number += 1
+                continue
+
+            # 変化のジャンプ先ラベルの解析
+            result = variation_label_statement_p.match(line)
+            if result:
+                moves = result.group(1)
+                variation_label_statement_p.to_pivot(
+                    data, row_number, moves)
 
                 row_number += 1
                 continue
@@ -232,7 +246,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 continue
 
             # 解析漏れ
-            print(f"Error: row_number={row_number} line=[{line}]")
+            print(
+                f"Error: kifu_to_pivot.py unimplemented row_number={row_number} line=[{line}]")
             return None, None
 
     with open(out_path, 'w', encoding='utf-8') as fOut:

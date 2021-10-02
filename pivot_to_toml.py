@@ -5,7 +5,8 @@ import sys
 import shutil
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, handicap_p, \
-    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p
+    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
+    variation_label_statement_p
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
@@ -43,6 +44,8 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
         # * "<BOOKMARK>" section
         # * "<GAMEINFO>" section
         # * "<MOVES>" section
+        #   * Move
+        #   * VariationLabel
         # * "<RESULT>" section
         pre_section_type = ""  # 分かりやすい目印
         section_count = 0
@@ -171,6 +174,21 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<MOVES>"
 
+            elif row_type == "VariationLabel":
+                # 変化手順（棋譜の分岐）のジャンプ先ラベル
+
+                # セクションを切り替えます
+                section_count += 1
+                toml_text += buffer  # Flush
+                buffer = f"""[[section]]
+[section.moves]
+"""
+
+                buffer += variation_label_statement_p.from_pivot(
+                    moves=row_data["moves"])
+
+                pre_section_type = "<MOVES>"
+
             elif row_type == "Handicap":
 
                 if pre_section_type != "<GAMEINFO>":
@@ -242,7 +260,8 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             else:
                 # Error
-                print(f"Error: rowNumberey={row_number} row_data={row_data}")
+                print(
+                    f"Error: pivot_to_toml.py unimplemented row_number={row_number} row_data={row_data}")
                 return None, None
 
         if buffer != "":

@@ -103,6 +103,32 @@ class HandicapP():
 handicap_p = HandicapP()
 
 
+class VariationLabelStatementP():
+    """変化手順（棋譜の分岐）のジャンプ先ラベル パーサー
+    Example
+    -------
+    変化：3手
+    """
+
+    def __init__(self):
+        self._variation_label_statement = re.compile(r"^変化：(\d+)手$")
+
+    def match(self, line):
+        return self._variation_label_statement.match(line)
+
+    def to_pivot(self, data, row_number, moves):
+        data[f'{row_number}'] = {
+            "type": "VariationLabel",
+            "moves": f"{moves}",
+        }
+
+    def from_pivot(self, moves):
+        return f"variation-label = {{ moves = {moves} }}\n"
+
+
+variation_label_statement_p = VariationLabelStatementP()
+
+
 class MoveStatementP():
     def __init__(self):
         # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
