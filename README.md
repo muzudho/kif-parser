@@ -5,7 +5,7 @@
 `.kif` は、本将棋の棋譜のファイル フォーマットです  
 
 * [.kifファイルの問題点の洗い出し](./docs/research.md)
-* [.kifファイルの利用実態の調査](./docs/examples/README.md)
+* [.kifファイルの利用実態の調査](./docs/examples)
 * .KIF に変わる棋譜保存フォーマット仕様の提案、および　その変換アルゴリズム。
 
 ## KIF から KIFU へ変換
