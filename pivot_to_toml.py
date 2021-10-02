@@ -57,6 +57,8 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 items = "''',\n    '''".join(comment_buffer)
                 comment_buffer = ""
 
+                # コメントをバッファーへ出力
+                #
                 # Example:
                 #
                 # comment = [
@@ -66,7 +68,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # ]
                 buffer += f"""comment = [\n    '''{items}'''\n]\n"""
 
-            if pre_section_type == "<EXPLANATION>" and row_type != "Explanation":
+            elif pre_section_type == "<EXPLANATION>" and row_type != "Explanation":
                 # 連続する解説の切り替わり時
                 items = "''',\n    '''".join(comment_buffer)
                 comment_buffer = ""
@@ -155,8 +157,10 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 if pre_section_type != "<MOVES>":
                     # セクション切り替わり時
                     section_count += 1
-                    toml_text += buffer
-                    buffer = f"""[[section.moves]]
+                    toml_text += buffer  # Flush
+                    # Sub table
+                    buffer = f"""[[section]]
+[section.moves]
 """
 
                 buffer += move_statement_p.from_pivot(
@@ -172,8 +176,9 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
                     section_count += 1
-                    toml_text += buffer
+                    toml_text += buffer  # Flush
                     buffer = f"""[[section]]
+[section.gameinfo]
 """
 
                 handicap = handicap_p.from_pivot(row_data["handicap"])
@@ -188,6 +193,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     section_count += 1
                     toml_text += buffer
                     buffer = f"""[[section]]
+[section.gameinfo]
 """
 
                 player_phase = player_phase_p.from_pivot(
@@ -207,6 +213,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     section_count += 1
                     toml_text += buffer
                     buffer = f"""[[section]]
+[section.result]
 """
 
                 if "reason" in row_data:
