@@ -21,6 +21,20 @@ class ExplanationP():
 explanation_p = ExplanationP()
 
 
+class StartTimeStatementP():
+    """開始日時文パーサー"""
+
+    def __init__(self):
+        pass
+
+    def from_pivot(self, startTime):
+        # TODO 日付時刻型にしたい
+        return f"startTime = '''{startTime}'''\n"
+
+
+start_time_statement_p = StartTimeStatementP()
+
+
 class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応
@@ -97,7 +111,7 @@ class HandicapStatementP():
 
     def from_pivot(self, handicap):
         items = [k for k, v in self._handicap.items() if v == handicap]
-        return items[0]
+        return f"handicap='{items[0]}'\n"
 
     def match(self, line):
         return self._handicap_statement.match(line)
