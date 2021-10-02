@@ -249,6 +249,9 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<RESULT>"
 
+            elif row_data["type"] == "appendix":
+                # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
+                pass
             else:
                 # Error
                 print(
