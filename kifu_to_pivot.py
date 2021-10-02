@@ -232,7 +232,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 continue
 
             # 解析漏れ
-            print(f"Error: row_number={row_number} line={line}")
+            print(f"Error: row_number={row_number} line=[{line}]")
             return None, None
 
     with open(out_path, 'w', encoding='utf-8') as fOut:

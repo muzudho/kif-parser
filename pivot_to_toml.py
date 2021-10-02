@@ -131,7 +131,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 # しおり１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = f"""[[section.bookmark]]"""
+                buffer = f"""[[section.bookmark]]\n"""
 
                 bookmark = row_data["bookmark"]
 

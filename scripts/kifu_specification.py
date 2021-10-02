@@ -144,10 +144,22 @@ handicap_p = HandicapP()
 
 class MoveStatementP():
     def __init__(self):
+        # 棋譜ファイル KIF 形式
+        # -------------------
+        # Example: `1 ７六歩(77) ( 0:16/00:00:16)`
+        # Example: `2 ３四歩(33) ( 0:00/00:00:00)`
+        # Example: `3 中断 ( 0:03/ 0:00:19)`
+        #
+        # 将棋所
+        # -----
         # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
         # Example: `  22 同　角(88)    (00:01 / 00:00:11)`
+        #
+        # Shogi GUI
+        # ---------
+        # Example: `   1 ７六歩(77)        ( 0:00/00:00:00)`
         self._move_statement = re.compile(
-            r"^\s*(\d+)\s+([^ ]+)\s+\(([0-9:]+) / ([0-9:]+)\)(.*)$")
+            r"^\s*(\d+)\s+([^ ]+)\s*\(\s*([0-9:]+)\s*/\s*([0-9:]+)\s*\)(.*)$")
 
     def match(self, line):
         return self._move_statement.match(line)
@@ -421,6 +433,8 @@ sign_p = SignP()
 
 class ElapsedTimeP():
     def __init__(self):
+        # ↓ どっちもある
+        # Example: `0:01`
         # Example: `00:01`
         self._elapsed_time = re.compile(r"^(\d+):(\d+)$")
 
