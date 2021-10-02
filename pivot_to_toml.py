@@ -58,7 +58,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
             if pre_section_type == "<COMMENT>" and row_type != "Comment":
                 # 連続するコメント行の切り替わり時
                 items = "''',\n    '''".join(comment_buffer)
-                comment_buffer = ""
+                comment_buffer = []
 
                 # コメントをバッファーへ出力
                 #
@@ -73,8 +73,8 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             elif pre_section_type == "<EXPLANATION>" and row_type != "Explanation":
                 # 連続する解説の切り替わり時
-                items = "''',\n    '''".join(comment_buffer)
-                comment_buffer = ""
+                items = "''',\n    '''".join(explanation_buffer)
+                explanation_buffer = []
 
                 # Example:
                 #
@@ -97,7 +97,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # flush
-                    buffer = f"""[[section]]\n"""
+                    buffer = f"""\n[[section]]\n"""
 
                 # コメント１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
@@ -120,7 +120,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # flush
-                    buffer = f"""[[section]]\n"""
+                    buffer = f"""\n[[section]]\n"""
 
                 # 指し手等へのコメント１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
@@ -141,7 +141,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # flush
-                    buffer = f"""[[section]]\n"""
+                    buffer = f"""\n[[section]]\n"""
 
                 # しおり１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
@@ -162,7 +162,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     section_count += 1
                     toml_text += buffer  # Flush
                     # Sub table
-                    buffer = f"""[[section]]
+                    buffer = f"""\n[[section]]
 [section.moves]
 """
 
@@ -180,7 +180,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # セクションを切り替えます
                 section_count += 1
                 toml_text += buffer  # Flush
-                buffer = f"""[[section]]
+                buffer = f"""\n[[section]]
 [section.moves]
 """
 
@@ -195,7 +195,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer  # Flush
-                    buffer = f"""[[section]]
+                    buffer = f"""\n[[section]]
 [section.gameinfo]
 """
 
@@ -210,7 +210,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[section]]
+                    buffer = f"""\n[[section]]
 [section.gameinfo]
 """
 
@@ -230,7 +230,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                     # セクション切り替わり時
                     section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[section]]
+                    buffer = f"""\n[[section]]
 [section.result]
 """
 
