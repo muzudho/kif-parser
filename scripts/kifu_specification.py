@@ -83,7 +83,8 @@ player_phase_p = PlayerPhaseP()
 class PlayerStatementP():
     def __init__(self):
         self._player_name_statement = re.compile(
-            r"^(" + player_phase_p.choices() + r")：(.+)$")
+            # Player name may be blank
+            r"^(" + player_phase_p.choices() + r")：(.*)$")
 
     def match(self, line):
         return self._player_name_statement.match(line)

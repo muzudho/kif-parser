@@ -168,7 +168,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 row_number += 1
                 continue
 
-            # プレイヤー名の解析
+            # Player statement parsing
             result = player_statement_p.match(line)
             if result:
                 player_phase = player_phase_p.to_pivot(result.group(1))
