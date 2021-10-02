@@ -246,7 +246,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 return None, None
 
         if buffer != "":
-            toml_file += buffer
+            toml_text += buffer
             buffer = ""
 
         # New .kifu ファイル出力
