@@ -34,7 +34,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
         # 棋譜は 文書構造であり 意味でまとまってないので（コメントはどこにでもある）
         # それでは不便なので ある程度の区画にまとめます
-        section_number = 1
+        section_number = 0
         pre_section_type = ""
 
         # JSON to TOML
@@ -43,57 +43,68 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
             row_type = row_data["type"]
 
             if row_type == "Comment":
-                # コメントは（キーが無いので重複してしまうのでそれを避けるために） 1 行で 1 セクション使います
+                # コメントに キーが無いことによる重複を避けてください
+
+                if pre_section_type != row_type:
+                    # セクション切り替わり時
+                    section_number += 1
+
+                # コメント１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = ""
+                buffer = f"""[[comment-{section_number}]]\n"""
 
                 comment = row_data["comment"]
 
                 # TOMLのコメントにすると、パーサーがコメントを読み込んでくれないので、
                 # コメントにはしません
                 # TODO 文字列エスケープどうする？
-                toml_text += f"""[[comment.{section_number}]]
-comment='''{comment}'''
-"""
+                buffer += f"""comment='''{comment}'''\n"""
 
-                section_number += 1
                 pre_section_type = row_type
 
             elif row_type == "Explanation":
-                # 指し手等へのコメントは（キーが無いので重複してしまうのでそれを避けるために） 1 行で 1 セクション使います
-                toml_text += buffer
-                buffer = ""
+                # 指し手等へのコメントに キーが無いことによる重複を避けてください
+
+                if pre_section_type != row_type:
+                    # セクション切り替わり時
+                    section_number += 1
+
+                # 指し手等へのコメント１行ごとに配列の１要素とします
+                toml_text += buffer  # flush
+                buffer = f"""[[explanation-{section_number}]]\n"""
 
                 explanation = row_data["explanation"]
 
                 # TODO 文字列エスケープどうする？
-                toml_text += f"""[[explanation.{section_number}]]
-explanation='''{explanation}'''
-"""
+                buffer += f"""explanation='''{explanation}'''\n"""
 
-                section_number += 1
                 pre_section_type = row_type
 
             elif row_type == "Bookmark":
-                # しおりは（キーが無いので重複してしまうのでそれを避けるために） 1 行で 1 セクション使います
-                toml_text += buffer
-                buffer = ""
+                # しおりに キーが無いことによる重複を避けてください
+
+                if pre_section_type != row_type:
+                    # セクション切り替わり時
+                    section_number += 1
+
+                # しおり１行ごとに配列の１要素とします
+                toml_text += buffer  # flush
+                buffer = f"""[[bookmark-{section_number}]]"""
 
                 bookmark = row_data["bookmark"]
 
                 # TODO 文字列エスケープどうする？
-                toml_text += f"""[[bookmark.{section_number}]]
-bookmark='''{bookmark}'''
-"""
+                buffer += f"""bookmark='''{bookmark}'''\n"""
 
-                section_number += 1
                 pre_section_type = row_type
 
             elif row_type == "Move":
                 # 指し手
+
                 if pre_section_type != row_type:
+                    # セクション切り替わり時
                     toml_text += buffer
-                    buffer = f"""[[moves.{section_number}]]
+                    buffer = f"""[[moves-{section_number}]]
 """
                     section_number += 1
 
@@ -106,9 +117,11 @@ bookmark='''{bookmark}'''
                 pre_section_type = row_type
 
             elif row_type == "Handicap":
+
                 if pre_section_type != row_type:
+                    # セクション切り替わり時
                     toml_text += buffer
-                    buffer = f"""[[handicap.{section_number}]]
+                    buffer = f"""[[handicap-{section_number}]]
 """
                     section_number += 1
 
@@ -118,9 +131,11 @@ bookmark='''{bookmark}'''
                 pre_section_type = row_type
 
             elif row_type == "Player":
+
                 if pre_section_type != row_type:
+                    # セクション切り替わり時
                     toml_text += buffer
-                    buffer = f"""[[player.{section_number}]]
+                    buffer = f"""[[player-{section_number}]]
 """
                     section_number += 1
 
@@ -135,9 +150,11 @@ bookmark='''{bookmark}'''
                 pre_section_type = row_type
 
             elif row_type == "Result":
+
                 if pre_section_type != row_type:
+                    # セクション切り替わり時
                     toml_text += buffer
-                    buffer = f"""[[result.{section_number}]]
+                    buffer = f"""[[result-{section_number}]]
 """
                     section_number += 1
 

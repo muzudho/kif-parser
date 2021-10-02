@@ -100,16 +100,6 @@ pip install tomli
 4. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
 5. 📂`output` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
-## 入力ファイルを全部消す
-
-**DANGER** 📂`input` フォルダーの中身を消すコマンドです  
-
-1. ターミナルで `python.exe remove_all_input_danger.py` コマンドを実行してください
-2. 📂`input` フォルダーの中の 📄`*.kif` ファイルは削除されます
-3. 📂`input` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-4. 📂`input` フォルダーの中の 📄`*.json` ファイルは削除されます
-5. 📂`input` フォルダーの中の 📄`*.toml` ファイルは削除されます
-
 ## temporary/kif-done フォルダーから kif フォルダーへファイルを逆移動
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
@@ -122,9 +112,9 @@ pip install tomli
 📖　[KIF形式を調べようぜ（＾～＾）？](https://crieit.net/drafts/6150ffc21e0de)  
 📖　[将棋の符号](https://crieit.net/drafts/615192ae93d14)  
 
-## 開発者用
+# 開発者用
 
-### 動作テスト .kif変換
+## 動作テスト .kif変換
 
 (Copy: input->kif) (Convert: kif->kifu->pivot)、(Convert: pivot->kifu->kif) 変換が壊れていないかテストします  
 
@@ -133,7 +123,7 @@ pip install tomli
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
 4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
-### 動作テスト .kifu変換
+## 動作テスト .kifu変換
 
 (Copy: input->kifu) (Convert kifu->pivot)、(Convert: pivot->kifu) 変換が壊れていないかテストします  
 
@@ -142,6 +132,23 @@ pip install tomli
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
 4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
 
-### デバッグモード
+## デバッグモード
 
 コマンドライン引数に `-h` を付けて、ヘルプがあるものは何か用意がある。引数に `--debug` を付けるとデバッグモード。  
+
+## 危険な操作 - 入力ファイルを全部消す
+
+**DANGER** 📂`input` フォルダーの中身を消すコマンドです  
+
+1. ターミナルで `python.exe remove_all_input_danger.py` コマンドを実行してください
+2. 📂`input` フォルダーの中の 📄`*.kif` ファイルは削除されます
+3. 📂`input` フォルダーの中の 📄`*.kifu` ファイルは削除されます
+4. 📂`input` フォルダーの中の 📄`*.json` ファイルは削除されます
+5. 📂`input` フォルダーの中の 📄`*.toml` ファイルは削除されます
+
+## 危険な操作 - 出力フォルダーの内容を、入力フォルダーへ写す
+
+**DANGER** 📂`input` フォルダーの中身を上書きするコマンドです  
+
+1. ターミナルで `python.exe move_output_to_input_danger.py` コマンドを実行してください
+2. 📂`output` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へ移動します
