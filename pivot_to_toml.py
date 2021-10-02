@@ -6,7 +6,7 @@ import shutil
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, start_time_statement_p
+    variation_label_statement_p, start_time_statement_p, end_time_statement_p
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
@@ -194,6 +194,20 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 buffer += start_time_statement_p.from_pivot(
                     row_data["startTime"])
+
+                pre_section_type = "<GAMEINFO>"
+
+            elif row_type == "endTime":
+
+                if pre_section_type != "<GAMEINFO>":
+                    # セクション切り替わり時
+                    toml_text += buffer  # Flush
+                    buffer = f"""\n[[section]]
+[section.gameinfo]
+"""
+
+                buffer += end_time_statement_p.from_pivot(
+                    row_data["endTime"])
 
                 pre_section_type = "<GAMEINFO>"
 

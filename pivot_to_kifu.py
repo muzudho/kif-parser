@@ -6,7 +6,7 @@ import shutil
 from collections import OrderedDict
 from scripts.kifu_specification import player_phase_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, start_time_statement_p
+    variation_label_statement_p, start_time_statement_p, end_time_statement_p
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
@@ -75,6 +75,9 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
         elif row_data["type"] == "startTime":
             kifu_text += start_time_statement_p.from_pivot(
                 row_data["startTime"])
+        elif row_data["type"] == "endTime":
+            kifu_text += end_time_statement_p.from_pivot(
+                row_data["endTime"])
         elif row_data["type"] == "handicap":
             kifu_text += handicap_statement_p.from_pivot(row_data["handicap"])
         elif row_data["type"] == "player":
