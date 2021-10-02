@@ -55,7 +55,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             row_type = row_data["type"]
 
-            if pre_section_type == "<COMMENT>" and row_type != "Comment":
+            if pre_section_type == "<COMMENT>" and row_type != "comment":
                 # 連続するコメント行の切り替わり時
                 items = "''',\n    '''".join(comment_buffer)
                 comment_buffer = []
@@ -71,7 +71,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # ]
                 buffer += f"""comment = [\n    '''{items}'''\n]\n"""
 
-            elif pre_section_type == "<EXPLANATION>" and row_type != "Explanation":
+            elif pre_section_type == "<EXPLANATION>" and row_type != "explanation":
                 # 連続する解説の切り替わり時
                 items = "''',\n    '''".join(explanation_buffer)
                 explanation_buffer = []
@@ -89,7 +89,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             #
 
-            if row_type == "Comment":
+            if row_type == "comment":
                 # 1. コメントに キーが無いことによる重複を避けてください
                 # 2. コメント行は連続することを考慮し、常に配列にします
 
@@ -112,7 +112,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<COMMENT>"
 
-            elif row_type == "Explanation":
+            elif row_type == "explanation":
                 # 1. 指し手等へのコメントに キーが無いことによる重複を避けてください
                 # 2. 指し手等へのコメント行は連続することを考慮し、常に配列にします
 
@@ -133,7 +133,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<EXPLANATION>"
 
-            elif row_type == "Bookmark":
+            elif row_type == "bookmark":
                 # 1. しおりに キーが無いことによる重複を避けてください
                 # 2. しおりは連続する用途ではありません（だから連続しても別のセクションとして扱います）
 
@@ -174,7 +174,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<MOVES>"
 
-            elif row_type == "VariationLabel":
+            elif row_type == "variationLabel":
                 # 変化手順（棋譜の分岐）のジャンプ先ラベル
 
                 # セクションを切り替えます
@@ -204,7 +204,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<GAMEINFO>"
 
-            elif row_type == "Player":
+            elif row_type == "player":
 
                 if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
@@ -224,7 +224,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<GAMEINFO>"
 
-            elif row_type == "Result":
+            elif row_type == "result":
 
                 if pre_section_type != "<RESULT>":
                     # セクション切り替わり時

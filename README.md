@@ -17,6 +17,24 @@
 👆 `.kif` ファイル。 文字エンコーディングが Shift-JIS なので国際化に向きません。国産の既存のGUIで普及しています。  
 **このファイルをテキストエディターで直接編集している利用者はほぼ居らず、ShogiGUIなどのソフトへ入力、出力するだけと聞きます**  
 
+また、桁ぞろえや 前ゼロなど 表記は、 **ソフトによって異なります**  
+
+`.kif` 形式を使っているソフトの例:  
+
+* [柿木将棋](http://kakinoki.o.oo7.jp/) - .kif 形式のオリジナル。 しかし「変化」手順は仕様にありません
+* [将棋所](http://shogidokoro.starfree.jp/)
+* [Shogi GUI](http://shogigui.siganus.com/)
+* [将棋ウォーズ](https://shogiwars.heroz.jp/?locale=ja)
+
+`.kif` 形式のファイルを配布しているサイトの例:  
+
+* [floodgate](http://wdoor.c.u-tokyo.ac.jp/shogi/floodgate.html)
+* [世界コンピュータ将棋選手権](http://www2.computer-shogi.org/)
+* [将棋電王トーナメント](https://denou.jp/tournament2017/)
+* [世界将棋AI 電竜戦](https://denryu-sen.jp/)
+
+### .kifu
+
 ![20210929shogi8-kifu.png](docs/img/20210929shogi8-kifu-50per.png)  
 👆 `.kifu` ファイル。 `.kif` を UTF-8 に変換したファイルです。国産の既存のGUIで普及していません。  
 将棋は日本が最大のユーザー数ですから、自然、まだ普及していません  
@@ -29,8 +47,16 @@
 そこで 2021年現在、人気の高いプログラム言語の Python, Java Script で標準で実装されている JSON ファイル形式を  
 中心に据え直し、 `.kif` へエクスポートできるアルゴリズムを Work in progress (作業中)です。  
 
+### .json
+
 ![20211002shogi3-50per.png](docs/img/20211002shogi3-50per.png)  
-👆 `.json` ファイル。 仕様は未定  
+👆 `.json` ファイル。 仕様は未定
+
+意味解析せず、 `.kif` の１行１行を **直訳** したもの。  
+単一行コメントを どの行、どの文末にも置けることから、  
+このコメントが上に係っているのか　下に係っているのか　機械的に判断できないため。  
+
+### .toml
 
 また、もっと ハードコアな開発者向けに、 `.toml` 形式も先行して準備します。  
 コメント、文字列型、ヒアドキュメント、整数型、浮動小数点型、時刻型やリスト、連想配列など プログラマー寄りの設定ファイル形式です  
@@ -171,6 +197,19 @@ pip install tomli
 
 1. ターミナルで `python.exe copy_test_data_to_input_danger.py` コマンドを実行してください
 2. 📂`test_data` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へコピーします
+
+## 開発者向け PIVOT 仕様
+
+### row_type - 行の型
+
+|行の型|説明|
+|---|---|
+|comment|コメント行|
+|explanation|指し手へのコメント行|
+|bookmark|しおり|
+|player|対局者の手番、対局者名行|
+|variationLabel|変化手順のジャンプ先ラベル|
+|result|どちらの勝ち、といった終局時のメッセージ行。盤面作成時などには無いこともある|
 
 ## Documents
 

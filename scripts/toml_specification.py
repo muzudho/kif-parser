@@ -121,7 +121,7 @@ class VariationLabelStatementP():
 
     def to_pivot(self, data, row_number, moves):
         data[f'{row_number}'] = {
-            "type": "VariationLabel",
+            "type": "variationLabel",
             "moves": f"{moves}",
         }
 

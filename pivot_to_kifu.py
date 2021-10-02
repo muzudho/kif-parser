@@ -52,13 +52,13 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
         # JSON to KIFU
         for row_number, row_data in data.items():
 
-            if row_data["type"] == "Comment":
+            if row_data["type"] == "comment":
                 comment = row_data["comment"]
                 kifu_text += f'#{comment}\n'
-            elif row_data["type"] == "Explanation":
+            elif row_data["type"] == "explanation":
                 explanation = row_data["explanation"]
                 kifu_text += f"*{explanation}\n"
-            elif row_data["type"] == "Bookmark":
+            elif row_data["type"] == "bookmark":
                 bookmark = row_data["bookmark"]
                 kifu_text += f"&{bookmark}\n"
             elif row_data["type"] == "Move":
@@ -75,16 +75,16 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
             elif row_data["type"] == "Handicap":
                 handicap = handicap_p.from_pivot(row_data["handicap"])
                 kifu_text += f"手合割：{handicap}\n"
-            elif row_data["type"] == "Player":
+            elif row_data["type"] == "player":
                 player_phase = player_phase_p.from_pivot(
                     row_data["playerPhase"])
                 player_name = row_data["playerName"]
                 kifu_text += f"{player_phase}：{player_name}\n"
-            elif row_data["type"] == "VariationLabel":
+            elif row_data["type"] == "variationLabel":
                 moves = variation_label_statement_p.from_pivot(
                     row_data["moves"])
-                kifu_text += variation_label_statement_p.to_pivot(moves)
-            elif row_data["type"] == "Result":
+                kifu_text += variation_label_statement_p.from_pivot(moves)
+            elif row_data["type"] == "result":
                 if "reason" in row_data:
                     # Example: `まで52手で時間切れにより後手の勝ち`
                     moves = row_data["moves"]

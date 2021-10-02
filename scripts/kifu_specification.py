@@ -10,7 +10,7 @@ class CommentP():
 
     def to_pivot(self, data, row_number, comment):
         data[f'{row_number}'] = {
-            "type": "Comment",
+            "type": "comment",
             "comment": f"{comment}"
         }
 
@@ -27,7 +27,7 @@ class ExplanationP():
 
     def to_pivot(self, data, row_number, explanation):
         data[f'{row_number}'] = {
-            "type": "Explanation",
+            "type": "explanation",
             "explanation": f"{explanation}",
         }
 
@@ -44,7 +44,7 @@ class BookmarkP():
 
     def to_pivot(self, data, row_number, bookmark):
         data[f'{row_number}'] = {
-            "type": "Bookmark",
+            "type": "bookmark",
             "bookmark": f"{bookmark}",
         }
 
@@ -91,7 +91,7 @@ class PlayerStatementP():
 
     def to_pivot(self, data, row_number, player_phase, player_name):
         data[f'{row_number}'] = {
-            "type": "Player",
+            "type": "player",
             "playerPhase": f"{player_phase}",
             "playerName": f"{player_name}",
         }
@@ -153,7 +153,7 @@ class VariationLabelStatementP():
 
     def to_pivot(self, data, row_number, moves):
         data[f'{row_number}'] = {
-            "type": "VariationLabel",
+            "type": "variationLabel",
             "moves": f"{moves}",
         }
 
@@ -505,7 +505,7 @@ class JudgeStatement1P():
 
     def to_pivot(self, data, row_number, moves, playerPhase, judge):
         data[f'{row_number}'] = {
-            "type": "Result",
+            "type": "result",
             "moves": f"{moves}",
             "winner": f"{playerPhase}",
             "judge": f"{judge}",
@@ -529,7 +529,7 @@ class JudgeStatement2P():
 
     def to_pivot(self, data, row_number, moves, judge):
         data[f'{row_number}'] = {
-            "type": "Result",
+            "type": "result",
             "moves": f"{moves}",
             "judge": f"{judge}",
         }
@@ -553,7 +553,7 @@ class JudgeStatement3P():
 
     def to_pivot(self, data, row_number, moves, reason, playerPhase, judge):
         data[f'{row_number}'] = {
-            "type": "Result",
+            "type": "result",
             "moves": f"{moves}",
             "reason": f"{reason}",
             "winner": f"{playerPhase}",
