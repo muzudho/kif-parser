@@ -4,7 +4,7 @@ import json
 import sys
 import shutil
 from collections import OrderedDict
-from scripts.toml_specification import player_phase_p, handicap_p, \
+from scripts.toml_specification import player_phase_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
     variation_label_statement_p
 import argparse
@@ -150,7 +150,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<BOOKMARK>"
 
-            elif row_type == "Move":
+            elif row_type == "move":
                 # 指し手
 
                 if pre_section_type != "<MOVES>":
@@ -183,7 +183,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 pre_section_type = "<MOVES>"
 
-            elif row_type == "Handicap":
+            elif row_type == "handicap":
 
                 if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
@@ -192,7 +192,8 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 [section.gameinfo]
 """
 
-                handicap = handicap_p.from_pivot(row_data["handicap"])
+                handicap = handicap_statement_p.from_pivot(
+                    row_data["handicap"])
                 buffer += f"handicap='{handicap}'\n"
 
                 pre_section_type = "<GAMEINFO>"

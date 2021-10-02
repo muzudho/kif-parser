@@ -1,3 +1,4 @@
+from os import error
 import re
 
 
@@ -52,6 +53,31 @@ class BookmarkP():
 bookmark_p = BookmarkP()
 
 
+class StartTimeStatementP():
+    """開始日時文パーサー"""
+
+    def __init__(self):
+        # Example: `開始日時：2021/10/02 22:35:06`
+        self._start_time_statement = re.compile(
+            r"^開始日時：(\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2})$")
+
+    def match(self, line):
+        return self._start_time_statement.match(line)
+
+    def to_pivot(self, data, row_number, start_time):
+        data[f'{row_number}'] = {
+            "type": "startTime",
+            # TODO 書式を よくある書式に整形したい
+            "startTime": f"{start_time}"
+        }
+
+    def from_pivot(self, startTime):
+        return f"開始日時：{startTime}\n"
+
+
+start_time_statement_p = StartTimeStatementP()
+
+
 class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応
@@ -100,7 +126,7 @@ class PlayerStatementP():
 player_statement_p = PlayerStatementP()
 
 
-class HandicapP():
+class HandicapStatementP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
@@ -125,21 +151,28 @@ class HandicapP():
 
         self._handicap_statement = re.compile(r"^手合割：(.+)$")
 
-    def to_pivot(self, handicap):
+    def to_pivot(self, data, row_number, handicap):
+        handicap_pivot = ""
         if handicap in self._handicap:
-            return self._handicap[handicap]
+            handicap_pivot = self._handicap[handicap]
 
-        return handicap
+        if handicap_pivot == "":
+            raise error(f'Unimplemented handicap=[{handicap}]')
+
+        data[f'{row_number}'] = {
+            "type": "handicap",
+            "handicap": handicap_pivot,
+        }
 
     def from_pivot(self, handicap):
         items = [k for k, v in self._handicap.items() if v == handicap]
-        return items[0]
+        return f"手合割：{items[0]}\n"
 
     def match(self, line):
         return self._handicap_statement.match(line)
 
 
-handicap_p = HandicapP()
+handicap_statement_p = HandicapStatementP()
 
 
 class VariationLabelStatementP():
@@ -494,7 +527,7 @@ class JudgeStatement1P():
     def __init__(self):
         # Example: `まで64手で後手の勝ち`
         self._judge_statement1 = re.compile(
-            r"^まで(\d+)手で(先手|後手|下手|上手)の(反則負け|勝ち)$")
+            r"^まで(\d+)手で(先手|後手|下手|上手)の(反則勝ち|反則負け|勝ち)$")
 
     def match(self, line):
         return self._judge_statement1.match(line)

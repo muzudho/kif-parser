@@ -62,7 +62,7 @@ class PlayerStatementP():
 player_statement_p = PlayerStatementP()
 
 
-class HandicapP():
+class HandicapStatementP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
@@ -103,7 +103,7 @@ class HandicapP():
         return self._handicap_statement.match(line)
 
 
-handicap_p = HandicapP()
+handicap_statement_p = HandicapStatementP()
 
 
 class VariationLabelStatementP():

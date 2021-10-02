@@ -3,9 +3,10 @@ import os
 import json
 import shutil
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
-    player_statement_p, handicap_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
+    player_statement_p, handicap_statement_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
-    judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p
+    judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p, \
+    start_time_statement_p
 from scripts.generator_identification import generator_identification
 from kifu_to_kif import copy_kifu_from_input
 import argparse
@@ -65,7 +66,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             totalElapsedTime = result.group(4)
 
             data[f'{row_number}'] = {
-                "type": "Move",
+                "type": "move",
                 "moves": f"{moves}"
             }
 
@@ -160,7 +161,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
         if result:
             comment = result.group(1)
             comment_p.to_pivot(data, row_number, comment)
-
             row_number += 1
             continue
 
@@ -169,7 +169,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
         if result:
             explanation = result.group(1)
             explanation_p.to_pivot(data, row_number, explanation)
-
             row_number += 1
             continue
 
@@ -178,7 +177,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
         if result:
             bookmark = result.group(1)
             bookmark_p.to_pivot(data, row_number, bookmark)
-
             row_number += 1
             continue
 
@@ -188,18 +186,16 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             moves = result.group(1)
             variation_label_statement_p.to_pivot(
                 data, row_number, moves)
-
             row_number += 1
             continue
 
-        # Player statement parsing
+        # プレイヤー名の行の解析
         result = player_statement_p.match(line)
         if result:
             player_phase = player_phase_p.to_pivot(result.group(1))
             player_name = result.group(2)
             player_statement_p.to_pivot(
                 data, row_number, player_phase, player_name)
-
             row_number += 1
             continue
 
@@ -209,14 +205,19 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             row_number += 1
             continue
 
-        result = handicap_p.match(line)
+        # 開始日時の行の解析
+        result = start_time_statement_p.match(line)
         if result:
-            handicap = handicap_p.to_pivot(result.group(1))
-            data[f'{row_number}'] = {
-                "type": "Handicap",
-                "handicap": handicap,
-            }
+            startTime = result.group(1)
+            start_time_statement_p.to_pivot(data, row_number, startTime)
+            row_number += 1
+            continue
 
+        # 手割合の行の解析
+        result = handicap_statement_p.match(line)
+        if result:
+            handicap = result.group(1)
+            handicap_statement_p.to_pivot(data, row_number, handicap)
             row_number += 1
             continue
 
@@ -228,7 +229,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             judge = sign_p.to_pivot(result.group(3))
             judge_statement1_p.to_pivot(
                 data, row_number, moves, playerPhase, judge)
-
             row_number += 1
             continue
 
@@ -238,7 +238,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             moves = result.group(1)
             judge = sign_p.to_pivot(result.group(2))
             judge_statement2_p.to_pivot(data, row_number, moves, judge)
-
             row_number += 1
             continue
 
@@ -251,7 +250,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             judge = sign_p.to_pivot(result.group(4))
             judge_statement3_p.to_pivot(
                 data, row_number, moves, reason, playerPhase, judge)
-
             row_number += 1
             continue
 

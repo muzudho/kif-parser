@@ -5,7 +5,7 @@ import shutil
 
 """
 from scripts.toml_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
-    player_statement_p, handicap_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
+    player_statement_p, handicap_statement_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p
 """
@@ -84,7 +84,7 @@ def convert_toml_to_pivot(toml_file, output_folder='temporary/pivot', done_folde
                 totalElapsedTime = result.group(4)
 
                 data[f'{row_number}'] = {
-                    "type": "Move",
+                    "type": "move",
                     "moves": f"{moves}"
                 }
 
@@ -217,11 +217,11 @@ def convert_toml_to_pivot(toml_file, output_folder='temporary/pivot', done_folde
                 row_number += 1
                 continue
 
-            result = handicap_p.match(line)
+            result = handicap_statement_p.match(line)
             if result:
-                handicap = handicap_p.to_pivot(result.group(1))
+                handicap = handicap_statement_p.to_pivot(result.group(1))
                 data[f'{row_number}'] = {
-                    "type": "Handicap",
+                    "type": "handicap",
                     "handicap": handicap,
                 }
 
