@@ -6,7 +6,7 @@ from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, pla
     player_statement_p, handicap_statement_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p, \
-    start_time_statement_p, end_time_statement_p
+    start_time_statement_p, end_time_statement_p, moves_header_statement_p
 from scripts.generator_identification import generator_identification
 from kifu_to_kif import copy_kifu_from_input
 import argparse
@@ -199,7 +199,13 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
             row_number += 1
             continue
 
-        # 指し手のテーブルの先頭行
+        # 指し手リストの先頭行
+        result = moves_header_statement_p.match(line)
+        if result:
+            moves_header_statement_p.to_pivot(data, row_number)
+            row_number += 1
+            continue
+
         if line == '手数----指手---------消費時間--':
             # Ignored
             row_number += 1

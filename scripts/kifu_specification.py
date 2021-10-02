@@ -201,6 +201,30 @@ class HandicapStatementP():
 handicap_statement_p = HandicapStatementP()
 
 
+class MovesHeaderStatementP():
+    """指し手リストのヘッダー パーサー"""
+
+    def __init__(self):
+        # Example: `手数----指手---------消費時間-- # この行は、なくてもいい` - 棋譜ファイル KIF 形式
+        self._moves_header_statement = re.compile(
+            r"^[-]*手数[-]+指手[-]+消費時間[-]+\s*(#.*)?$")
+
+    def match(self, line):
+        return self._moves_header_statement.match(line)
+
+    def to_pivot(self, _data, _row_number):
+        # ヘッダー行は無視します
+        # TODO この行末に重要なコメントがあるかもしれない。残さなくて大丈夫か？
+        pass
+
+    def from_pivot(self):
+        # ヘッダー行は無視します
+        return ""
+
+
+moves_header_statement_p = MovesHeaderStatementP()
+
+
 class VariationLabelStatementP():
     """変化手順（棋譜の分岐）のジャンプ先ラベル パーサー"""
 
