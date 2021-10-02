@@ -107,11 +107,6 @@ pip install tomli
 3. ターミナルで `python.exe undo_kif.py` コマンドを実行してください
 4. 📂`temporary/kifu-done` フォルダーにあるファイルが 📂`kifu` へ移動します
 
-## Documents
-
-📖　[KIF形式を調べようぜ（＾～＾）？](https://crieit.net/drafts/6150ffc21e0de)  
-📖　[将棋の符号](https://crieit.net/drafts/615192ae93d14)  
-
 # 開発者用
 
 ## 動作テスト .kif変換
@@ -152,3 +147,9 @@ pip install tomli
 
 1. ターミナルで `python.exe move_output_to_input_danger.py` コマンドを実行してください
 2. 📂`output` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へ移動します
+
+## Documents
+
+📖　[棋譜ファイル KIF 形式](http://kakinoki.o.oo7.jp/kif_format.html)  
+📖　[KIF形式を調べようぜ（＾～＾）？](https://crieit.net/drafts/6150ffc21e0de)  
+📖　[将棋の符号](https://crieit.net/drafts/615192ae93d14)  
