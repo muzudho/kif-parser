@@ -34,7 +34,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
         # 棋譜は 文書構造であり 意味でまとまってないので（コメントはどこにでもある）
         # それでは不便なので ある程度の区画にまとめます
-        section_number = 0
+        section_count = 0
         pre_section_type = ""
 
         # JSON to TOML
@@ -47,11 +47,13 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
-                    section_number += 1
+                    section_count += 1
+                    toml_text += buffer  # flush
+                    buffer = f"""[[section]]\n"""
 
                 # コメント１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = f"""[[comment-{section_number}]]\n"""
+                buffer = f"""[[section.comment]]\n"""
 
                 comment = row_data["comment"]
 
@@ -67,11 +69,13 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
-                    section_number += 1
+                    section_count += 1
+                    toml_text += buffer  # flush
+                    buffer = f"""[[section]]\n"""
 
                 # 指し手等へのコメント１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = f"""[[explanation-{section_number}]]\n"""
+                buffer = f"""[[section.explanation]]\n"""
 
                 explanation = row_data["explanation"]
 
@@ -85,11 +89,13 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
-                    section_number += 1
+                    section_count += 1
+                    toml_text += buffer  # flush
+                    buffer = f"""[[section]]\n"""
 
                 # しおり１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = f"""[[bookmark-{section_number}]]"""
+                buffer = f"""[[section.bookmark]]"""
 
                 bookmark = row_data["bookmark"]
 
@@ -103,10 +109,10 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
+                    section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[moves-{section_number}]]
+                    buffer = f"""[[section.moves]]
 """
-                    section_number += 1
 
                 buffer += move_statement_p.from_pivot(
                     moves=row_data["moves"],
@@ -120,10 +126,10 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
+                    section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[handicap-{section_number}]]
+                    buffer = f"""[[section.handicap]]
 """
-                    section_number += 1
 
                 handicap = handicap_p.from_pivot(row_data["handicap"])
                 buffer += f"handicap='{handicap}'\n"
@@ -134,10 +140,10 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
+                    section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[player-{section_number}]]
+                    buffer = f"""[[section.player]]
 """
-                    section_number += 1
 
                 player_phase = player_phase_p.from_pivot(
                     row_data["playerPhase"])
@@ -153,10 +159,10 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
+                    section_count += 1
                     toml_text += buffer
-                    buffer = f"""[[result-{section_number}]]
+                    buffer = f"""[[section.result]]
 """
-                    section_number += 1
 
                 if "reason" in row_data:
                     # Example: `まで52手で時間切れにより後手の勝ち`
