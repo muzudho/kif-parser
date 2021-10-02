@@ -250,6 +250,12 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
                 f"Error: kifu_to_pivot.py unimplemented row_number={row_number} line=[{line}]")
             return None, None
 
+    # 解析が終わったあと、追加で情報を先頭に付加したい。 0行目に追加するものとします
+    data[0] = {
+        "type": "appendix",
+        "generatingSoftwareIsProbably": "unknown",
+    }
+
     with open(out_path, 'w', encoding='utf-8') as fOut:
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 

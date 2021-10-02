@@ -48,7 +48,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
         #   * VariationLabel
         # * "<RESULT>" section
         pre_section_type = ""  # 分かりやすい目印
-        section_count = 0
 
         # JSON to TOML
         for row_number, row_data in data.items():
@@ -95,7 +94,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<COMMENT>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer  # flush
                     buffer = f"""\n[[section]]\n"""
 
@@ -118,7 +116,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<EXPLANATION>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer  # flush
                     buffer = f"""\n[[section]]\n"""
 
@@ -139,7 +136,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<BOOKMARK>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer  # flush
                     buffer = f"""\n[[section]]\n"""
 
@@ -159,7 +155,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<MOVES>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer  # Flush
                     # Sub table
                     buffer = f"""\n[[section]]
@@ -178,7 +173,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
                 # 変化手順（棋譜の分岐）のジャンプ先ラベル
 
                 # セクションを切り替えます
-                section_count += 1
                 toml_text += buffer  # Flush
                 buffer = f"""\n[[section]]
 [section.moves]
@@ -193,7 +187,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer  # Flush
                     buffer = f"""\n[[section]]
 [section.gameinfo]
@@ -208,7 +201,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<GAMEINFO>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer
                     buffer = f"""\n[[section]]
 [section.gameinfo]
@@ -228,7 +220,6 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 if pre_section_type != "<RESULT>":
                     # セクション切り替わり時
-                    section_count += 1
                     toml_text += buffer
                     buffer = f"""\n[[section]]
 [section.result]

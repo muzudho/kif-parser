@@ -106,10 +106,13 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
                     judge = row_data["judge"]
                     kifu_text += judge_statement2_p.from_pivot(
                         moves, judge)
+            elif row_data["type"] == "appendix":
+                # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
+                pass
             else:
                 # Error
                 print(
-                    f"Error: unimplemented row_number={row_number} row_data={row_data}")
+                    f"Error: pivot_to_kifu.py unimplemented row_number={row_number} row_data={row_data}")
                 return None, None
 
         # New .kifu ファイル出力
