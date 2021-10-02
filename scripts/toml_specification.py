@@ -94,25 +94,25 @@ class HandicapStatementP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
-            'even': 'Hirate',
-            'without left lance': 'LostLance',  # 香落ち（左の香が落ちる）
-            'without right lance': 'LostRightLance',  # 右香落ち
-            'without the bishop': 'LostBishop',  # 角落ち
-            'without the rook': 'LostRook',  # 飛車落ち
-            'without a rook, left lance': 'LostRookLance',  # 飛香落ち（飛車と左の香）
-            'without a rook, a bishop': 'Lost2Pieces',  # ２枚落ち
-            'without a rook, a bishop, left lance': 'Lost3Pieces',  # ３枚落ち（飛、角、左香）
-            'without a rook, a bishop, 2 lances': 'Lost4Pieces',  # ４枚落ち（飛、角、両香）
-            'without a rook, a bishop, left knight, 2 lances': 'Lost5Pieces',  # ５枚落ち（飛、角、左桂、両香）
-            'without left 5 pieces': 'LostLeft5Pieces',  # 左５枚落ち
-            'without a hisha, a kaku, 2 kyoushas, 2 keimas': 'Lost6Pieces',  # ６枚落ち
-            'without left 7 pieces': 'LostLeft7Pieces',  # 左七枚落ち
-            'without right 7 pieces': 'LostRight7Pieces',  # 右七枚落ち
+            'even': 'even',
+            'without left lance': 'withoutLeftLance',  # 香落ち（左の香が落ちる）
+            'without right lance': 'withoutRightLance',  # 右香落ち
+            'without the bishop': 'withoutBishop',  # 角落ち
+            'without the rook': 'withoutRook',  # 飛車落ち
+            'without a rook, left lance': 'withoutRookLance',  # 飛香落ち（飛車と左の香）
+            'without a rook, a bishop': 'without2Pieces',  # ２枚落ち
+            'without a rook, a bishop, left lance': 'without3Pieces',  # ３枚落ち（飛、角、左香）
+            'without a rook, a bishop, 2 lances': 'without4Pieces',  # ４枚落ち（飛、角、両香）
+            'without a rook, a bishop, right knight, 2 lances': 'without5Pieces',  # ５枚落ち（飛、角、右桂、両香）
+            'without a rook, a bishop, left knight, 2 lances': 'withoutLeft5Pieces',  # 左５枚落ち（飛、角、左桂、両香）
+            'without a hisha, a kaku, 2 kyoushas, 2 keimas': 'without6Pieces',  # ６枚落ち
+            'without left 7 pieces': 'withoutLeft7Pieces',  # 左七枚落ち
+            'without right 7 pieces': 'withoutRight7Pieces',  # 右七枚落ち
             # ８枚落ち（飛、角、両銀、両桂、両香）
-            'without a rook, a bishop, 2 silvers, 2 knights, 2 lances': 'Lost8Pieces',
+            'without a rook, a bishop, 2 silvers, 2 knights, 2 lances': 'without8Pieces',
             # １０枚落ち（飛、角、両金、両銀、両桂、両香）
-            'without a rook, a bishop, 2 golds, 2 silvers, 2knight, 2 lances': 'Lost10Pieces',
-            'other': 'Other',
+            'without a rook, a bishop, 2 golds, 2 silvers, 2knight, 2 lances': 'lost10Pieces',
+            'others': 'others',
         }
 
         self._handicap_statement = re.compile(r"^手合割：(.+)$")

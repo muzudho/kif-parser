@@ -52,6 +52,8 @@ class BookmarkP():
 
 bookmark_p = BookmarkP()
 
+# TODO 対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にある
+
 
 class StartTimeStatementP():
     """開始日時文パーサー"""
@@ -156,23 +158,23 @@ class HandicapStatementP():
     def __init__(self):
         # 逆引き対応
         self._handicap = {
-            '平手': 'Hirate',
-            '香落ち': 'LostLance',
-            '右香落ち': 'LostRightLance',
-            '角落ち': 'LostBishop',
-            '飛車落ち': 'LostRook',
-            '飛香落ち': 'LostRookLance',
-            '二枚落ち': 'Lost2Pieces',
-            '三枚落ち': 'Lost3Pieces',
-            '四枚落ち': 'Lost4Pieces',
-            '五枚落ち': 'Lost5Pieces',
-            '左五枚落ち': 'LostLeft5Pieces',
-            '六枚落ち': 'Lost6Pieces',
-            '左七枚落ち': 'LostLeft7Pieces',
-            '右七枚落ち': 'LostRight7Pieces',
-            '八枚落ち': 'Lost8Pieces',
-            '十枚落ち': 'Lost10Pieces',
-            'その他': 'Other',
+            '平手': 'even',
+            '香落ち': 'withoutLeftLance',
+            '右香落ち': 'withoutRightLance',
+            '角落ち': 'withoutBishop',
+            '飛車落ち': 'withoutRook',
+            '飛香落ち': 'withoutRookLance',
+            '二枚落ち': 'without2Pieces',
+            '三枚落ち': 'without3Pieces',
+            '四枚落ち': 'without4Pieces',
+            '五枚落ち': 'without5Pieces',
+            '左五枚落ち': 'withoutLeft5Pieces',
+            '六枚落ち': 'without6Pieces',
+            '左七枚落ち': 'withoutLeft7Pieces',
+            '右七枚落ち': 'withoutRight7Pieces',
+            '八枚落ち': 'without8Pieces',
+            '十枚落ち': 'lost10Pieces',
+            'その他': 'others',
         }
 
         self._handicap_statement = re.compile(r"^手合割：(.+)$")

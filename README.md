@@ -7,6 +7,7 @@
 * [.kifファイルの問題点の洗い出し](./docs/research.md)
 * [.kifファイルの利用実態の調査](./docs/examples)
 * .KIF に変わる棋譜保存フォーマット仕様の提案、および　その変換アルゴリズム。
+* [.kifファイルの国際化に向けた翻訳について](./docs/translation.md)
 
 ## Set up - このスクリプトの使い方
 
