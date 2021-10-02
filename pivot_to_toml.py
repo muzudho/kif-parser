@@ -31,6 +31,7 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
         toml_text = ""
         buffer = ""
+        comment_buffer = []
 
         # 棋譜は 文書構造であり 意味でまとまってないので（コメントはどこにでもある）
         # それでは不便なので ある程度の区画にまとめます
@@ -42,8 +43,25 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
             row_type = row_data["type"]
 
+            if pre_section_type == "Comment" and row_type != "Comment":
+                # 連続するコメント行の切り替わり時
+                items = "''',\n    '''".join(comment_buffer)
+                comment_buffer = ""
+
+                # Example:
+                #
+                # comment = [
+                #     '''aaaa''',
+                #     '''bbbb''',
+                #     '''cccc'''
+                # ]
+                buffer += f"""comment = [\n    '''{items}'''\n]\n"""
+
+            #
+
             if row_type == "Comment":
-                # コメントに キーが無いことによる重複を避けてください
+                # 1. コメントに キーが無いことによる重複を避けてください
+                # 2. コメント行は連続することを考慮し、常に配列にします
 
                 if pre_section_type != row_type:
                     # セクション切り替わり時
@@ -53,14 +71,14 @@ def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folde
 
                 # コメント１行ごとに配列の１要素とします
                 toml_text += buffer  # flush
-                buffer = f"""[[section.comment]]\n"""
+                buffer = ""
 
                 comment = row_data["comment"]
 
                 # TOMLのコメントにすると、パーサーがコメントを読み込んでくれないので、
                 # コメントにはしません
                 # TODO 文字列エスケープどうする？
-                buffer += f"""comment='''{comment}'''\n"""
+                comment_buffer.append(comment)
 
                 pre_section_type = row_type
 
