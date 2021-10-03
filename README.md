@@ -72,17 +72,30 @@ muzudho/kif-parser の内部では `.json` を使い始めています。
     toml_to_pivot.py
 ```
 
-## KIF から KIFU へ変換
+## KIF から KIFU へ変換（またその逆）
 
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
 3. 📄`input/*.kif` は UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
 
-## KIFU から KIF へ変換
+同様に、逆の操作として `python.exe kifu_to_kif.py` というコマンドがあります  
 
-1. 📂`input` フォルダーに 📄`*.kifu` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kifu_to_kif.py` コマンドを実行してください
-3. 📄`input/*.kifu` は Shift-JIS形式に変換して 📂`output` へ 📄`*.kif` が出力されます
+
+## KIF から PIVOT へ変換
+
+1. 📂`input` フォルダーに `*.kif` ファイルをたくさん入れてください
+2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
+3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
+
+同様に、逆の操作として `python.exe kifu_to_pivot.py` というコマンドがあります
+
+## PIVOT から KIF へ変換
+
+1. 📂`input` フォルダーに `*.json` 形式のPIVOTファイルをたくさん入れてください
+2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
+3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
+
+同様に、逆の操作として `python.exe pivot_to_kifu.py` というコマンドがあります
 
 ## Documents
 

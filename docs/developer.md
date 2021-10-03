@@ -1,33 +1,5 @@
 # kif-parser 開発者向けドキュメント
 
-## KIF から PIVOT へ変換
-
-1. 📂`input` フォルダーに `*.kif` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
-3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
-   PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-
-## KIFU から PIVOT へ変換
-
-1. 📂`input` フォルダーに `*.kifu` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kifu_to_pivot.py` コマンドを実行してください
-3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
-   PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-
-## PIVOT から KIF へ変換
-
-1. 📂`input` フォルダーに `*.json` 形式のPIVOTファイルをたくさん入れてください
-2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
-3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
-   PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-
-## PIVOT から KIFU へ変換
-
-1. 📂`input` フォルダーに `*.json` 形式のPIVOTファイルをたくさん入れてください
-2. ターミナルで `python.exe pivot_to_kifu.py` コマンドを実行してください
-3. KIFU形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
-   PIVOT ファイル形式は永続保存に適しません。使い終わったら削除しましょう
-
 ## (WIP) PIVOT から TOML へ変換
 
 ```shell
