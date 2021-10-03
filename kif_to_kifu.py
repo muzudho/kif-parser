@@ -1,7 +1,6 @@
 import glob
 import argparse
 from remove_all_temporary import remove_all_temporary
-from scripts.copy_kif_from_input import copy_kif_from_input
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.converter_template import ConverterTemplate
 
@@ -13,9 +12,11 @@ def __main(debug=False):
         converter.output_folder_clean = True
         converter.output_folder_clean_echo = False
 
-    converter.convert()
+    # 2. 指定のファイルを 指定のフォルダーへコピーします
+    converter.input_file_pattern = './input/*.kif'
+    converter.layer2_folder = 'temporary/kif'
 
-    copy_kif_from_input()
+    converter.convert()
 
     # KIFファイル一覧
     kif_files = glob.glob("./temporary/kif/*.kif")
