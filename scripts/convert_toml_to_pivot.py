@@ -112,7 +112,7 @@ def convert_toml_to_pivot(toml_file, output_folder):
                             else:
                                 # Error
                                 print(f"Error: destination={destination}")
-                                return None, None
+                                return None
 
                         pieceType = result2.group(4)
                         if pieceType:
@@ -129,7 +129,7 @@ def convert_toml_to_pivot(toml_file, output_folder):
                                 # Error
                                 print(
                                     f"Error: dropOrPromotion={dropOrPromotion}")
-                                return None, None
+                                return None
 
                         source = result2.group(6)
                         if source:
@@ -242,7 +242,7 @@ def convert_toml_to_pivot(toml_file, output_folder):
 
             # 解析漏れ
             print(f"Error: toml_to_pivot.py row_number={row_number} line=[{line}]")
-            return None, None
+            return None
 
     with open(out_path, 'w', encoding='utf-8') as fOut:
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))

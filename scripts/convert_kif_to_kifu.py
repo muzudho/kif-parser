@@ -29,7 +29,7 @@ def convert_kif_to_kifu(kif_file, output_folder='temporary/kifu'):
 
         stem, extention = os.path.splitext(basename)
         if extention.lower() != '.kif':
-            return None, None
+            return None
 
         # Append new extention
         out_path = os.path.join(output_folder, f"{stem}.kifu")

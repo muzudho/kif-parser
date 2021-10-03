@@ -48,7 +48,7 @@ def __main(debug=False):
         # Shift-JIS から UTF-8 へ変更
         kifu_file = convert_kif_to_kifu(kif_file)
         if kifu_file is None:
-            return None, None
+            return None
 
         # 4. Pivot へ変換
         pivot_file = convert_kifu_to_pivot(

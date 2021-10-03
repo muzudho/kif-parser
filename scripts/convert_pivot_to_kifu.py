@@ -19,7 +19,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
 
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
-        return None, None
+        return None
 
     kifuFile = ""
 
@@ -98,7 +98,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             # Error
             print(
                 f"Error: pivot_to_kifu.py unimplemented row_number={row_number} row_data={row_data}")
-            return None, None
+            return None
 
     # New .kifu ファイル出力
     kifuFile = os.path.join(output_folder, f"{stem}.kifu")

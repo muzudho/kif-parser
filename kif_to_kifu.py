@@ -51,7 +51,8 @@ def __main(debug=False):
         kifu_file = convert_kif_to_kifu(
             kif_file, output_folder=object_folder)
         if kifu_file is None:
-            print(f"Parse fail. kif_file={kif_file}")
+            print(f"Error: kif_to_kifu.py parse fail. kif_file=[{kif_file}]")
+            continue
 
         # ここから逆の操作を行います
 
@@ -72,8 +73,10 @@ def __main(debug=False):
                     f"Error: kif_file={kif_file} except={system.exc_info()[0]}")
                 raise
 
-            print(f"Not match SHA256. basename={basename}")
-            return None
+            # 不可逆な変換だが、とりあえず通します
+            print(
+                f"WARNING: Irreversible conversion. basename={basename}")
+            # continue
 
         # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
         move_file_to_folder(kifu_file, last_layer_folder)

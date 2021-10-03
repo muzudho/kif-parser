@@ -28,7 +28,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kifu':
-        return
+        return None
 
     # insert new extention
     output_pivot = os.path.join(output_folder, f"{stem}.json")
@@ -116,7 +116,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                         else:
                             # Error
                             print(f"Error: destination={destination}")
-                            return None, None
+                            return None
 
                     pieceType = result2.group(4)
                     if pieceType:
@@ -133,7 +133,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                             # Error
                             print(
                                 f"Error: dropOrPromotion={dropOrPromotion}")
-                            return None, None
+                            return None
 
                     source = result2.group(6)
                     if source:
@@ -269,7 +269,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         # 解析漏れ
         print(
             f"Error: kifu_to_pivot.py unimplemented row_number={row_number} line=[{line}]")
-        return None, None
+        return None
 
     # 最終行まで解析終わり
 

@@ -19,7 +19,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
     stem, extention = os.path.splitext(basename)
     if extention.lower() != '.json':
-        return None, None
+        return None
 
     toml_file = ""
 
@@ -280,7 +280,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
                 # Error
                 print(
                     f"Error: pivot_to_toml.py unimplemented row_number={row_number} row_data={row_data}")
-                return None, None
+                return None
 
         if buffer != "":
             toml_text += buffer
