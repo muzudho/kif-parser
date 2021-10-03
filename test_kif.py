@@ -1,5 +1,7 @@
 import os
 import sys
+from remove_all_output import remove_all_output
+from scripts.copy_files_to_folder import copy_files_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 import argparse
@@ -24,8 +26,14 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kif/*.kif'
 
-    # 4. KIF ファイル一覧
-    converter.convert_before_loop()
+    # 1. 最終フォルダーを空っぽにします
+    if converter._last_layer_folder_clean:
+        remove_all_output(echo=False)
+
+    # inputフォルダーにある ? ファイルを layer2_folder へコピーします
+    copy_files_to_folder(
+        converter.firlst_layer_file_pattern, converter.layer2_folder)
+
     kif_files = converter.list_layer2_files()
 
     for kif_file in kif_files:

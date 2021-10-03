@@ -1,7 +1,9 @@
 import argparse
+from remove_all_output import remove_all_output
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.converter_template import ConverterTemplate
+from scripts.copy_files_to_folder import copy_files_to_folder
 
 
 def __main(debug=False):
@@ -18,8 +20,14 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kifu/*.kifu'
 
-    # 4. KIFUファイル一覧
-    converter.convert_before_loop()
+    # 1. 最終フォルダーを空っぽにします
+    if converter._last_layer_folder_clean:
+        remove_all_output(echo=False)
+
+    # inputフォルダーにある ? ファイルを layer2_folder へコピーします
+    copy_files_to_folder(
+        converter.firlst_layer_file_pattern, converter.layer2_folder)
+
     kifu_files = converter.list_layer2_files()
 
     for kifu_file in kifu_files:

@@ -53,34 +53,7 @@ class ConverterTemplate():
     def layer2_file_pattern(self, file_pattern):
         self._layer2_file_pattern = file_pattern
 
-    def convert_before_loop(self):
-        # 1. 出力フォルダーを空っぽにします
-        if self._last_layer_folder_clean:
-            remove_all_output(echo=False)
-
-        if self.firlst_layer_file_pattern is None or self.layer2_folder is None:
-            return None
-
-        # 2. inputフォルダーにある ? ファイルを layer2_folder へコピーします
-        self.__copy_files_to_folder(
-            self.firlst_layer_file_pattern, self.layer2_folder)
-
     def list_layer2_files(self):
         """layer2_folder へコピーした棋譜ファイルへのパスの一覧を返します"""
         layer2_files = glob.glob(self.layer2_file_pattern)
         return layer2_files
-
-    def __copy_files_to_folder(self, input_file_pattern, output_folder):
-
-        input_files = glob.glob(input_file_pattern)
-        for input_file in input_files:
-            # basename
-            try:
-                basename = os.path.basename(input_file)
-            except:
-                print(
-                    f"Error: input_file={input_file} except={sys.exc_info()[0]}")
-                raise
-
-            copy_file = os.path.join(output_folder, basename)
-            shutil.copyfile(input_file, copy_file)
