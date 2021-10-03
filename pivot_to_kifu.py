@@ -29,11 +29,7 @@ def __main(debug=False):
     pivot_files = glob.glob(layer2_file_pattern)
 
     for pivot_file in pivot_files:
-        # 5. Shift-JIS から UTF-8 へ変換 (不要)
-
-        # 6. Pivot へ変換 (不要)
-
-        # Pivot to kifu
+        # 5. Pivot から 目的の棋譜ファイルへ変換
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder=last_layer_folder, done_folder='temporary/pivot-done')
         if kifu_file is None:

@@ -29,12 +29,9 @@ def __main(debug=False):
     pivot_files = glob.glob(layer2_file_pattern)
 
     for pivot_file in pivot_files:
-        # 5. Shift-JIS から UTF-8 へ変換 (不要)
-
-        # 6. Pivot へ変換 (不要)
-
+        # 5. Pivot から 目的の棋譜ファイルへ変換
         toml_file, done_pivot_file = convert_pivot_to_toml(
-            pivot_file, output_folder='temporary/toml', done_folder='temporary/pivot-done')
+            pivot_file, output_folder=last_layer_folder, done_folder='temporary/pivot-done')
         if toml_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
 

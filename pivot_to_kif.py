@@ -30,23 +30,19 @@ def __main(debug=False):
     pivot_files = glob.glob(layer2_file_pattern)
 
     for pivot_file in pivot_files:
-        # 5. Shift-JIS から UTF-8 へ変換 (不要)
-
-        # 6. Pivot へ変換 (不要)
-
-        # Pivot to kifu
+        # 5. Pivot から 目的の棋譜ファイルへ変換
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done')
         if kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
             continue
 
-        # kifu to kif
+        # UTF-8 から Shift-JIS へ変換
         kif_file, _done_kifu_file = convert_kifu_to_kif(
             kifu_file, output_folder=last_layer_folder, done_folder='temporary/kifu-done')
-
         if kif_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
+            continue
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:

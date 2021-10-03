@@ -31,12 +31,12 @@ def __main(debug=False):
     kif_files = glob.glob(layer2_file_pattern)
 
     for kif_file in kif_files:
-        # 5. Shift-JIS から UTF-8 へ変更
+        # Shift-JIS から UTF-8 へ変更
         kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
         if kifu_file is None:
-            return None, None
+            continue
 
-        # 6. Pivot へ変換
+        # 4. Pivot へ変換
         pivot_file = convert_kifu_to_pivot(
             kifu_file, output_folder=last_layer_folder)
         if pivot_file is None:

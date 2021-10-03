@@ -29,9 +29,7 @@ def __main(debug=False):
     kifu_files = glob.glob(layer2_file_pattern)
 
     for kifu_file in kifu_files:
-        # 5. Shift-JIS から UTF-8 へ変換 (不要)
-
-        # 6. Pivot へ変換
+        # 4. Pivot へ変換
         output_pivot = convert_kifu_to_pivot(
             kifu_file, output_folder=last_layer_folder)
         if output_pivot is None:
