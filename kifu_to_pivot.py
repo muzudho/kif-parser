@@ -19,7 +19,8 @@ def __main(debug=False):
     converter.layer2_file_pattern = './temporary/kifu/*.kifu'
 
     # 4. KIFUファイル一覧
-    kifu_files = converter.convert_before_loop()
+    converter.convert_before_loop()
+    kifu_files = converter.list_layer2_files()
 
     for kifu_file in kifu_files:
         # 5. Shift-JIS から UTF-8 へ変換 (不要)

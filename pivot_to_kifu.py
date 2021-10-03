@@ -20,7 +20,8 @@ def __main(debug=False):
     converter.layer2_file_pattern = './temporary/pivot/*.json'
 
     # 4. PIVOTファイル一覧
-    pivot_files = converter.convert_before_loop()
+    converter.convert_before_loop()
+    pivot_files = converter.list_layer2_files()
 
     for pivot_file in pivot_files:
         # 5. Shift-JIS から UTF-8 へ変換 (不要)

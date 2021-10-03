@@ -65,7 +65,8 @@ class ConverterTemplate():
         self.__copy_files_to_folder(
             self.firlst_layer_file_pattern, self.layer2_folder)
 
-        # 3. layer2_folder へコピーした棋譜ファイルへのパスの一覧を返します
+    def list_layer2_files(self):
+        """layer2_folder へコピーした棋譜ファイルへのパスの一覧を返します"""
         layer2_files = glob.glob(self.layer2_file_pattern)
         return layer2_files
 

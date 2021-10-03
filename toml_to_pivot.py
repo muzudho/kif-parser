@@ -19,7 +19,8 @@ def __main(debug=False):
     converter.layer2_file_pattern = './temporary/toml/*.toml'
 
     # 4. TOMLファイル一覧
-    toml_files = converter.convert_before_loop()
+    converter.convert_before_loop()
+    toml_files = converter.list_layer2_files()
 
     for toml_file in toml_files:
         # 5. Shift-JIS から UTF-8 へ変換 (不要)

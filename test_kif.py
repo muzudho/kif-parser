@@ -25,7 +25,8 @@ def __main(debug=False):
     converter.layer2_file_pattern = './temporary/kif/*.kif'
 
     # 4. KIF ファイル一覧
-    kif_files = converter.convert_before_loop()
+    converter.convert_before_loop()
+    kif_files = converter.list_layer2_files()
 
     for kif_file in kif_files:
 
