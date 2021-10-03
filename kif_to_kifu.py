@@ -49,8 +49,7 @@ def __main(debug=False):
             print(f"Parse fail. kif_file={kif_file}")
 
     # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
-    move_file_to_folder_by_pattern(
-        object_file_pattern, last_layer_folder)
+    move_file_to_folder_by_pattern(object_file_pattern, last_layer_folder)
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
