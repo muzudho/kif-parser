@@ -13,7 +13,7 @@ def __main(debug=False):
         converter.output_folder_clean = True
         converter.output_folder_clean_echo = False
 
-    converter.convert()
+    converter.convert_before_loop()
 
     copy_pivot_from_input()
 

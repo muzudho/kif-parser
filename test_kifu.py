@@ -5,7 +5,6 @@ from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 import argparse
 from remove_all_temporary import remove_all_temporary
 import sys
-from scripts.copy_kifu_from_input import copy_kifu_from_input
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.converter_template import ConverterTemplate
 
@@ -17,10 +16,11 @@ def __main(debug=False):
         converter.output_folder_clean = True
         converter.output_folder_clean_echo = False
 
-    converter.convert()
+    # 2. 指定のファイルを 指定のフォルダーへコピーします
+    converter.input_file_pattern = './input/*.kifu'
+    converter.layer2_folder = 'temporary/kifu'
 
-    # 2. `input` フォルダーから `temporary/kifu` フォルダーへ `*.kifu` ファイルを移動します
-    copy_kifu_from_input()
+    converter.convert_before_loop()
 
     # 3 各 kifu ファイルについて
     kifu_files = glob.glob('./temporary/kifu/*.kifu')

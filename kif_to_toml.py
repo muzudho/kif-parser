@@ -17,7 +17,7 @@ def __main(debug=False):
     converter.input_file_pattern = './input/*.kif'
     converter.layer2_folder = 'temporary/kif'
 
-    converter.convert()
+    converter.convert_before_loop()
 
     # KIFファイル一覧
     kif_files = glob.glob("./temporary/kif/*.kif")

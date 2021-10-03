@@ -44,7 +44,7 @@ class ConverterTemplate():
     def layer2_folder(self, layer2_folder):
         self._layer2_folder = layer2_folder
 
-    def convert(self):
+    def convert_before_loop(self):
         # 1. 出力フォルダーを空っぽにします
         if self._output_folder_clean:
             remove_all_output(echo=False)
@@ -53,8 +53,6 @@ class ConverterTemplate():
             return
 
         # 2. inputフォルダーにある ? ファイルを layer2_folder へコピーします
-        # input_file_pattern="./input/*.kif"
-        # output_folder='temporary/kif'
         self.__copy_files_to_folder(
             self.input_file_pattern, self.layer2_folder)
 
