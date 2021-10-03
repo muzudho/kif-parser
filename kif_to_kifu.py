@@ -1,11 +1,14 @@
 import argparse
 import glob
-from os import error
+from os import error, system
+import os
 from remove_all_output import clear_all_records_in_folder
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
+from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_files_to_folder import copy_files_to_folder
-from scripts.move_file_to_folder_by_pattern import move_file_to_folder_by_pattern
+from scripts.move_file_to_folder_by_pattern import move_file_to_folder
+from scripts.test_lib import create_sha256_by_file_path
 
 
 def __main(debug=False):
@@ -22,7 +25,9 @@ def __main(debug=False):
 
     # 中間Layer.
     object_folder = 'temporary/object'
-    object_file_pattern = 'temporary/object/*.kifu'
+
+    # Layer 4. 逆方向のフォルダ―
+    layer4_folder = 'reverse-temporary/kif'
 
     # 最終Layer.
     last_layer_folder = 'output'
@@ -40,16 +45,38 @@ def __main(debug=False):
     for kif_file in kif_files:
 
         # レイヤー２にあるファイルの SHA256 生成
-        # layer2_file_sha256 = create_sha256_by_file_path(kif_file)
+        layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # Shift-JIS から UTF-8 へ変換
-        out_path = convert_kif_to_kifu(
+        kifu_file = convert_kif_to_kifu(
             kif_file, output_folder=object_folder)
-        if out_path is None:
+        if kifu_file is None:
             print(f"Parse fail. kif_file={kif_file}")
 
-    # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
-    move_file_to_folder_by_pattern(object_file_pattern, last_layer_folder)
+        # ここから逆の操作を行います
+
+        # UTF-8 から Shift-JIS へ変換
+        reversed_kif_file = convert_kifu_to_kif(
+            kifu_file, output_folder=layer4_folder)
+
+        # レイヤー４にあるファイルの SHA256 生成
+        layer4_file_sha256 = create_sha256_by_file_path(reversed_kif_file)
+
+        # 一致比較
+        if layer2_file_sha256 != layer4_file_sha256:
+            # Error
+            try:
+                basename = os.path.basename(kif_file)
+            except:
+                print(
+                    f"Error: kif_file={kif_file} except={system.exc_info()[0]}")
+                raise
+
+            print(f"Not match SHA256. basename={basename}")
+            return None
+
+        # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
+        move_file_to_folder(kifu_file, last_layer_folder)
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
