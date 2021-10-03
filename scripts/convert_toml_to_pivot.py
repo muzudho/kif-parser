@@ -10,7 +10,7 @@ from scripts.toml_specification import comment_p, explanation_p, bookmark_p, pla
 """
 
 
-def convert_toml_to_pivot(toml_file, output_folder, _done_folder):
+def convert_toml_to_pivot(toml_file, output_folder):
     """.tomlファイルを読込んで、JSON (PIVOT) ファイルを出力します"""
 
     data = {}
@@ -247,8 +247,6 @@ def convert_toml_to_pivot(toml_file, output_folder, _done_folder):
     with open(out_path, 'w', encoding='utf-8') as fOut:
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
-    # ファイルの移動
-    done_path = shutil.move(toml_file, os.path.join(done_folder, basename))
-    return out_path, done_path
+    return out_path
         """
-        return None, None
+        return None

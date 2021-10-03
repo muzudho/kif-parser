@@ -38,15 +38,15 @@ def __main(debug=False):
         # layer2_file_sha256 = create_sha256_by_file_path(pivot_file)
 
         # 5. Pivot から 目的の棋譜ファイルへ変換
-        kifu_file, _done_pivot_file = convert_pivot_to_kifu(
-            pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done')
+        kifu_file = convert_pivot_to_kifu(
+            pivot_file, output_folder='temporary/kifu')
         if kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
             continue
 
         # UTF-8 から Shift-JIS へ変換
-        kif_file, _done_kifu_file = convert_kifu_to_kif(
-            kifu_file, output_folder=last_layer_folder, done_folder='temporary/kifu-done')
+        kif_file = convert_kifu_to_kif(
+            kifu_file, output_folder=last_layer_folder)
         if kif_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
             continue

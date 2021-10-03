@@ -11,22 +11,19 @@ output/*.json
 output/*.toml
 
 temporary/kif/*.kif
-temporary/kif-done/*.kif
 temporary/kifu/*.kifu
-temporary/kifu-done/*.kifu
 temporary/pivot/*.json
-temporary/pivot-done/*.json
 temporary/toml/*.toml
-temporary/toml-done/*.toml
+
+temporary/object/*.kif
+temporary/object/*.kifu
+temporary/object/*.json
+temporary/object/*.toml
 
 reverse-temporary/kif/*.kif
-reverse-temporary/kif-done/*.kif
 reverse-temporary/kifu/*.kifu
-reverse-temporary/kifu-done/*.kifu
 reverse-temporary/pivot/*.json
-reverse-temporary/pivot-done/*.json
 reverse-temporary/toml/*.toml
-reverse-temporary/toml-done/*.toml
 
 test-data/*.kif
 test-data/*.kifu

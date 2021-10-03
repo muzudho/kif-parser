@@ -43,7 +43,7 @@ def __main(debug=False):
         layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # Shift-JIS から UTF-8 へ変更
-        kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
+        kifu_file = convert_kif_to_kifu(kif_file)
         if kifu_file is None:
             return None, None
 
@@ -56,15 +56,15 @@ def __main(debug=False):
             return None
 
         # 5. Pivot から 目的の棋譜ファイルへ変換
-        kifu_file, _done_pivot_file = convert_pivot_to_kifu(
-            pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done')
+        kifu_file = convert_pivot_to_kifu(
+            pivot_file, output_folder='temporary/kifu')
         if kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
             continue
 
         # kifu to kif
-        reverse_kif_file, _reverse_done_kifu_file = convert_kifu_to_kif(
-            kifu_file, output_folder='reverse-temporary/kif', done_folder='temporary/kifu-done')
+        reverse_kif_file = convert_kifu_to_kif(
+            kifu_file, output_folder='reverse-temporary/kif')
         if reverse_kif_file is None:
             # Error
             print(

@@ -37,8 +37,8 @@ def __main(debug=False):
         # layer2_file_sha256 = create_sha256_by_file_path(pivot_file)
 
         # 5. Pivot から 目的の棋譜ファイルへ変換
-        toml_file, done_pivot_file = convert_pivot_to_toml(
-            pivot_file, output_folder=last_layer_folder, done_folder='temporary/pivot-done')
+        toml_file = convert_pivot_to_toml(
+            pivot_file, output_folder=last_layer_folder)
         if toml_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
 

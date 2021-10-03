@@ -37,8 +37,8 @@ def __main(debug=False):
         # layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # Shift-JIS から UTF-8 へ変換
-        kif_file, _done_path = convert_kifu_to_kif(
-            kifu_file, output_folder=last_layer_folder, done_folder='temporary/kifu-done')
+        kif_file = convert_kifu_to_kif(
+            kifu_file, output_folder=last_layer_folder)
         if kif_file is None:
             print(f"Parse fail. kifu_file={kifu_file}")
             continue

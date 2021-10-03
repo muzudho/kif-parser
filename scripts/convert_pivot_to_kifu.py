@@ -8,7 +8,7 @@ from scripts.kifu_specification import player_phase_p, handicap_statement_p, \
     variation_label_statement_p, start_time_statement_p, end_time_statement_p
 
 
-def convert_pivot_to_kifu(pivot_file, output_folder, done_folder):
+def convert_pivot_to_kifu(pivot_file, output_folder):
     # basename
 
     try:
@@ -105,9 +105,4 @@ def convert_pivot_to_kifu(pivot_file, output_folder, done_folder):
     with open(kifuFile, mode='w', encoding='utf-8') as fOut:
         fOut.write(kifu_text)
 
-    # with句を抜けて、ファイルを閉じたあと
-    # ファイルの移動
-    done_pivot_file = shutil.move(
-        pivot_file, os.path.join(done_folder, basename))
-
-    return kifuFile, done_pivot_file
+    return kifuFile

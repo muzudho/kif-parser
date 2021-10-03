@@ -39,7 +39,7 @@ def __main(debug=False):
         # layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # Shift-JIS から UTF-8 へ変更
-        kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
+        kifu_file = convert_kif_to_kifu(kif_file)
         if kifu_file is None:
             continue
 
@@ -50,8 +50,7 @@ def __main(debug=False):
             print(f"kif_to_toml.py Parse fail. kif_file=[{kif_file}]")
             continue
 
-        _tomlFile, _done_pivot_file = convert_pivot_to_toml(
-            pivot_file, 'output', done_folder='temporary/pivot-done')
+        _tomlFile = convert_pivot_to_toml(pivot_file, 'output')
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:

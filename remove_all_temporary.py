@@ -3,61 +3,27 @@ import glob
 
 
 def remove_all_temporary(echo=True):
-    # KIFファイル一覧
-    kif_files = glob.glob("./temporary/kif/*.kif")
-    for kif_file in kif_files:
-        if echo:
-            print(f"Remove: {kif_file}")
-        os.remove(kif_file)
+    pattern_list = [
+        "./temporary/kif/*.kif",
+        "./temporary/kifu/*.kifu",
+        "./temporary/pivot/*.json",
+        "./temporary/toml/*.toml",
+        "./temporary/object/*.kif",
+        "./temporary/object/*.kifu",
+        "./temporary/object/*.json",
+        "./temporary/object/*.toml",
+        "./reverse-temporary/kif/*.kif",
+        "./reverse-temporary/kifu/*.kifu",
+        "./reverse-temporary/pivot/*.json",
+        "./reverse-temporary/toml/*.toml",
+    ]
 
-    # KIFファイル一覧
-    kif_files = glob.glob("./temporary/kif-done/*.kif")
-    for kif_file in kif_files:
-        if echo:
-            print(f"Remove: {kif_file}")
-        os.remove(kif_file)
-
-    # KIFUファイル一覧
-    kifu_files = glob.glob("./temporary/kifu/*.kifu")
-    for kifu_file in kifu_files:
-        if echo:
-            print(f"Remove: {kifu_file}")
-        os.remove(kifu_file)
-
-    # KIFUファイル一覧
-    kifu_files = glob.glob("./temporary/kifu-done/*.kifu")
-    for kifu_file in kifu_files:
-        if echo:
-            print(f"Remove: {kifu_file}")
-        os.remove(kifu_file)
-
-    # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot/*.json")
-    for pivot_file in pivot_files:
-        if echo:
-            print(f"Remove: {pivot_file}")
-        os.remove(pivot_file)
-
-    # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot-done/*.json")
-    for pivot_file in pivot_files:
-        if echo:
-            print(f"Remove: {pivot_file}")
-        os.remove(pivot_file)
-
-    # TOMLファイル一覧
-    toml_files = glob.glob("./temporary/toml/*.toml")
-    for toml_file in toml_files:
-        if echo:
-            print(f"Remove: {toml_file}")
-        os.remove(toml_file)
-
-    # PIVOTファイル一覧
-    toml_files = glob.glob("./temporary/toml-done/*.toml")
-    for toml_file in toml_files:
-        if echo:
-            print(f"Remove: {toml_file}")
-        os.remove(toml_file)
+    for pattern in pattern_list:
+        file_list = glob.glob(pattern)
+        for file in file_list:
+            if echo:
+                print(f"Remove: {file}")
+            os.remove(file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
