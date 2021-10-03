@@ -13,12 +13,14 @@ def __main(debug=False):
         converter.last_layer_folder_clean = True
         converter.last_layer_folder_clean_echo = False
 
+    converter.layer2_file_pattern = './temporary/pivot/*.json'
+
     converter.convert_before_loop()
 
     copy_pivot_from_input()
 
     # PIVOTファイル一覧
-    pivot_files = glob.glob("./temporary/pivot/*.json")
+    pivot_files = glob.glob(converter.layer2_file_pattern)
     for pivot_file in pivot_files:
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder='output')

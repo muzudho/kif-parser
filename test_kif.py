@@ -19,11 +19,12 @@ def __main(debug=False):
     # 2. 指定のファイルを 指定のフォルダーへコピーします
     converter.firlst_layer_file_pattern = './input/*.kif'
     converter.layer2_folder = 'temporary/kif'
+    converter.layer2_file_pattern = './temporary/kif/*.kif'
 
     converter.convert_before_loop()
 
     # 3 各 kif ファイルについて
-    kif_files = glob.glob("./temporary/kif/*.kif")
+    kif_files = glob.glob(converter.layer2_file_pattern)
     for kif_file in kif_files:
 
         # 3-1. SHA256 生成

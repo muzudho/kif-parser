@@ -13,12 +13,14 @@ def __main(debug=False):
         converter.last_layer_folder_clean = True
         converter.last_layer_folder_clean_echo = False
 
+    converter.layer2_file_pattern = './temporary/toml/*.toml'
+
     converter.convert_before_loop()
 
     copy_toml_from_input()
 
     # TOMLファイル一覧
-    toml_files = glob.glob("./temporary/toml/*.toml")
+    toml_files = glob.glob(converter.layer2_file_pattern)
     for toml_file in toml_files:
         out_path, _done_path = convert_toml_to_pivot(
             toml_file, output_folder='output')

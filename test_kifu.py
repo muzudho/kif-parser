@@ -19,11 +19,12 @@ def __main(debug=False):
     # 2. 指定のファイルを 指定のフォルダーへコピーします
     converter.firlst_layer_file_pattern = './input/*.kifu'
     converter.layer2_folder = 'temporary/kifu'
+    converter.layer2_file_pattern = './temporary/kifu/*.kifu'
 
     converter.convert_before_loop()
 
     # 3 各 kifu ファイルについて
-    kifu_files = glob.glob('./temporary/kifu/*.kifu')
+    kifu_files = glob.glob(converter.layer2_file_pattern)
     for kifu_file in kifu_files:
         # 3-1. SHA256を生成します
         kifu_sha256 = create_sha256_by_file_path(kifu_file)

@@ -15,11 +15,12 @@ def __main(debug=False):
     # 2. 指定のファイルを 指定のフォルダーへコピーします
     converter.firlst_layer_file_pattern = './input/*.kif'
     converter.layer2_folder = 'temporary/kif'
+    converter.layer2_file_pattern = './temporary/kif/*.kif'
 
     converter.convert_before_loop()
 
     # KIFファイル一覧
-    kif_files = glob.glob("./temporary/kif/*.kif")
+    kif_files = glob.glob(converter.layer2_file_pattern)
     for kif_file in kif_files:
         pivot_File, _done_kif_file = convert_kif_to_pivot(
             kif_file, output_folder='output')

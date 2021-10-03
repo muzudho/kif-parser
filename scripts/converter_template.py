@@ -11,6 +11,7 @@ class ConverterTemplate():
         self._last_layer_folder_clean_echo = False
         self._firlst_layer_file_pattern = None
         self._layer2_folder = None
+        self._layer2_file_pattern = None
 
     @property
     def last_layer_folder_clean(self):
@@ -43,6 +44,14 @@ class ConverterTemplate():
     @layer2_folder.setter
     def layer2_folder(self, layer2_folder):
         self._layer2_folder = layer2_folder
+
+    @property
+    def layer2_file_pattern(self):
+        return self._layer2_file_pattern
+
+    @layer2_file_pattern.setter
+    def layer2_file_pattern(self, file_pattern):
+        self._layer2_file_pattern = file_pattern
 
     def convert_before_loop(self):
         # 1. 出力フォルダーを空っぽにします
