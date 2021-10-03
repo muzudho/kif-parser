@@ -1,4 +1,3 @@
-import glob
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_toml_to_pivot import convert_toml_to_pivot
@@ -19,10 +18,9 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/toml/*.toml'
 
-    converter.convert_before_loop()
+    # 4. TOMLファイル一覧
+    toml_files = converter.convert_before_loop()
 
-    # TOMLファイル一覧
-    toml_files = glob.glob(converter.layer2_file_pattern)
     for toml_file in toml_files:
         out_path, _done_path = convert_toml_to_pivot(
             toml_file, output_folder='output')

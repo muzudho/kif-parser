@@ -1,4 +1,3 @@
-import glob
 import os
 import sys
 from scripts.test_lib import create_sha256_by_file_path
@@ -23,10 +22,9 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kif/*.kif'
 
-    converter.convert_before_loop()
+    # 4. KIF ファイル一覧
+    kif_files = converter.convert_before_loop()
 
-    # 3 各 kif ファイルについて
-    kif_files = glob.glob(converter.layer2_file_pattern)
     for kif_file in kif_files:
 
         # 3-1. SHA256 生成

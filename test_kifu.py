@@ -1,4 +1,3 @@
-import glob
 import os
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
@@ -23,10 +22,9 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kifu/*.kifu'
 
-    converter.convert_before_loop()
+    # 4. KIF ファイル一覧
+    kifu_files = converter.convert_before_loop()
 
-    # 3 各 kifu ファイルについて
-    kifu_files = glob.glob(converter.layer2_file_pattern)
     for kifu_file in kifu_files:
         # 3-1. SHA256を生成します
         kifu_sha256 = create_sha256_by_file_path(kifu_file)

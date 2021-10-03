@@ -59,13 +59,15 @@ class ConverterTemplate():
             remove_all_output(echo=False)
 
         if self.firlst_layer_file_pattern is None or self.layer2_folder is None:
-            return
+            return None
 
         # 2. inputフォルダーにある ? ファイルを layer2_folder へコピーします
         self.__copy_files_to_folder(
             self.firlst_layer_file_pattern, self.layer2_folder)
 
-        pass
+        # 3. layer2_folder へコピーした棋譜ファイルへのパスの一覧を返します
+        layer2_files = glob.glob(self.layer2_file_pattern)
+        return layer2_files
 
     def __copy_files_to_folder(self, input_file_pattern, output_folder):
 

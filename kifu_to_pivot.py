@@ -1,4 +1,3 @@
-import glob
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
@@ -19,10 +18,9 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kifu/*.kifu'
 
-    converter.convert_before_loop()
+    # 4. KIFUファイル一覧
+    kifu_files = converter.convert_before_loop()
 
-    # KIFUファイル一覧
-    kifu_files = glob.glob(converter.layer2_file_pattern)
     for kifu_file in kifu_files:
         output_pivot = convert_kifu_to_pivot(
             kifu_file, output_folder='output')

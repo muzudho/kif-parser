@@ -1,4 +1,3 @@
-import glob
 from scripts.convert_kif_to_pivot import convert_kif_to_pivot
 import argparse
 from remove_all_temporary import remove_all_temporary
@@ -19,10 +18,9 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kif/*.kif'
 
-    converter.convert_before_loop()
+    # 4. KIFファイル一覧
+    kif_files = converter.convert_before_loop()
 
-    # KIFファイル一覧
-    kif_files = glob.glob(converter.layer2_file_pattern)
     for kif_file in kif_files:
         pivot_File, _done_kif_file = convert_kif_to_pivot(
             kif_file, output_folder='output')
