@@ -6,7 +6,7 @@ from remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_toml import convert_pivot_to_toml
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.copy_files_to_folder import copy_files_to_folder
-from scripts.move_file_to_folder_by_pattern import move_file_to_folder_by_pattern
+from scripts.move_file_to_folder_by_pattern import move_file_to_folder
 
 
 def __main(debug=False):
@@ -19,11 +19,13 @@ def __main(debug=False):
     layer2_file_pattern = './temporary/kif/*.kif'
 
     # Layer 3. Pivotフォルダ―
-    # (なし)
+    layer3_folder = 'temporary/pivot'
 
     # 中間Layer.
     object_folder = 'temporary/object'
-    object_file_pattern = 'temporary/object/*.toml'
+
+    # Layer 4. 逆Pivotフォルダ―
+    layer4_folder = 'reverse-temporary/pivot'
 
     # 最終Layer.
     last_layer_folder = 'output'
@@ -50,15 +52,20 @@ def __main(debug=False):
 
         # 4. Pivot へ変換
         pivot_file = convert_kifu_to_pivot(
-            kifu_file, output_folder=object_folder)
+            kifu_file, output_folder=layer3_folder)
         if pivot_file is None:
             print(f"kif_to_toml.py Parse fail. kif_file=[{kif_file}]")
             continue
 
-        _tomlFile = convert_pivot_to_toml(pivot_file, 'output')
+        # 5. TOML へ変換
+        toml_file = convert_pivot_to_toml(pivot_file, object_folder)
 
-    # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
-    move_file_to_folder_by_pattern(object_file_pattern, last_layer_folder)
+        # TODO ここから逆の操作を行います
+
+        # convert_toml_to_pivot(toml_file, layer4_folder)
+
+        # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
+        move_file_to_folder(toml_file, last_layer_folder)
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:

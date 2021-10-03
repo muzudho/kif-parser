@@ -26,7 +26,6 @@ def __main(debug=False):
 
     # 中間Layer.
     object_folder = 'temporary/object'
-    object_file_pattern = 'temporary/object/*.json'
 
     # Layer 4. 逆方向のフォルダ―
     layer4_folder = 'reverse-temporary/kif'
