@@ -269,20 +269,20 @@ class PieceTypeP():
         # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
         # SFEN を参考にします
         self._piece_type = {
-            'K': 'King',
-            'R': 'Rook',
-            '+R': 'Dragon',
-            'B': 'Bishop',
-            '+B': 'Horse',
-            'G': 'Gold',
-            'S': 'Silver',
-            '+S': 'PromotionSilver',
-            'N': 'Knight',
-            '+N': 'PromotionKnight',
-            'L': 'Lance',
-            '+L': 'PromotionLance',
-            'P': 'Pawn',
-            '+P': 'PromotionPawn',
+            'K': "king",
+            'R': "rook",
+            '+R': "dragon",
+            'B': "bishop",
+            '+B': "horse",
+            'G': "gold",
+            'S': "silver",
+            '+S': "promotionSilver",
+            'N': "knight",
+            '+N': "promotionKnight",
+            'L': "lance",
+            '+L': "promotionLance",
+            'P': "pawn",
+            '+P': "promotionPawn",
         }
 
     def to_pivot(self, piece_type):
