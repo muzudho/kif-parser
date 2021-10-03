@@ -46,7 +46,7 @@ WIP 作業中です。
     LICENSE
     pivot_to_kif.py
     pivot_to_kifu.py
-    pivot_to_toml.py
+    pivot_to_toml.py # WIP 作業中
     remove_all_output.py
     remove_all_temporary.py
     toml_to_pivot.py
