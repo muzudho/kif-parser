@@ -12,7 +12,8 @@ def main():
         # 出力ファイル一覧
         output_files = glob.glob(output_file_pattern)
         for output_file in output_files:
-            _undone_input_file = move_output_to_input_danger(output_file)
+            _undone_input_file = move_output_to_input_danger(
+                output_file, output_folder='input')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

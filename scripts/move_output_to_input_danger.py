@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def move_output_to_input_danger(output_file, output_folder='input'):
+def move_output_to_input_danger(output_file, output_folder):
     # basename
     try:
         basename = os.path.basename(output_file)

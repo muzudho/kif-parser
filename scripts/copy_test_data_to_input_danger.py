@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def copy_test_data_to_input_danger(test_data_file, output_folder='input'):
+def copy_test_data_to_input_danger(test_data_file, output_folder):
     # basename
     try:
         basename = os.path.basename(test_data_file)

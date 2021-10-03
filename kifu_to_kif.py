@@ -34,7 +34,7 @@ def __main(debug=False):
 
         # 5. Shift-JIS から UTF-8 へ変換
         kif_file, _done_path = convert_kifu_to_kif(
-            kifu_file, output_folder='output')
+            kifu_file, output_folder='output', done_folder='temporary/kifu-done')
         if kif_file is None:
             print(f"Parse fail. kifu_file={kifu_file}")
 

@@ -9,7 +9,7 @@ from scripts.generator_identification import generator_identification
 import sys
 
 
-def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot'):
+def convert_kifu_to_pivot(kifu_file, output_folder):
     """KIFUファイルを読込んで、JSONファイルを出力します
     Parameters
     ----------

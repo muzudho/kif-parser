@@ -12,7 +12,7 @@ from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
 
 
-def convert_pivot_to_toml(pivot_file, output_folder='temporary/toml', done_folder='temporary/pivot-done'):
+def convert_pivot_to_toml(pivot_file, output_folder, done_folder):
 
     # basename
     try:

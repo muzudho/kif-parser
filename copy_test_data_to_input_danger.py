@@ -13,7 +13,7 @@ def main():
         test_data_files = glob.glob(test_data_file_pattern)
         for test_data_file in test_data_files:
             _undone_test_data_file = copy_test_data_to_input_danger(
-                test_data_file)
+                test_data_file, output_folder='input')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

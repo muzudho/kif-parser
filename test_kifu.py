@@ -40,11 +40,12 @@ def __main(debug=False):
         # 5. Shift-JIS から UTF-8 へ変換 (不要)
 
         # 6. Pivot へ変換 (不要)
-        pivot_file = convert_kifu_to_pivot(kifu_file)
+        pivot_file = convert_kifu_to_pivot(
+            kifu_file, output_folder='temporary/pivot')
 
         # Pivot to kifu
         reverse_kifu_file, _done_pivot_file = convert_pivot_to_kifu(
-            pivot_file, output_folder='reverse-temporary/kifu')
+            pivot_file, output_folder='reverse-temporary/kifu', done_folder='temporary/pivot-done')
         if reverse_kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
 

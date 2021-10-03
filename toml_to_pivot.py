@@ -34,7 +34,7 @@ def __main(debug=False):
 
         # 6. Pivot へ変換
         out_path, _done_path = convert_toml_to_pivot(
-            toml_file, output_folder='output')
+            toml_file, output_folder='output', done_folder='temporary/toml-done')
 
         if out_path is None:
             print(f"Parse fail. toml_file={toml_file}")

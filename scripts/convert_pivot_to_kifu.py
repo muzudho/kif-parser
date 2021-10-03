@@ -8,7 +8,7 @@ from scripts.kifu_specification import player_phase_p, handicap_statement_p, \
     variation_label_statement_p, start_time_statement_p, end_time_statement_p
 
 
-def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done'):
+def convert_pivot_to_kifu(pivot_file, output_folder, done_folder):
     # basename
 
     try:

@@ -45,7 +45,7 @@ def __main(debug=False):
             continue
 
         _tomlFile, _done_pivot_file = convert_pivot_to_toml(
-            pivot_file, 'output')
+            pivot_file, 'output', done_folder='temporary/pivot-done')
 
     if not debug:
         # 変換の途中で作ったファイルは削除します

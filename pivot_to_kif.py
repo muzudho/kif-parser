@@ -36,14 +36,15 @@ def __main(debug=False):
         # 6. Pivot へ変換 (不要)
 
         # Pivot to kifu
-        kifu_file, _done_pivot_file = convert_pivot_to_kifu(pivot_file)
+        kifu_file, _done_pivot_file = convert_pivot_to_kifu(
+            pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done')
         if kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
             continue
 
         # kifu to kif
         kif_file, _done_kifu_file = convert_kifu_to_kif(
-            kifu_file, output_folder='output')
+            kifu_file, output_folder='output', done_folder='temporary/kifu-done')
 
         if kif_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")

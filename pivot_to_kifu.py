@@ -3,7 +3,6 @@ import glob
 from remove_all_output import remove_all_output
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
-from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_files_to_folder import copy_files_to_folder
 
 
@@ -37,7 +36,7 @@ def __main(debug=False):
 
         # Pivot to kifu
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
-            pivot_file, output_folder='output')
+            pivot_file, output_folder='output', done_folder='temporary/pivot-done')
         if kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
 
