@@ -27,7 +27,7 @@ def __main(debug=False):
     object_file_pattern = 'temporary/object/*.json'
 
     # Layer 4. 逆入力フォルダ―
-    layer4_folder = 'reverse-temporary/kifu'
+    layer4_folder = 'temporary/reverse-kifu'
 
     # 最終Layer.
     last_layer_folder = 'output'

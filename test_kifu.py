@@ -49,7 +49,7 @@ def __main(debug=False):
 
         # 5. Pivot から 目的の棋譜ファイルへ変換
         reverse_kifu_file = convert_pivot_to_kifu(
-            pivot_file, output_folder='reverse-temporary/kifu')
+            pivot_file, output_folder='temporary/reverse-kifu')
         if reverse_kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
 

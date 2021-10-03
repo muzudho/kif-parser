@@ -67,8 +67,20 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             kifu_text += f"{player_phase}：{player_name}\n"
 
         elif row_data["type"] == "anyGameInfo":
+            key = row_data["key"]
+
+            if "value" in row_data:
+                value = row_data["value"]
+            else:
+                value = None
+
+            if "comment" in row_data:
+                comment = row_data["comment"]
+            else:
+                comment = None
+
             kifu_text += any_game_info_key_value_pair_statement_p.from_pivot(
-                row_data["anyGameInfo"])
+                key, value, comment)
 
         elif row_data["type"] == "variationLabel":
             moves = variation_label_statement_p.from_pivot(

@@ -67,7 +67,7 @@ def __main(debug=False):
 
         # kifu to kif
         reverse_kif_file = convert_kifu_to_kif(
-            kifu_file, output_folder='reverse-temporary/kif')
+            kifu_file, output_folder='temporary/reverse-kif')
         if reverse_kif_file is None:
             # Error
             print(

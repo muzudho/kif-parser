@@ -28,7 +28,7 @@ def __main(debug=False):
     object_folder = 'temporary/object'
 
     # Layer 4. 逆方向のフォルダ―
-    layer4_folder = 'reverse-temporary/kif'
+    layer4_folder = 'temporary/reverse-kif'
 
     # 最終Layer.
     last_layer_folder = 'output'

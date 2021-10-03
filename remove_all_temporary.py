@@ -12,10 +12,10 @@ def remove_all_temporary(echo=True):
         "./temporary/object/*.kifu",
         "./temporary/object/*.json",
         "./temporary/object/*.toml",
-        "./reverse-temporary/kif/*.kif",
-        "./reverse-temporary/kifu/*.kifu",
-        "./reverse-temporary/pivot/*.json",
-        "./reverse-temporary/toml/*.toml",
+        "./temporary/reverse-kif/*.kif",
+        "./temporary/reverse-kifu/*.kifu",
+        "./temporary/reverse-pivot/*.json",
+        "./temporary/reverse-toml/*.toml",
     )
 
     for pattern in pattern_list:

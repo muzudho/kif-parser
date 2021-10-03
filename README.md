@@ -34,11 +34,10 @@ WIP 作業中です。
         /pivot
         /toml
         /object # 中間ファイル
-    /reverse-temporary
-        /kif
-        /kifu
-        /pivot
-        /toml
+        /reverse-kif # 可逆変換テスト
+        /reverse-kifu
+        /reverse-pivot
+        /reverse-toml
 
     kif_to_kifu.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
     kif_to_pivot.py

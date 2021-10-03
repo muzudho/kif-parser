@@ -25,7 +25,7 @@ def __main(debug=False):
     object_folder = 'temporary/object'
 
     # Layer 4. 逆Pivotフォルダ―
-    layer4_folder = 'reverse-temporary/pivot'
+    layer4_folder = 'temporary/reverse-pivot'
 
     # 最終Layer.
     last_layer_folder = 'output'

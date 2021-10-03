@@ -26,7 +26,7 @@ def __main(debug=False):
     object_folder = 'temporary/object'
 
     # Layer 4. 入力フォルダ―のコピーフォルダー
-    layer4_folder = 'reverse-temporary/kifu'
+    layer4_folder = 'temporary/reverse-kifu'
 
     # 最終Layer.
     last_layer_folder = 'output'
