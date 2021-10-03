@@ -34,9 +34,11 @@ def __main(debug=False):
         # 3-2. kifu -> pivot 変換
         pivot_file = convert_kifu_to_pivot(kifu_file)
 
-        # 3-3. pivot -> (reverse_)kifu 変換
+        # Pivot to kifu
         reverse_kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder='reverse-temporary/kifu')
+        if reverse_kifu_file is None:
+            print(f"Parse fail. pivot_file={pivot_file}")
 
         # 3-4. SHA256 生成
         reverse_kifu_sha256 = create_sha256_by_file_path(reverse_kifu_file)

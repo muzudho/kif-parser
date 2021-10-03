@@ -1,7 +1,8 @@
-from scripts.convert_pivot_to_kif import convert_pivot_to_kif
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.converter_template import ConverterTemplate
+from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
+from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 
 
 def __main(debug=False):
@@ -22,8 +23,15 @@ def __main(debug=False):
     pivot_files = converter.convert_before_loop()
 
     for pivot_file in pivot_files:
-        kif_file, _done_pivot_file = convert_pivot_to_kif(
-            pivot_file, output_folder='output')
+        # Pivot to kifu
+        kifu_file, _done_pivot_file = convert_pivot_to_kifu(pivot_file)
+        if kifu_file is None:
+            print(f"Parse fail. pivot_file={pivot_file}")
+            continue
+
+        # kifu to kif
+        kif_file, _done_kifu_file = convert_kifu_to_kif(
+            kifu_file, output_folder='output')
 
         if kif_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")

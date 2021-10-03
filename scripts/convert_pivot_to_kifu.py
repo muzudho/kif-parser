@@ -107,7 +107,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder='temporary/kifu', done_folde
 
     # with句を抜けて、ファイルを閉じたあと
     # ファイルの移動
-    donePivotFile = shutil.move(
+    done_pivot_file = shutil.move(
         pivot_file, os.path.join(done_folder, basename))
 
-    return kifuFile, donePivotFile
+    return kifuFile, done_pivot_file
