@@ -1,7 +1,7 @@
 import glob
 import shutil
 import os
-from scripts.test_lib import create_sha256
+from scripts.test_lib import create_sha256, create_sha256_by_file_path
 from kifu_to_pivot import convert_kifu_to_pivot
 from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
@@ -11,40 +11,34 @@ from remove_all_output import remove_all_output
 import sys
 
 
-def test_2_kifu_files(kifu_file, output_folder_2nd='temporary/kifu-2nd', done_folder='temporary/kifu-done'):
+def test_2_kifu_files(kifu_file, reverse_output_folder='reverse-temporary/kifu', done_folder='temporary/kifu-done'):
     # basename
     try:
         basename = os.path.basename(kifu_file)
     except:
-        print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+        print(
+            f"Error: test_kifu.py kifu_file={kifu_file} except={sys.exc_info()[0]}")
         raise
 
+    # 拡張子 check は必ず入れます
     _stem, extention = os.path.splitext(basename)
     if extention.lower() != '.kifu':
-        return ""
-
-    kifu_binary = None
-
-    # 読み取り専用、バイナリ
-    with open(kifu_file, 'rb') as f:
-        kifu_binary = f.read()
-
-    # print(binaryData)
+        return None
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
-    kifu_1_Sha256 = create_sha256(kifu_binary)
+    kifu_1_Sha256 = create_sha256_by_file_path(kifu_file)
 
     # kifu -> pivot 変換
     pivot_file, _done_kifu_file = convert_kifu_to_pivot(kifu_file)
 
     # pivot -> kifu 変換
-    kifu_file_2nd, _done_pivot_file_2nd = convert_pivot_to_kifu(
-        pivot_file, output_folder=output_folder_2nd)
+    reverse_kifu_file, _done_pivot_file_2nd = convert_pivot_to_kifu(
+        pivot_file, output_folder=reverse_output_folder)
 
     kifuBinary2 = None
 
     # 読み取り専用、バイナリ
-    with open(kifu_file_2nd, 'rb') as f:
+    with open(reverse_kifu_file, 'rb') as f:
         kifuBinary2 = f.read()
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
@@ -57,20 +51,20 @@ def test_2_kifu_files(kifu_file, output_folder_2nd='temporary/kifu-2nd', done_fo
 
     # Ok
     # ファイルの移動
-    done_kifu_file = shutil.move(kifu_file_2nd, os.path.join(
+    done_kifu_file = shutil.move(reverse_kifu_file, os.path.join(
         done_folder, basename))
     return done_kifu_file
 
 
 def __main(debug=False):
+    # 1. 出力フォルダーを空っぽにします
     if not debug:
-        # 出力フォルダーを空っぽにします
         remove_all_output(echo=False)
 
     copy_kifu_from_input()
 
-    # KIFUファイル一覧
-    kifu_files = glob.glob("./temporary/kifu/*.kifu")
+    # 2 各 kif ファイルについて
+    kifu_files = glob.glob('./temporary/kifu/*.kifu')
     for kifu_file in kifu_files:
         _done_kifu_file = test_2_kifu_files(kifu_file)
 

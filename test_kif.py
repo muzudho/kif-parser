@@ -11,7 +11,7 @@ from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
 
 
-def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folder='temporary/kif-done'):
+def test_2_kif_files(kif_file, reverse_output_folder='reverse-temporary/kif', done_folder='temporary/kif-done'):
     # basename
     try:
         basename = os.path.basename(kif_file)
@@ -43,17 +43,18 @@ def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folde
         return None
 
     # pivot -> kif 変換
-    kif_file_2nd, _done_pivot_file_2nd = convert_pivot_to_kif(
-        pivot_file, output_folder=output_folder_2nd)
-    if kif_file_2nd is None:
+    reverse_kif_file, _reverse_done_pivot_file = convert_pivot_to_kif(
+        pivot_file, output_folder=reverse_output_folder)
+    if reverse_kif_file is None:
         # Error
-        print(f"convert pivot to kif fail. kif_file_2nd={kif_file_2nd}")
+        print(
+            f"convert pivot to kif fail. reverse_kif_file={reverse_kif_file}")
         return None
 
     kif_binary_2nd = None
 
     # 読み取り専用、バイナリ
-    with open(kif_file_2nd, 'rb') as f:
+    with open(reverse_kif_file, 'rb') as f:
         kif_binary_2nd = f.read()
 
     # ファイルをバイナリ形式で読み込んで SHA256 生成
@@ -68,7 +69,7 @@ def test_2_kif_files(kif_file, output_folder_2nd='temporary/kif-2nd', done_folde
     # Ok
     # ファイルの移動
     done_kif_file = shutil.move(
-        kif_file_2nd, os.path.join(done_folder, basename))
+        reverse_kif_file, os.path.join(done_folder, basename))
     return done_kif_file
 
 
