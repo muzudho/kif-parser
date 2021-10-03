@@ -2,7 +2,7 @@ import glob
 import os
 import sys
 from scripts.test_lib import create_sha256_by_file_path
-from kif_to_pivot import convert_kif_to_pivot
+from scripts.convert_kif_to_pivot import convert_kif_to_pivot
 from pivot_to_kif import convert_pivot_to_kif
 from kif_to_kifu import copy_kif_from_input
 import argparse

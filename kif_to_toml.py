@@ -1,6 +1,6 @@
 import glob
 from kif_to_kifu import copy_kif_from_input
-from kif_to_pivot import convert_kif_to_pivot
+from scripts.convert_kif_to_pivot import convert_kif_to_pivot
 from pivot_to_toml import convert_pivot_to_toml
 import argparse
 from remove_all_temporary import remove_all_temporary
