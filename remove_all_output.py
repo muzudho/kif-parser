@@ -22,4 +22,4 @@ def clear_all_records_in_folder(folder, echo=True):
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
-    clear_all_records_in_folder()
+    clear_all_records_in_folder('output')

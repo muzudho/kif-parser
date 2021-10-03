@@ -1,9 +1,12 @@
 import argparse
 import glob
+import os
+import shutil
 from remove_all_output import clear_all_records_in_folder
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.copy_files_to_folder import copy_files_to_folder
+from scripts.move_file_to_folder_by_pattern_list import move_file_to_folder_by_pattern_list
 
 
 def __main(debug=False):
@@ -17,6 +20,10 @@ def __main(debug=False):
 
     # Layer 3. Pivotフォルダ―
     # (なし)
+
+    # 中間Layer.
+    object_folder = 'temporary/object'
+    object_file_pattern_list = ('temporary/object/*.kifu')
 
     # 最終Layer.
     last_layer_folder = 'output'
@@ -38,9 +45,13 @@ def __main(debug=False):
 
         # Shift-JIS から UTF-8 へ変換
         out_path = convert_kif_to_kifu(
-            kif_file, output_folder=last_layer_folder)
+            kif_file, output_folder=object_folder)
         if out_path is None:
             print(f"Parse fail. kif_file={kif_file}")
+
+    # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
+    move_file_to_folder_by_pattern_list(
+        object_file_pattern_list, output_folder=last_layer_folder)
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:

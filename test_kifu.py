@@ -22,6 +22,9 @@ def __main(debug=False):
     # Layer 3. Pivotフォルダ―
     layer3_folder = 'temporary/pivot'
 
+    # 中間Layer.
+    middle_folder = 'temporary/object'
+
     # 最終Layer.
     last_layer_folder = 'output'
 

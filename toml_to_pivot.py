@@ -15,6 +15,9 @@ def __main(debug=False):
     layer2_folder = 'temporary/toml'
     layer2_file_pattern = './temporary/toml/*.toml'
 
+    # 中間Layer.
+    middle_folder = 'temporary/object'
+
     # 最終Layer.
     last_layer_folder = 'output'
 

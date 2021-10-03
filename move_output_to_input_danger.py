@@ -1,5 +1,4 @@
-import glob
-from scripts.move_output_to_input_danger import move_output_to_input_danger
+from scripts.move_file_to_folder_by_pattern_list import move_file_to_folder_by_pattern_list
 
 
 def main():
@@ -8,12 +7,8 @@ def main():
                             './output/*.json',
                             './output/*.toml')
 
-    for output_file_pattern in output_file_patterns:
-        # 出力ファイル一覧
-        output_files = glob.glob(output_file_pattern)
-        for output_file in output_files:
-            _undone_input_file = move_output_to_input_danger(
-                output_file, output_folder='input')
+    move_file_to_folder_by_pattern_list(
+        output_file_patterns, output_folder='input')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
