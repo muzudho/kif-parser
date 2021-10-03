@@ -1,7 +1,7 @@
 import glob
 import os
 from scripts.test_lib import create_sha256_by_file_path
-from kifu_to_pivot import convert_kifu_to_pivot
+from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
 import argparse

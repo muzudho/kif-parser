@@ -1,5 +1,5 @@
 import glob
-from kifu_to_pivot import convert_kifu_to_pivot
+from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from kif_to_kifu import convert_kif_to_kifu
 from kif_to_kifu import copy_kif_from_input
 import argparse
