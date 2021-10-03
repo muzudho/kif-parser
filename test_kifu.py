@@ -12,22 +12,25 @@ from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 
 def __main(debug=False):
 
-    # 2. 指定のファイルを 指定のフォルダーへコピーします
-    converter_firlst_layer_file_pattern = './input/*.kifu'
-    converter_layer2_folder = 'temporary/kifu'
+    # Layer 1. 入力フォルダ―
+    layer1_file_pattern = './input/*.kifu'
 
-    # 3-1. 処理対処となる各ファイル
-    converter_layer2_file_pattern = './temporary/kifu/*.kifu'
+    # Layer 2. 入力フォルダ―のコピーフォルダー
+    layer2_folder = 'temporary/kifu'
+    layer2_file_pattern = './temporary/kifu/*.kifu'
 
-    # 1. 出力フォルダーを空っぽにします
+    # 最終Layer.
+    last_layer_folder = 'output'
+
+    # 1. 最終フォルダー（ `/output` 固定）を空っぽにします
     if not debug:
         clear_last_layer_folder(echo=False)
 
-    # inputフォルダーにある ? ファイルを layer2_folder へコピーします
-    copy_files_to_folder(
-        converter_firlst_layer_file_pattern, converter_layer2_folder)
+    # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
+    copy_files_to_folder(layer1_file_pattern, layer2_folder)
 
-    kifu_files = glob.glob(converter_layer2_file_pattern)
+    # 3. レイヤー２にあるファイルのリスト
+    kifu_files = glob.glob(layer2_file_pattern)
 
     for kifu_file in kifu_files:
         # 3-1. SHA256を生成します

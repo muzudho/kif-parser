@@ -9,22 +9,25 @@ from scripts.copy_files_to_folder import copy_files_to_folder
 
 def __main(debug=False):
 
-    # 2. 指定のファイルを 指定のフォルダーへコピーします
-    converter_firlst_layer_file_pattern = './input/*.json'
-    converter_layer2_folder = 'temporary/pivot'
+    # Layer 1. 入力フォルダ―
+    layer1_file_pattern = './input/*.json'
 
-    # 3-1. 処理対処となる各ファイル
-    converter_layer2_file_pattern = './temporary/pivot/*.json'
+    # Layer 2. 入力フォルダ―のコピーフォルダー
+    layer2_folder = 'temporary/pivot'
+    layer2_file_pattern = './temporary/pivot/*.json'
 
-    # 1. 出力フォルダーを空っぽにします
+    # 最終Layer.
+    last_layer_folder = 'output'
+
+    # 1. 最終フォルダー（ `/output` 固定）を空っぽにします
     if not debug:
         clear_last_layer_folder(echo=False)
 
-    # inputフォルダーにある ? ファイルを layer2_folder へコピーします
-    copy_files_to_folder(
-        converter_firlst_layer_file_pattern, converter_layer2_folder)
+    # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
+    copy_files_to_folder(layer1_file_pattern, layer2_folder)
 
-    pivot_files = glob.glob(converter_layer2_file_pattern)
+    # 3. レイヤー２にあるファイルのリスト
+    pivot_files = glob.glob(layer2_file_pattern)
 
     for pivot_file in pivot_files:
         # 5. Shift-JIS から UTF-8 へ変換 (不要)
@@ -40,7 +43,7 @@ def __main(debug=False):
 
         # kifu to kif
         kif_file, _done_kifu_file = convert_kifu_to_kif(
-            kifu_file, output_folder='output', done_folder='temporary/kifu-done')
+            kifu_file, output_folder=last_layer_folder, done_folder='temporary/kifu-done')
 
         if kif_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")

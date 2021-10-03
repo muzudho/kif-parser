@@ -8,29 +8,32 @@ from scripts.copy_files_to_folder import copy_files_to_folder
 
 def __main(debug=False):
 
-    # 2. 指定のファイルを 指定のフォルダーへコピーします
-    converter_firlst_layer_file_pattern = './input/*.kifu'
-    converter_layer2_folder = 'temporary/kifu'
+    # Layer 1. 入力フォルダ―
+    layer1_file_pattern = './input/*.kifu'
 
-    # 3-1. 処理対処となる各ファイル
-    converter_layer2_file_pattern = './temporary/kifu/*.kifu'
+    # Layer 2. 入力フォルダ―のコピーフォルダー
+    layer2_folder = 'temporary/kifu'
+    layer2_file_pattern = './temporary/kifu/*.kifu'
 
-    # 1. 出力フォルダーを空っぽにします
+    # 最終Layer.
+    last_layer_folder = 'output'
+
+    # 1. 最終フォルダー（ `/output` 固定）を空っぽにします
     if not debug:
         clear_last_layer_folder(echo=False)
 
-    # inputフォルダーにある ? ファイルを layer2_folder へコピーします
-    copy_files_to_folder(
-        converter_firlst_layer_file_pattern, converter_layer2_folder)
+    # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
+    copy_files_to_folder(layer1_file_pattern, layer2_folder)
 
-    kifu_files = glob.glob(converter_layer2_file_pattern)
+    # 3. レイヤー２にあるファイルのリスト
+    kifu_files = glob.glob(layer2_file_pattern)
 
     for kifu_file in kifu_files:
         # 6. Pivot へ変換 (不要)
 
         # 5. Shift-JIS から UTF-8 へ変換
         kif_file, _done_path = convert_kifu_to_kif(
-            kifu_file, output_folder='output', done_folder='temporary/kifu-done')
+            kifu_file, output_folder=last_layer_folder, done_folder='temporary/kifu-done')
         if kif_file is None:
             print(f"Parse fail. kifu_file={kifu_file}")
 
