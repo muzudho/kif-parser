@@ -24,9 +24,9 @@ def __main(debug=False):
     for kifu_file in kifu_files:
         # 5. Shift-JIS から UTF-8 へ変換 (不要)
 
+        # 6. Pivot へ変換
         output_pivot = convert_kifu_to_pivot(
             kifu_file, output_folder='output')
-
         if output_pivot is None:
             print(f"Parse fail. kifu_file={kifu_file}")
 

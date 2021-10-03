@@ -22,6 +22,9 @@ def __main(debug=False):
     toml_files = converter.convert_before_loop()
 
     for toml_file in toml_files:
+        # 5. Shift-JIS から UTF-8 へ変換 (不要)
+
+        # 6. Pivot へ変換
         out_path, _done_path = convert_toml_to_pivot(
             toml_file, output_folder='output')
 

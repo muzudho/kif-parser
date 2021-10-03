@@ -37,7 +37,7 @@ def __main(debug=False):
         if kifu_file is None:
             return None, None
 
-        # 3-2. kif -> pivot 変換
+        # 6. Pivot へ変換 (不要)
         pivot_file = convert_kifu_to_pivot(kifu_file)
         if pivot_file is None:
             # Error

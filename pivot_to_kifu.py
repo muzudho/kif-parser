@@ -23,6 +23,10 @@ def __main(debug=False):
     pivot_files = converter.convert_before_loop()
 
     for pivot_file in pivot_files:
+        # 5. Shift-JIS から UTF-8 へ変換 (不要)
+
+        # 6. Pivot へ変換 (不要)
+
         # Pivot to kifu
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder='output')

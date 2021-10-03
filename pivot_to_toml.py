@@ -22,6 +22,10 @@ def __main(debug=False):
     pivot_files = converter.convert_before_loop()
 
     for pivot_file in pivot_files:
+        # 5. Shift-JIS から UTF-8 へ変換 (不要)
+
+        # 6. Pivot へ変換 (不要)
+
         toml_file, done_pivot_file = convert_pivot_to_toml(pivot_file)
         if toml_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")

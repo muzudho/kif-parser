@@ -28,6 +28,8 @@ def __main(debug=False):
         if out_path is None:
             print(f"Parse fail. kif_file={kif_file}")
 
+        # 6. Pivot へ変換 (不要)
+
     if not debug:
         # 変換の途中で作ったファイルは削除します
         remove_all_temporary(echo=False)

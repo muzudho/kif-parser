@@ -28,9 +28,10 @@ def __main(debug=False):
         if kifu_file is None:
             return None, None
 
-        pivot_File = convert_kifu_to_pivot(
+        # 6. Pivot へ変換
+        pivot_file = convert_kifu_to_pivot(
             kifu_file, output_folder='output')
-        if pivot_File is None:
+        if pivot_file is None:
             print(f"Parse fail. kif_file={kif_file}")
 
     if not debug:
