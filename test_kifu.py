@@ -4,16 +4,20 @@ from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 import argparse
 from remove_all_temporary import remove_all_temporary
-from remove_all_output import remove_all_output
 import sys
 from scripts.copy_kifu_from_input import copy_kifu_from_input
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
+from scripts.converter_template import ConverterTemplate
 
 
 def __main(debug=False):
+    converter = ConverterTemplate()
     # 1. 出力フォルダーを空っぽにします
     if not debug:
-        remove_all_output(echo=False)
+        converter.output_folder_clean = True
+        converter.output_folder_clean_echo = False
+
+    converter.convert()
 
     # 2. `input` フォルダーから `temporary/kifu` フォルダーへ `*.kifu` ファイルを移動します
     copy_kifu_from_input()

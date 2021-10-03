@@ -2,15 +2,19 @@ import glob
 from scripts.convert_kif_to_pivot import convert_kif_to_pivot
 import argparse
 from remove_all_temporary import remove_all_temporary
-from remove_all_output import remove_all_output
 from scripts.copy_kif_from_input import copy_kif_from_input
 from scripts.convert_pivot_to_toml import convert_pivot_to_toml
+from scripts.converter_template import ConverterTemplate
 
 
 def __main(debug=False):
+    converter = ConverterTemplate()
+    # 1. 出力フォルダーを空っぽにします
     if not debug:
-        # 出力フォルダーを空っぽにします
-        remove_all_output(echo=False)
+        converter.output_folder_clean = True
+        converter.output_folder_clean_echo = False
+
+    converter.convert()
 
     copy_kif_from_input()
 
