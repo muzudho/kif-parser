@@ -1,5 +1,5 @@
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
-from kif_to_kifu import convert_kif_to_kifu
+from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 
 
 def convert_kif_to_pivot(kif_file, output_folder='temporary/pivot'):

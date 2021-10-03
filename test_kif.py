@@ -4,10 +4,10 @@ import sys
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kif_to_pivot import convert_kif_to_pivot
 from scripts.convert_pivot_to_kif import convert_pivot_to_kif
-from kif_to_kifu import copy_kif_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
+from scripts.copy_kif_from_input import copy_kif_from_input
 
 
 def __main(debug=False):

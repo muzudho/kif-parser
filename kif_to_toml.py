@@ -1,10 +1,10 @@
 import glob
-from kif_to_kifu import copy_kif_from_input
 from scripts.convert_kif_to_pivot import convert_kif_to_pivot
 from pivot_to_toml import convert_pivot_to_toml
 import argparse
 from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
+from scripts.copy_kif_from_input import copy_kif_from_input
 
 
 def __main(debug=False):
