@@ -1,11 +1,11 @@
 import os
 import json
 import sys
-import shutil
 from collections import OrderedDict
 from scripts.kifu_specification import player_phase_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, start_time_statement_p, end_time_statement_p
+    variation_label_statement_p, start_time_statement_p, end_time_statement_p, \
+    any_game_info_key_value_pair_statement_p
 
 
 def convert_pivot_to_kifu(pivot_file, output_folder):
@@ -65,6 +65,11 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
                 row_data["playerPhase"])
             player_name = row_data["playerName"]
             kifu_text += f"{player_phase}：{player_name}\n"
+
+        elif row_data["type"] == "anyGameInfo":
+            kifu_text += any_game_info_key_value_pair_statement_p.from_pivot(
+                row_data["anyGameInfo"])
+
         elif row_data["type"] == "variationLabel":
             moves = variation_label_statement_p.from_pivot(
                 row_data["moves"])

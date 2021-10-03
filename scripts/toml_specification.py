@@ -134,6 +134,22 @@ class HandicapStatementP():
 handicap_statement_p = HandicapStatementP()
 
 
+class AnyGameInfoKeyValuePairStatementP():
+    """TODO 対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にある"""
+
+    def __init__(self):
+        pass
+
+    def from_pivot(self, rowNumber, key, value, comment):
+        if comment:
+            return f"anyGameInfo-{rowNumber} = {{ key = '''{key}''', value = '''{value}''', comment = '''{comment}''' }}\n"
+
+        return f"anyGameInfo-{rowNumber} = {{ key = '''{key}''', value = '''{value}''' }}\n"
+
+
+any_game_info_key_value_pair_statement_p = AnyGameInfoKeyValuePairStatementP()
+
+
 class VariationLabelStatementP():
     """変化手順（棋譜の分岐）のジャンプ先ラベル パーサー
     Example

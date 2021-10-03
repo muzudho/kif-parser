@@ -52,7 +52,40 @@ class BookmarkP():
 
 bookmark_p = BookmarkP()
 
-# TODO 対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にある
+
+class AnyGameInfoKeyValuePairStatementP():
+    """TODO 対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にある"""
+
+    def __init__(self):
+        # Example: `キーワード：オプション # コメント`
+        self._pattern = re.compile(
+            r"^\s*([^：]+)：([^#])*\s*(:?#((.*))?)?$")
+
+    def match(self, line):
+        return self._pattern.match(line)
+
+    def to_pivot(self, data, row_number, key, value, comment):
+        dict = {
+            "type": "anyGameInfo",
+            "key": f"{key}",
+        }
+
+        if value:
+            dict["value"] = value
+
+        if comment:
+            dict["comment"] = comment
+
+        data[f'{row_number}'] = dict
+
+    def from_pivot(self, key, value, comment):
+        if comment:
+            return f"{key}：{value} # {comment}\n"
+
+        return f"{key}：{value}\n"
+
+
+any_game_info_key_value_pair_statement_p = AnyGameInfoKeyValuePairStatementP()
 
 
 class StartTimeStatementP():

@@ -1,13 +1,13 @@
 import argparse
 import glob
-from os import error, system
+from os import system
 import os
 from remove_all_output import clear_all_records_in_folder
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_files_to_folder import copy_files_to_folder
-from scripts.move_file_to_folder_by_pattern import move_file_to_folder
+from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
