@@ -41,8 +41,8 @@ def __main(debug=False):
         if pivot_file is None:
             print(f"Parse fail. kif_file={kif_file}")
 
+    # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
-        # 変換の途中で作ったファイルは削除します
         remove_all_temporary(echo=False)
 
 

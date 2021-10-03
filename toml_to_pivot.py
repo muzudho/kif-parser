@@ -38,8 +38,8 @@ def __main(debug=False):
         if out_path is None:
             print(f"Parse fail. toml_file={toml_file}")
 
+    # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
-        # 変換の途中で作ったファイルは削除します
         remove_all_temporary(echo=False)
 
 

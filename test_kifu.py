@@ -65,8 +65,8 @@ def __main(debug=False):
             print(f"Not match SHA256. basename={basename}")
             return None
 
+    # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
-        # 変換の途中で作ったファイルは削除します
         remove_all_temporary(echo=False)
 
 
