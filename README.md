@@ -27,15 +27,18 @@ WIP 作業中です。
     /output
         # ここに変換後のファイルが出力されます。スクリプト実行時にここに置いてある棋譜ファイルは削除されます
     /scripts
+        # このなかに ファイルを変換するプログラムが大量に入っています
     /temporary # このフォルダーの下で棋譜ファイルのコピー、編集、削除が行われます
         /kif
-        /kif-done
         /kifu
-        /kifu-done
         /pivot
-        /pivot-done
         /toml
-        /toml-done
+        /object # 中間ファイル
+    /reverse-temporary
+        /kif
+        /kifu
+        /pivot
+        /toml
 
     kif_to_kifu.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
     kif_to_pivot.py
