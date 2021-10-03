@@ -1,7 +1,7 @@
 import glob
 import os
 import sys
-from remove_all_output import remove_all_output
+from remove_all_output import clear_last_layer_folder
 from scripts.copy_files_to_folder import copy_files_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
@@ -13,10 +13,6 @@ from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 
 
 def __main(debug=False):
-    # 1. 出力フォルダーを空っぽにします
-    if not debug:
-        converter_last_layer_folder_clean = True
-        converter_last_layer_folder_clean_echo = False
 
     # 2. 指定のファイルを 指定のフォルダーへコピーします
     converter_firlst_layer_file_pattern = './input/*.kif'
@@ -25,9 +21,9 @@ def __main(debug=False):
     # 3-1. 処理対処となる各ファイル
     converter_layer2_file_pattern = './temporary/kif/*.kif'
 
-    # 1. 最終フォルダーを空っぽにします
-    if converter_last_layer_folder_clean:
-        remove_all_output(converter_last_layer_folder_clean_echo)
+    # 1. 出力フォルダーを空っぽにします
+    if not debug:
+        clear_last_layer_folder(echo=False)
 
     # inputフォルダーにある ? ファイルを layer2_folder へコピーします
     copy_files_to_folder(

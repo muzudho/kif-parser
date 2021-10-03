@@ -1,17 +1,12 @@
 import argparse
 import glob
-from remove_all_output import remove_all_output
+from remove_all_output import clear_last_layer_folder
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.copy_files_to_folder import copy_files_to_folder
 
 
 def __main(debug=False):
-    # 1. 出力フォルダーを空っぽにします
-    if not debug:
-        converter_last_layer_folder_clean = True
-        converter_last_layer_folder_clean_echo = False
-
     # 2. 指定のファイルを 指定のフォルダーへコピーします
     converter_firlst_layer_file_pattern = './input/*.kif'
     converter_layer2_folder = 'temporary/kif'
@@ -20,8 +15,8 @@ def __main(debug=False):
     converter_layer2_file_pattern = './temporary/kif/*.kif'
 
     # 1. 最終フォルダーを空っぽにします
-    if converter_last_layer_folder_clean:
-        remove_all_output(converter_last_layer_folder_clean_echo)
+    if not debug:
+        clear_last_layer_folder(echo=False)
 
     # inputフォルダーにある ? ファイルを layer2_folder へコピーします
     copy_files_to_folder(
