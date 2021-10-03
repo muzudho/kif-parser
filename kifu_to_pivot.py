@@ -15,6 +15,9 @@ def __main(debug=False):
     layer2_folder = 'temporary/kifu'
     layer2_file_pattern = './temporary/kifu/*.kifu'
 
+    # Layer 3. Pivotフォルダ―
+    # (なし)
+
     # 最終Layer.
     last_layer_folder = 'output'
 
@@ -29,6 +32,10 @@ def __main(debug=False):
     kifu_files = glob.glob(layer2_file_pattern)
 
     for kifu_file in kifu_files:
+
+        # レイヤー２にあるファイルの SHA256 生成
+        # layer2_file_sha256 = create_sha256_by_file_path(kifu_file)
+
         # 4. Pivot へ変換
         output_pivot = convert_kifu_to_pivot(
             kifu_file, output_folder=last_layer_folder)

@@ -17,6 +17,9 @@ def __main(debug=False):
     layer2_folder = 'temporary/kif'
     layer2_file_pattern = './temporary/kif/*.kif'
 
+    # Layer 3. Pivotフォルダ―
+    # (なし)
+
     # 最終Layer.
     last_layer_folder = 'output'
 
@@ -31,6 +34,10 @@ def __main(debug=False):
     kif_files = glob.glob(layer2_file_pattern)
 
     for kif_file in kif_files:
+
+        # レイヤー２にあるファイルの SHA256 生成
+        # layer2_file_sha256 = create_sha256_by_file_path(kif_file)
+
         # Shift-JIS から UTF-8 へ変更
         kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
         if kifu_file is None:

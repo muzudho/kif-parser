@@ -21,6 +21,9 @@ def __main(debug=False):
     layer2_folder = 'temporary/kif'
     layer2_file_pattern = './temporary/kif/*.kif'
 
+    # Layer 3. Pivotフォルダ―
+    layer3_folder = 'temporary/pivot'
+
     # 最終Layer.
     last_layer_folder = 'output'
 
@@ -36,23 +39,23 @@ def __main(debug=False):
 
     for kif_file in kif_files:
 
-        # SHA256 生成
-        kif_sha256 = create_sha256_by_file_path(kif_file)
+        # レイヤー２にあるファイルの SHA256 生成
+        layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
-        # 5. Shift-JIS から UTF-8 へ変更
+        # Shift-JIS から UTF-8 へ変更
         kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
         if kifu_file is None:
             return None, None
 
-        # 6. Pivot へ変換 (不要)
+        # 4. Pivot へ変換
         pivot_file = convert_kifu_to_pivot(
-            kifu_file, output_folder='temporary/pivot')
+            kifu_file, output_folder=layer3_folder)
         if pivot_file is None:
             # Error
             print(f"convert kif to pivot_file fail. kif_file={kif_file}")
             return None
 
-        # Pivot to kifu
+        # 5. Pivot から 目的の棋譜ファイルへ変換
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder='temporary/kifu', done_folder='temporary/pivot-done')
         if kifu_file is None:
@@ -72,7 +75,7 @@ def __main(debug=False):
         reverse_kif_sha256 = create_sha256_by_file_path(reverse_kif_file)
 
         # 3-5. 一致比較
-        if kif_sha256 != reverse_kif_sha256:
+        if layer2_file_sha256 != reverse_kif_sha256:
             try:
                 basename = os.path.basename(kif_file)
             except:

@@ -15,6 +15,9 @@ def __main(debug=False):
     layer2_folder = 'temporary/pivot'
     layer2_file_pattern = './temporary/pivot/*.json'
 
+    # Layer 3. Pivotフォルダ―
+    # (なし)
+
     # 最終Layer.
     last_layer_folder = 'output'
 
@@ -29,6 +32,10 @@ def __main(debug=False):
     pivot_files = glob.glob(layer2_file_pattern)
 
     for pivot_file in pivot_files:
+
+        # レイヤー２にあるファイルの SHA256 生成
+        # layer2_file_sha256 = create_sha256_by_file_path(pivot_file)
+
         # 5. Pivot から 目的の棋譜ファイルへ変換
         kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder=last_layer_folder, done_folder='temporary/pivot-done')
