@@ -13,11 +13,11 @@ def __main(debug=False):
     converter = ConverterTemplate()
     # 1. 出力フォルダーを空っぽにします
     if not debug:
-        converter.output_folder_clean = True
-        converter.output_folder_clean_echo = False
+        converter.last_layer_folder_clean = True
+        converter.last_layer_folder_clean_echo = False
 
     # 2. 指定のファイルを 指定のフォルダーへコピーします
-    converter.input_file_pattern = './input/*.kifu'
+    converter.firlst_layer_file_pattern = './input/*.kifu'
     converter.layer2_folder = 'temporary/kifu'
 
     converter.convert_before_loop()

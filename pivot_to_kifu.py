@@ -10,8 +10,8 @@ def __main(debug=False):
     converter = ConverterTemplate()
     # 1. 出力フォルダーを空っぽにします
     if not debug:
-        converter.output_folder_clean = True
-        converter.output_folder_clean_echo = False
+        converter.last_layer_folder_clean = True
+        converter.last_layer_folder_clean_echo = False
 
     converter.convert_before_loop()
 

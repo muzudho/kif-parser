@@ -7,34 +7,34 @@ from remove_all_output import remove_all_output
 
 class ConverterTemplate():
     def __init__(self):
-        self._output_folder_clean = False
-        self._output_folder_clean_echo = False
-        self._input_file_pattern = None
+        self._last_layer_folder_clean = False
+        self._last_layer_folder_clean_echo = False
+        self._firlst_layer_file_pattern = None
         self._layer2_folder = None
 
     @property
-    def output_folder_clean(self):
-        return self._output_folder_clean
+    def last_layer_folder_clean(self):
+        return self._last_layer_folder_clean
 
-    @output_folder_clean.setter
-    def output_folder_clean(self, enabled):
-        self._output_folder_clean = enabled
-
-    @property
-    def output_folder_clean_echo(self):
-        return self._output_folder_clean_echo
-
-    @output_folder_clean_echo.setter
-    def output_folder_clean_echo(self, enabled):
-        self._output_folder_clean_echo = enabled
+    @last_layer_folder_clean.setter
+    def last_layer_folder_clean(self, enabled):
+        self._last_layer_folder_clean = enabled
 
     @property
-    def input_file_pattern(self):
-        return self._input_file_pattern
+    def last_layer_folder_clean_echo(self):
+        return self._last_layer_folder_clean_echo
 
-    @input_file_pattern.setter
-    def input_file_pattern(self, file_pattern):
-        self._input_file_pattern = file_pattern
+    @last_layer_folder_clean_echo.setter
+    def last_layer_folder_clean_echo(self, enabled):
+        self._last_layer_folder_clean_echo = enabled
+
+    @property
+    def firlst_layer_file_pattern(self):
+        return self._firlst_layer_file_pattern
+
+    @firlst_layer_file_pattern.setter
+    def firlst_layer_file_pattern(self, file_pattern):
+        self._firlst_layer_file_pattern = file_pattern
 
     @property
     def layer2_folder(self):
@@ -46,15 +46,15 @@ class ConverterTemplate():
 
     def convert_before_loop(self):
         # 1. 出力フォルダーを空っぽにします
-        if self._output_folder_clean:
+        if self._last_layer_folder_clean:
             remove_all_output(echo=False)
 
-        if self.input_file_pattern is None or self.layer2_folder is None:
+        if self.firlst_layer_file_pattern is None or self.layer2_folder is None:
             return
 
         # 2. inputフォルダーにある ? ファイルを layer2_folder へコピーします
         self.__copy_files_to_folder(
-            self.input_file_pattern, self.layer2_folder)
+            self.firlst_layer_file_pattern, self.layer2_folder)
 
         pass
 
