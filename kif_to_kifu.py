@@ -1,34 +1,33 @@
 import argparse
+import glob
 from remove_all_output import remove_all_output
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
-from scripts.converter_template import ConverterTemplate
 from scripts.copy_files_to_folder import copy_files_to_folder
 
 
 def __main(debug=False):
-    converter = ConverterTemplate()
     # 1. 出力フォルダーを空っぽにします
     if not debug:
-        converter.last_layer_folder_clean = True
-        converter.last_layer_folder_clean_echo = False
+        converter_last_layer_folder_clean = True
+        converter_last_layer_folder_clean_echo = False
 
     # 2. 指定のファイルを 指定のフォルダーへコピーします
-    converter.firlst_layer_file_pattern = './input/*.kif'
-    converter.layer2_folder = 'temporary/kif'
+    converter_firlst_layer_file_pattern = './input/*.kif'
+    converter_layer2_folder = 'temporary/kif'
 
     # 3-1. 処理対処となる各ファイル
-    converter.layer2_file_pattern = './temporary/kif/*.kif'
+    converter_layer2_file_pattern = './temporary/kif/*.kif'
 
     # 1. 最終フォルダーを空っぽにします
-    if converter._last_layer_folder_clean:
-        remove_all_output(echo=False)
+    if converter_last_layer_folder_clean:
+        remove_all_output(converter_last_layer_folder_clean_echo)
 
     # inputフォルダーにある ? ファイルを layer2_folder へコピーします
     copy_files_to_folder(
-        converter.firlst_layer_file_pattern, converter.layer2_folder)
+        converter_firlst_layer_file_pattern, converter_layer2_folder)
 
-    kif_files = converter.list_layer2_files()
+    kif_files = glob.glob(converter_layer2_file_pattern)
 
     for kif_file in kif_files:
         # 5. Shift-JIS から UTF-8 へ変換

@@ -1,35 +1,34 @@
 import argparse
+import glob
 from remove_all_output import remove_all_output
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
-from scripts.converter_template import ConverterTemplate
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_files_to_folder import copy_files_to_folder
 
 
 def __main(debug=False):
-    converter = ConverterTemplate()
     # 1. 出力フォルダーを空っぽにします
     if not debug:
-        converter.last_layer_folder_clean = True
-        converter.last_layer_folder_clean_echo = False
+        converter_last_layer_folder_clean = True
+        converter_last_layer_folder_clean_echo = False
 
     # 2. 指定のファイルを 指定のフォルダーへコピーします
-    converter.firlst_layer_file_pattern = './input/*.json'
-    converter.layer2_folder = 'temporary/pivot'
+    converter_firlst_layer_file_pattern = './input/*.json'
+    converter_layer2_folder = 'temporary/pivot'
 
     # 3-1. 処理対処となる各ファイル
-    converter.layer2_file_pattern = './temporary/pivot/*.json'
+    converter_layer2_file_pattern = './temporary/pivot/*.json'
 
     # 1. 最終フォルダーを空っぽにします
-    if converter._last_layer_folder_clean:
-        remove_all_output(echo=False)
+    if converter_last_layer_folder_clean:
+        remove_all_output(converter_last_layer_folder_clean_echo)
 
     # inputフォルダーにある ? ファイルを layer2_folder へコピーします
     copy_files_to_folder(
-        converter.firlst_layer_file_pattern, converter.layer2_folder)
+        converter_firlst_layer_file_pattern, converter_layer2_folder)
 
-    pivot_files = converter.list_layer2_files()
+    pivot_files = glob.glob(converter_layer2_file_pattern)
 
     for pivot_file in pivot_files:
         # 5. Shift-JIS から UTF-8 へ変換 (不要)
