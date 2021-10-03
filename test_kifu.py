@@ -1,7 +1,6 @@
 import glob
-import shutil
 import os
-from scripts.test_lib import create_sha256, create_sha256_by_file_path
+from scripts.test_lib import create_sha256_by_file_path
 from kifu_to_pivot import convert_kifu_to_pivot
 from pivot_to_kifu import convert_pivot_to_kifu
 from kifu_to_kif import copy_kifu_from_input
@@ -16,25 +15,26 @@ def __main(debug=False):
     if not debug:
         remove_all_output(echo=False)
 
+    # 2. `input` フォルダーから `temporary/kifu` フォルダーへ `*.kifu` ファイルを移動します
     copy_kifu_from_input()
 
-    # 2 各 kif ファイルについて
+    # 3 各 kifu ファイルについて
     kifu_files = glob.glob('./temporary/kifu/*.kifu')
     for kifu_file in kifu_files:
-        # 2-1. SHA256を生成します
+        # 3-1. SHA256を生成します
         kifu_sha256 = create_sha256_by_file_path(kifu_file)
 
-        # 2-2. kifu -> pivot 変換
+        # 3-2. kifu -> pivot 変換
         pivot_file, _done_kifu_file = convert_kifu_to_pivot(kifu_file)
 
-        # 2-3. pivot -> (reverse_)kifu 変換
+        # 3-3. pivot -> (reverse_)kifu 変換
         reverse_kifu_file, _done_pivot_file = convert_pivot_to_kifu(
             pivot_file, output_folder='reverse-temporary/kifu')
 
-        # 2-4. SHA256 生成
+        # 3-4. SHA256 生成
         reverse_kifu_sha256 = create_sha256_by_file_path(reverse_kifu_file)
 
-        # 2-5. 一致比較
+        # 3-5. 一致比較
         if kifu_sha256 != reverse_kifu_sha256:
             # Error
             # basename
