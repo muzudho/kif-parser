@@ -12,10 +12,10 @@ from remove_all_temporary import remove_all_temporary
 from remove_all_output import remove_all_output
 
 
-def copy_pivot_from_input(output_folder='temporary/kif'):
+def copy_pivot_from_input(output_folder='temporary/pivot'):
     """inputフォルダーにある `*.json` ファイルを pivotフォルダーへコピーします"""
 
-    input_files = glob.glob("./input/*.pivot")
+    input_files = glob.glob("./input/*.json")
     for input_file in input_files:
         # basename
         try:
