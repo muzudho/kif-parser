@@ -59,7 +59,7 @@ class AnyGameInfoKeyValuePairStatementP():
     def __init__(self):
         # Example: `キーワード：オプション # コメント`
         self._pattern = re.compile(
-            r"^\s*([^：]+)：([^#])*\s*(:?#((.*))?)?$")
+            r"^\s*([^：]+)\s*：\s*([^#]*)\s*#?(.*)?$")
 
     def match(self, line):
         return self._pattern.match(line)
