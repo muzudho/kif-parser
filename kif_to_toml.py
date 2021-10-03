@@ -1,8 +1,9 @@
-from scripts.convert_kif_to_pivot import convert_kif_to_pivot
+from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_toml import convert_pivot_to_toml
 from scripts.converter_template import ConverterTemplate
+from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 
 
 def __main(debug=False):
@@ -23,8 +24,13 @@ def __main(debug=False):
     kif_files = converter.convert_before_loop()
 
     for kif_file in kif_files:
-        pivot_file, _doneKifFile = convert_kif_to_pivot(
-            kif_file, output_folder='output')
+        # 5. Shift-JIS から UTF-8 へ変更
+        kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
+        if kifu_file is None:
+            return None, None
+
+        pivot_file = convert_kifu_to_pivot(
+            kifu_file, output_folder='output')
         if pivot_file is None:
             print(f"kif_to_toml.py Parse fail. kif_file=[{kif_file}]")
             continue

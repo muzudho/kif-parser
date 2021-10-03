@@ -22,6 +22,7 @@ def __main(debug=False):
     kif_files = converter.convert_before_loop()
 
     for kif_file in kif_files:
+        # 5. Shift-JIS から UTF-8 へ変換
         out_path, _done_path = convert_kif_to_kifu(
             kif_file, output_folder='output')
         if out_path is None:

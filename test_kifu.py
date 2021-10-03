@@ -29,6 +29,8 @@ def __main(debug=False):
         # 3-1. SHA256を生成します
         kifu_sha256 = create_sha256_by_file_path(kifu_file)
 
+        # 5. Shift-JIS から UTF-8 へ変換 (不要)
+
         # 3-2. kifu -> pivot 変換
         pivot_file = convert_kifu_to_pivot(kifu_file)
 

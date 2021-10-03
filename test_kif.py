@@ -1,11 +1,12 @@
 import os
 import sys
 from scripts.test_lib import create_sha256_by_file_path
-from scripts.convert_kif_to_pivot import convert_kif_to_pivot
+from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from scripts.convert_pivot_to_kif import convert_pivot_to_kif
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.converter_template import ConverterTemplate
+from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 
 
 def __main(debug=False):
@@ -27,11 +28,16 @@ def __main(debug=False):
 
     for kif_file in kif_files:
 
-        # 3-1. SHA256 生成
+        # SHA256 生成
         kif_sha256 = create_sha256_by_file_path(kif_file)
 
+        # 5. Shift-JIS から UTF-8 へ変更
+        kifu_file, _done_kif_file = convert_kif_to_kifu(kif_file)
+        if kifu_file is None:
+            return None, None
+
         # 3-2. kif -> pivot 変換
-        pivot_file, _done_kif_file = convert_kif_to_pivot(kif_file)
+        pivot_file = convert_kifu_to_pivot(kifu_file)
         if pivot_file is None:
             # Error
             print(f"convert kif to pivot_file fail. kif_file={kif_file}")
