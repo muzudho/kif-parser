@@ -1,10 +1,13 @@
 import argparse
 import glob
+import os
 from remove_all_output import clear_all_records_in_folder
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
+from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.copy_files_to_folder import copy_files_to_folder
-from scripts.move_file_to_folder_by_pattern import move_file_to_folder_by_pattern
+from scripts.move_file_to_folder_by_pattern import move_file_to_folder
+from scripts.test_lib import create_sha256_by_file_path
 
 
 def __main(debug=False):
@@ -23,6 +26,9 @@ def __main(debug=False):
     object_folder = 'temporary/object'
     object_file_pattern = 'temporary/object/*.json'
 
+    # Layer 4. 逆入力フォルダ―
+    layer4_folder = 'reverse-temporary/kifu'
+
     # 最終Layer.
     last_layer_folder = 'output'
 
@@ -39,16 +45,43 @@ def __main(debug=False):
     for kifu_file in kifu_files:
 
         # レイヤー２にあるファイルの SHA256 生成
-        # layer2_file_sha256 = create_sha256_by_file_path(kifu_file)
+        layer2_file_sha256 = create_sha256_by_file_path(kifu_file)
 
         # 4. Pivot へ変換
-        output_pivot = convert_kifu_to_pivot(
+        pivot_file = convert_kifu_to_pivot(
             kifu_file, output_folder=object_folder)
-        if output_pivot is None:
+        if pivot_file is None:
             print(f"Parse fail. kifu_file={kifu_file}")
+            continue
 
-    # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
-    move_file_to_folder_by_pattern(object_file_pattern, last_layer_folder)
+        # ここから逆の操作を行います
+
+        reversed_kifu_file = convert_pivot_to_kifu(
+            pivot_file, output_folder=layer4_folder)
+        if reversed_kifu_file is None:
+            print(f"Parse fail. kifu_file={kifu_file}")
+            continue
+
+        # レイヤー４にあるファイルの SHA256 生成
+        layer4_file_sha256 = create_sha256_by_file_path(reversed_kifu_file)
+
+        # 一致比較
+        if layer2_file_sha256 != layer4_file_sha256:
+            # Error
+            try:
+                basename = os.path.basename(kifu_file)
+            except:
+                print(
+                    f"Error: kifu_file={kifu_file} except={os.system.exc_info()[0]}")
+                raise
+
+            # 不可逆な変換だが、とりあえず通します
+            print(
+                f"WARNING: Irreversible conversion. basename={basename}")
+            # continue
+
+        # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
+        move_file_to_folder(pivot_file, last_layer_folder)
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:

@@ -53,7 +53,7 @@ def __main(debug=False):
             print(f"Parse fail. kifu_file={kifu_file}")
             continue
 
-        # TODO ここから逆の操作を行います
+        # ここから逆の操作を行います
 
         reversed_kifu_file = convert_kif_to_kifu(
             kif_file, output_folder=layer4_folder)
