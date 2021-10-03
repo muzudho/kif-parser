@@ -1,6 +1,5 @@
 import glob
 from scripts.convert_pivot_to_kif import convert_pivot_to_kif
-from pivot_to_kifu import copy_pivot_from_input
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.converter_template import ConverterTemplate
@@ -13,12 +12,14 @@ def __main(debug=False):
         converter.last_layer_folder_clean = True
         converter.last_layer_folder_clean_echo = False
 
+    # 2. 指定のファイルを 指定のフォルダーへコピーします
+    converter.firlst_layer_file_pattern = './input/*.json'
+    converter.layer2_folder = 'temporary/pivot'
+
+    # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/pivot/*.json'
 
     converter.convert_before_loop()
-
-    # 2. `input` フォルダーから `temporary/pivot` フォルダーへ `*.kif` ファイルを移動します
-    copy_pivot_from_input()
 
     # PIVOTファイル一覧
     pivot_files = glob.glob(converter.layer2_file_pattern)

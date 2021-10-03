@@ -15,6 +15,8 @@ def __main(debug=False):
     # 2. 指定のファイルを 指定のフォルダーへコピーします
     converter.firlst_layer_file_pattern = './input/*.kifu'
     converter.layer2_folder = 'temporary/kifu'
+
+    # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/kifu/*.kifu'
 
     converter.convert_before_loop()

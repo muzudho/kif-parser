@@ -12,6 +12,7 @@ def __main(debug=False):
         converter.last_layer_folder_clean = True
         converter.last_layer_folder_clean_echo = False
 
+    # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/pivot/*.json'
 
     converter.convert_before_loop()

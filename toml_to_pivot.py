@@ -1,7 +1,6 @@
 import glob
 import argparse
 from remove_all_temporary import remove_all_temporary
-from scripts.copy_toml_from_input import copy_toml_from_input
 from scripts.convert_toml_to_pivot import convert_toml_to_pivot
 from scripts.converter_template import ConverterTemplate
 
@@ -13,11 +12,14 @@ def __main(debug=False):
         converter.last_layer_folder_clean = True
         converter.last_layer_folder_clean_echo = False
 
+    # 2. 指定のファイルを 指定のフォルダーへコピーします
+    converter.firlst_layer_file_pattern = './input/*.toml'
+    converter.layer2_folder = 'temporary/toml'
+
+    # 3-1. 処理対処となる各ファイル
     converter.layer2_file_pattern = './temporary/toml/*.toml'
 
     converter.convert_before_loop()
-
-    copy_toml_from_input()
 
     # TOMLファイル一覧
     toml_files = glob.glob(converter.layer2_file_pattern)
