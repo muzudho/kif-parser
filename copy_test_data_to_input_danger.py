@@ -1,5 +1,5 @@
 import glob
-from scripts.copy_files_to_one_folder import copy_files_to_one_folder
+from scripts.copy_files_to_one_folder_by_pattern_list import copy_files_to_one_folder_by_pattern_list
 
 
 def main():
@@ -8,7 +8,7 @@ def main():
                                    './test-data/*.json',
                                    './test-data/*.toml')
 
-    copy_files_to_one_folder(
+    copy_files_to_one_folder_by_pattern_list(
         test_data_file_pattern_list, output_folder='input')
 
 

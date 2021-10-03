@@ -4,7 +4,7 @@ import os
 import sys
 
 
-def copy_files_to_one_folder(file_pattern_list, output_folder):
+def copy_files_to_one_folder_by_pattern_list(file_pattern_list, output_folder):
 
     for file_pattern in file_pattern_list:
         # 出力ファイル一覧
