@@ -3,7 +3,7 @@ import glob
 
 
 def remove_all_temporary(echo=True):
-    pattern_list = [
+    pattern_list = (
         "./temporary/kif/*.kif",
         "./temporary/kifu/*.kifu",
         "./temporary/pivot/*.json",
@@ -16,7 +16,7 @@ def remove_all_temporary(echo=True):
         "./reverse-temporary/kifu/*.kifu",
         "./reverse-temporary/pivot/*.json",
         "./reverse-temporary/toml/*.toml",
-    ]
+    )
 
     for pattern in pattern_list:
         file_list = glob.glob(pattern)
