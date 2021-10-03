@@ -12,7 +12,7 @@ def convert_kif_to_pivot(kif_file, output_folder='temporary/pivot'):
     if kifu_file is None:
         return None, None
 
-    pivot_file, _doneKifuFile = convert_kifu_to_pivot(
+    pivot_file = convert_kifu_to_pivot(
         kifu_file, output_folder=output_folder)
     if pivot_file is None:
         return None, None

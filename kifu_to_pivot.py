@@ -15,8 +15,13 @@ from remove_all_output import remove_all_output
 import sys
 
 
-def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folder='temporary/kifu-done'):
-    """KIFUファイルを読込んで、JSONファイルを出力します"""
+def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot'):
+    """KIFUファイルを読込んで、JSONファイルを出力します
+    Parameters
+    ----------
+    output_folder : str
+        'temporary/pivot' か `output`
+    """
 
     data = {}
 
@@ -32,7 +37,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
         return
 
     # insert new extention
-    out_path = os.path.join(output_folder, f"{stem}.json")
+    output_pivot = os.path.join(output_folder, f"{stem}.json")
 
     # とりあえず KIFU を読んでみます
     row_number = 1
@@ -274,12 +279,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder='temporary/pivot', done_folde
 
     # 最終行まで解析終わり
 
-    with open(out_path, 'w', encoding='utf-8') as fOut:
+    with open(output_pivot, 'w', encoding='utf-8') as fOut:
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
-    # ファイルの移動
-    done_path = shutil.move(kifu_file, os.path.join(done_folder, basename))
-    return out_path, done_path
+    return output_pivot
 
 
 def __main(debug=False):
@@ -292,10 +295,10 @@ def __main(debug=False):
     # KIFUファイル一覧
     kifu_files = glob.glob("./temporary/kifu/*.kifu")
     for kifu_file in kifu_files:
-        out_path, _done_path = convert_kifu_to_pivot(
+        output_pivot = convert_kifu_to_pivot(
             kifu_file, output_folder='output')
 
-        if out_path is None:
+        if output_pivot is None:
             print(f"Parse fail. kifu_file={kifu_file}")
 
     if not debug:

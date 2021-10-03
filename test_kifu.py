@@ -25,7 +25,7 @@ def __main(debug=False):
         kifu_sha256 = create_sha256_by_file_path(kifu_file)
 
         # 3-2. kifu -> pivot 変換
-        pivot_file, _done_kifu_file = convert_kifu_to_pivot(kifu_file)
+        pivot_file = convert_kifu_to_pivot(kifu_file)
 
         # 3-3. pivot -> (reverse_)kifu 変換
         reverse_kifu_file, _done_pivot_file = convert_pivot_to_kifu(
