@@ -80,7 +80,7 @@ WIP 作業中です。
 ## Other site documents
 
 📖　[棋譜ファイル KIF 形式](http://kakinoki.o.oo7.jp/kif_format.html) - オリジナルである柿木将棋での仕様  
-📖　[分岐棋譜→単一棋譜変換プログラム](http://www.hakusa.net/computer/free/kifuconv.html) - オリジナルにはない「変化」の説明  
+📖　[分岐棋譜→単一棋譜変換プログラム](http://www.hakusa.net/computer/free/kifuconv.html) - 白砂 青松によるオリジナルにはない「変化」の説明。2004年  
 📖　[KIF形式を調べようぜ（＾～＾）？](https://crieit.net/drafts/6150ffc21e0de)  
 📖　[将棋の符号](https://crieit.net/drafts/615192ae93d14)  
 📖　[Kif](https://lishogi.org/explanation/kif) - lishogiによる KIFフォーマットの説明  
