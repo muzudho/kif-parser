@@ -279,8 +279,7 @@ class MoveStatementP():
 
         if "destinationFile" in move:
             destination_file = move["destinationFile"]
-            destination_rank = kanji_number_p.from_pivot(
-                move["destinationRank"])
+            destination_rank = move["destinationRank"]
             move_text += f"{destination_file}{destination_rank}"
             spaces -= 4
 
@@ -378,34 +377,6 @@ class PieceTypeP():
 
 
 piece_type_p = PieceTypeP()
-
-class KanjiNumberP():
-    def __init__(self):
-        # 逆引き対応
-        self._kanji_number = {
-            '一': 1,
-            '二': 2,
-            '三': 3,
-            '四': 4,
-            '五': 5,
-            '六': 6,
-            '七': 7,
-            '八': 8,
-            '九': 9,
-        }
-
-    def to_pivot(self, kanji_number):
-        if kanji_number in self._kanji_number:
-            return self._kanji_number[kanji_number]
-
-        return kanji_number
-
-    def from_pivot(self, kanji_number):
-        items = [k for k, v in self._kanji_number.items() if v == kanji_number]
-        return items[0]
-
-
-kanji_number_p = KanjiNumberP()
 
 
 class SignP():

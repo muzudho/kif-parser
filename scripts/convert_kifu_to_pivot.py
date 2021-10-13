@@ -1,7 +1,7 @@
 import os
 import json
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
-    player_statement_p, handicap_statement_p, kanji_number_p, sign_p, \
+    player_statement_p, handicap_statement_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p, \
     start_time_statement_p, end_time_statement_p, moves_header_statement_p, \
@@ -104,8 +104,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
                     destinationRank = result2.group(2)
                     if destinationRank:
-                        dstRank = kanji_number_p.to_pivot(destinationRank)
-                        data[f'{row_number}']["move"]["destinationRank"] = dstRank
+                        data[f'{row_number}']["move"]["destinationRank"] = destinationRank
 
                     destination = result2.group(3)
                     if destination:
