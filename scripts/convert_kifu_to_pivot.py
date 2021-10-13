@@ -91,6 +91,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
             # 指し手の詳細の解析
             if sign_p.contains(move):
+                # [投了]とか [中断]とか [詰み]とか
                 data[f'{row_number}']["move"] = {"sign": move}
             else:
 
@@ -280,7 +281,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
         # 解析漏れ
         print(
-            f"Error: kifu_to_pivot.py unimplemented row_number={row_number} line=[{line}]")
+            f"Error: kifu_to_pivot.py unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
         return None
 
     # 最終行まで解析終わり

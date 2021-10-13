@@ -305,7 +305,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
         else:
             # Error
             print(
-                f"Error: pivot_to_toml.py unimplemented row_number={row_number} row_data={row_data}")
+                f"Error: pivot_to_toml.py unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
             return None
 
     if buffer != "":

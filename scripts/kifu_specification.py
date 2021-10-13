@@ -310,7 +310,7 @@ class MoveStatementP():
         # ---------
         # Example: `   1 ７六歩(77)        ( 0:00/00:00:00)`
         self._move_statement = re.compile(
-            r"^\s*(\d+)\s+([^ ]+)\s*\(\s*([0-9:]+)\s*/\s*([0-9:]+)\s*\)(.*)$")
+            r"^\s*(\d+)\s+([^ ]+)\s*\(?\s*([0-9:]+)?\s*/?\s*([0-9:]+)?\s*\)?(.*)$")
 
     def match(self, line):
         return self._move_statement.match(line)
@@ -318,23 +318,17 @@ class MoveStatementP():
     def from_pivot(self, row_data):
         kifu_text = ""
 
-        if "elapsedTime" in row_data:
-            elapsedTime=row_data["elapsedTime"]
-            elapsedTimeMinute = elapsedTime["minute"]
-            elapsedTimeSecond = elapsedTime["second"]
-
-        if "totalElapsedTime" in row_data:
-            totalElapsedTime=row_data["totalElapsedTime"]
-            totalElapsedTimeHour = totalElapsedTime["hour"]
-            totalElapsedTimeMinute = totalElapsedTime["minute"]
-            totalElapsedTimeSecond = totalElapsedTime["second"]
-
-        move_text = ""
-        # 半角スペース幅
-        spaces = 14
+        if "moves" in row_data:
+            # 数
+            moves=row_data["moves"]
+            kifu_text += f"{moves:>4} "
 
         if "move" in row_data:
             move=row_data["move"]
+
+            move_text = ""
+            # 半角スペース幅
+            spaces = 14
 
             if "sign" in move:
                 sign = move["sign"]
@@ -379,16 +373,30 @@ class MoveStatementP():
                 move_text += f"({sourceFile}{sourceRank})"
                 spaces -= 4
 
-        # 左にスペースを詰めます
-        move_text += ''.ljust(spaces, ' ')
+            # 左にスペースを詰めます
+            move_text += ''.ljust(spaces, ' ')
 
-        if "moves" in row_data:
-            # 数
-            moves=row_data["moves"]
+            kifu_text += f"{move_text}"
 
-        kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
+        if "elapsedTime" in row_data:
+            elapsedTime=row_data["elapsedTime"]
+            elapsedTimeMinute = elapsedTime["minute"]
+            elapsedTimeSecond = elapsedTime["second"]
+        else:
+            elapsedTime = None
 
-        return kifu_text
+        if "totalElapsedTime" in row_data:
+            totalElapsedTime=row_data["totalElapsedTime"]
+            totalElapsedTimeHour = totalElapsedTime["hour"]
+            totalElapsedTimeMinute = totalElapsedTime["minute"]
+            totalElapsedTimeSecond = totalElapsedTime["second"]
+        else:
+            totalElapsedTime = None
+
+        if elapsedTime and totalElapsedTime:
+            kifu_text += f"({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})"
+
+        return f"{kifu_text}\n"
 
 
 move_statement_p = MoveStatementP()
