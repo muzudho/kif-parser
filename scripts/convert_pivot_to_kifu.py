@@ -61,8 +61,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "handicap":
             kifu_text += handicap_statement_p.from_pivot(row_data["handicap"])
         elif row_data["type"] == "player":
-            player_phase = player_phase_p.from_pivot(
-                row_data["playerPhase"])
+            player_phase = row_data["playerPhase"]
             player_name = row_data["playerName"]
             kifu_text += f"{player_phase}：{player_name}\n"
 

@@ -141,27 +141,10 @@ end_time_statement_p = EndTimeStatementP()
 
 class PlayerPhaseP():
     def __init__(self):
-        # 逆引き対応
-        self._player_phase = {
-            '先手': 'FirstPlayer',
-            '後手': 'SecondPlayer',
-            '下手': 'Trainee',
-            '上手': 'Trainer',
-        }
-
-    def to_pivot(self, player_phase):
-        if player_phase in self._player_phase:
-            return self._player_phase[player_phase]
-
-        return player_phase
-
-    def from_pivot(self, player_phase):
-        items = [k for k, v in self._player_phase.items() if v == player_phase]
-        return items[0]
+        self._player_phase_list = ['先手', '後手', '下手', '上手']
 
     def choices(self):
-        items = [k for k, v in self._player_phase.items()]
-        return "|".join(items)
+        return "|".join(self._player_phase_list)
 
 
 player_phase_p = PlayerPhaseP()
@@ -590,7 +573,7 @@ class JudgeStatement1P():
 
     def from_pivot(self, moves, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"まで{moves}手で{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
+        return f"まで{moves}手で{winner}の{sign_p.from_pivot(judge)}\n"
 
     def to_pivot(self, data, row_number, moves, playerPhase, judge):
         data[f'{row_number}'] = {
@@ -638,7 +621,7 @@ class JudgeStatement3P():
 
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"まで{moves}手で{reason_p.from_pivot(reason)}により{player_phase_p.from_pivot(winner)}の{sign_p.from_pivot(judge)}\n"
+        return f"まで{moves}手で{reason_p.from_pivot(reason)}により{winner}の{sign_p.from_pivot(judge)}\n"
 
     def to_pivot(self, data, row_number, moves, reason, playerPhase, judge):
         data[f'{row_number}'] = {

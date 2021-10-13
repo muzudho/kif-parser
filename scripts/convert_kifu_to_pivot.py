@@ -192,7 +192,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         # プレイヤー名の行の解析
         result = player_statement_p.match(line)
         if result:
-            player_phase = player_phase_p.to_pivot(result.group(1))
+            player_phase = result.group(1)
             player_name = result.group(2)
             player_statement_p.to_pivot(
                 data, row_number, player_phase, player_name)
@@ -250,10 +250,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         result = judge_statement1_p.match(line)
         if result:
             moves = result.group(1)
-            playerPhase = player_phase_p.to_pivot(result.group(2))
+            player_phase = result.group(2)
             judge = sign_p.to_pivot(result.group(3))
             judge_statement1_p.to_pivot(
-                data, row_number, moves, playerPhase, judge)
+                data, row_number, moves, player_phase, judge)
             row_number += 1
             continue
 
@@ -271,10 +271,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if result:
             moves = result.group(1)
             reason = reason_p.to_pivot(result.group(2))
-            playerPhase = player_phase_p.to_pivot(result.group(3))
+            player_phase = result.group(3)
             judge = sign_p.to_pivot(result.group(4))
             judge_statement3_p.to_pivot(
-                data, row_number, moves, reason, playerPhase, judge)
+                data, row_number, moves, reason, player_phase, judge)
             row_number += 1
             continue
 
