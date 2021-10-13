@@ -154,8 +154,11 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         # コメントの解析
         result = comment_p.match(line)
         if result:
-            comment = result.group(1)
-            comment_p.to_pivot(data, row_number, comment)
+            comment_p.to_pivot(
+                data,
+                row_number,
+                indent=result.group(1),
+                comment=result.group(2))
             row_number += 1
             continue
 

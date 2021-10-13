@@ -4,17 +4,19 @@ import re
 
 class CommentP():
     def __init__(self):
-        self._comment_statement = re.compile(r"^#(.+)$")
+        self._comment_statement = re.compile(r"^([^#]*)#(.+)$")
 
     def match(self, line):
         return self._comment_statement.match(line)
 
-    def to_pivot(self, data, row_number, comment):
+    def to_pivot(self, data, row_number, indent, comment):
         data[f'{row_number}'] = {
             "type": "comment",
-            "comment": f"{comment}"
+            "comment": comment,
         }
 
+        if indent:
+            data[f'{row_number}']["indent"]=indent
 
 comment_p = CommentP()
 
