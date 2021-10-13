@@ -32,7 +32,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         return None
 
     # insert new extention
-    output_pivot = os.path.join(output_folder, f"{stem}.json")
+    output_pivot = os.path.join(output_folder, f"{stem}[data].json")
 
     # とりあえず KIFU を読んでみます
     row_number = 1

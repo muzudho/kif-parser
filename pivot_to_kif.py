@@ -14,7 +14,7 @@ def __main(debug=False):
 
     # Layer 2. 入力フォルダ―のコピーフォルダー
     layer2_folder = 'temporary/pivot'
-    layer2_file_pattern = './temporary/pivot/*.json'
+    layer2_file_pattern = './temporary/pivot/*[[]data[]].json'
 
     # Layer 3. Pivotフォルダ―
     # (なし)
@@ -36,7 +36,6 @@ def __main(debug=False):
     pivot_files = glob.glob(layer2_file_pattern)
 
     for pivot_file in pivot_files:
-
         # レイヤー２にあるファイルの SHA256 生成
         # layer2_file_sha256 = create_sha256_by_file_path(pivot_file)
 
