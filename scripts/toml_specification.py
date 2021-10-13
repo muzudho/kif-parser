@@ -448,6 +448,38 @@ class ReasonP():
 reason_p = ReasonP()
 
 
+"""
+class ZenkakuNumberP():
+    def __init__(self):
+        # 逆引き対応
+        self._zenkaku_number = {
+            '１': 1,
+            '２': 2,
+            '３': 3,
+            '４': 4,
+            '５': 5,
+            '６': 6,
+            '７': 7,
+            '８': 8,
+            '９': 9,
+        }
+
+    def to_pivot(self, zenkaku_number):
+        if zenkaku_number in self._zenkaku_number:
+            return self._zenkaku_number[zenkaku_number]
+
+        return zenkaku_number
+
+    def from_pivot(self, zenkaku_number):
+        items = [k for k, v in self._zenkaku_number.items() if v ==
+                 zenkaku_number]
+        return items[0]
+
+
+zenkaku_number_p = ZenkakuNumberP()
+"""
+
+
 class AlphabetNumberP():
     def __init__(self):
         # 逆引き対応

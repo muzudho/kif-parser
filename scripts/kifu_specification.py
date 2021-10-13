@@ -278,11 +278,10 @@ class MoveStatementP():
             spaces -= sign_p.half_width(sign)
 
         if "destinationFile" in move:
-            destinationFile = zenkaku_number_p.from_pivot(
-                move["destinationFile"])
-            destinationRank = kanji_number_p.from_pivot(
+            destination_file = move["destinationFile"]
+            destination_rank = kanji_number_p.from_pivot(
                 move["destinationRank"])
-            move_text += f"{destinationFile}{destinationRank}"
+            move_text += f"{destination_file}{destination_rank}"
             spaces -= 4
 
         if "destination" in move:
@@ -379,37 +378,6 @@ class PieceTypeP():
 
 
 piece_type_p = PieceTypeP()
-
-
-class ZenkakuNumberP():
-    def __init__(self):
-        # 逆引き対応
-        self._zenkaku_number = {
-            '１': 1,
-            '２': 2,
-            '３': 3,
-            '４': 4,
-            '５': 5,
-            '６': 6,
-            '７': 7,
-            '８': 8,
-            '９': 9,
-        }
-
-    def to_pivot(self, zenkaku_number):
-        if zenkaku_number in self._zenkaku_number:
-            return self._zenkaku_number[zenkaku_number]
-
-        return zenkaku_number
-
-    def from_pivot(self, zenkaku_number):
-        items = [k for k, v in self._zenkaku_number.items() if v ==
-                 zenkaku_number]
-        return items[0]
-
-
-zenkaku_number_p = ZenkakuNumberP()
-
 
 class KanjiNumberP():
     def __init__(self):
