@@ -189,45 +189,16 @@ player_statement_p = PlayerStatementP()
 
 class HandicapStatementP():
     def __init__(self):
-        # 逆引き対応
-        self._handicap = {
-            '平手': 'even',
-            '香落ち': 'withoutLeftLance',
-            '右香落ち': 'withoutRightLance',
-            '角落ち': 'withoutBishop',
-            '飛車落ち': 'withoutRook',
-            '飛香落ち': 'withoutRookLance',
-            '二枚落ち': 'without2Pieces',
-            '三枚落ち': 'without3Pieces',
-            '四枚落ち': 'without4Pieces',
-            '五枚落ち': 'without5Pieces',
-            '左五枚落ち': 'withoutLeft5Pieces',
-            '六枚落ち': 'without6Pieces',
-            '左七枚落ち': 'withoutLeft7Pieces',
-            '右七枚落ち': 'withoutRight7Pieces',
-            '八枚落ち': 'without8Pieces',
-            '十枚落ち': 'lost10Pieces',
-            'その他': 'others',
-        }
-
         self._handicap_statement = re.compile(r"^手合割：(.+)$")
 
     def to_pivot(self, data, row_number, handicap):
-        handicap_pivot = ""
-        if handicap in self._handicap:
-            handicap_pivot = self._handicap[handicap]
-
-        if handicap_pivot == "":
-            raise error(f'Unimplemented handicap=[{handicap}]')
-
         data[f'{row_number}'] = {
             "type": "handicap",
-            "handicap": handicap_pivot,
+            "handicap": handicap,
         }
 
     def from_pivot(self, handicap):
-        items = [k for k, v in self._handicap.items() if v == handicap]
-        return f"手合割：{items[0]}\n"
+        return f"手合割：handicap\n"
 
     def match(self, line):
         return self._handicap_statement.match(line)
