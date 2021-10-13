@@ -22,7 +22,7 @@ WIP 作業中です。
 ```plain
 /kif-parser
     /input
-        # ここに *.kif, *.kifu, *.toml, *.json のいずれかを置きます
+        # ここに *.kif, *.kifu, *.toml, `*[data].json` のいずれかを置きます
     /output
         # ここに変換後のファイルが出力されます。スクリプト実行時にここに置いてある棋譜ファイルは削除されます
     /scripts
@@ -65,13 +65,13 @@ WIP 作業中です。
 
 1. 📂`input` フォルダーに `*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
-3. JSON形式に変換して 📂`output` へ 📄`*.json` （PIVOT）が出力されます
+3. JSON形式に変換して 📂`output` へ 📄`*[data].json` （PIVOT）が出力されます
 
 同様に、逆の操作として `python.exe kifu_to_pivot.py` というコマンドがあります
 
 ## PIVOT から KIF へ変換
 
-1. 📂`input` フォルダーに `*.json` 形式のPIVOTファイルをたくさん入れてください
+1. 📂`input` フォルダーに `*[data].json` 形式のPIVOTファイルをたくさん入れてください
 2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
 3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
 
