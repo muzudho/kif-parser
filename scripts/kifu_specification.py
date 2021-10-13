@@ -295,9 +295,9 @@ class MoveStatementP():
                 spaces -= 2
 
         if "pieceType" in move:
-            pieceType = piece_type_p.from_pivot(move["pieceType"])
-            move_text += f"{pieceType}"
-            spaces -= piece_type_p.half_width(pieceType)
+            piece_type = move["pieceType"]
+            move_text += f"{piece_type}"
+            spaces -= piece_type_p.half_width(piece_type)
 
         if "drop" in move:
             drop = move["drop"]
@@ -346,26 +346,8 @@ move_p = MoveP()
 class PieceTypeP():
     def __init__(self):
         # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
-        self._piece_type = {
-            '玉': "king",
-            '飛': "rook",
-            '龍': "dragon",
-            '竜': "dragon",
-            '角': "bishop",
-            '馬': "horse",
-            '金': "gold",
-            '銀': "silver",
-            '成銀': "promotionSilver",
-            '全': "promotionSilver",
-            '桂': "knight",
-            '成桂': "promotionKnight",
-            '圭': "promotionKnight",
-            '香': "lance",
-            '成香': "promotionLance",
-            '杏': "promotionLance",
-            '歩': "pawn",
-            'と': "promotionPawn",
-        }
+        self._piece_type = ['玉', '飛', '龍', '竜', '角', '馬', '金', '銀', '成銀', '全',
+            '桂', '成桂', '圭', '香', '成香', '杏', '歩', 'と']
 
         # 半角スペース幅
         self._piece_type_half_width = {
@@ -388,16 +370,6 @@ class PieceTypeP():
             '歩': 2,
             'と': 2,
         }
-
-    def to_pivot(self, piece_type):
-        if piece_type in self._piece_type:
-            return self._piece_type[piece_type]
-
-        return piece_type
-
-    def from_pivot(self, piece_type):
-        items = [k for k, v in self._piece_type.items() if v == piece_type]
-        return items[0]
 
     def half_width(self, piece_type):
         if piece_type in self._piece_type_half_width.keys():

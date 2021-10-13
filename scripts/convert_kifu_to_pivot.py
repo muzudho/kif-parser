@@ -120,8 +120,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
                     pieceType = result2.group(4)
                     if pieceType:
-                        pct = piece_type_p.to_pivot(pieceType)
-                        data[f'{row_number}']["move"]["pieceType"] = pct
+                        data[f'{row_number}']["move"]["pieceType"] = pieceType
 
                     dropOrPromotion = result2.group(5)
                     if dropOrPromotion:
