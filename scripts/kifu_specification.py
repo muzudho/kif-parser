@@ -102,8 +102,9 @@ class AnyGameInfoKeyValuePairStatementP():
 
     def __init__(self):
         # Example: `キーワード：オプション # コメント`
+        # トリムしていません
         self._pattern = re.compile(
-            r"^\s*([^：]+)\s*：\s*([^#]*)\s*#?(.*)?$")
+            r"^([^：]*)：([^#]*)#?(.*)?$")
 
     def match(self, line):
         return self._pattern.match(line)
@@ -123,10 +124,20 @@ class AnyGameInfoKeyValuePairStatementP():
         data[f'{row_number}'] = dict
 
     def from_pivot(self, key, value, comment):
-        if comment:
-            return f"{key}：{value} # {comment}\n"
+        s = ""
 
-        return f"{key}：{value}\n"
+        if key:
+            s += key
+
+        s += "："
+
+        if value:
+            s += value
+
+        if comment:
+            s += f"#{comment}"
+
+        return f"{s}\n"
 
 
 any_game_info_key_value_pair_statement_p = AnyGameInfoKeyValuePairStatementP()
