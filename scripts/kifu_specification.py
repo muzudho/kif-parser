@@ -315,65 +315,76 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
-    def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
+    def from_pivot(self, row_data):
         kifu_text = ""
 
-        elapsedTimeMinute = elapsedTime["minute"]
-        elapsedTimeSecond = elapsedTime["second"]
+        if "elapsedTime" in row_data:
+            elapsedTime=row_data["elapsedTime"]
+            elapsedTimeMinute = elapsedTime["minute"]
+            elapsedTimeSecond = elapsedTime["second"]
 
-        totalElapsedTimeHour = totalElapsedTime["hour"]
-        totalElapsedTimeMinute = totalElapsedTime["minute"]
-        totalElapsedTimeSecond = totalElapsedTime["second"]
+        if "totalElapsedTime" in row_data:
+            totalElapsedTime=row_data["totalElapsedTime"]
+            totalElapsedTimeHour = totalElapsedTime["hour"]
+            totalElapsedTimeMinute = totalElapsedTime["minute"]
+            totalElapsedTimeSecond = totalElapsedTime["second"]
 
         move_text = ""
         # 半角スペース幅
         spaces = 14
 
-        if "sign" in move:
-            sign = move["sign"]
-            move_text += f"{sign}"
-            spaces -= sign_p.half_width(sign)
+        if "move" in row_data:
+            move=row_data["move"]
 
-        if "destinationFile" in move:
-            destination_file = move["destinationFile"]
-            destination_rank = move["destinationRank"]
-            move_text += f"{destination_file}{destination_rank}"
-            spaces -= 4
+            if "sign" in move:
+                sign = move["sign"]
+                move_text += f"{sign}"
+                spaces -= sign_p.half_width(sign)
 
-        if "destination" in move:
-            destination = move["destination"]
-            if destination == 'Same':
-                move_text += "同　"
+            if "destinationFile" in move:
+                destination_file = move["destinationFile"]
+                destination_rank = move["destinationRank"]
+                move_text += f"{destination_file}{destination_rank}"
                 spaces -= 4
-            else:
-                move_text += f"{destination}"
-                spaces -= 2
 
-        if "pieceType" in move:
-            piece_type = move["pieceType"]
-            move_text += f"{piece_type}"
-            spaces -= piece_type_p.half_width(piece_type)
+            if "destination" in move:
+                destination = move["destination"]
+                if destination == 'Same':
+                    move_text += "同　"
+                    spaces -= 4
+                else:
+                    move_text += f"{destination}"
+                    spaces -= 2
 
-        if "drop" in move:
-            drop = move["drop"]
-            if drop:
-                move_text += "打"
-                spaces -= 2
+            if "pieceType" in move:
+                piece_type = move["pieceType"]
+                move_text += f"{piece_type}"
+                spaces -= piece_type_p.half_width(piece_type)
 
-        if "promotion" in move:
-            pro = move["promotion"]
-            if pro:
-                move_text += "成"
-                spaces -= 2
+            if "drop" in move:
+                drop = move["drop"]
+                if drop:
+                    move_text += "打"
+                    spaces -= 2
 
-        if "sourceFile" in move:
-            sourceFile = move["sourceFile"]
-            sourceRank = move["sourceRank"]
-            move_text += f"({sourceFile}{sourceRank})"
-            spaces -= 4
+            if "promotion" in move:
+                pro = move["promotion"]
+                if pro:
+                    move_text += "成"
+                    spaces -= 2
+
+            if "sourceFile" in move:
+                sourceFile = move["sourceFile"]
+                sourceRank = move["sourceRank"]
+                move_text += f"({sourceFile}{sourceRank})"
+                spaces -= 4
 
         # 左にスペースを詰めます
         move_text += ''.ljust(spaces, ' ')
+
+        if "moves" in row_data:
+            # 数
+            moves=row_data["moves"]
 
         kifu_text += f"{moves:>4} {move_text}({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})\n"
 

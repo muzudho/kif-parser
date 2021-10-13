@@ -42,11 +42,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "movesHeader":
             kifu_text += moves_header_statement_p.from_pivot(row_data)
         elif row_data["type"] == "move":
-            kifu_text += move_statement_p.from_pivot(
-                moves=row_data["moves"],
-                elapsedTime=row_data["elapsedTime"],
-                totalElapsedTime=row_data["totalElapsedTime"],
-                move=row_data["move"])
+            kifu_text += move_statement_p.from_pivot(row_data)
         elif row_data["type"] == "startTime":
             kifu_text += start_time_statement_p.from_pivot(
                 row_data["startTime"])
