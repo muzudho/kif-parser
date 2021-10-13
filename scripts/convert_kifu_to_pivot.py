@@ -195,14 +195,12 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             continue
 
         # 指し手リストの先頭行
+        # Example: `手数----指手---------消費時間-- # この行は、なくてもいい`
         result = moves_header_statement_p.match(line)
         if result:
-            moves_header_statement_p.to_pivot(data, row_number)
-            row_number += 1
-            continue
-
-        if line == '手数----指手---------消費時間--':
-            # Ignored
+            moves_header = result.group(1)
+            comment = result.group(2)
+            moves_header_statement_p.to_pivot(data, row_number, moves_header, comment)
             row_number += 1
             continue
 

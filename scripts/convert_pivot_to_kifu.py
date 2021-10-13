@@ -2,7 +2,7 @@ import os
 import json
 import sys
 from collections import OrderedDict
-from scripts.kifu_specification import player_phase_p, handicap_statement_p, \
+from scripts.kifu_specification import moves_header_statement_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
     variation_label_statement_p, start_time_statement_p, end_time_statement_p, \
     any_game_info_key_value_pair_statement_p
@@ -41,6 +41,10 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "bookmark":
             bookmark = row_data["bookmark"]
             kifu_text += f"&{bookmark}\n"
+        elif row_data["type"] == "movesHeader":
+            moves_header_statement_p.from_pivot(
+                moves_header=row_data["movesHeader"],
+                comment=row_data["comment"])
         elif row_data["type"] == "move":
             # 指し手
             if not move_section_flag:
