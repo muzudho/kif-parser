@@ -91,7 +91,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
             # 指し手の詳細の解析
             if sign_p.contains(move):
-                move = sign_p.to_pivot(move)
                 data[f'{row_number}']["move"] = {"sign": move}
             else:
 
@@ -251,7 +250,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if result:
             moves = result.group(1)
             player_phase = result.group(2)
-            judge = sign_p.to_pivot(result.group(3))
+            judge = result.group(3)
             judge_statement1_p.to_pivot(
                 data, row_number, moves, player_phase, judge)
             row_number += 1
@@ -261,7 +260,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         result = judge_statement2_p.match(line)
         if result:
             moves = result.group(1)
-            judge = sign_p.to_pivot(result.group(2))
+            judge = result.group(2)
             judge_statement2_p.to_pivot(data, row_number, moves, judge)
             row_number += 1
             continue
@@ -272,7 +271,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             moves = result.group(1)
             reason = reason_p.to_pivot(result.group(2))
             player_phase = result.group(3)
-            judge = sign_p.to_pivot(result.group(4))
+            judge = result.group(4)
             judge_statement3_p.to_pivot(
                 data, row_number, moves, reason, player_phase, judge)
             row_number += 1

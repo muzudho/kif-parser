@@ -273,7 +273,7 @@ class MoveStatementP():
         spaces = 14
 
         if "sign" in move:
-            sign = sign_p.from_pivot(move["sign"])
+            sign = move["sign"]
             move_text += f"{sign}"
             spaces -= sign_p.half_width(sign)
 
@@ -471,20 +471,9 @@ kanji_number_p = KanjiNumberP()
 class SignP():
     def __init__(self):
         # 逆引き対応
-        self._sign = {
-            '中断': 'Stop',
-            '投了': 'Resign',
-            '持将棋': 'JiShogi',
-            '千日手': 'Repeatation',
-            '詰み': 'Checkmate',
-            '切れ負け': 'TimeUpLose',
-            '反則勝ち': 'IllegalWin',
-            '反則負け': 'IllegalLose',
-            '入玉勝ち': 'EnteringKingWin',
-            '不戦勝': 'UnearnedWin',
-            '不戦敗': 'UnearnedLose',
-            '勝ち': 'Win',  # 追加
-        }
+        self._sign = ['中断', '投了', '持将棋', '千日手', '詰み', '切れ負け', '反則勝ち', '反則負け', '入玉勝ち', '不戦勝', '不戦敗', # KIFの仕様にあるもの
+            '勝ち',  # 追加
+        ]
 
         # 半角スペースサイズ
         self._sign_half_width = {
@@ -503,17 +492,7 @@ class SignP():
         }
 
     def contains(self, key):
-        return key in self._sign.keys()
-
-    def to_pivot(self, sign):
-        if sign in self._sign:
-            return self._sign[sign]
-
-        return sign
-
-    def from_pivot(self, sign):
-        items = [k for k, v in self._sign.items() if v == sign]
-        return items[0]
+        return key in self._sign
 
     def half_width(self, sign):
         if sign in self._sign_half_width.keys():
@@ -573,7 +552,7 @@ class JudgeStatement1P():
 
     def from_pivot(self, moves, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"まで{moves}手で{winner}の{sign_p.from_pivot(judge)}\n"
+        return f"まで{moves}手で{winner}の{judge}\n"
 
     def to_pivot(self, data, row_number, moves, playerPhase, judge):
         data[f'{row_number}'] = {
@@ -597,7 +576,7 @@ class JudgeStatement2P():
 
     def from_pivot(self, moves, judge):
         # Example: `まで63手で中断`
-        return f"まで{moves}手で{sign_p.from_pivot(judge)}\n"
+        return f"まで{moves}手で{judge}\n"
 
     def to_pivot(self, data, row_number, moves, judge):
         data[f'{row_number}'] = {
@@ -621,7 +600,7 @@ class JudgeStatement3P():
 
     def from_pivot(self, moves, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"まで{moves}手で{reason_p.from_pivot(reason)}により{winner}の{sign_p.from_pivot(judge)}\n"
+        return f"まで{moves}手で{reason_p.from_pivot(reason)}により{winner}の{judge}\n"
 
     def to_pivot(self, data, row_number, moves, reason, playerPhase, judge):
         data[f'{row_number}'] = {
