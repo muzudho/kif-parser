@@ -4,7 +4,7 @@ import codecs
 import sys
 
 
-def convert_kif_to_kifu(kif_file, output_folder='temporary/kifu'):
+def convert_kif_to_kifu(kif_file, output_folder):
     """(1) kif_file(*.kif)ファイルを読み取ります
     (2) *.kifuファイルを output_folder へ生成します
 

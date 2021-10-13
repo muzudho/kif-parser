@@ -46,7 +46,7 @@ def __main(debug=False):
         # layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # Shift-JIS から UTF-8 へ変更
-        kifu_file = convert_kif_to_kifu(kif_file)
+        kifu_file = convert_kif_to_kifu(kif_file, output_folder='temporary/kifu')
         if kifu_file is None:
             continue
 

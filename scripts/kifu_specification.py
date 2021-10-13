@@ -181,7 +181,7 @@ class HandicapStatementP():
         }
 
     def from_pivot(self, handicap):
-        return f"手合割：handicap\n"
+        return f"手合割：{handicap}\n"
 
     def match(self, line):
         return self._handicap_statement.match(line)
