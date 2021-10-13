@@ -165,8 +165,12 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         # 指し手等の解説の解析
         result = explanation_p.match(line)
         if result:
-            explanation = result.group(1)
-            explanation_p.to_pivot(data, row_number, explanation)
+            explanation_p.to_pivot(
+                data,
+                row_number,
+                indent=result.group(1),
+                explanation=result.group(2),
+                comment=result.group(3))
             row_number += 1
             continue
 

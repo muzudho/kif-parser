@@ -2,7 +2,7 @@ import os
 import json
 import sys
 from collections import OrderedDict
-from scripts.kifu_specification import moves_header_statement_p, handicap_statement_p, \
+from scripts.kifu_specification import comment_p, explanation_p, moves_header_statement_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
     variation_label_statement_p, start_time_statement_p, end_time_statement_p, \
     any_game_info_key_value_pair_statement_p
@@ -33,24 +33,15 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
     for row_number, row_data in data.items():
 
         if row_data["type"] == "comment":
-            comment = row_data["comment"]
-            kifu_text += f'#{comment}\n'
+            kifu_text += comment_p.from_pivot(row_data)
         elif row_data["type"] == "explanation":
-            explanation = row_data["explanation"]
-            kifu_text += f"*{explanation}\n"
+            kifu_text += explanation_p.from_pivot(row_data)
         elif row_data["type"] == "bookmark":
             bookmark = row_data["bookmark"]
             kifu_text += f"&{bookmark}\n"
         elif row_data["type"] == "movesHeader":
-            moves_header_statement_p.from_pivot(
-                moves_header=row_data["movesHeader"],
-                comment=row_data["comment"])
+            kifu_text += moves_header_statement_p.from_pivot(row_data)
         elif row_data["type"] == "move":
-            # 指し手
-            if not move_section_flag:
-                kifu_text += "手数----指手---------消費時間--\n"
-                move_section_flag = True
-
             kifu_text += move_statement_p.from_pivot(
                 moves=row_data["moves"],
                 elapsedTime=row_data["elapsedTime"],

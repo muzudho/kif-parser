@@ -12,28 +12,58 @@ class CommentP():
     def to_pivot(self, data, row_number, indent, comment):
         data[f'{row_number}'] = {
             "type": "comment",
-            "comment": comment,
         }
 
         if indent:
             data[f'{row_number}']["indent"]=indent
+
+        if comment:
+            data[f'{row_number}']["comment"]=comment
+
+    def from_pivot(self, row_data):
+        s = ""
+
+        if "indent" in row_data:
+            s += row_data["indent"]
+
+        return f'{s}#{row_data["comment"]}\n'
 
 comment_p = CommentP()
 
 
 class ExplanationP():
     def __init__(self):
-        self._explanation_statement = re.compile(r"^\*(.+)$")
+        self._explanation_statement = re.compile(r"^(\s)*\*([^#]*)#?(.+)?$")
 
     def match(self, line):
         return self._explanation_statement.match(line)
 
-    def to_pivot(self, data, row_number, explanation):
+    def to_pivot(self, data, row_number, indent, explanation, comment):
         data[f'{row_number}'] = {
             "type": "explanation",
-            "explanation": f"{explanation}",
         }
 
+        if indent:
+            data[f'{row_number}']["indent"]=indent
+
+        if explanation:
+            data[f'{row_number}']["explanation"]=explanation
+
+        if comment:
+            data[f'{row_number}']["comment"]=comment
+
+    def from_pivot(self, row_data):
+        s = ""
+
+        if "indent" in row_data:
+            s += row_data["indent"]
+
+        s += f'*{row_data["explanation"]}'
+
+        if "comment" in row_data:
+            s += f'#{row_data["comment"]}'
+
+        return f'{s}\n'
 
 explanation_p = ExplanationP()
 
@@ -212,11 +242,18 @@ class MovesHeaderStatementP():
         data[f'{row_number}'] = {
             "type": "movesHeader",
             "movesHeader": moves_header,
-            "comment": comment
         }
 
-    def from_pivot(self, moves_header, comment):
-        return f"{moves_header}#{comment}\n"
+        if comment:
+            data[f'{row_number}']["comment"] = comment
+
+    def from_pivot(self, row_data):
+        s = row_data["movesHeader"]
+
+        if "comment" in row_data:
+            s += f'#{row_data["comment"]}'
+
+        return f"{s}\n"
 
 
 moves_header_statement_p = MovesHeaderStatementP()
