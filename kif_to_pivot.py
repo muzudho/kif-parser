@@ -7,6 +7,7 @@ from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
+from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_files_to_folder import copy_files_to_folder
 from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
@@ -29,6 +30,7 @@ def __main(debug=False):
 
     # Layer 4. 逆方向のフォルダ―
     layer4_folder = 'temporary/reverse-kifu'
+    layer5_folder = 'temporary/reverse-kif'
 
     # 最終Layer.
     last_layer_folder = 'output'
@@ -72,11 +74,18 @@ def __main(debug=False):
                 f"Error: kifu_to_pivot.py pivot parse fail. pivot_file={pivot_file}")
             continue
 
-        # レイヤー４にあるファイルの SHA256 生成
-        layer4_file_sha256 = create_sha256_by_file_path(reversed_kifu_file)
+        # Shift-JIS から UTF-8 へ変更
+        reversed_kif_file = convert_kifu_to_kif(reversed_kifu_file, output_folder=layer5_folder)
+        if reversed_kif_file is None:
+            print(
+                f"Error: kif_to_pivot.py kif parse fail. reversed_kifu_file={reversed_kifu_file}")
+            continue
+
+        # レイヤー５にあるファイルの SHA256 生成
+        layer5_file_sha256 = create_sha256_by_file_path(reversed_kif_file)
 
         # 一致比較
-        if layer2_file_sha256 != layer4_file_sha256:
+        if layer2_file_sha256 != layer5_file_sha256:
             # Error
             try:
                 basename = os.path.basename(kif_file)
