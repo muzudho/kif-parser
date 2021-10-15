@@ -157,7 +157,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 """
 
             buffer += move_statement_p.from_pivot(
-                moveNum=row_data["moveNum"],  # Move num（n手目）
+                num=row_data["num"],  # Move num（n手目）
                 time=row_data["time"],  # Expended time（消費時間）
                 total=row_data["total"],  # Total expended time（消費時間合計）
                 move=row_data["move"])
@@ -221,25 +221,25 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             if "reason" in row_data:
                 # Example: `まで52手で時間切れにより後手の勝ち`
-                moveNum = row_data["moveNum"]
+                num = row_data["num"]
                 reason = row_data['reason']
                 winner = row_data["winner"]
                 judge = row_data["judge"]
                 buffer += judge_statement3_p.from_pivot(
-                    moveNum, reason, winner, judge)
+                    num, reason, winner, judge)
             elif "winner" in row_data:
                 # Example: `まで64手で後手の勝ち`
-                moveNum = row_data["moveNum"]
+                num = row_data["num"]
                 winner = row_data["winner"]
                 judge = row_data["judge"]
                 buffer += judge_statement1_p.from_pivot(
-                    moveNum, winner, judge)
+                    num, winner, judge)
             else:
                 # Example: `まで63手で中断`
-                moveNum = row_data["moveNum"]
+                num = row_data["num"]
                 judge = row_data["judge"]
                 buffer += judge_statement2_p.from_pivot(
-                    moveNum, judge)
+                    num, judge)
 
             pre_section_type = "<RESULT>"
 

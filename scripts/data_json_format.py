@@ -41,7 +41,7 @@ def format_data_json(text):
                 move_time_type(line)
             elif __subState == "<Move.Total>":
                 move_total_type(line)
-            elif line.startswith('        "moveNum":'):
+            elif line.startswith('        "num":'):
                 # 上の行にくる type の右にくっつきます
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}\n"
@@ -87,7 +87,7 @@ def format_data_json(text):
                 __text += f"{line.lstrip()} "
             elif line == '        "type": "move",':
                 # 上の行にくる `    "7": {` といったものの右にくっつき、
-                # 下の行にくる moveNum を右にくっつけます
+                # 下の行にくる num を右にくっつけます
                 __text = __text.rstrip()
                 __text += f"{line.strip()} "
                 __state = "<Move>"
