@@ -259,11 +259,23 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     state = "<None>"
                 else:
                     text += f"{line.lstrip()} "
+            elif state == "<Time>" or state == "<Total>":
+                if line == "        },":  # 末尾にカンマが付いている
+                    text = text.rstrip()
+                    text += f"{line.lstrip()}\n"
+                    state = "<None>"
+                else:
+                    text += f"{line.lstrip()} "
             else:
                 if line == '        "move": {':
                     state = "<Move>"
                     text += f"{line}"
-                    pass
+                elif line == '        "time": {':
+                    state = "<Time>"
+                    text += f"{line}"
+                elif line == '        "total": {':
+                    state = "<Total>"
+                    text += f"{line}"
                 else:
                     text += f"{line}\n"
             # print(f"[line] {line}")
