@@ -15,27 +15,11 @@ def format_data_json(text):
         elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>":
             comment_type(line)
         elif __state == "<Move>":
-            if line == "        },":
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()}\n"
-                __state = "<None>"
-            else:
-                __text += f"{line.lstrip()} "
+            move_move_type(line)
         elif __state == "<Time>":
-            if line == "        },":  # 末尾にカンマが付いている
-                __text = __text.rstrip()
-                # 次にくる Total を右にくっつけます
-                __text += f"{line.lstrip()} "
-                __state = "<None>"
-            else:
-                __text += f"{line.lstrip()} "
+            move_time_type(line)
         elif __state == "<Total>":
-            if line == "        }":  # 末尾にカンマが付いていない
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()}\n"
-                __state = "<None>"
-            else:
-                __text += f"{line.lstrip()} "
+            move_total_type(line)
         else:
             if line == '        "type": "comment",':
                 __state = "<Comment>"
@@ -82,6 +66,40 @@ def comment_type(line):
     global __state, __text
 
     if line == "    },":
+        __text = __text.rstrip()
+        __text += f"{line.lstrip()}\n"
+        __state = "<None>"
+    else:
+        __text += f"{line.lstrip()} "
+
+
+def move_move_type(line):
+    global __state, __text
+
+    if line == "        },":
+        __text = __text.rstrip()
+        __text += f"{line.lstrip()}\n"
+        __state = "<None>"
+    else:
+        __text += f"{line.lstrip()} "
+
+
+def move_time_type(line):
+    global __state, __text
+
+    if line == "        },":  # 末尾にカンマが付いている
+        __text = __text.rstrip()
+        # 次にくる Total を右にくっつけます
+        __text += f"{line.lstrip()} "
+        __state = "<None>"
+    else:
+        __text += f"{line.lstrip()} "
+
+
+def move_total_type(line):
+    global __state, __text
+
+    if line == "        }":  # 末尾にカンマが付いていない
         __text = __text.rstrip()
         __text += f"{line.lstrip()}\n"
         __state = "<None>"
