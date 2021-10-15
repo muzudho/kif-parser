@@ -15,10 +15,10 @@ class CommentP():
         }
 
         if indent:
-            data[f'{row_number}']["indent"]=indent
+            data[f'{row_number}']["indent"] = indent
 
         if comment:
-            data[f'{row_number}']["comment"]=comment
+            data[f'{row_number}']["comment"] = comment
 
     def from_pivot(self, row_data):
         s = ""
@@ -27,6 +27,7 @@ class CommentP():
             s += row_data["indent"]
 
         return f'{s}#{row_data["comment"]}\n'
+
 
 comment_p = CommentP()
 
@@ -44,13 +45,13 @@ class ExplanationP():
         }
 
         if indent:
-            data[f'{row_number}']["indent"]=indent
+            data[f'{row_number}']["indent"] = indent
 
         if explanation:
-            data[f'{row_number}']["explanation"]=explanation
+            data[f'{row_number}']["explanation"] = explanation
 
         if comment:
-            data[f'{row_number}']["comment"]=comment
+            data[f'{row_number}']["comment"] = comment
 
     def from_pivot(self, row_data):
         s = ""
@@ -64,6 +65,7 @@ class ExplanationP():
             s += f'#{row_data["comment"]}'
 
         return f'{s}\n'
+
 
 explanation_p = ExplanationP()
 
@@ -93,6 +95,7 @@ class BookmarkP():
             s += f'#{row_data["comment"]}'
 
         return f'{s}\n'
+
 
 bookmark_p = BookmarkP()
 
@@ -141,32 +144,6 @@ class AnyGameInfoKeyValuePairStatementP():
 
 
 any_game_info_key_value_pair_statement_p = AnyGameInfoKeyValuePairStatementP()
-
-
-class StartTimeStatementP():
-    """開始日時文パーサー"""
-
-    def __init__(self):
-        # Example: `開始日時：1999/07/15(木) 19:07:12` - 棋譜ファイル KIF 形式
-        # Example: `開始日時：2021/10/02 22:35:06` - ShogiGUI
-        self._start_time_statement = re.compile(
-            r"^開始日時：(\d{4}/\d{2}/\d{2}[^\s]* \d{2}:\d{2}:\d{2})$")
-
-    def match(self, line):
-        return self._start_time_statement.match(line)
-
-    def to_pivot(self, data, row_number, start_time):
-        data[f'{row_number}'] = {
-            "type": "startTime",
-            # TODO 書式を よくある書式に整形したい
-            "startTime": f"{start_time}"
-        }
-
-    def from_pivot(self, startTime):
-        return f"開始日時：{startTime}\n"
-
-
-start_time_statement_p = StartTimeStatementP()
 
 
 class EndTimeStatementP():
@@ -331,11 +308,11 @@ class MoveStatementP():
 
         if "moves" in row_data:
             # 数
-            moves=row_data["moves"]
+            moves = row_data["moves"]
             kifu_text += f"{moves:>4} "
 
         if "move" in row_data:
-            move=row_data["move"]
+            move = row_data["move"]
 
             move_text = ""
             # 半角スペース幅
@@ -390,14 +367,14 @@ class MoveStatementP():
             kifu_text += f"{move_text}"
 
         if "elapsedTime" in row_data:
-            elapsedTime=row_data["elapsedTime"]
+            elapsedTime = row_data["elapsedTime"]
             elapsedTimeMinute = elapsedTime["minute"]
             elapsedTimeSecond = elapsedTime["second"]
         else:
             elapsedTime = None
 
         if "totalElapsedTime" in row_data:
-            totalElapsedTime=row_data["totalElapsedTime"]
+            totalElapsedTime = row_data["totalElapsedTime"]
             totalElapsedTimeHour = totalElapsedTime["hour"]
             totalElapsedTimeMinute = totalElapsedTime["minute"]
             totalElapsedTimeSecond = totalElapsedTime["second"]
@@ -432,7 +409,7 @@ class PieceTypeP():
     def __init__(self):
         # 逆引き対応（複数あるものは先にくるものが選ばれるものとします）
         self._piece_type = ['玉', '飛', '龍', '竜', '角', '馬', '金', '銀', '成銀', '全',
-            '桂', '成桂', '圭', '香', '成香', '杏', '歩', 'と']
+                            '桂', '成桂', '圭', '香', '成香', '杏', '歩', 'と']
 
         # 半角スペース幅
         self._piece_type_half_width = {
@@ -469,9 +446,9 @@ piece_type_p = PieceTypeP()
 class SignP():
     def __init__(self):
         # 逆引き対応
-        self._sign = ['中断', '投了', '持将棋', '千日手', '詰み', '切れ負け', '反則勝ち', '反則負け', '入玉勝ち', '不戦勝', '不戦敗', # KIFの仕様にあるもの
-            '勝ち',  # 追加
-        ]
+        self._sign = ['中断', '投了', '持将棋', '千日手', '詰み', '切れ負け', '反則勝ち', '反則負け', '入玉勝ち', '不戦勝', '不戦敗',  # KIFの仕様にあるもの
+                      '勝ち',  # 追加
+                      ]
 
         # 半角スペースサイズ
         self._sign_half_width = {

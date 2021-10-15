@@ -4,7 +4,7 @@ from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
     player_statement_p, handicap_statement_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p, \
-    start_time_statement_p, end_time_statement_p, moves_header_statement_p, \
+    end_time_statement_p, moves_header_statement_p, \
     any_game_info_key_value_pair_statement_p
 from scripts.generator_identification import generator_identification
 import sys
@@ -208,15 +208,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if result:
             moves_header = result.group(1)
             comment = result.group(2)
-            moves_header_statement_p.to_pivot(data, row_number, moves_header, comment)
-            row_number += 1
-            continue
-
-        # 開始日時の行の解析
-        result = start_time_statement_p.match(line)
-        if result:
-            startTime = result.group(1)
-            start_time_statement_p.to_pivot(data, row_number, startTime)
+            moves_header_statement_p.to_pivot(
+                data, row_number, moves_header, comment)
             row_number += 1
             continue
 

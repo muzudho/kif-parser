@@ -14,43 +14,8 @@ WIP 作業中です。
 初めに注意。  
 棋譜ファイルは別にバックアップを残しておいてください。  
 このアプリケーションでは、棋譜ファイルのコピーを利用してください。  
-`*_danger.py` は 📂`input` フォルダーの内容を破壊します。誤ってダブルクリックすることのないようにしましょう。  
 
 **Python 3** を使いこなすスキルがあるものとします。  
-リリース時に必要なフォルダー階層は以下の通りです  
-
-```plain
-/kif-parser
-    /input
-        # ここに *.kif, *.kifu, *.toml, `*[data].json` のいずれかを置きます
-    /output
-        # ここに変換後のファイルが出力されます。スクリプト実行時にここに置いてある棋譜ファイルは削除されます
-    /scripts
-        # このなかに ファイルを変換するプログラムが大量に入っています
-    /temporary # このフォルダーの下で棋譜ファイルのコピー、編集、削除が行われます
-        /kif
-        /kifu
-        /pivot
-        /toml
-        /object # 中間ファイル
-        /reverse-kif # 可逆変換テスト
-        /reverse-kifu
-        /reverse-pivot
-        /reverse-toml
-
-    kif_to_kifu.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
-    kif_to_pivot.py
-    kif_to_toml.py
-    kifu_to_kif.py
-    kifu_to_pivot.py
-    LICENSE
-    pivot_to_kif.py
-    pivot_to_kifu.py
-    pivot_to_toml.py # WIP 作業中
-    remove_all_output.py
-    remove_all_temporary.py
-    toml_to_pivot.py
-```
 
 ## KIF から KIFU へ変換（またその逆）
 

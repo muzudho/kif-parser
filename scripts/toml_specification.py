@@ -21,20 +21,6 @@ class ExplanationP():
 explanation_p = ExplanationP()
 
 
-class StartTimeStatementP():
-    """開始日時文パーサー"""
-
-    def __init__(self):
-        pass
-
-    def from_pivot(self, startTime):
-        # TODO 日付時刻型にしたい
-        return f"startTime = '''{startTime}'''\n"
-
-
-start_time_statement_p = StartTimeStatementP()
-
-
 class EndTimeStatementP():
     """終了日時文パーサー"""
 
