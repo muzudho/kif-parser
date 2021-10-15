@@ -5,7 +5,7 @@ from collections import OrderedDict
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
     moves_header_statement_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, end_time_statement_p, \
+    variation_label_statement_p, \
     any_game_info_key_value_pair_statement_p
 
 
@@ -43,9 +43,6 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             kifu_text += moves_header_statement_p.from_pivot(row_data)
         elif row_data["type"] == "move":
             kifu_text += move_statement_p.from_pivot(row_data)
-        elif row_data["type"] == "endTime":
-            kifu_text += end_time_statement_p.from_pivot(
-                row_data["endTime"])
         elif row_data["type"] == "handicap":
             kifu_text += handicap_statement_p.from_pivot(row_data["handicap"])
         elif row_data["type"] == "player":

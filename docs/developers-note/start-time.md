@@ -28,3 +28,29 @@ class StartTimeStatementP():
 
 start_time_statement_p = StartTimeStatementP()
 ```
+
+```plain
+class EndTimeStatementP():
+    """終了日時文パーサー"""
+
+    def __init__(self):
+        # Example: `終了日時：1999/07/15(木) 19:07:17` - 棋譜ファイル KIF 形式
+        self._end_time_statement = re.compile(
+            r"^終了日時：(\d{4}/\d{2}/\d{2}[^\s]* \d{2}:\d{2}:\d{2})$")
+
+    def match(self, line):
+        return self._end_time_statement.match(line)
+
+    def to_pivot(self, data, row_number, end_time):
+        data[f'{row_number}'] = {
+            "type": "endTime",
+            # TODO 書式を よくある書式に整形したい
+            "endTime": f"{end_time}"
+        }
+
+    def from_pivot(self, endTime):
+        return f"終了日時：{endTime}\n"
+
+
+end_time_statement_p = EndTimeStatementP()
+```

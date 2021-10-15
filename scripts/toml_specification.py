@@ -21,20 +21,6 @@ class ExplanationP():
 explanation_p = ExplanationP()
 
 
-class EndTimeStatementP():
-    """終了日時文パーサー"""
-
-    def __init__(self):
-        pass
-
-    def from_pivot(self, endTime):
-        # TODO 日付時刻型にしたい
-        return f"endTime = '''{endTime}'''\n"
-
-
-end_time_statement_p = EndTimeStatementP()
-
-
 class PlayerPhaseP():
     def __init__(self):
         # 逆引き対応

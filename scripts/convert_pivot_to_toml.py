@@ -4,7 +4,7 @@ import sys
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, handicap_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, end_time_statement_p, \
+    variation_label_statement_p, \
     any_game_info_key_value_pair_statement_p
 
 
@@ -178,20 +178,6 @@ def convert_pivot_to_toml(pivot_file, output_folder):
                 moves=row_data["moves"])
 
             pre_section_type = "<MOVES>"
-
-        elif row_type == "endTime":
-
-            if pre_section_type != "<GAMEINFO>":
-                # セクション切り替わり時
-                toml_text += buffer  # Flush
-                buffer = f"""\n[[section]]
-[section.gameinfo]
-"""
-
-            buffer += end_time_statement_p.from_pivot(
-                row_data["endTime"])
-
-            pre_section_type = "<GAMEINFO>"
 
         elif row_type == "handicap":
 
