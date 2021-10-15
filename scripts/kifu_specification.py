@@ -246,8 +246,8 @@ class MoveStatementP():
 
             if "dst" in m:
                 dst = m["dst"]
-                if dst == 'Same':
-                    move_text += "同　"
+                if dst == '同　':
+                    move_text += dst
                     spaces -= 4
                 else:
                     move_text += f"{dst}"

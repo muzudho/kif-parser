@@ -91,10 +91,11 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     if y:
                         data[f'{row_number}']["m"]["y"] = y
 
+                    # 筋と段に分かれていない表記の場合
                     dst = result2.group(3)
                     if dst:
                         if dst == '同　':
-                            data[f'{row_number}']["m"]["dst"] = 'Same'
+                            data[f'{row_number}']["m"]["dst"] = dst
                         else:
                             # Error
                             print(f"Error: dst={dst}")

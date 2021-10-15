@@ -131,7 +131,7 @@ class MoveStatementP():
 
         elif "dst" in m:
             dst = m["dst"]
-            if dst == 'Same':
+            if dst == '同　':
                 # TODO チェスに「同」は無さそう？
                 key_value_pairs.append(f"to-same = true")
             else:
@@ -146,7 +146,7 @@ class MoveStatementP():
 
         # 投了なども行き先欄に書く
         if "sign" in m:
-            sign = sign_p.from_pivot(m["sign"])
+            sign = sign_p.from_pivot(move["sign"])
             key_value_pairs.append(f"sign = '{sign}'")
 
         # 経過時間
