@@ -265,10 +265,11 @@ class MoveStatementP():
                     move_text += "打"
                     spaces -= 2
 
-            if "promotion" in m:
-                pro = m["promotion"]
+            # Promote（成り）
+            if "pro" in m:
+                pro = m["pro"]
                 if pro:
-                    move_text += "成"
+                    move_text += pro
                     spaces -= 2
 
             # Source（移動元の升）

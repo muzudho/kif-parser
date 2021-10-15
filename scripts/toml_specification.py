@@ -138,11 +138,11 @@ class MoveStatementP():
                 # Error
                 raise error(f'unknown dst={dst}')
 
-        # 成り
-        if "promotion" in m:
-            pro = m["promotion"]
+        # Promote（成り）
+        if "pro" in m:
+            pro = m["pro"]
             if pro:
-                key_value_pairs.append(f"promotion = true")
+                key_value_pairs.append(f"pro = true")
 
         # 投了なども行き先欄に書く
         if "sign" in m:
