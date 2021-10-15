@@ -107,10 +107,11 @@ class MoveStatementP():
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
-        if "srcFile" in move:
+        # Source file（移動元の筋）
+        if "sx" in move:
             # 移動元（打のときは、 SourceFile, SourceRank ともにありません）
-            src_square = int(move["srcFile"]) * \
-                10 + int(move["srcRank"])
+            src_square = int(move["sx"]) * \
+                10 + int(move["sy"])
             key_value_pairs.append(f"from = {src_square}")
         elif "drop" in move:
             # 打

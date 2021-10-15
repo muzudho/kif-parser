@@ -268,10 +268,11 @@ class MoveStatementP():
                     move_text += "成"
                     spaces -= 2
 
-            if "srcFile" in move:
-                srcFile = move["srcFile"]
-                srcRank = move["srcRank"]
-                move_text += f"({srcFile}{srcRank})"
+            # Source file（移動元の筋）
+            if "sx" in move:
+                sx = move["sx"]
+                sy = move["sy"]
+                move_text += f"({sx}{sy})"
                 spaces -= 4
 
             # 左にスペースを詰めます

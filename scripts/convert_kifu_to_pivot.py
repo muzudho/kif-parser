@@ -120,10 +120,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     if src:
                         # Example `(77)`
                         square = int(src[1:-1])
-                        srcFile = square//10
-                        srcRank = square % 10
-                        data[f'{row_number}']["move"]["srcFile"] = srcFile
-                        data[f'{row_number}']["move"]["srcRank"] = srcRank
+                        sx = square//10  # Source file（移動元の筋）
+                        sy = square % 10  # Source rank（移動元の段）
+                        data[f'{row_number}']["move"]["sx"] = sx
+                        data[f'{row_number}']["move"]["sy"] = sy
 
                     # 後ろにコメントが書けるはず
                     unimplemented = result2.group(7)
