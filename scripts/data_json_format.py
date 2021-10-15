@@ -14,11 +14,11 @@ def format_data_json(text):
             __text += f"\n{line.lstrip()}"
         elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>":
             comment_type(line)
-        elif __state == "<Move>":
+        elif __state == "<Move.Move>":
             move_move_type(line)
-        elif __state == "<Time>":
+        elif __state == "<Move.Time>":
             move_time_type(line)
-        elif __state == "<Total>":
+        elif __state == "<Move.Total>":
             move_total_type(line)
         else:
             if line == '        "type": "comment",':
@@ -46,13 +46,13 @@ def format_data_json(text):
                 # 上の行にくる type の右にくっつきます
                 __text += f"{line.lstrip()}\n"
             elif line == '        "move": {':
-                __state = "<Move>"
+                __state = "<Move.Move>"
                 __text += f"{line}"
             elif line == '        "time": {':
-                __state = "<Time>"
+                __state = "<Move.Time>"
                 __text += f"{line}"
             elif line == '        "total": {':
-                __state = "<Total>"
+                __state = "<Move.Total>"
                 # 上の行にある Time の右にくっつくようにします
                 __text += f"{line.lstrip()}"
             else:
