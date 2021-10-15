@@ -1,74 +1,89 @@
+__state = None
+__text = None
+
+
 def format_data_json(text):
+    global __state, __text
+
     lines = text.split("\n")
-    text = ""
-    state = "<None>"
+    __state = "<None>"
+    __text = ""
     for line in lines:
-        if state == "<Comment>" or state == "<KvPair>" or state == "<MovesHeader>" or state == "<Explain>":
-            if line == "    },":
-                text = text.rstrip()
-                text += f"{line.lstrip()}\n"
-                state = "<None>"
-            else:
-                text += f"{line.lstrip()} "
-        elif state == "<Move>":
+        if line == "}":
+            # 最後の閉じかっこ
+            __text += f"\n{line.lstrip()}"
+        elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>":
+            comment_type(line)
+        elif __state == "<Move>":
             if line == "        },":
-                text = text.rstrip()
-                text += f"{line.lstrip()}\n"
-                state = "<None>"
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()}\n"
+                __state = "<None>"
             else:
-                text += f"{line.lstrip()} "
-        elif state == "<Time>":
+                __text += f"{line.lstrip()} "
+        elif __state == "<Time>":
             if line == "        },":  # 末尾にカンマが付いている
-                text = text.rstrip()
+                __text = __text.rstrip()
                 # 次にくる Total を右にくっつけます
-                text += f"{line.lstrip()} "
-                state = "<None>"
+                __text += f"{line.lstrip()} "
+                __state = "<None>"
             else:
-                text += f"{line.lstrip()} "
-        elif state == "<Total>":
+                __text += f"{line.lstrip()} "
+        elif __state == "<Total>":
             if line == "        }":  # 末尾にカンマが付いていない
-                text = text.rstrip()
-                text += f"{line.lstrip()}\n"
-                state = "<None>"
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()}\n"
+                __state = "<None>"
             else:
-                text += f"{line.lstrip()} "
+                __text += f"{line.lstrip()} "
         else:
             if line == '        "type": "comment",':
-                state = "<Comment>"
-                text = text.rstrip()
-                text += f"{line.lstrip()} "
+                __state = "<Comment>"
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()} "
             elif line == '        "type": "kvPair",':
-                state = "<KvPair>"
-                text = text.rstrip()
-                text += f"{line.lstrip()} "
+                __state = "<KvPair>"
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()} "
             elif line == '        "type": "movesHeader",':
-                state = "<MovesHeader>"
-                text = text.rstrip()
-                text += f"{line.lstrip()} "
+                __state = "<MovesHeader>"
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()} "
             elif line == '        "type": "explain",':
-                state = "<Explain>"
-                text = text.rstrip()
-                text += f"{line.lstrip()} "
+                __state = "<Explain>"
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()} "
             elif line == '        "type": "move",':
                 # 上の行にくる `    "7": {` といったものの右にくっつき、
                 # 下の行にくる moveNum を右にくっつけます
-                text = text.rstrip()
-                text += f"{line.strip()} "
+                __text = __text.rstrip()
+                __text += f"{line.strip()} "
             elif line.startswith('        "moveNum":'):
                 # 上の行にくる type の右にくっつきます
-                text += f"{line.lstrip()}\n"
+                __text += f"{line.lstrip()}\n"
             elif line == '        "move": {':
-                state = "<Move>"
-                text += f"{line}"
+                __state = "<Move>"
+                __text += f"{line}"
             elif line == '        "time": {':
-                state = "<Time>"
-                text += f"{line}"
+                __state = "<Time>"
+                __text += f"{line}"
             elif line == '        "total": {':
-                state = "<Total>"
+                __state = "<Total>"
                 # 上の行にある Time の右にくっつくようにします
-                text += f"{line.lstrip()}"
+                __text += f"{line.lstrip()}"
             else:
-                text += f"{line}\n"
+                __text += f"{line}\n"
         # print(f"[line] {line}")
-    # print(f"[text] {text}")
-    return text
+    # print(f"[__text] {__text}")
+    return __text
+
+
+def comment_type(line):
+    global __state, __text
+
+    if line == "    },":
+        __text = __text.rstrip()
+        __text += f"{line.lstrip()}\n"
+        __state = "<None>"
+    else:
+        __text += f"{line.lstrip()} "
