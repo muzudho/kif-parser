@@ -12,13 +12,13 @@ class CommentP():
 
 class ExplanationP():
     def __init__(self):
-        self._explanation_statement = re.compile(r"^\*(.+)$")
+        self._explain_statement = re.compile(r"^\*(.+)$")
 
     def match(self, line):
-        return self._explanation_statement.match(line)
+        return self._explain_statement.match(line)
 
 
-explanation_p = ExplanationP()
+explain_p = ExplanationP()
 
 
 class PlayerPhaseP():

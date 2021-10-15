@@ -28,7 +28,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
     toml_text = ""
     buffer = ""
     comment_buffer = []
-    explanation_buffer = []
+    explain_buffer = []
 
     # 棋譜は 文書構造であり 意味でまとまってないので（コメントはどこにでもある）
     # それでは不便なので ある程度の区画にまとめます
@@ -65,19 +65,19 @@ def convert_pivot_to_toml(pivot_file, output_folder):
             # ]
             buffer += f"""comment = [\n    '''{items}'''\n]\n"""
 
-        elif pre_section_type == "<EXPLANATION>" and row_type != "explanation":
+        elif pre_section_type == "<EXPLANATION>" and row_type != "explain":
             # 連続する解説の切り替わり時
-            items = "''',\n    '''".join(explanation_buffer)
-            explanation_buffer = []
+            items = "''',\n    '''".join(explain_buffer)
+            explain_buffer = []
 
             # Example:
             #
-            # explanation = [
+            # explain = [
             #     '''aaaa''',
             #     '''bbbb''',
             #     '''cccc'''
             # ]
-            buffer += f"""explanation = [\n    '''{items}'''\n]\n"""
+            buffer += f"""explain = [\n    '''{items}'''\n]\n"""
 
         #
 
@@ -105,7 +105,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             pre_section_type = "<COMMENT>"
 
-        elif row_type == "explanation":
+        elif row_type == "explain":
             # 1. 指し手等へのコメントに キーが無いことによる重複を避けてください
             # 2. 指し手等へのコメント行は連続することを考慮し、常に配列にします
 
@@ -118,10 +118,10 @@ def convert_pivot_to_toml(pivot_file, output_folder):
             toml_text += buffer  # flush
             buffer = ""
 
-            explanation = row_data["explanation"]
+            explain = row_data["explain"]
 
             # TODO 文字列エスケープどうする？
-            explanation_buffer.append(explanation)
+            explain_buffer.append(explain)
 
             pre_section_type = "<EXPLANATION>"
 

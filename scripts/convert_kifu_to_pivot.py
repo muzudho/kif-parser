@@ -1,6 +1,6 @@
 import os
 import json
-from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
+from scripts.kifu_specification import comment_p, explain_p, bookmark_p, \
     sign_p, \
     move_statement_p, move_p, expended_time_p, total_expended_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, \
@@ -164,13 +164,13 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             continue
 
         # 指し手等の解説の解析
-        result = explanation_p.match(line)
+        result = explain_p.match(line)
         if result:
-            explanation_p.to_pivot(
+            explain_p.to_pivot(
                 data,
                 row_number,
                 indent=result.group(1),
-                explanation=result.group(2),
+                explain=result.group(2),
                 comment=result.group(3))
             row_number += 1
             continue

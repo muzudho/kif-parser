@@ -129,7 +129,7 @@ pip install tomli
 |行の型|説明|
 |---|---|
 |comment|コメント行|
-|explanation|指し手へのコメント行|
+|explain|指し手へのコメント行|
 |bookmark|しおり|
 |startTime|開始日時の行|
 |endTime|終了日時の行|

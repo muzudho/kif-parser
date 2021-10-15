@@ -34,21 +34,21 @@ comment_p = CommentP()
 
 class ExplanationP():
     def __init__(self):
-        self._explanation_statement = re.compile(r"^(\s)*\*([^#]*)#?(.+)?$")
+        self._explain_statement = re.compile(r"^(\s)*\*([^#]*)#?(.+)?$")
 
     def match(self, line):
-        return self._explanation_statement.match(line)
+        return self._explain_statement.match(line)
 
-    def to_pivot(self, data, row_number, indent, explanation, comment):
+    def to_pivot(self, data, row_number, indent, explain, comment):
         data[f'{row_number}'] = {
-            "type": "explanation",
+            "type": "explain",
         }
 
         if indent:
             data[f'{row_number}']["indent"] = indent
 
-        if explanation:
-            data[f'{row_number}']["explanation"] = explanation
+        if explain:
+            data[f'{row_number}']["explain"] = explain
 
         if comment:
             data[f'{row_number}']["comment"] = comment
@@ -59,7 +59,7 @@ class ExplanationP():
         if "indent" in row_data:
             s += row_data["indent"]
 
-        s += f'*{row_data["explanation"]}'
+        s += f'*{row_data["explain"]}'
 
         if "comment" in row_data:
             s += f'#{row_data["comment"]}'
@@ -67,7 +67,7 @@ class ExplanationP():
         return f'{s}\n'
 
 
-explanation_p = ExplanationP()
+explain_p = ExplanationP()
 
 
 class BookmarkP():
