@@ -157,26 +157,6 @@ class PlayerPhaseP():
 player_phase_p = PlayerPhaseP()
 
 
-class PlayerStatementP():
-    def __init__(self):
-        self._player_name_statement = re.compile(
-            # Player name may be blank
-            r"^(" + player_phase_p.choices() + r")：(.*)$")
-
-    def match(self, line):
-        return self._player_name_statement.match(line)
-
-    def to_pivot(self, data, row_number, player_phase, player_name):
-        data[f'{row_number}'] = {
-            "type": "player",
-            "playerPhase": f"{player_phase}",
-            "playerName": f"{player_name}",
-        }
-
-
-player_statement_p = PlayerStatementP()
-
-
 class HandicapStatementP():
     def __init__(self):
         self._handicap_statement = re.compile(r"^手合割：(.+)$")

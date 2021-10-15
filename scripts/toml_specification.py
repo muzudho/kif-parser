@@ -50,18 +50,6 @@ class PlayerPhaseP():
 player_phase_p = PlayerPhaseP()
 
 
-class PlayerStatementP():
-    def __init__(self):
-        self._player_name_statement = re.compile(
-            r"^(" + player_phase_p.choices() + r")：(.+)$")
-
-    def match(self, line):
-        return self._player_name_statement.match(line)
-
-
-player_statement_p = PlayerStatementP()
-
-
 class HandicapStatementP():
     def __init__(self):
         # 逆引き対応

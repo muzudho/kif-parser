@@ -4,7 +4,7 @@ import tomli
 
 """
 from scripts.toml_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
-    player_statement_p, handicap_statement_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
+    handicap_statement_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p
 """
@@ -173,17 +173,6 @@ def convert_toml_to_pivot(toml_file, output_folder):
             if result:
                 bookmark = result.group(1)
                 bookmark_p.to_pivot(data, row_number, bookmark)
-
-                row_number += 1
-                continue
-
-            # プレイヤー名の解析
-            result = player_statement_p.match(line)
-            if result:
-                player_phase = player_phase_p.to_pivot(result.group(1))
-                player_name = result.group(2)
-                player_statement_p.to_pivot(
-                    data, row_number, player_phase, player_name)
 
                 row_number += 1
                 continue
