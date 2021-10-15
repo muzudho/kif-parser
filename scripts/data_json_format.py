@@ -6,6 +6,8 @@ __text = None
 __row_number = None
 
 __row_number_pattern = re.compile(r'^    "(\d+)": \{$')
+# Example: `        "num": "270",`
+__move_number_pattern = re.compile(r'^        "num": "(\d+)",$')
 
 
 def format_data_json(text):
@@ -25,7 +27,7 @@ def format_data_json(text):
         if result:
             # 行番号の行
             __row_number = int(result.group(1))
-            digits = row_number_digits()
+            digits = number_digits(__row_number)
             padding = "".ljust(5-digits)
             # 書き直す
             __text += f'    "{__row_number}"{padding}: {{\n'
@@ -42,9 +44,15 @@ def format_data_json(text):
             elif __subState == "<Move.Total>":
                 move_total_type(line)
             elif line.startswith('        "num":'):
-                # 上の行にくる type の右にくっつきます
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()}\n"
+                result = __move_number_pattern.match(line)
+                if result:
+                    num = int(result.group(1))
+                    padding = number_digits(num)
+                    # 上の行にくる type の右にくっつきます
+                    __text = __text.rstrip()
+                    # 書き直します
+                    spaces = "".ljust(3-padding)
+                    __text += f'"num":{spaces}"{num}",'
             elif line == '        "m": {':
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}"
@@ -140,20 +148,19 @@ def move_total_type(line):
         __text += f"{line.lstrip()} "
 
 
-def row_number_digits():
-    """行番号の桁数を返します"""
-    global __row_number, __state, __subState, __text
+def number_digits(number):
+    """数の桁数を返します"""
 
     # 行番号が1桁のとき7
-    if __row_number is None:
+    if number is None:
         digits = 0
-    elif __row_number < 10:
+    elif number < 10:
         digits = 1
-    elif __row_number < 100:
+    elif number < 100:
         digits = 2
-    elif __row_number < 1000:
+    elif number < 1000:
         digits = 3
-    elif __row_number < 10000:
+    elif number < 10000:
         digits = 4
     else:
         digits = 5
