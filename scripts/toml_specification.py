@@ -76,19 +76,27 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
-    def from_pivot(self, moves, expendedTime, totalExpendedTime, move):
+    def from_pivot(self, moves, time, total, move):
+        """
+        Parameters
+        ----------
+        time : int
+            Expended time（消費時間）
+        total : int
+            Total expended time（消費時間合計）
+        """
         toml_text = ''
 
-        expendedTimeHr = 0
-        expendedTimeMin = expendedTime["min"]
-        if 60 < expendedTimeMin:
-            expendedTimeHr = expendedTimeMin // 60
-            expendedTimeMin = expendedTimeMin % 60
-        expendedTimeSec = expendedTime["sec"]
+        timeHr = 0
+        timeMin = time["min"]
+        if 60 < timeMin:
+            timeHr = timeMin // 60
+            timeMin = timeMin % 60
+        timeSec = time["sec"]
 
-        totalExpendedTimeHr = totalExpendedTime["hr"]
-        totalExpendedTimeMin = totalExpendedTime["min"]
-        totalExpendedTimeSec = totalExpendedTime["sec"]
+        totalHr = total["hr"]
+        totalMin = total["min"]
+        totalSec = total["sec"]
 
         key_value_pairs = []
 
@@ -139,10 +147,10 @@ class MoveStatementP():
 
         # 経過時間
         key_value_pairs.append(
-            f"""expended = {expendedTimeHr:02}:{expendedTimeMin:02}:{expendedTimeSec:02}""")
+            f"""expended = {timeHr:02}:{timeMin:02}:{timeSec:02}""")
 
         key_value_pairs.append(
-            f"""sum = {totalExpendedTimeHr:02}:{totalExpendedTimeMin:02}:{totalExpendedTimeSec:02}""")
+            f"""sum = {totalHr:02}:{totalMin:02}:{totalSec:02}""")
 
         table_items = ', '.join(key_value_pairs)
 

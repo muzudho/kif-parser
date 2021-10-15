@@ -158,8 +158,8 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             buffer += move_statement_p.from_pivot(
                 moves=row_data["moves"],
-                expendedTime=row_data["expendedTime"],
-                totalElapsedTime=row_data["totalElapsedTime"],
+                time=row_data["time"],  # Expended time（消費時間）
+                total=row_data["total"],  # Total expended time（消費時間合計）
                 move=row_data["move"])
 
             pre_section_type = "<MOVES>"

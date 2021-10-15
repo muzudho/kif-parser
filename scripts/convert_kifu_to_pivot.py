@@ -57,31 +57,31 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if line.strip() == '':
             continue
 
-        # 指し手の解析
+        # Move（指し手）
         result = move_statement_p.match(line)
         if result:
             moves = result.group(1)
             move = result.group(2)
-            expendedTime = result.group(3)
-            totalElapsedTime = result.group(4)
+            time = result.group(3)  # Expended time（消費時間）
+            total = result.group(4)  # Total expended time（消費時間合計）
 
             data[f'{row_number}'] = {
                 "type": "move",
                 "moves": f"{moves}"
             }
 
-            # 消費時間の解析
-            if expendedTime:
-                result2 = expended_time_p.match(expendedTime)
+            # Expended time（消費時間）
+            if time:
+                result2 = expended_time_p.match(time)
                 if result2:
                     min = int(result2.group(1))  # minute
                     sec = int(result2.group(2))  # second
                     expended_time_p.to_pivot(
                         data, row_number, min, sec)
 
-            # 累計の消費時間の解析
-            if totalElapsedTime:
-                result2 = total_expended_time_p.match(totalElapsedTime)
+            # Total expended time（消費時間合計）
+            if total:
+                result2 = total_expended_time_p.match(total)
                 if result2:
                     hr = int(result2.group(1))  # hour
                     min = int(result2.group(2))  # minute
@@ -99,7 +99,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                 if result2:
                     data[f'{row_number}']["move"] = {}
 
-                    destinationFile = result2.group(1)
+                    dstFile = result2.group(1)
                     if destinationFile:
                         data[f'{row_number}']["move"]["destinationFile"] = destinationFile
 

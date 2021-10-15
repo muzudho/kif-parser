@@ -279,23 +279,25 @@ class MoveStatementP():
 
             kifu_text += f"{move_text}"
 
-        if "expendedTime" in row_data:
-            expendedTime = row_data["expendedTime"]
-            expendedTimeMin = expendedTime["min"]  # minute
-            expendedTimeSec = expendedTime["sec"]  # second
+        # Expended time（消費時間）
+        if "time" in row_data:
+            time = row_data["time"]
+            timeMin = time["min"]  # minute（分）
+            timeSec = time["sec"]  # second（秒）
         else:
-            expendedTime = None
+            time = None
 
-        if "totalElapsedTime" in row_data:
-            totalElapsedTime = row_data["totalElapsedTime"]
-            totalExpendedTimeHr = totalElapsedTime["hr"]  # hour
-            totalElapsedTimeMin = totalElapsedTime["min"]  # minute
-            totalElapsedTimeSec = totalElapsedTime["sec"]  # second
+        # Total expended time（消費時間合計）
+        if "total" in row_data:
+            total = row_data["total"]
+            totalExpendedTimeHr = total["hr"]  # hour（時）
+            totalMin = total["min"]  # minute（分）
+            totalSec = total["sec"]  # second（秒）
         else:
-            totalElapsedTime = None
+            total = None
 
-        if expendedTime and totalElapsedTime:
-            kifu_text += f"({expendedTimeMin:02}:{expendedTimeSec:02} / {totalExpendedTimeHr:02}:{totalElapsedTimeMin:02}:{totalElapsedTimeSec:02})"
+        if time and total:
+            kifu_text += f"({timeMin:02}:{timeSec:02} / {totalExpendedTimeHr:02}:{totalMin:02}:{totalSec:02})"
 
         return f"{kifu_text}\n"
 
@@ -411,9 +413,9 @@ class ExpendedTimeP():
         sec : int
             Second
         """
-        data[f'{row_number}']["expendedTime"] = {}
-        data[f'{row_number}']["expendedTime"]["min"] = min
-        data[f'{row_number}']["expendedTime"]["sec"] = sec
+        data[f'{row_number}']["time"] = {}
+        data[f'{row_number}']["time"]["min"] = min
+        data[f'{row_number}']["time"]["sec"] = sec
 
 
 expended_time_p = ExpendedTimeP()
@@ -438,10 +440,10 @@ class TotalExpendedTimeP():
         sec : int
             Second
         """
-        data[f'{row_number}']["totalElapsedTime"] = {}
-        data[f'{row_number}']["totalElapsedTime"]["hr"] = hr
-        data[f'{row_number}']["totalElapsedTime"]["min"] = min
-        data[f'{row_number}']["totalElapsedTime"]["sec"] = sec
+        data[f'{row_number}']["total"] = {}
+        data[f'{row_number}']["total"]["hr"] = hr
+        data[f'{row_number}']["total"]["min"] = min
+        data[f'{row_number}']["total"]["sec"] = sec
 
 
 total_expended_time_p = TotalExpendedTimeP()
