@@ -283,17 +283,18 @@ class MoveStatementP():
         # Expended time（消費時間）
         if "time" in row_data:
             time = row_data["time"]
-            timeMin = time["min"]  # minute（分）
-            timeSec = time["sec"]  # second（秒）
+            # time[0] # hour（時）
+            timeMin = time[1]  # minute（分）
+            timeSec = time[2]  # second（秒）
         else:
             time = None
 
         # Total expended time（消費時間合計）
         if "total" in row_data:
             total = row_data["total"]
-            totalExpendedTimeHr = total["hr"]  # hour（時）
-            totalMin = total["min"]  # minute（分）
-            totalSec = total["sec"]  # second（秒）
+            totalExpendedTimeHr = total[0]  # hour（時）
+            totalMin = total[1]  # minute（分）
+            totalSec = total[2]  # second（秒）
         else:
             total = None
 
@@ -414,9 +415,10 @@ class ExpendedTimeP():
         sec : int
             Second
         """
-        data[f'{row_number}']["time"] = {}
-        data[f'{row_number}']["time"]["min"] = min
-        data[f'{row_number}']["time"]["sec"] = sec
+
+        # とりあえず [時, 分, 秒] で持てる形にします
+        # [時, 分, 秒, ミリ秒] も見据えます
+        data[f'{row_number}']["time"] = [0, min, sec]
 
 
 expended_time_p = ExpendedTimeP()
@@ -441,10 +443,10 @@ class TotalExpendedTimeP():
         sec : int
             Second
         """
-        data[f'{row_number}']["total"] = {}
-        data[f'{row_number}']["total"]["hr"] = hr
-        data[f'{row_number}']["total"]["min"] = min
-        data[f'{row_number}']["total"]["sec"] = sec
+
+        # とりあえず [時, 分, 秒] で持てる形にします
+        # [時, 分, 秒, ミリ秒] も見据えます
+        data[f'{row_number}']["total"] = [hr, min, sec]
 
 
 total_expended_time_p = TotalExpendedTimeP()

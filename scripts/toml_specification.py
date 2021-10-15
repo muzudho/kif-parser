@@ -88,15 +88,15 @@ class MoveStatementP():
         toml_text = ''
 
         timeHr = 0
-        timeMin = time["min"]
+        timeMin = time[1]  # Minute（分）
         if 60 < timeMin:
             timeHr = timeMin // 60
             timeMin = timeMin % 60
-        timeSec = time["sec"]
+        timeSec = time[2]  # Second（秒）
 
-        totalHr = total["hr"]
-        totalMin = total["min"]
-        totalSec = total["sec"]
+        totalHr = total[0]  # Hour（時）
+        totalMin = total[1]  # Minute（分）
+        totalSec = total[2]  # Second（秒）
 
         key_value_pairs = []
 

@@ -46,17 +46,14 @@ def format_data_json(text):
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}\n"
             elif line == '        "move": {':
-                # インデントし直します
-                # indent()
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}"
                 __subState = "<Move.Move>"
-            elif line == '        "time": {':
-                # indent()
+            elif line == '        "time": [':
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}"
                 __subState = "<Move.Time>"
-            elif line == '        "total": {':
+            elif line == '        "total": [':
                 # 上の行にある Time の右にくっつくようにします
                 __text += f"{line.lstrip()}"
                 __subState = "<Move.Total>"
@@ -123,7 +120,7 @@ def move_move_type(line):
 def move_time_type(line):
     global __state, __subState, __text
 
-    if line == "        },":  # 末尾にカンマが付いている
+    if line == "        ],":  # 末尾にカンマが付いている
         __text = __text.rstrip()
         # 次にくる Total を右にくっつけます
         __text += f"{line.lstrip()} "
@@ -135,7 +132,7 @@ def move_time_type(line):
 def move_total_type(line):
     global __state, __subState, __text
 
-    if line == "        }":  # 末尾にカンマが付いていない
+    if line == "        ]":  # 末尾にカンマが付いていない
         __text = __text.rstrip()
         __text += f"{line.lstrip()}\n"
         __subState = "<None>"
