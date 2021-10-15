@@ -252,7 +252,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         text = ""
         state = "<None>"
         for line in lines:
-            if state == "<KvPair>":
+            if state == "<KvPair>" or state == "<Explain>":
                 if line == "    },":
                     text = text.rstrip()
                     text += f"{line.lstrip()}\n"
@@ -278,6 +278,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     state = "<KvPair>"
                     text = text.rstrip()
                     text += f"{line.lstrip()} "
+                elif line == '        "type": "explain",':
+                    state = "<Explain>"
+                    text = text.rstrip()
+                    text += f"{line.lstrip()} "
                 elif line == '        "move": {':
                     state = "<Move>"
                     text += f"{line}"
@@ -290,7 +294,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                 else:
                     text += f"{line}\n"
             # print(f"[line] {line}")
-        print(f"[text] {text}")
+        # print(f"[text] {text}")
         fOut.write(text)
 
     return output_pivot
