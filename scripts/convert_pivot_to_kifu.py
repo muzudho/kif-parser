@@ -5,7 +5,7 @@ from collections import OrderedDict
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
     moves_header_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    any_game_info_key_value_pair_statement_p
+    key_value_pair_statement_p
 
 
 def convert_pivot_to_kifu(pivot_file, output_folder):
@@ -60,7 +60,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             else:
                 comment = None
 
-            kifu_text += any_game_info_key_value_pair_statement_p.from_pivot(
+            kifu_text += key_value_pair_statement_p.from_pivot(
                 key, value, comment)
 
         elif row_data["type"] == "result":

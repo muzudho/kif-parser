@@ -50,7 +50,7 @@ class PlayerPhaseP():
 player_phase_p = PlayerPhaseP()
 
 
-class AnyGameInfoKeyValuePairStatementP():
+class KeyValuePairStatementP():
     """TODO 対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にある"""
 
     def __init__(self):
@@ -63,7 +63,7 @@ class AnyGameInfoKeyValuePairStatementP():
         return f"anyGameInfo-{rowNumber} = {{ key = '''{key}''', value = '''{value}''' }}\n"
 
 
-any_game_info_key_value_pair_statement_p = AnyGameInfoKeyValuePairStatementP()
+key_value_pair_statement_p = KeyValuePairStatementP()
 
 
 class MoveStatementP():
