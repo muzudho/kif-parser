@@ -1,12 +1,14 @@
 __state = None
+__subState = None
 __text = None
 
 
 def format_data_json(text):
-    global __state, __text
+    global __state, __subState, __text
 
     lines = text.split("\n")
     __state = "<None>"
+    __subState = "<None>"
     __text = ""
     for line in lines:
         if line == "}":
@@ -14,12 +16,29 @@ def format_data_json(text):
             __text += f"\n{line.lstrip()}"
         elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>":
             comment_type(line)
-        elif __state == "<Move.Move>":
-            move_move_type(line)
-        elif __state == "<Move.Time>":
-            move_time_type(line)
-        elif __state == "<Move.Total>":
-            move_total_type(line)
+        elif __state == "<Move>":
+            if __subState == "<Move.Move>":
+                move_move_type(line)
+            elif __subState == "<Move.Time>":
+                move_time_type(line)
+            elif __subState == "<Move.Total>":
+                move_total_type(line)
+            elif line.startswith('        "moveNum":'):
+                # 上の行にくる type の右にくっつきます
+                __text = __text.rstrip()
+                __text += f"{line.lstrip()}\n"
+            elif line == '        "move": {':
+                __text += f"{line}"
+                __subState = "<Move.Move>"
+            elif line == '        "time": {':
+                __text += f"{line}"
+                __subState = "<Move.Time>"
+            elif line == '        "total": {':
+                # 上の行にある Time の右にくっつくようにします
+                __text += f"{line.lstrip()}"
+                __subState = "<Move.Total>"
+            else:
+                __text += f"{line}\n"
         else:
             if line == '        "type": "comment",':
                 __state = "<Comment>"
@@ -42,19 +61,7 @@ def format_data_json(text):
                 # 下の行にくる moveNum を右にくっつけます
                 __text = __text.rstrip()
                 __text += f"{line.strip()} "
-            elif line.startswith('        "moveNum":'):
-                # 上の行にくる type の右にくっつきます
-                __text += f"{line.lstrip()}\n"
-            elif line == '        "move": {':
-                __state = "<Move.Move>"
-                __text += f"{line}"
-            elif line == '        "time": {':
-                __state = "<Move.Time>"
-                __text += f"{line}"
-            elif line == '        "total": {':
-                __state = "<Move.Total>"
-                # 上の行にある Time の右にくっつくようにします
-                __text += f"{line.lstrip()}"
+                __state = "<Move>"
             else:
                 __text += f"{line}\n"
         # print(f"[line] {line}")
@@ -63,7 +70,7 @@ def format_data_json(text):
 
 
 def comment_type(line):
-    global __state, __text
+    global __state, __subState, __text
 
     if line == "    },":
         __text = __text.rstrip()
@@ -74,34 +81,34 @@ def comment_type(line):
 
 
 def move_move_type(line):
-    global __state, __text
+    global __state, __subState, __text
 
     if line == "        },":
         __text = __text.rstrip()
         __text += f"{line.lstrip()}\n"
-        __state = "<None>"
+        __subState = "<None>"
     else:
         __text += f"{line.lstrip()} "
 
 
 def move_time_type(line):
-    global __state, __text
+    global __state, __subState, __text
 
     if line == "        },":  # 末尾にカンマが付いている
         __text = __text.rstrip()
         # 次にくる Total を右にくっつけます
         __text += f"{line.lstrip()} "
-        __state = "<None>"
+        __subState = "<None>"
     else:
         __text += f"{line.lstrip()} "
 
 
 def move_total_type(line):
-    global __state, __text
+    global __state, __subState, __text
 
     if line == "        }":  # 末尾にカンマが付いていない
         __text = __text.rstrip()
         __text += f"{line.lstrip()}\n"
-        __state = "<None>"
+        __subState = "<None>"
     else:
         __text += f"{line.lstrip()} "
