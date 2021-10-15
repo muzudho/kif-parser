@@ -236,19 +236,19 @@ class MoveStatementP():
                 move_text += f"{sign}"
                 spaces -= sign_p.half_width(sign)
 
-            if "destinationFile" in move:
-                destination_file = move["destinationFile"]
-                destination_rank = move["destinationRank"]
-                move_text += f"{destination_file}{destination_rank}"
+            if "dstFile" in move:
+                dst_file = move["dstFile"]
+                dst_rank = move["dstRank"]
+                move_text += f"{dst_file}{dst_rank}"
                 spaces -= 4
 
-            if "destination" in move:
-                destination = move["destination"]
-                if destination == 'Same':
+            if "dst" in move:
+                dst = move["dst"]
+                if dst == 'Same':
                     move_text += "同　"
                     spaces -= 4
                 else:
-                    move_text += f"{destination}"
+                    move_text += f"{dst}"
                     spaces -= 2
 
             if "pieceType" in move:
@@ -268,10 +268,10 @@ class MoveStatementP():
                     move_text += "成"
                     spaces -= 2
 
-            if "sourceFile" in move:
-                sourceFile = move["sourceFile"]
-                sourceRank = move["sourceRank"]
-                move_text += f"({sourceFile}{sourceRank})"
+            if "srcFile" in move:
+                srcFile = move["srcFile"]
+                srcRank = move["srcRank"]
+                move_text += f"({srcFile}{srcRank})"
                 spaces -= 4
 
             # 左にスペースを詰めます

@@ -4,7 +4,7 @@ import os
 import sys
 
 
-def copy_files_to_one_folder_by_pattern(file_pattern, destination_folder):
+def copy_files_to_one_folder_by_pattern(file_pattern, dst_folder):
 
     # 出力ファイル一覧
     file_list = glob.glob(file_pattern)
@@ -25,4 +25,4 @@ def copy_files_to_one_folder_by_pattern(file_pattern, destination_folder):
             continue
 
         shutil.copyfile(
-            file, os.path.join(destination_folder, basename))
+            file, os.path.join(dst_folder, basename))

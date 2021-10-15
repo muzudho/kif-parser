@@ -2,14 +2,14 @@ from scripts.copy_files_to_one_folder_by_pattern import copy_files_to_one_folder
 
 
 def main():
-    source_file_pattern_list = ('./test-data/*.kif',
-                                './test-data/*.kifu',
-                                './test-data/*.json',
-                                './test-data/*.toml')
+    src_file_pattern_list = ('./test-data/*.kif',
+                             './test-data/*.kifu',
+                             './test-data/*.json',
+                             './test-data/*.toml')
 
-    for source_file_pattern in source_file_pattern_list:
+    for src_file_pattern in src_file_pattern_list:
         copy_files_to_one_folder_by_pattern(
-            source_file_pattern, 'input')
+            src_file_pattern, 'input')
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

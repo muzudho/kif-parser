@@ -100,20 +100,20 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     data[f'{row_number}']["move"] = {}
 
                     dstFile = result2.group(1)
-                    if destinationFile:
-                        data[f'{row_number}']["move"]["destinationFile"] = destinationFile
+                    if dstFile:
+                        data[f'{row_number}']["move"]["dstFile"] = dstFile
 
-                    destinationRank = result2.group(2)
-                    if destinationRank:
-                        data[f'{row_number}']["move"]["destinationRank"] = destinationRank
+                    dstRank = result2.group(2)
+                    if dstRank:
+                        data[f'{row_number}']["move"]["dstRank"] = dstRank
 
-                    destination = result2.group(3)
-                    if destination:
-                        if destination == '同　':
-                            data[f'{row_number}']["move"]["destination"] = 'Same'
+                    dst = result2.group(3)
+                    if dst:
+                        if dst == '同　':
+                            data[f'{row_number}']["move"]["dst"] = 'Same'
                         else:
                             # Error
-                            print(f"Error: destination={destination}")
+                            print(f"Error: dst={dst}")
                             return None
 
                     pieceType = result2.group(4)
@@ -132,14 +132,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                                 f"Error: dropOrPromotion={dropOrPromotion}")
                             return None
 
-                    source = result2.group(6)
-                    if source:
+                    src = result2.group(6)
+                    if src:
                         # Example `(77)`
-                        square = int(source[1:-1])
+                        square = int(src[1:-1])
                         srcFile = square//10
                         srcRank = square % 10
-                        data[f'{row_number}']["move"]["sourceFile"] = srcFile
-                        data[f'{row_number}']["move"]["sourceRank"] = srcRank
+                        data[f'{row_number}']["move"]["srcFile"] = srcFile
+                        data[f'{row_number}']["move"]["srcRank"] = srcRank
 
                     # 後ろにコメントが書けるはず
                     unimplemented = result2.group(7)

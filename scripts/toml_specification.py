@@ -107,11 +107,11 @@ class MoveStatementP():
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
-        if "sourceFile" in move:
+        if "srcFile" in move:
             # 移動元（打のときは、 SourceFile, SourceRank ともにありません）
-            source_square = int(move["sourceFile"]) * \
-                10 + int(move["sourceRank"])
-            key_value_pairs.append(f"from = {source_square}")
+            src_square = int(move["srcFile"]) * \
+                10 + int(move["srcRank"])
+            key_value_pairs.append(f"from = {src_square}")
         elif "drop" in move:
             # 打
             drop = move["drop"]
@@ -119,20 +119,20 @@ class MoveStatementP():
                 key_value_pairs.append(f"drop = true")
 
         # 行き先
-        if "destinationFile" in move:
-            destination_square = int(
-                move["destinationFile"]) * 10 + int(move["destinationRank"])
+        if "dstFile" in move:
+            dst_square = int(
+                move["dstFile"]) * 10 + int(move["dstRank"])
             key_value_pairs.append(
-                f"to = {destination_square}")
+                f"to = {dst_square}")
 
-        elif "destination" in move:
-            destination = move["destination"]
-            if destination == 'Same':
+        elif "dst" in move:
+            dst = move["dst"]
+            if dst == 'Same':
                 # TODO チェスに「同」は無さそう？
                 key_value_pairs.append(f"to-same = true")
             else:
                 # Error
-                raise error(f'unknown destination={destination}')
+                raise error(f'unknown dst={dst}')
 
         # 成り
         if "promotion" in move:
