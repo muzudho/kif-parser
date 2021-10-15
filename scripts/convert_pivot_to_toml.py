@@ -183,7 +183,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             pre_section_type = "<GAMEINFO>"
 
-        elif row_type == "anyGameInfo":
+        elif row_type == "keyValuePair":
 
             if pre_section_type != "<GAMEINFO>":
                 # セクション切り替わり時

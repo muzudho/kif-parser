@@ -114,7 +114,7 @@ class KeyValuePairStatementP():
 
     def to_pivot(self, data, row_number, key, value, comment):
         dict = {
-            "type": "anyGameInfo",
+            "type": "keyValuePair",
             "key": f"{key}",
         }
 
