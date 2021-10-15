@@ -2,6 +2,8 @@
 
 WIP 作業中です。  
 
+![20211015blog5.png](./docs/img/20211015blog5.png)  
+
 * 📖　[.kifファイルの問題点の洗い出し](./docs/research.md)
 * 📖　[.kifファイルの利用実態の調査](./docs/examples)
 * .KIF に変わる棋譜保存フォーマット仕様の提案、および　その変換アルゴリズム。
