@@ -76,7 +76,7 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
-    def from_pivot(self, moves, time, total, move):
+    def from_pivot(self, moveNum, time, total, move):
         """
         Parameters
         ----------
@@ -155,7 +155,7 @@ class MoveStatementP():
         table_items = ', '.join(key_value_pairs)
 
         # 指し手
-        toml_text += f"""{moves} = {{ {table_items} }}
+        toml_text += f"""{moveNum} = {{ {table_items} }}
 """
 
         return toml_text
@@ -275,9 +275,9 @@ class JudgeStatement1P():
     def match(self, line):
         return self._judge_statement1.match(line)
 
-    def from_pivot(self, moves, winner, judge):
+    def from_pivot(self, moveNum, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"""last-moves={moves}
+        return f"""last-move-num={moveNum}
 winner='{player_phase_p.from_pivot(winner)}'
 judge='{sign_p.from_pivot(judge)}'
 """
@@ -294,9 +294,9 @@ class JudgeStatement2P():
     def match(self, line):
         return self._judge_statement2.match(line)
 
-    def from_pivot(self, moves, judge):
+    def from_pivot(self, moveNum, judge):
         # Example: `まで63手で中断`
-        return f"""last-moves={moves}
+        return f"""last-move-num={moveNum}
 judge='{sign_p.from_pivot(judge)}'
 """
 
@@ -313,9 +313,9 @@ class JudgeStatement3P():
     def match(self, line):
         return self._judge_statement3.match(line)
 
-    def from_pivot(self, moves, reason, winner, judge):
+    def from_pivot(self, moveNum, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"""last-moves={moves}
+        return f"""last-move-num={moveNum}
 reason='{reason_p.from_pivot(reason)}'
 winner='{player_phase_p.from_pivot(winner)}'
 judge='{sign_p.from_pivot(judge)}'

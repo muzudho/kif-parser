@@ -66,25 +66,25 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "result":
             if "reason" in row_data:
                 # Example: `まで52手で時間切れにより後手の勝ち`
-                moves = row_data["moves"]
+                moveNum = row_data["moveNum"]  # Move num
                 reason = row_data['reason']
                 winner = row_data["winner"]
                 judge = row_data["judge"]
                 kifu_text += judge_statement3_p.from_pivot(
-                    moves, reason, winner, judge)
+                    moveNum, reason, winner, judge)
             elif "winner" in row_data:
                 # Example: `まで64手で後手の勝ち`
-                moves = row_data["moves"]
+                moveNum = row_data["moveNum"]
                 winner = row_data["winner"]
                 judge = row_data["judge"]
                 kifu_text += judge_statement1_p.from_pivot(
-                    moves, winner, judge)
+                    moveNum, winner, judge)
             else:
                 # Example: `まで63手で中断`
-                moves = row_data["moves"]
+                moveNum = row_data["moveNum"]
                 judge = row_data["judge"]
                 kifu_text += judge_statement2_p.from_pivot(
-                    moves, judge)
+                    moveNum, judge)
         elif row_data["type"] == "appendix":
             # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
             pass

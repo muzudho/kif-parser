@@ -219,10 +219,9 @@ class MoveStatementP():
     def from_pivot(self, row_data):
         kifu_text = ""
 
-        if "moves" in row_data:
-            # 数
-            moves = row_data["moves"]
-            kifu_text += f"{moves:>4} "
+        if "moveNum" in row_data:
+            moveNum = row_data["moveNum"]  # Move num（n手目）
+            kifu_text += f"{moveNum:>4} "
 
         if "move" in row_data:
             move = row_data["move"]
@@ -458,14 +457,14 @@ class JudgeStatement1P():
     def match(self, line):
         return self._judge_statement1.match(line)
 
-    def from_pivot(self, moves, winner, judge):
+    def from_pivot(self, moveNum, winner, judge):
         # Example: `まで64手で後手の勝ち`
-        return f"まで{moves}手で{winner}の{judge}\n"
+        return f"まで{moveNum}手で{winner}の{judge}\n"
 
-    def to_pivot(self, data, row_number, moves, playerPhase, judge):
+    def to_pivot(self, data, row_number, moveNum, playerPhase, judge):
         data[f'{row_number}'] = {
             "type": "result",
-            "moves": f"{moves}",
+            "moveNum": f"{moveNum}",
             "winner": f"{playerPhase}",
             "judge": f"{judge}",
         }
@@ -482,14 +481,14 @@ class JudgeStatement2P():
     def match(self, line):
         return self._judge_statement2.match(line)
 
-    def from_pivot(self, moves, judge):
+    def from_pivot(self, moveNum, judge):
         # Example: `まで63手で中断`
-        return f"まで{moves}手で{judge}\n"
+        return f"まで{moveNum}手で{judge}\n"
 
-    def to_pivot(self, data, row_number, moves, judge):
+    def to_pivot(self, data, row_number, moveNum, judge):
         data[f'{row_number}'] = {
             "type": "result",
-            "moves": f"{moves}",
+            "moveNum": f"{moveNum}",
             "judge": f"{judge}",
         }
 
@@ -506,14 +505,14 @@ class JudgeStatement3P():
     def match(self, line):
         return self._judge_statement3.match(line)
 
-    def from_pivot(self, moves, reason, winner, judge):
+    def from_pivot(self, moveNum, reason, winner, judge):
         # Example: `まで52手で時間切れにより後手の勝ち`
-        return f"まで{moves}手で{reason_p.from_pivot(reason)}により{winner}の{judge}\n"
+        return f"まで{moveNum}手で{reason_p.from_pivot(reason)}により{winner}の{judge}\n"
 
-    def to_pivot(self, data, row_number, moves, reason, playerPhase, judge):
+    def to_pivot(self, data, row_number, moveNum, reason, playerPhase, judge):
         data[f'{row_number}'] = {
             "type": "result",
-            "moves": f"{moves}",
+            "moveNum": f"{moveNum}",
             "reason": f"{reason}",
             "winner": f"{playerPhase}",
             "judge": f"{judge}",

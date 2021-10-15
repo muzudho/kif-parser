@@ -60,14 +60,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         # Move（指し手）
         result = move_statement_p.match(line)
         if result:
-            moves = result.group(1)
+            moveNum = result.group(1)  # Move num
             move = result.group(2)
             time = result.group(3)  # Expended time（消費時間）
             total = result.group(4)  # Total expended time（消費時間合計）
 
             data[f'{row_number}'] = {
                 "type": "move",
-                "moves": f"{moves}"
+                "moveNum": f"{moveNum}"
             }
 
             # Expended time（消費時間）
@@ -208,32 +208,32 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         # Example: `まで64手で後手の勝ち`
         result = judge_statement1_p.match(line)
         if result:
-            moves = result.group(1)
+            moveNum = result.group(1)
             player_phase = result.group(2)
             judge = result.group(3)
             judge_statement1_p.to_pivot(
-                data, row_number, moves, player_phase, judge)
+                data, row_number, moveNum, player_phase, judge)
             row_number += 1
             continue
 
         # Example: `まで63手で中断`
         result = judge_statement2_p.match(line)
         if result:
-            moves = result.group(1)
+            moveNum = result.group(1)
             judge = result.group(2)
-            judge_statement2_p.to_pivot(data, row_number, moves, judge)
+            judge_statement2_p.to_pivot(data, row_number, moveNum, judge)
             row_number += 1
             continue
 
         # Example: `まで52手で時間切れにより後手の勝ち`
         result = judge_statement3_p.match(line)
         if result:
-            moves = result.group(1)
+            moveNum = result.group(1)
             reason = reason_p.to_pivot(result.group(2))
             player_phase = result.group(3)
             judge = result.group(4)
             judge_statement3_p.to_pivot(
-                data, row_number, moves, reason, player_phase, judge)
+                data, row_number, moveNum, reason, player_phase, judge)
             row_number += 1
             continue
 
@@ -245,6 +245,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
     # 最終行まで解析終わり
 
     with open(output_pivot, 'w', encoding='utf-8') as fOut:
+        # JSON出力
         fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     return output_pivot
