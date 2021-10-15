@@ -2,7 +2,7 @@
 
 難しいので一旦廃止  
 
-```plain
+```py
 class StartTimeStatementP():
     """開始日時文パーサー"""
 
@@ -29,7 +29,7 @@ class StartTimeStatementP():
 start_time_statement_p = StartTimeStatementP()
 ```
 
-```plain
+```py
 class EndTimeStatementP():
     """終了日時文パーサー"""
 
@@ -55,7 +55,7 @@ class EndTimeStatementP():
 end_time_statement_p = EndTimeStatementP()
 ```
 
-```plain
+```py
 class PlayerStatementP():
     def __init__(self):
         self._player_name_statement = re.compile(
@@ -76,7 +76,7 @@ class PlayerStatementP():
 player_statement_p = PlayerStatementP()
 ```
 
-```plain
+```py
 class HandicapStatementP():
     def __init__(self):
         self._handicap_statement = re.compile(r"^手合割：(.+)$")
@@ -97,7 +97,7 @@ class HandicapStatementP():
 handicap_statement_p = HandicapStatementP()
 ```
 
-```plain
+```py
 class HandicapStatementP():
     def __init__(self):
         # 逆引き対応
@@ -140,4 +140,54 @@ class HandicapStatementP():
 
 
 handicap_statement_p = HandicapStatementP()
+```
+
+```py
+class VariationLabelStatementP():
+    """変化手順（棋譜の分岐）のジャンプ先ラベル パーサー"""
+
+    def __init__(self):
+        self._variation_label_statement = re.compile(r"^変化：(\d+)手$")
+
+    def match(self, line):
+        return self._variation_label_statement.match(line)
+
+    def to_pivot(self, data, row_number, moves):
+        data[f'{row_number}'] = {
+            "type": "variationLabel",
+            "moves": f"{moves}",
+        }
+
+    def from_pivot(self, moves):
+        return f"変化：{moves}手\n"
+
+
+variation_label_statement_p = VariationLabelStatementP()
+```
+
+```py
+class VariationLabelStatementP():
+    """変化手順（棋譜の分岐）のジャンプ先ラベル パーサー
+    Example
+    -------
+    変化：3手
+    """
+
+    def __init__(self):
+        self._variation_label_statement = re.compile(r"^変化：(\d+)手$")
+
+    def match(self, line):
+        return self._variation_label_statement.match(line)
+
+    def to_pivot(self, data, row_number, moves):
+        data[f'{row_number}'] = {
+            "type": "variationLabel",
+            "moves": f"{moves}",
+        }
+
+    def from_pivot(self, moves):
+        return f"variation-label = {{ moves = {moves} }}\n"
+
+
+variation_label_statement_p = VariationLabelStatementP()
 ```

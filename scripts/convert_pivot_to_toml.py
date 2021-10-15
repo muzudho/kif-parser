@@ -4,7 +4,6 @@ import sys
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, \
     any_game_info_key_value_pair_statement_p
 
 
@@ -162,20 +161,6 @@ def convert_pivot_to_toml(pivot_file, output_folder):
                 elapsedTime=row_data["elapsedTime"],
                 totalElapsedTime=row_data["totalElapsedTime"],
                 move=row_data["move"])
-
-            pre_section_type = "<MOVES>"
-
-        elif row_type == "variationLabel":
-            # 変化手順（棋譜の分岐）のジャンプ先ラベル
-
-            # セクションを切り替えます
-            toml_text += buffer  # Flush
-            buffer = f"""\n[[section]]
-[section.moves]
-"""
-
-            buffer += variation_label_statement_p.from_pivot(
-                moves=row_data["moves"])
 
             pre_section_type = "<MOVES>"
 

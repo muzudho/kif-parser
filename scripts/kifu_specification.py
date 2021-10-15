@@ -194,28 +194,6 @@ class MovesHeaderStatementP():
 moves_header_statement_p = MovesHeaderStatementP()
 
 
-class VariationLabelStatementP():
-    """変化手順（棋譜の分岐）のジャンプ先ラベル パーサー"""
-
-    def __init__(self):
-        self._variation_label_statement = re.compile(r"^変化：(\d+)手$")
-
-    def match(self, line):
-        return self._variation_label_statement.match(line)
-
-    def to_pivot(self, data, row_number, moves):
-        data[f'{row_number}'] = {
-            "type": "variationLabel",
-            "moves": f"{moves}",
-        }
-
-    def from_pivot(self, moves):
-        return f"変化：{moves}手\n"
-
-
-variation_label_statement_p = VariationLabelStatementP()
-
-
 class MoveStatementP():
     def __init__(self):
         # 棋譜ファイル KIF 形式

@@ -5,7 +5,6 @@ from collections import OrderedDict
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
     moves_header_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    variation_label_statement_p, \
     any_game_info_key_value_pair_statement_p
 
 
@@ -64,10 +63,6 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             kifu_text += any_game_info_key_value_pair_statement_p.from_pivot(
                 key, value, comment)
 
-        elif row_data["type"] == "variationLabel":
-            moves = variation_label_statement_p.from_pivot(
-                row_data["moves"])
-            kifu_text += variation_label_statement_p.from_pivot(moves)
         elif row_data["type"] == "result":
             if "reason" in row_data:
                 # Example: `まで52手で時間切れにより後手の勝ち`

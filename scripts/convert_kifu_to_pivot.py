@@ -3,7 +3,7 @@ import json
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
     sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
-    judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p, \
+    judge_statement2_p, judge_statement3_p, reason_p, \
     moves_header_statement_p, \
     any_game_info_key_value_pair_statement_p
 from scripts.generator_identification import generator_identification
@@ -180,15 +180,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if result:
             bookmark = result.group(1)
             bookmark_p.to_pivot(data, row_number, bookmark)
-            row_number += 1
-            continue
-
-        # 変化のジャンプ先ラベルの解析
-        result = variation_label_statement_p.match(line)
-        if result:
-            moves = result.group(1)
-            variation_label_statement_p.to_pivot(
-                data, row_number, moves)
             row_number += 1
             continue
 
