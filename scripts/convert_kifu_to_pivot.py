@@ -82,14 +82,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     data[f'{row_number}']["move"] = {}
 
                     # Destination file（行き先の筋）
-                    dx = result2.group(1)
-                    if dx:
-                        data[f'{row_number}']["move"]["dx"] = dx
+                    x = result2.group(1)
+                    if x:
+                        data[f'{row_number}']["move"]["x"] = x
 
                     # Destination rank（行き先の行）
-                    dy = result2.group(2)
-                    if dy:
-                        data[f'{row_number}']["move"]["dy"] = dy
+                    y = result2.group(2)
+                    if y:
+                        data[f'{row_number}']["move"]["y"] = y
 
                     dst = result2.group(3)
                     if dst:

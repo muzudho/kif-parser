@@ -119,9 +119,9 @@ class MoveStatementP():
                 key_value_pairs.append(f"drop = true")
 
         # Destination file（行き先の筋）
-        if "dx" in move:
+        if "x" in move:
             dst_square = int(
-                move["dx"]) * 10 + int(move["dy"])
+                move["x"]) * 10 + int(move["y"])
             key_value_pairs.append(
                 f"to = {dst_square}")
 

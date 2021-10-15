@@ -236,9 +236,9 @@ class MoveStatementP():
                 spaces -= sign_p.half_width(sign)
 
             # Destination file（行き先の筋）
-            if "dx" in move:
-                dst_file = move["dx"]
-                dst_rank = move["dy"]
+            if "x" in move:
+                dst_file = move["x"]
+                dst_rank = move["y"]
                 move_text += f"{dst_file}{dst_rank}"
                 spaces -= 4
 
