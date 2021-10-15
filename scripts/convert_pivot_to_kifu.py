@@ -47,7 +47,8 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             player_name = row_data["playerName"]
             kifu_text += f"{player_phase}：{player_name}\n"
 
-        elif row_data["type"] == "keyValuePair":
+        # Key-value pair
+        elif row_data["type"] == "kvPair":
             key = row_data["key"]
 
             if "value" in row_data:

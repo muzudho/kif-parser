@@ -58,9 +58,9 @@ class KeyValuePairStatementP():
 
     def from_pivot(self, rowNumber, key, value, comment):
         if comment:
-            return f"keyValuePair-{rowNumber} = {{ key = '''{key}''', value = '''{value}''', comment = '''{comment}''' }}\n"
+            return f"kvPair-{rowNumber} = {{ key = '''{key}''', value = '''{value}''', comment = '''{comment}''' }}\n"
 
-        return f"keyValuePair-{rowNumber} = {{ key = '''{key}''', value = '''{value}''' }}\n"
+        return f"kvPair-{rowNumber} = {{ key = '''{key}''', value = '''{value}''' }}\n"
 
 
 key_value_pair_statement_p = KeyValuePairStatementP()
