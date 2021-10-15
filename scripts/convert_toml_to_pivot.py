@@ -4,7 +4,7 @@ import tomli
 
 """
 from scripts.toml_specification import comment_p, explanation_p, bookmark_p, player_phase_p, \
-    handicap_statement_p, piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
+    piece_type_p, zenkaku_number_p, kanji_number_p, sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p
 """
@@ -180,17 +180,6 @@ def convert_toml_to_pivot(toml_file, output_folder):
             # 指し手のテーブルの先頭行
             if line == '手数----指手---------消費時間--':
                 # Ignored
-                row_number += 1
-                continue
-
-            result = handicap_statement_p.match(line)
-            if result:
-                handicap = handicap_statement_p.to_pivot(result.group(1))
-                data[f'{row_number}'] = {
-                    "type": "handicap",
-                    "handicap": handicap,
-                }
-
                 row_number += 1
                 continue
 

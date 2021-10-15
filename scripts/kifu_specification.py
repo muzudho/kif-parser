@@ -157,26 +157,6 @@ class PlayerPhaseP():
 player_phase_p = PlayerPhaseP()
 
 
-class HandicapStatementP():
-    def __init__(self):
-        self._handicap_statement = re.compile(r"^手合割：(.+)$")
-
-    def to_pivot(self, data, row_number, handicap):
-        data[f'{row_number}'] = {
-            "type": "handicap",
-            "handicap": handicap,
-        }
-
-    def from_pivot(self, handicap):
-        return f"手合割：{handicap}\n"
-
-    def match(self, line):
-        return self._handicap_statement.match(line)
-
-
-handicap_statement_p = HandicapStatementP()
-
-
 class MovesHeaderStatementP():
     """指し手リストのヘッダー パーサー
 

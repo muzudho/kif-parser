@@ -1,7 +1,7 @@
 import os
 import json
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
-    handicap_statement_p, sign_p, \
+    sign_p, \
     move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, variation_label_statement_p, \
     moves_header_statement_p, \
@@ -200,14 +200,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             comment = result.group(2)
             moves_header_statement_p.to_pivot(
                 data, row_number, moves_header, comment)
-            row_number += 1
-            continue
-
-        # 手割合の行の解析
-        result = handicap_statement_p.match(line)
-        if result:
-            handicap = result.group(1)
-            handicap_statement_p.to_pivot(data, row_number, handicap)
             row_number += 1
             continue
 
