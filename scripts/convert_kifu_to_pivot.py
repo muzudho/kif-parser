@@ -246,6 +246,28 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
     with open(output_pivot, 'w', encoding='utf-8') as fOut:
         # JSON出力
-        fOut.write(json.dumps(data, indent=4, ensure_ascii=False))
+        # TODO でも配列が改行されるの気になる
+        original_text = json.dumps(data, indent=4, ensure_ascii=False)
+        lines = original_text.split("\n")
+        text = ""
+        state = "<None>"
+        for line in lines:
+            if state == "<Move>":
+                if line == "        }":
+                    text = text.rstrip()
+                    text += f"{line.lstrip()}\n"
+                    state = "<None>"
+                else:
+                    text += f"{line.lstrip()} "
+            else:
+                if line == '        "move": {':
+                    state = "<Move>"
+                    text += f"{line}"
+                    pass
+                else:
+                    text += f"{line}\n"
+            # print(f"[line] {line}")
+        print(f"[text] {text}")
+        fOut.write(text)
 
     return output_pivot
