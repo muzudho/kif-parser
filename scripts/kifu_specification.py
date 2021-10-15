@@ -219,31 +219,33 @@ class MoveStatementP():
     def from_pivot(self, row_data):
         kifu_text = ""
 
+        # Move num（n手目）
         if "num" in row_data:
-            num = row_data["num"]  # Move num（n手目）
+            num = row_data["num"]
             kifu_text += f"{num:>4} "
 
-        if "move" in row_data:
-            move = row_data["move"]
+        # Move（指し手）
+        if "m" in row_data:
+            m = row_data["m"]
 
             move_text = ""
             # 半角スペース幅
             spaces = 14
 
-            if "sign" in move:
-                sign = move["sign"]
+            if "sign" in m:
+                sign = m["sign"]
                 move_text += f"{sign}"
                 spaces -= sign_p.half_width(sign)
 
             # Destination file（行き先の筋）
-            if "x" in move:
-                dst_file = move["x"]
-                dst_rank = move["y"]
+            if "x" in m:
+                dst_file = m["x"]
+                dst_rank = m["y"]
                 move_text += f"{dst_file}{dst_rank}"
                 spaces -= 4
 
-            if "dst" in move:
-                dst = move["dst"]
+            if "dst" in m:
+                dst = m["dst"]
                 if dst == 'Same':
                     move_text += "同　"
                     spaces -= 4
@@ -252,26 +254,26 @@ class MoveStatementP():
                     spaces -= 2
 
             # Piece type（移動した駒、先後の無い駒種類）
-            if "pt" in move:
-                piece_type = move["pt"]
+            if "pt" in m:
+                piece_type = m["pt"]
                 move_text += f"{piece_type}"
                 spaces -= piece_type_p.half_width(piece_type)
 
-            if "drop" in move:
-                drop = move["drop"]
+            if "drop" in m:
+                drop = m["drop"]
                 if drop:
                     move_text += "打"
                     spaces -= 2
 
-            if "promotion" in move:
-                pro = move["promotion"]
+            if "promotion" in m:
+                pro = m["promotion"]
                 if pro:
                     move_text += "成"
                     spaces -= 2
 
             # Source（移動元の升）
-            if "src" in move:
-                src = move["src"]  # 11 とか 99 とか
+            if "src" in m:
+                src = m["src"]  # 11 とか 99 とか
                 move_text += f"({src})"
                 spaces -= 4
 

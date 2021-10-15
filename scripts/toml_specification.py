@@ -76,14 +76,18 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
-    def from_pivot(self, num, time, total, move):
+    def from_pivot(self, num, time, total, m):
         """
         Parameters
         ----------
+        num : int
+            Move num（n手目）
         time : int
             Expended time（消費時間）
         total : int
             Total expended time（消費時間合計）
+        m : string
+            Move（指し手）
         """
         toml_text = ''
 
@@ -101,32 +105,32 @@ class MoveStatementP():
         key_value_pairs = []
 
         # Piece type（移動した駒、先後の無い駒種類）
-        if "pt" in move:
-            piece_type = piece_type_p.from_pivot(move["pt"])
+        if "pt" in m:
+            piece_type = piece_type_p.from_pivot(m["pt"])
             key_value_pairs.append(f"piece-type='{piece_type}'")
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
         # Source（移動元の升）
-        if "src" in move:
+        if "src" in m:
             # 移動元（打のときは、src はありません）
-            square = move["src"]
+            square = m["src"]
             key_value_pairs.append(f"from = {square}")
-        elif "drop" in move:
+        elif "drop" in m:
             # 打
-            drop = move["drop"]
+            drop = m["drop"]
             if drop:
                 key_value_pairs.append(f"drop = true")
 
         # Destination file（行き先の筋）
-        if "x" in move:
+        if "x" in m:
             dst_square = int(
-                move["x"]) * 10 + int(move["y"])
+                m["x"]) * 10 + int(m["y"])
             key_value_pairs.append(
                 f"to = {dst_square}")
 
-        elif "dst" in move:
-            dst = move["dst"]
+        elif "dst" in m:
+            dst = m["dst"]
             if dst == 'Same':
                 # TODO チェスに「同」は無さそう？
                 key_value_pairs.append(f"to-same = true")
@@ -135,14 +139,14 @@ class MoveStatementP():
                 raise error(f'unknown dst={dst}')
 
         # 成り
-        if "promotion" in move:
-            pro = move["promotion"]
+        if "promotion" in m:
+            pro = m["promotion"]
             if pro:
                 key_value_pairs.append(f"promotion = true")
 
         # 投了なども行き先欄に書く
-        if "sign" in move:
-            sign = sign_p.from_pivot(move["sign"])
+        if "sign" in m:
+            sign = sign_p.from_pivot(m["sign"])
             key_value_pairs.append(f"sign = '{sign}'")
 
         # 経過時間

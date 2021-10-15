@@ -62,7 +62,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         result = move_statement_p.match(line)
         if result:
             num = result.group(1)  # Move num
-            move = result.group(2)
+            m = result.group(2)  # Move
             time = result.group(3)  # Expended time（消費時間）
             total = result.group(4)  # Total expended time（消費時間合計）
 
@@ -72,29 +72,29 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             }
 
             # 指し手の詳細の解析
-            if sign_p.contains(move):
+            if sign_p.contains(m):
                 # [投了]とか [中断]とか [詰み]とか
-                data[f'{row_number}']["move"] = {"sign": move}
+                data[f'{row_number}']["m"] = {"sign": m}
             else:
 
-                result2 = move_p.match(move)
+                result2 = move_p.match(m)
                 if result2:
-                    data[f'{row_number}']["move"] = {}
+                    data[f'{row_number}']["m"] = {}
 
                     # Destination file（行き先の筋）
                     x = result2.group(1)
                     if x:
-                        data[f'{row_number}']["move"]["x"] = x
+                        data[f'{row_number}']["m"]["x"] = x
 
                     # Destination rank（行き先の行）
                     y = result2.group(2)
                     if y:
-                        data[f'{row_number}']["move"]["y"] = y
+                        data[f'{row_number}']["m"]["y"] = y
 
                     dst = result2.group(3)
                     if dst:
                         if dst == '同　':
-                            data[f'{row_number}']["move"]["dst"] = 'Same'
+                            data[f'{row_number}']["m"]["dst"] = 'Same'
                         else:
                             # Error
                             print(f"Error: dst={dst}")
@@ -102,14 +102,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
                     pt = result2.group(4)  # Piece type（先後の無い駒種類）
                     if pt:
-                        data[f'{row_number}']["move"]["pt"] = pt
+                        data[f'{row_number}']["m"]["pt"] = pt
 
                     dropOrPromotion = result2.group(5)
                     if dropOrPromotion:
                         if dropOrPromotion == '打':
-                            data[f'{row_number}']["move"]["drop"] = True
+                            data[f'{row_number}']["m"]["drop"] = True
                         elif dropOrPromotion == '成':
-                            data[f'{row_number}']["move"]["promotion"] = True
+                            data[f'{row_number}']["m"]["promotion"] = True
                         else:
                             # Error
                             print(
@@ -120,15 +120,15 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     if src:
                         # Example `(77)`
                         square = int(src[1:-1])
-                        data[f'{row_number}']["move"]["src"] = square
+                        data[f'{row_number}']["m"]["src"] = square
 
                     # 後ろにコメントが書けるはず
                     unimplemented = result2.group(7)
                     if unimplemented:
-                        data[f'{row_number}']["move"]["unimplemented"] = unimplemented
+                        data[f'{row_number}']["m"]["unimplemented"] = unimplemented
 
                 else:
-                    data[f'{row_number}']["move"] = {"Unknown": move}
+                    data[f'{row_number}']["m"] = {"Unknown": m}
 
             # Expended time（消費時間）
             if time:

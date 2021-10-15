@@ -45,7 +45,7 @@ def format_data_json(text):
                 # 上の行にくる type の右にくっつきます
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}\n"
-            elif line == '        "move": {':
+            elif line == '        "m": {':
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()}"
                 __subState = "<Move.Move>"

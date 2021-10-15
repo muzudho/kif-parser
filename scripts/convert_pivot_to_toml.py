@@ -160,7 +160,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
                 num=row_data["num"],  # Move num（n手目）
                 time=row_data["time"],  # Expended time（消費時間）
                 total=row_data["total"],  # Total expended time（消費時間合計）
-                move=row_data["move"])
+                m=row_data["m"])
 
             pre_section_type = "<MOVES>"
 
