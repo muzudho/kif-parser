@@ -21,12 +21,15 @@ def format_data_json(text):
         # [Debug]
         # __text += f"{__state} {__subState}"
 
-        # 行番号を取るの難しい
         result = __row_number_pattern.match(line)
         if result:
+            # 行番号の行
             __row_number = int(result.group(1))
-
-        if line == "}":
+            digits = row_number_digits()
+            padding = "".ljust(5-digits)
+            # 書き直す
+            __text += f'    "{__row_number}"{padding}: {{\n'
+        elif line == "}":
             # 最後の閉じかっこ
             __text += f"\n{line.lstrip()}"
         elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>":
@@ -44,11 +47,13 @@ def format_data_json(text):
                 __text += f"{line.lstrip()}\n"
             elif line == '        "move": {':
                 # インデントし直します
-                indent()
+                # indent()
+                __text = __text.rstrip()
                 __text += f"{line.lstrip()}"
                 __subState = "<Move.Move>"
             elif line == '        "time": {':
-                indent()
+                # indent()
+                __text = __text.rstrip()
                 __text += f"{line.lstrip()}"
                 __subState = "<Move.Time>"
             elif line == '        "total": {':
@@ -138,22 +143,22 @@ def move_total_type(line):
         __text += f"{line.lstrip()} "
 
 
-def indent():
+def row_number_digits():
+    """行番号の桁数を返します"""
     global __row_number, __state, __subState, __text
 
     # 行番号が1桁のとき7
     if __row_number is None:
-        indent = 0
+        digits = 0
     elif __row_number < 10:
-        indent = 10
+        digits = 1
     elif __row_number < 100:
-        indent = 11
+        digits = 2
     elif __row_number < 1000:
-        indent = 12
+        digits = 3
     elif __row_number < 10000:
-        indent = 13
+        digits = 4
     else:
-        indent = 14
+        digits = 5
 
-    for _i in range(0, indent):
-        __text += " "
+    return digits
