@@ -100,19 +100,18 @@ class MoveStatementP():
 
         key_value_pairs = []
 
-        # 移動した駒
-        if "pieceType" in move:
-            piece_type = piece_type_p.from_pivot(move["pieceType"])
+        # Piece type（移動した駒、先後の無い駒種類）
+        if "pt" in move:
+            piece_type = piece_type_p.from_pivot(move["pt"])
             key_value_pairs.append(f"piece-type='{piece_type}'")
 
         # TODO 「x」pivotに駒を取ったという情報が欲しい
 
-        # Source file（移動元の筋）
-        if "sx" in move:
-            # 移動元（打のときは、 SourceFile, SourceRank ともにありません）
-            src_square = int(move["sx"]) * \
-                10 + int(move["sy"])
-            key_value_pairs.append(f"from = {src_square}")
+        # Source（移動元の升）
+        if "src" in move:
+            # 移動元（打のときは、src はありません）
+            square = move["src"]
+            key_value_pairs.append(f"from = {square}")
         elif "drop" in move:
             # 打
             drop = move["drop"]

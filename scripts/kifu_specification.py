@@ -251,8 +251,9 @@ class MoveStatementP():
                     move_text += f"{dst}"
                     spaces -= 2
 
-            if "pieceType" in move:
-                piece_type = move["pieceType"]
+            # Piece type（移動した駒、先後の無い駒種類）
+            if "pt" in move:
+                piece_type = move["pt"]
                 move_text += f"{piece_type}"
                 spaces -= piece_type_p.half_width(piece_type)
 
@@ -268,11 +269,10 @@ class MoveStatementP():
                     move_text += "成"
                     spaces -= 2
 
-            # Source file（移動元の筋）
-            if "sx" in move:
-                sx = move["sx"]
-                sy = move["sy"]
-                move_text += f"({sx}{sy})"
+            # Source（移動元の升）
+            if "src" in move:
+                src = move["src"]  # 11 とか 99 とか
+                move_text += f"({src})"
                 spaces -= 4
 
             # 左にスペースを詰めます

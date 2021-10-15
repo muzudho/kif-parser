@@ -100,9 +100,9 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                             print(f"Error: dst={dst}")
                             return None
 
-                    pieceType = result2.group(4)
-                    if pieceType:
-                        data[f'{row_number}']["move"]["pieceType"] = pieceType
+                    pt = result2.group(4)  # Piece type（先後の無い駒種類）
+                    if pt:
+                        data[f'{row_number}']["move"]["pt"] = pt
 
                     dropOrPromotion = result2.group(5)
                     if dropOrPromotion:
@@ -120,10 +120,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     if src:
                         # Example `(77)`
                         square = int(src[1:-1])
-                        sx = square//10  # Source file（移動元の筋）
-                        sy = square % 10  # Source rank（移動元の段）
-                        data[f'{row_number}']["move"]["sx"] = sx
-                        data[f'{row_number}']["move"]["sy"] = sy
+                        data[f'{row_number}']["move"]["src"] = square
 
                     # 後ろにコメントが書けるはず
                     unimplemented = result2.group(7)
