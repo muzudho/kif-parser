@@ -269,7 +269,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             elif state == "<Time>":
                 if line == "        },":  # 末尾にカンマが付いている
                     text = text.rstrip()
-                    text += f"{line.lstrip()}\n"
+                    # 次にくる Total を右にくっつけます
+                    text += f"{line.lstrip()} "
                     state = "<None>"
                 else:
                     text += f"{line.lstrip()} "
@@ -298,8 +299,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     text = text.rstrip()
                     text += f"{line.lstrip()} "
                 elif line == '        "type": "move",':
+                    # 上の行にくる `    "7": {` といったものの右にくっつき、
                     # 下の行にくる moveNum を右にくっつけます
-                    text += f"{line.rstrip()} "
+                    text = text.rstrip()
+                    text += f"{line.strip()} "
                 elif line.startswith('        "moveNum":'):
                     # 上の行にくる type の右にくっつきます
                     text += f"{line.lstrip()}\n"
@@ -311,7 +314,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     text += f"{line}"
                 elif line == '        "total": {':
                     state = "<Total>"
-                    text += f"{line}"
+                    # 上の行にある Time の右にくっつくようにします
+                    text += f"{line.lstrip()}"
                 else:
                     text += f"{line}\n"
             # print(f"[line] {line}")
