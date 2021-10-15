@@ -7,6 +7,7 @@ from scripts.kifu_specification import comment_p, explain_p, bookmark_p, \
     moves_header_statement_p, \
     key_value_pair_statement_p
 from scripts.generator_identification import generator_identification
+from scripts.data_json_format import format_data_json
 import sys
 
 
@@ -247,79 +248,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
     with open(output_pivot, 'w', encoding='utf-8') as fOut:
         # JSON出力
         # TODO でも配列が改行されるの気になる
-        original_text = json.dumps(data, indent=4, ensure_ascii=False)
-        lines = original_text.split("\n")
-        text = ""
-        state = "<None>"
-        for line in lines:
-            if state == "<Comment>" or state == "<KvPair>" or state == "<MovesHeader>" or state == "<Explain>":
-                if line == "    },":
-                    text = text.rstrip()
-                    text += f"{line.lstrip()}\n"
-                    state = "<None>"
-                else:
-                    text += f"{line.lstrip()} "
-            elif state == "<Move>":
-                if line == "        },":
-                    text = text.rstrip()
-                    text += f"{line.lstrip()}\n"
-                    state = "<None>"
-                else:
-                    text += f"{line.lstrip()} "
-            elif state == "<Time>":
-                if line == "        },":  # 末尾にカンマが付いている
-                    text = text.rstrip()
-                    # 次にくる Total を右にくっつけます
-                    text += f"{line.lstrip()} "
-                    state = "<None>"
-                else:
-                    text += f"{line.lstrip()} "
-            elif state == "<Total>":
-                if line == "        }":  # 末尾にカンマが付いていない
-                    text = text.rstrip()
-                    text += f"{line.lstrip()}\n"
-                    state = "<None>"
-                else:
-                    text += f"{line.lstrip()} "
-            else:
-                if line == '        "type": "comment",':
-                    state = "<Comment>"
-                    text = text.rstrip()
-                    text += f"{line.lstrip()} "
-                elif line == '        "type": "kvPair",':
-                    state = "<KvPair>"
-                    text = text.rstrip()
-                    text += f"{line.lstrip()} "
-                elif line == '        "type": "movesHeader",':
-                    state = "<MovesHeader>"
-                    text = text.rstrip()
-                    text += f"{line.lstrip()} "
-                elif line == '        "type": "explain",':
-                    state = "<Explain>"
-                    text = text.rstrip()
-                    text += f"{line.lstrip()} "
-                elif line == '        "type": "move",':
-                    # 上の行にくる `    "7": {` といったものの右にくっつき、
-                    # 下の行にくる moveNum を右にくっつけます
-                    text = text.rstrip()
-                    text += f"{line.strip()} "
-                elif line.startswith('        "moveNum":'):
-                    # 上の行にくる type の右にくっつきます
-                    text += f"{line.lstrip()}\n"
-                elif line == '        "move": {':
-                    state = "<Move>"
-                    text += f"{line}"
-                elif line == '        "time": {':
-                    state = "<Time>"
-                    text += f"{line}"
-                elif line == '        "total": {':
-                    state = "<Total>"
-                    # 上の行にある Time の右にくっつくようにします
-                    text += f"{line.lstrip()}"
-                else:
-                    text += f"{line}\n"
-            # print(f"[line] {line}")
-        # print(f"[text] {text}")
+        text = json.dumps(data, indent=4, ensure_ascii=False)
+        text = format_data_json(text)
         fOut.write(text)
 
     return output_pivot
