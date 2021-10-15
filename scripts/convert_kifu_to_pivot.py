@@ -107,8 +107,9 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
                     dropOrPromotion = result2.group(5)
                     if dropOrPromotion:
+                        # Drop（打つ）
                         if dropOrPromotion == '打':
-                            data[f'{row_number}']["m"]["drop"] = True
+                            data[f'{row_number}']["m"]["drop"] = dropOrPromotion
                         # Promote（成り）
                         elif dropOrPromotion == '成':
                             data[f'{row_number}']["m"]["pro"] = dropOrPromotion

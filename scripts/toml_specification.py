@@ -76,18 +76,18 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
-    def from_pivot(self, num, time, total, m):
+    def from_pivot(self, num, m, time, total):
         """
         Parameters
         ----------
         num : int
             Move num（n手目）
+        m : string
+            Move（指し手）
         time : int
             Expended time（消費時間）
         total : int
             Total expended time（消費時間合計）
-        m : string
-            Move（指し手）
         """
         toml_text = ''
 
@@ -146,7 +146,7 @@ class MoveStatementP():
 
         # 投了なども行き先欄に書く
         if "sign" in m:
-            sign = sign_p.from_pivot(move["sign"])
+            sign = sign_p.from_pivot(m["sign"])
             key_value_pairs.append(f"sign = '{sign}'")
 
         # 経過時間

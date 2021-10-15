@@ -262,7 +262,7 @@ class MoveStatementP():
             if "drop" in m:
                 drop = m["drop"]
                 if drop:
-                    move_text += "打"
+                    move_text += drop
                     spaces -= 2
 
             # Promote（成り）
