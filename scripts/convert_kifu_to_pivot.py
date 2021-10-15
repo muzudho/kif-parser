@@ -70,25 +70,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                 "moveNum": f"{moveNum}"
             }
 
-            # Expended time（消費時間）
-            if time:
-                result2 = expended_time_p.match(time)
-                if result2:
-                    min = int(result2.group(1))  # minute
-                    sec = int(result2.group(2))  # second
-                    expended_time_p.to_pivot(
-                        data, row_number, min, sec)
-
-            # Total expended time（消費時間合計）
-            if total:
-                result2 = total_expended_time_p.match(total)
-                if result2:
-                    hr = int(result2.group(1))  # hour
-                    min = int(result2.group(2))  # minute
-                    sec = int(result2.group(3))  # second
-                    total_expended_time_p.to_pivot(
-                        data, row_number, hr, min, sec)
-
             # 指し手の詳細の解析
             if sign_p.contains(move):
                 # [投了]とか [中断]とか [詰み]とか
@@ -148,6 +129,25 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
                 else:
                     data[f'{row_number}']["move"] = {"Unknown": move}
+
+            # Expended time（消費時間）
+            if time:
+                result2 = expended_time_p.match(time)
+                if result2:
+                    min = int(result2.group(1))  # minute
+                    sec = int(result2.group(2))  # second
+                    expended_time_p.to_pivot(
+                        data, row_number, min, sec)
+
+            # Total expended time（消費時間合計）
+            if total:
+                result2 = total_expended_time_p.match(total)
+                if result2:
+                    hr = int(result2.group(1))  # hour
+                    min = int(result2.group(2))  # minute
+                    sec = int(result2.group(3))  # second
+                    total_expended_time_p.to_pivot(
+                        data, row_number, hr, min, sec)
 
             row_number += 1
             continue
@@ -252,15 +252,15 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         text = ""
         state = "<None>"
         for line in lines:
-            if state == "<Move>":
-                if line == "        }":
+            if state == "<Move>" or state == "<Time>":
+                if line == "        },":  # 末尾にカンマが付いている
                     text = text.rstrip()
                     text += f"{line.lstrip()}\n"
                     state = "<None>"
                 else:
                     text += f"{line.lstrip()} "
-            elif state == "<Time>" or state == "<Total>":
-                if line == "        },":  # 末尾にカンマが付いている
+            elif state == "<Total>":
+                if line == "        }":
                     text = text.rstrip()
                     text += f"{line.lstrip()}\n"
                     state = "<None>"
