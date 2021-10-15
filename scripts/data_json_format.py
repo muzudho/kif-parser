@@ -25,12 +25,12 @@ def format_data_json(text):
 
         result = __row_number_pattern.match(line)
         if result:
-            # 行番号の行
+            # 行番号
+            # =====
             __row_number = int(result.group(1))
             digits = number_digits(__row_number)
             padding = "".ljust(5-digits)
-            # 書き直す
-            __text += f'    "{__row_number}"{padding}: {{\n'
+            __text += f'    {padding}"{__row_number}": {{\n'
         elif line == "}":
             # 最後の閉じかっこ
             __text += f"\n{line.lstrip()}"
