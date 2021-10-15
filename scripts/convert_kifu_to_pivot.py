@@ -2,7 +2,7 @@ import os
 import json
 from scripts.kifu_specification import comment_p, explanation_p, bookmark_p, \
     sign_p, \
-    move_statement_p, move_p, elapsed_time_p, total_elapsed_time_p, judge_statement1_p, \
+    move_statement_p, move_p, expended_time_p, total_expended_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, \
     moves_header_statement_p, \
     key_value_pair_statement_p
@@ -62,7 +62,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if result:
             moves = result.group(1)
             move = result.group(2)
-            elapsedTime = result.group(3)
+            expendedTime = result.group(3)
             totalElapsedTime = result.group(4)
 
             data[f'{row_number}'] = {
@@ -71,23 +71,23 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             }
 
             # 消費時間の解析
-            if elapsedTime:
-                result2 = elapsed_time_p.match(elapsedTime)
+            if expendedTime:
+                result2 = expended_time_p.match(expendedTime)
                 if result2:
-                    minute = int(result2.group(1))
-                    second = int(result2.group(2))
-                    elapsed_time_p.to_pivot(
-                        data, row_number, minute, second)
+                    min = int(result2.group(1))  # minute
+                    sec = int(result2.group(2))  # second
+                    expended_time_p.to_pivot(
+                        data, row_number, min, sec)
 
             # 累計の消費時間の解析
             if totalElapsedTime:
-                result2 = total_elapsed_time_p.match(totalElapsedTime)
+                result2 = total_expended_time_p.match(totalElapsedTime)
                 if result2:
-                    hour = int(result2.group(1))
-                    minute = int(result2.group(2))
-                    second = int(result2.group(3))
-                    total_elapsed_time_p.to_pivot(
-                        data, row_number, hour, minute, second)
+                    hr = int(result2.group(1))  # hour
+                    min = int(result2.group(2))  # minute
+                    sec = int(result2.group(3))  # second
+                    total_expended_time_p.to_pivot(
+                        data, row_number, hr, min, sec)
 
             # 指し手の詳細の解析
             if sign_p.contains(move):

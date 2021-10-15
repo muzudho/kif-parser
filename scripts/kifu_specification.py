@@ -279,23 +279,23 @@ class MoveStatementP():
 
             kifu_text += f"{move_text}"
 
-        if "elapsedTime" in row_data:
-            elapsedTime = row_data["elapsedTime"]
-            elapsedTimeMinute = elapsedTime["minute"]
-            elapsedTimeSecond = elapsedTime["second"]
+        if "expendedTime" in row_data:
+            expendedTime = row_data["expendedTime"]
+            expendedTimeMin = expendedTime["min"]  # minute
+            expendedTimeSec = expendedTime["sec"]  # second
         else:
-            elapsedTime = None
+            expendedTime = None
 
         if "totalElapsedTime" in row_data:
             totalElapsedTime = row_data["totalElapsedTime"]
-            totalElapsedTimeHour = totalElapsedTime["hour"]
-            totalElapsedTimeMinute = totalElapsedTime["minute"]
-            totalElapsedTimeSecond = totalElapsedTime["second"]
+            totalExpendedTimeHr = totalElapsedTime["hr"]  # hour
+            totalElapsedTimeMin = totalElapsedTime["min"]  # minute
+            totalElapsedTimeSec = totalElapsedTime["sec"]  # second
         else:
             totalElapsedTime = None
 
-        if elapsedTime and totalElapsedTime:
-            kifu_text += f"({elapsedTimeMinute:02}:{elapsedTimeSecond:02} / {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02})"
+        if expendedTime and totalElapsedTime:
+            kifu_text += f"({expendedTimeMin:02}:{expendedTimeSec:02} / {totalExpendedTimeHr:02}:{totalElapsedTimeMin:02}:{totalElapsedTimeSec:02})"
 
         return f"{kifu_text}\n"
 
@@ -392,41 +392,59 @@ class SignP():
 sign_p = SignP()
 
 
-class ElapsedTimeP():
+class ExpendedTimeP():
     def __init__(self):
         # ↓ どっちもある
         # Example: `0:01`
         # Example: `00:01`
-        self._elapsed_time = re.compile(r"^(\d+):(\d+)$")
+        self._expended_time = re.compile(r"^(\d+):(\d+)$")
 
     def match(self, line):
-        return self._elapsed_time.match(line)
+        return self._expended_time.match(line)
 
-    def to_pivot(self, data, row_number, minute, second):
-        data[f'{row_number}']["elapsedTime"] = {}
-        data[f'{row_number}']["elapsedTime"]["minute"] = minute
-        data[f'{row_number}']["elapsedTime"]["second"] = second
+    def to_pivot(self, data, row_number, min, sec):
+        """
+        Parameters
+        ----------
+        min : int
+            Minute
+        sec : int
+            Second
+        """
+        data[f'{row_number}']["expendedTime"] = {}
+        data[f'{row_number}']["expendedTime"]["min"] = min
+        data[f'{row_number}']["expendedTime"]["sec"] = sec
 
 
-elapsed_time_p = ElapsedTimeP()
+expended_time_p = ExpendedTimeP()
 
 
-class TotalElapsedTimeP():
+class TotalExpendedTimeP():
     def __init__(self):
         # Example: `00:00:16`
-        self._total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
+        self._total_expended_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
     def match(self, line):
-        return self._total_elapsed_time.match(line)
+        return self._total_expended_time.match(line)
 
-    def to_pivot(self, data, row_number, hour, minute, second):
+    def to_pivot(self, data, row_number, hr, min, sec):
+        """
+        Parameters
+        ----------
+        hr : int
+            Hour
+        min : int
+            Minute
+        sec : int
+            Second
+        """
         data[f'{row_number}']["totalElapsedTime"] = {}
-        data[f'{row_number}']["totalElapsedTime"]["hour"] = hour
-        data[f'{row_number}']["totalElapsedTime"]["minute"] = minute
-        data[f'{row_number}']["totalElapsedTime"]["second"] = second
+        data[f'{row_number}']["totalElapsedTime"]["hr"] = hr
+        data[f'{row_number}']["totalElapsedTime"]["min"] = min
+        data[f'{row_number}']["totalElapsedTime"]["sec"] = sec
 
 
-total_elapsed_time_p = TotalElapsedTimeP()
+total_expended_time_p = TotalExpendedTimeP()
 
 
 class JudgeStatement1P():

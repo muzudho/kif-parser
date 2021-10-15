@@ -76,19 +76,19 @@ class MoveStatementP():
     def match(self, line):
         return self._move_statement.match(line)
 
-    def from_pivot(self, moves, elapsedTime, totalElapsedTime, move):
+    def from_pivot(self, moves, expendedTime, totalExpendedTime, move):
         toml_text = ''
 
-        elapsedTimeHour = 0
-        elapsedTimeMinute = elapsedTime["minute"]
-        if 60 < elapsedTimeMinute:
-            elapsedTimeHour = elapsedTimeMinute // 60
-            elapsedTimeMinute = elapsedTimeMinute % 60
-        elapsedTimeSecond = elapsedTime["second"]
+        expendedTimeHr = 0
+        expendedTimeMin = expendedTime["min"]
+        if 60 < expendedTimeMin:
+            expendedTimeHr = expendedTimeMin // 60
+            expendedTimeMin = expendedTimeMin % 60
+        expendedTimeSec = expendedTime["sec"]
 
-        totalElapsedTimeHour = totalElapsedTime["hour"]
-        totalElapsedTimeMinute = totalElapsedTime["minute"]
-        totalElapsedTimeSecond = totalElapsedTime["second"]
+        totalExpendedTimeHr = totalExpendedTime["hr"]
+        totalExpendedTimeMin = totalExpendedTime["min"]
+        totalExpendedTimeSec = totalExpendedTime["sec"]
 
         key_value_pairs = []
 
@@ -139,10 +139,10 @@ class MoveStatementP():
 
         # 経過時間
         key_value_pairs.append(
-            f"""elapsed = {elapsedTimeHour:02}:{elapsedTimeMinute:02}:{elapsedTimeSecond:02}""")
+            f"""expended = {expendedTimeHr:02}:{expendedTimeMin:02}:{expendedTimeSec:02}""")
 
         key_value_pairs.append(
-            f"""sum = {totalElapsedTimeHour:02}:{totalElapsedTimeMinute:02}:{totalElapsedTimeSecond:02}""")
+            f"""sum = {totalExpendedTimeHr:02}:{totalExpendedTimeMin:02}:{totalExpendedTimeSec:02}""")
 
         table_items = ', '.join(key_value_pairs)
 
@@ -240,22 +240,22 @@ class SignP():
 sign_p = SignP()
 
 
-class ElapsedTimeP():
+class ExpendedTimeP():
     def __init__(self):
         # Example: `00:01`
-        self._elapsed_time = re.compile(r"^(\d+):(\d+)$")
+        self._expended_time = re.compile(r"^(\d+):(\d+)$")
 
     def match(self, line):
-        return self._elapsed_time.match(line)
+        return self._expended_time.match(line)
 
 
-class TotalElapsedTimeP():
+class TotalExpendedTimeP():
     def __init__(self):
         # Example: `00:00:16`
-        self._total_elapsed_time = re.compile(r"^(\d+):(\d+):(\d+)$")
+        self._total_expended_time = re.compile(r"^(\d+):(\d+):(\d+)$")
 
     def match(self, line):
-        return self._total_elapsed_time.match(line)
+        return self._total_expended_time.match(line)
 
 
 class JudgeStatement1P():

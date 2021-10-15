@@ -158,7 +158,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             buffer += move_statement_p.from_pivot(
                 moves=row_data["moves"],
-                elapsedTime=row_data["elapsedTime"],
+                expendedTime=row_data["expendedTime"],
                 totalElapsedTime=row_data["totalElapsedTime"],
                 move=row_data["move"])
 
