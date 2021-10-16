@@ -45,16 +45,16 @@ class ReversibleConvertKifuToKif():
         """レイヤー２にあるファイルのリスト"""
         return glob.glob(self._layer2_file_pattern)
 
-    def round_trip_translate(self, kifu_file):
+    def round_trip_translate(self, input_file):
         # (c) レイヤー２にあるファイルの SHA256 生成
-        layer2_file_sha256 = create_sha256_by_file_path(kifu_file)
+        layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) 目的のファイル（KIF Shift-JIS）へ変換
         object_file = convert_kifu_to_kif(
-            kifu_file, output_folder=self._object_folder)
+            input_file, output_folder=self._object_folder)
         if object_file is None:
             print(
-                f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): Parse fail. kifu_file={kifu_file}")
+                f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): Parse fail. input_file={input_file}")
             return
 
         # ここから逆の操作を行います
@@ -64,7 +64,7 @@ class ReversibleConvertKifuToKif():
             object_file, output_folder=self._layer4_folder)
         if reversed_kifu_file is None:
             print(
-                f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): Parse fail. kifu_file={kifu_file}")
+                f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): Parse fail. input_file={input_file}")
             return
 
         # (f) レイヤー４にあるファイルの SHA256 生成
@@ -76,7 +76,7 @@ class ReversibleConvertKifuToKif():
                 basename = os.path.basename(object_file)
             except:
                 print(
-                    f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): kifu_file={kifu_file} except={os.system.exc_info()[0]}")
+                    f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): input_file={input_file} except={os.system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

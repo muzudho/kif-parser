@@ -43,17 +43,17 @@ class ReversibleConvertKifuToPivot():
         """レイヤー２にあるファイルのリスト"""
         return glob.glob(self._layer2_file_pattern)
 
-    def round_trip_translate(self, kifu_file):
+    def round_trip_translate(self, input_file):
 
         # (c) レイヤー２にあるファイルの SHA256 生成
-        layer2_file_sha256 = create_sha256_by_file_path(kifu_file)
+        layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) 目的のファイル（Pivot）へ変換
         object_file = convert_kifu_to_pivot(
-            kifu_file, output_folder=self._object_folder)
+            input_file, output_folder=self._object_folder)
         if object_file is None:
             print(
-                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (d-1) parse fail. kifu_file={kifu_file}")
+                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (d-1) parse fail. input_file={input_file}")
             return
 
         # ここから逆の操作を行います
@@ -63,7 +63,7 @@ class ReversibleConvertKifuToPivot():
             object_file, output_folder=self._layer4_folder, template_name=self._template_name)
         if reversed_kifu_file is None:
             print(
-                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (e-1) parse fail. kifu_file={kifu_file}")
+                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (e-1) parse fail. input_file={input_file}")
             return
 
         # (f) レイヤー４にあるファイルの SHA256 生成
@@ -72,10 +72,10 @@ class ReversibleConvertKifuToPivot():
         # (g) 一致比較
         if layer2_file_sha256 != layer4_file_sha256:
             try:
-                basename = os.path.basename(kifu_file)
+                basename = os.path.basename(input_file)
             except:
                 print(
-                    f"Error: kifu_file={kifu_file} except={os.system.exc_info()[0]}")
+                    f"Error: input_file={input_file} except={os.system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

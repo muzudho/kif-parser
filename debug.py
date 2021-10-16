@@ -38,44 +38,27 @@ if __name__ == "__main__":
         '--rmtmp', action='store_true', help='Clean temporary folder after translation.')
     args = parser.parse_args()
 
+    conv = None
+
     if args.tool == "kif2kifu":
         # KIF to KIFU
-        kif2kifu = ReversibleConvertKifToKifu(debug=True)
-        kif2kifu.ready_folder()
-        for kif_file in kif2kifu.target_files():
-            kif2kifu.round_trip_translate(kif_file=kif_file)
-            kif2kifu.clean_temporary()
+        conv = ReversibleConvertKifToKifu(debug=True)
     elif args.tool == "kif2pivot":
-        kif2pivot = ReversibleConvertKifToPivot(debug=True)
-        kif2pivot.ready_folder()
-        for kif_file in kif2pivot.target_files():
-            kif2pivot.round_trip_translate(kif_file=kif_file)
-        kif2pivot.clean_temporary()
+        conv = ReversibleConvertKifToPivot(debug=True)
     elif args.tool == "kifu2kif":
-        kifu2kif = ReversibleConvertKifuToKif(debug=True)
-        kifu2kif.ready_folder()
-        for kifu_file in kifu2kif.target_files():
-            kifu2kif.round_trip_translate(kifu_file)
-        kifu2kif.clean_temporary()
+        conv = ReversibleConvertKifuToKif(debug=True)
     elif args.tool == "kifu2pivot":
-        kifu2pivot = ReversibleConvertKifuToPivot(debug=True)
-        kifu2pivot.ready_folder()
-        for kifu_file in kifu2pivot.target_files():
-            kifu2pivot.round_trip_translate(kifu_file)
-        kifu2pivot.clean_temporary()
+        conv = ReversibleConvertKifuToPivot(debug=True)
     elif args.tool == "pivot2kif":
-        pivot2kif = ReversibleConvertPivotToKif(
-            debug=True)
-        pivot2kif.ready_folder()
-        for pivot_file in pivot2kif.target_files():
-            pivot2kif.round_trip_translate(pivot_file)
-        pivot2kif.clean_temporary()
+        conv = ReversibleConvertPivotToKif(debug=True)
     elif args.tool == "pivot2kifu":
-        pivot2kifu = ReversibleConvertPivotToKifu(debug=True)
-        pivot2kifu.ready_folder()
-        for pivot_file in pivot2kifu.target_files():
-            pivot2kifu.round_trip_translate(pivot_file)
-        pivot2kifu.clean_temporary()
+        conv = ReversibleConvertPivotToKifu(debug=True)
+
+    if conv:
+        conv.ready_folder()
+        for input_file in conv.target_files():
+            conv.round_trip_translate(input_file)
+        conv.clean_temporary()
 
     if args.rmout:
         clear_all_records_in_folder('output')

@@ -8,39 +8,31 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 def translate(source, destination, template, debug):
     if source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
-        kifu2pivot = ReversibleConvertKifuToPivot(
+        to_pivot = ReversibleConvertKifuToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
-        kifu2pivot.ready_folder()
-        for kifu_file in kifu2pivot.target_files():
-            kifu2pivot.round_trip_translate(kifu_file)
-        kifu2pivot.clean_temporary()
     else:
         # KIFファイルをPIVOTへ変換します
-        kif2pivot = ReversibleConvertKifToPivot(
+        to_pivot = ReversibleConvertKifToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
-        kif2pivot.ready_folder()
-        for kif_file in kif2pivot.target_files():
-            kif2pivot.round_trip_translate(kif_file=kif_file)
-        kif2pivot.clean_temporary()
+
+    to_pivot.ready_folder()
+    for input_file in to_pivot.target_files():
+        to_pivot.round_trip_translate(input_file)
+    to_pivot.clean_temporary()
 
     if destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
-        pivot2kifu = ReversibleConvertPivotToKifu(
+        from_pivot = ReversibleConvertPivotToKifu(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
-        pivot2kifu.ready_folder()
-        for pivot_file in pivot2kifu.target_files():
-            pivot2kifu.round_trip_translate(
-                pivot_file=pivot_file)
-        pivot2kifu.clean_temporary()
     else:
         # PIVOTファイルをKIFへ変換します
-        pivot2kif = ReversibleConvertPivotToKif(
+        from_pivot = ReversibleConvertPivotToKif(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
-        pivot2kif.ready_folder()
-        for pivot_file in pivot2kif.target_files():
-            pivot2kif.round_trip_translate(
-                pivot_file=pivot_file)
-        pivot2kif.clean_temporary()
+
+    from_pivot.ready_folder()
+    for input_file in from_pivot.target_files():
+        from_pivot.round_trip_translate(input_file)
+    from_pivot.clean_temporary()
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
