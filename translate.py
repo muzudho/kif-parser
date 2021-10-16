@@ -1,6 +1,6 @@
 import argparse
 from scripts.reversible_convert_kif_to_pivot import ReversibleConvertKifToPivot
-from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_pivot
+from scripts.reversible_convert_kifu_to_pivot import ReversibleConvertKifuToPivot
 from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
 from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
 
@@ -8,7 +8,8 @@ from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to
 def translate(source, destination, template, debug):
     if source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
-        reversible_convert_kifu_to_pivot(
+        reversible_convert_kifu_to_pivot = ReversibleConvertKifuToPivot()
+        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
     else:
         # KIFファイルをPIVOTへ変換します
