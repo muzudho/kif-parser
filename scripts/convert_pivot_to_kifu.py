@@ -10,7 +10,6 @@ from scripts.kifu_specification import comment_p, explain_p, bookmark_p, \
 
 def convert_pivot_to_kifu(pivot_file, output_folder):
     # basename
-
     try:
         basename = os.path.basename(pivot_file)
     except:
@@ -23,13 +22,14 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
 
     kifuFile = ""
 
+    # Pivotファイル（JSON形式）を読込みます
     with open(pivot_file, encoding='utf-8') as f:
         data = json.loads(f.read(), object_pairs_hook=OrderedDict)
 
-    move_section_flag = False
+    # .kifu テキストを作ります
     kifu_text = ""
 
-    # JSON to KIFU
+    # 行パーサーです
     for row_number, row_data in data.items():
 
         if row_data["type"] == "comment":
@@ -42,10 +42,6 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             kifu_text += moves_header_statement_p.from_pivot(row_data)
         elif row_data["type"] == "move":
             kifu_text += move_statement_p.from_pivot(row_data)
-        elif row_data["type"] == "player":
-            player_phase = row_data["playerPhase"]
-            player_name = row_data["playerName"]
-            kifu_text += f"{player_phase}：{player_name}\n"
 
         # Key-value pair
         elif row_data["type"] == "kvPair":

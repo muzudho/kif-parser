@@ -164,25 +164,6 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             pre_section_type = "<MOVES>"
 
-        elif row_type == "player":
-
-            if pre_section_type != "<GAMEINFO>":
-                # セクション切り替わり時
-                toml_text += buffer
-                buffer = f"""\n[[section]]
-[section.gameinfo]
-"""
-
-            player_phase = player_phase_p.from_pivot(
-                row_data["playerPhase"])
-
-            player_name = row_data["playerName"]
-
-            buffer += f"""{player_phase}='''{player_name}'''
-"""
-
-            pre_section_type = "<GAMEINFO>"
-
         # Key-value pair
         elif row_type == "kvPair":
 
