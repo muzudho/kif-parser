@@ -71,6 +71,14 @@ def format_data_json(text):
                 __text = __text.rstrip()
                 __text += '"total":['
                 __subState = "<Move.Total>"
+            elif line.startswith('        "comment":'):
+                matched = __property_pattern.match(line)
+                if matched:
+                    key = matched.group(1)
+                    value = matched.group(2)
+                    comma = matched.group(3)
+                    __text = __text.rstrip()
+                    __text += f'"{key}":{value}{comma}'
             elif line == '    },':
                 # おわり
                 __text = __text.rstrip()
@@ -79,7 +87,7 @@ def format_data_json(text):
                 __subState = "<None>"
             else:
                 raise ValueError(
-                    f"[ERROR] __state={__state} __subState={__subState} [{line}]\n")
+                    f"[ERROR] data_json_format.py format_data_json: __state={__state} __subState={__subState} [{line}]\n")
         else:
             if line == '        "type": "comment",':
                 matched = __type_pattern.match(line)

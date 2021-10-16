@@ -154,8 +154,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                         data, row_number, hr, min, sec)
 
             # Comment（コメント）
-            # if comment:
-            #    data[f'{row_number}']["comment"] = comment
+            if comment:
+                data[f'{row_number}']["comment"] = comment
 
             row_number += 1
             continue
@@ -262,7 +262,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
         # そこで再整形
         text = format_data_json(text)
-        #print(f"[整形後text] {text}")
+        # print(f"[整形後text] {text}")
 
         fOut.write(text)
 
