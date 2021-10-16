@@ -5,7 +5,7 @@ from collections import OrderedDict
 from scripts.kifu_specification import comment_p, explain_p, bookmark_p, \
     moves_header_statement_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    key_value_pair_statement_p
+    key_value_pair_statement_p, result_statement_p
 
 
 def convert_pivot_to_kifu(pivot_file, output_folder):
@@ -45,27 +45,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "kvPair":
             kifu_text += key_value_pair_statement_p.from_pivot(row_data)
         elif row_data["type"] == "result":
-            if "reason" in row_data:
-                # Example: `まで52手で時間切れにより後手の勝ち`
-                num = row_data["num"]  # Move num
-                reason = row_data['reason']
-                winner = row_data["winner"]
-                judge = row_data["judge"]
-                kifu_text += judge_statement3_p.from_pivot(
-                    num, reason, winner, judge)
-            elif "winner" in row_data:
-                # Example: `まで64手で後手の勝ち`
-                num = row_data["num"]
-                winner = row_data["winner"]
-                judge = row_data["judge"]
-                kifu_text += judge_statement1_p.from_pivot(
-                    num, winner, judge)
-            else:
-                # Example: `まで63手で中断`
-                num = row_data["num"]
-                judge = row_data["judge"]
-                kifu_text += judge_statement2_p.from_pivot(
-                    num, judge)
+            kifu_text += result_statement_p.from_pivot(row_data)
         elif row_data["type"] == "metadata":
             # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
             pass

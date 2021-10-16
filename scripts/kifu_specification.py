@@ -476,6 +476,35 @@ class TotalExpendedTimeP():
 total_expended_time_p = TotalExpendedTimeP()
 
 
+class ResultStatementP():
+
+    def from_pivot(self, row_data):
+        if "reason" in row_data:
+            # Example: `まで52手で時間切れにより後手の勝ち`
+            num = row_data["num"]  # Move num
+            reason = row_data['reason']
+            winner = row_data["winner"]
+            judge = row_data["judge"]
+            return judge_statement3_p.from_pivot(
+                num, reason, winner, judge)
+        elif "winner" in row_data:
+            # Example: `まで64手で後手の勝ち`
+            num = row_data["num"]
+            winner = row_data["winner"]
+            judge = row_data["judge"]
+            return judge_statement1_p.from_pivot(
+                num, winner, judge)
+        else:
+            # Example: `まで63手で中断`
+            num = row_data["num"]
+            judge = row_data["judge"]
+            return judge_statement2_p.from_pivot(
+                num, judge)
+
+
+result_statement_p = ResultStatementP()
+
+
 class JudgeStatement1P():
     def __init__(self):
         # Example: `まで64手で後手の勝ち`
