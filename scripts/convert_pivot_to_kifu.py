@@ -86,7 +86,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
                 judge = row_data["judge"]
                 kifu_text += judge_statement2_p.from_pivot(
                     num, judge)
-        elif row_data["type"] == "appendix":
+        elif row_data["type"] == "metadata":
             # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
             pass
         else:

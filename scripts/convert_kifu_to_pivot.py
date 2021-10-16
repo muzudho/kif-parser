@@ -44,7 +44,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
     shogi_dokoro, shogi_gui = generator_identification.read_all_text(text)
     # 0行目に情報を追加するものとします
     data[0] = {
-        "type": "appendix",
+        "type": "metadata",
         "generatingSoftwareIsProbably": {
             "shogidokoro": shogi_dokoro,
             "shogi-gui": shogi_gui,

@@ -135,7 +135,7 @@ def format_data_json(text):
                 """その他
                 先頭の {
                 最後の }
-                appendix ブロック
+                metadata ブロック
                 """
                 __text += f"{line}\n"
         # print(f"[line] {line}")

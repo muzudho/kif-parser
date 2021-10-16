@@ -243,7 +243,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 
             pre_section_type = "<RESULT>"
 
-        elif row_data["type"] == "appendix":
+        elif row_data["type"] == "metadata":
             # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
             pass
         else:
