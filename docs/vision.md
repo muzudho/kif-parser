@@ -44,10 +44,10 @@ muzudho/kif-parser の内部では `.json` を使い始めています。
 そこで 2021年現在、人気の高いプログラム言語の Python, Java Script で標準で実装されている JSON ファイル形式を  
 中心に据え直し、 `.kif` へエクスポートできるアルゴリズムを Work in progress (作業中)です。  
 
-### [data].json
+### [kifu-pivot].json
 
 ![20211014shogi22.png](../docs/img/20211014shogi22.png)  
-👆 `[data].json` ファイル。 仕様は未定
+👆 `[kifu-pivot].json` ファイル。 仕様は未定
 
 意味解析せず、 `.kif` の１行１行を **直訳** したもの。  
 単一行コメントを どの行、どの文末にも置けることから、  

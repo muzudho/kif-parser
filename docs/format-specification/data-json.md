@@ -1,4 +1,4 @@
-# [data].json format specification
+# [kifu-pivot].json format specification
 
 ## Overview
 

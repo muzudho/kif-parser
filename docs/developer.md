@@ -7,7 +7,7 @@
 ```plain
 /kif-parser
     /input
-        # ここに *.kif, *.kifu, *.toml, `*[data].json` のいずれかを置きます
+        # ここに *.kif, *.kifu, *.toml, `*[kifu-pivot].json` のいずれかを置きます
     /output
         # ここに変換後のファイルが出力されます。スクリプト実行時にここに置いてある棋譜ファイルは削除されます
     /scripts
