@@ -141,3 +141,31 @@ class ShogidokoroTemplate():
             kifu_text += f"#{comment}"
 
         return f"{kifu_text}\n"
+
+    def key_value_pair_row(self, row_data):
+        key = row_data["key"]
+
+        if "value" in row_data:
+            value = row_data["value"]
+        else:
+            value = None
+
+        if "comment" in row_data:
+            comment = row_data["comment"]
+        else:
+            comment = None
+
+        text = ""
+
+        if key:
+            text += key
+
+        text += "："
+
+        if value:
+            text += value
+
+        if comment:
+            text += f"#{comment}"
+
+        return f"{text}\n"
