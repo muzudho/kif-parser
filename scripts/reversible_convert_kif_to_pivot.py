@@ -1,7 +1,7 @@
 import glob
 from os import system
 import os
-from remove_all_output import clear_all_records_in_folder
+from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from remove_all_temporary import remove_all_temporary

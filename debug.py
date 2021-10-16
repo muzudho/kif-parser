@@ -1,12 +1,4 @@
-import argparse
-from scripts.reversible_convert_kif_to_kifu import reversible_convert_kif_to_kifu
-from scripts.reversible_convert_kif_to_pivot import reversible_convert_kif_to_pivot
-from scripts.reversible_convert_kifu_to_kif import reversible_convert_kifu_to_kif
-from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_pivot
-from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
-from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
-
-"""使い方
+"""このファイルの使い方
 
 python.exe debug.py --tool kif2kifu
 python.exe debug.py --tool kif2pivot
@@ -15,6 +7,14 @@ python.exe debug.py --tool kifu2pivot
 python.exe debug.py --tool pivot2kif
 python.exe debug.py --tool pivot2kifu
 """
+import argparse
+from scripts.reversible_convert_kif_to_kifu import reversible_convert_kif_to_kifu
+from scripts.reversible_convert_kif_to_pivot import reversible_convert_kif_to_pivot
+from scripts.reversible_convert_kifu_to_kif import reversible_convert_kifu_to_kif
+from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_pivot
+from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
+from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
+
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
@@ -23,7 +23,9 @@ if __name__ == "__main__":
     # `--` - Option arg
     # `action='store_true'` - Flag
     parser.add_argument(
-        '--tool', help='"kif2kifu".')
+        '--tool', help='kif2kifu, kif2pivot, kifu2kif, kifu2pivot, pivot2kif, pivot2kifu.')
+    parser.add_argument(
+        '--rmout', action='store_true', help='Clean output folder after translation.')
     args = parser.parse_args()
 
     if args.tool == "kif2kifu":
@@ -39,3 +41,6 @@ if __name__ == "__main__":
         reversible_convert_pivot_to_kif(debug=True)
     elif args.tool == "pivot2kifu":
         reversible_convert_pivot_to_kifu(debug=True)
+
+    if args.rmout:
+        clear_all_records_in_folder('output')

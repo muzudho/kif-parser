@@ -59,8 +59,6 @@
     debug.py
     # `*_to_*.py` は、用途により使わないものもあるかも知れません
     LICENSE
-    pivot_to_kifu.py
-    remove_all_output.py
     remove_all_temporary.py
 ```
 
@@ -82,7 +80,7 @@ pip install tomli
 
 📂`output` フォルダーに、消されてこまるファイルを置かないでください  
 
-1. ターミナルで `python.exe remove_all_output.py` コマンドを実行してください
+1. ターミナルで `python.exe debug.py --rmout` コマンドを実行してください
 2. 📂`output` フォルダーの中の 📄`*.kif` ファイルは削除されます
 3. 📂`output` フォルダーの中の 📄`*.kifu` ファイルは削除されます
 4. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
