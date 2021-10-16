@@ -10,7 +10,7 @@ def translate(source, destination, template, debug):
         # KIFUファイルをPIVOTへ変換します
         kifu2pivot = ReversibleConvertKifuToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
-        kifu2pivot.reversible_convert_kifu_to_pivot_ready()
+        kifu2pivot.ready_folder()
         for kifu_file in kifu2pivot.target_files():
             kifu2pivot.round_trip_translate(kifu_file)
         kifu2pivot.clean_temporary()
@@ -18,7 +18,7 @@ def translate(source, destination, template, debug):
         # KIFファイルをPIVOTへ変換します
         kif2pivot = ReversibleConvertKifToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
-        kif2pivot.reversible_convert_kif_to_pivot_ready()
+        kif2pivot.ready_folder()
         for kif_file in kif2pivot.target_files():
             kif2pivot.round_trip_translate(kif_file=kif_file)
         kif2pivot.clean_temporary()
@@ -27,7 +27,7 @@ def translate(source, destination, template, debug):
         # PIVOTファイルをKIFUへ変換します
         pivot2kifu = ReversibleConvertPivotToKifu(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
-        pivot2kifu.reversible_convert_pivot_to_kifu_ready()
+        pivot2kifu.ready_folder()
         for pivot_file in pivot2kifu.target_files():
             pivot2kifu.round_trip_translate(
                 pivot_file=pivot_file)
@@ -36,7 +36,7 @@ def translate(source, destination, template, debug):
         # PIVOTファイルをKIFへ変換します
         pivot2kif = ReversibleConvertPivotToKif(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
-        pivot2kif.reversible_convert_pivot_to_kif_ready()
+        pivot2kif.ready_folder()
         for pivot_file in pivot2kif.target_files():
             pivot2kif.round_trip_translate(
                 pivot_file=pivot_file)

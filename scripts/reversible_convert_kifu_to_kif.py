@@ -31,7 +31,7 @@ class ReversibleConvertKifuToKif():
         self._debug = debug
         self._no_remove_output_pivot = no_remove_output_pivot
 
-    def reversible_convert_kifu_to_kif_ready(self):
+    def ready_folder(self):
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
         if not self._debug:
             clear_all_records_in_folder(self._last_layer_folder, echo=False)
