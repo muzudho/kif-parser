@@ -2,7 +2,7 @@ import os
 import json
 import sys
 from collections import OrderedDict
-from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_row_p, \
+from scripts.kifu_specification import bookmark_row_p, \
     moves_header_row_p, \
     move_row_p, \
     key_value_pair_row_p, result_row_p
@@ -39,7 +39,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         if row_data["type"] == "comment":
             kifu_text += template.comment_row(row_data)
         elif row_data["type"] == "explain":
-            kifu_text += explain_row_p.from_pivot(row_data)
+            kifu_text += template.explain_row(row_data)
         elif row_data["type"] == "bookmark":
             kifu_text += bookmark_row_p.from_pivot(row_data)
         elif row_data["type"] == "movesHeader":

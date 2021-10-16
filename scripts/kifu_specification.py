@@ -49,19 +49,6 @@ class ExplainRowP():
         if comment:
             data[f'{row_number}']["comment"] = comment
 
-    def from_pivot(self, row_data):
-        s = ""
-
-        if "indent" in row_data:
-            s += row_data["indent"]
-
-        s += f'*{row_data["explain"]}'
-
-        if "comment" in row_data:
-            s += f'#{row_data["comment"]}'
-
-        return f'{s}\n'
-
 
 explain_row_p = ExplainRowP()
 
