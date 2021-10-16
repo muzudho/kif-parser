@@ -18,7 +18,7 @@
 2. ターミナルで `python.exe debug.py --tool kif2pivot` コマンドを実行してください
 3. JSON形式に変換して 📂`output` へ 📄`*[kifu-pivot].json` （PIVOT）が出力されます
 
-同様に、逆の操作として `python.exe kifu_to_pivot.py` というコマンドがあります
+同様に、逆の操作として `python.exe debug.py --tool kifu2pivot` というコマンドがあります
 
 ## PIVOT から KIF へ変換
 
