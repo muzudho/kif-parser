@@ -6,7 +6,6 @@ from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_file_to_folder import copy_file_to_folder
-from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -16,16 +15,16 @@ def reversible_convert_kif_to_kifu(debug=False):
     layer1_file_pattern = './input/*.kif'
 
     # (a) Layer 2. 入力フォルダ―のコピーフォルダー
-    layer2_folder = 'temporary/kif'
-    layer2_file_pattern = './temporary/kif/*.kif'
+    layer2_folder = 'temporary/no-pivot/kif'
+    layer2_file_pattern = './temporary/no-pivot/kif/*.kif'
 
     # (a) Layer 3. Pivotフォルダ―(なし)
 
     # (a) 中間Layer.
-    object_folder = 'temporary/object'
+    object_folder = 'temporary/no-pivot/object'
 
     # (a) Layer 4. 逆方向のフォルダ―
-    layer4_folder = 'temporary/reverse-kif'
+    layer4_folder = 'temporary/no-pivot/reverse-kif'
 
     # (a) 最終Layer.
     last_layer_folder = 'output'
@@ -78,7 +77,7 @@ def reversible_convert_kif_to_kifu(debug=False):
                 f"[WARNING] Irreversible conversion. basename={basename}")
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
-        move_file_to_folder(object_file, last_layer_folder)
+        copy_file_to_folder(object_file, last_layer_folder)
 
     # (i) 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:

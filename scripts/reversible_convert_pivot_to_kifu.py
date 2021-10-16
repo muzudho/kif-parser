@@ -14,16 +14,16 @@ def reversible_convert_pivot_to_kifu(debug=False, template_name=""):
     layer1_file_pattern = './input/*.json'
 
     # (a) Layer 2. 入力フォルダ―のコピーフォルダー
-    layer2_folder = 'temporary/pivot'
-    layer2_file_pattern = './temporary/pivot/*.json'
+    layer2_folder = 'temporary/from-pivot/pivot'
+    layer2_file_pattern = './temporary/from-pivot/pivot/*.json'
 
     # (a) Layer 3. Pivotフォルダ―(なし)
 
     # (a) 中間Layer.
-    middle_folder = 'temporary/object'
+    middle_folder = 'temporary/from-pivot/object'
 
     # (a) Layer 4. 逆方向のフォルダ―
-    layer4_folder = 'temporary/reverse-pivot'
+    layer4_folder = 'temporary/from-pivot/reverse-pivot'
 
     # (a) 最終Layer.
     last_layer_folder = 'output'

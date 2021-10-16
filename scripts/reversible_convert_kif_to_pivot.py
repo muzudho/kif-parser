@@ -17,17 +17,19 @@ def reversible_convert_kif_to_pivot(debug=False, template_name=""):
     layer1_file_pattern = './input/*.kif'
 
     # (a) Layer 2. 入力フォルダ―のコピーフォルダー
-    layer2_folder = 'temporary/kif'
-    layer2_file_pattern = './temporary/kif/*.kif'
+    layer2_folder = 'temporary/to-pivot/kif'
+    layer2_file_pattern = './temporary/to-pivot/kif/*.kif'
+
+    layer2b_folder = 'temporary/to-pivot/kifu'
 
     # (a) Layer 3. Pivotフォルダ―(なし)
 
     # (a) 中間Layer.
-    object_folder = 'temporary/object'
+    object_folder = 'temporary/to-pivot/object'
 
     # (a) Layer 4. 逆方向のフォルダ―
-    layer4_folder = 'temporary/reverse-kifu'
-    layer5_folder = 'temporary/reverse-kif'
+    layer4_folder = 'temporary/to-pivot/reverse-kifu'
+    layer5_folder = 'temporary/to-pivot/reverse-kif'
 
     # (a) 最終Layer.
     last_layer_folder = 'output'
@@ -51,7 +53,7 @@ def reversible_convert_kif_to_pivot(debug=False, template_name=""):
 
         # (d-1) Shift-JIS から UTF-8 へ変更
         kifu_file = convert_kif_to_kifu(
-            kif_file, output_folder='temporary/kifu')
+            kif_file, output_folder=layer2b_folder)
         if kifu_file is None:
             print(
                 f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-1) parse fail. kif_file={kif_file}")

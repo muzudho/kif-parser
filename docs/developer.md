@@ -13,15 +13,18 @@
     /scripts
         # このなかに ファイルを変換するプログラムが大量に入っています
     /temporary # このフォルダーの下で棋譜ファイルのコピー、編集、削除が行われます
-        /kif
-        /kifu
-        /pivot
-        /toml
-        /object # 中間ファイル
-        /reverse-kif # 可逆変換テスト
-        /reverse-kifu
-        /reverse-pivot
-        /reverse-toml
+        /from-pivot
+            /kif
+            /kifu
+            /pivot
+            /toml
+            /object # 中間ファイル
+            /reverse-kif # 可逆変換テスト
+            /reverse-kifu
+            /reverse-pivot
+            /reverse-toml
+        /to-pivot
+            # (from-pivotと同様)
 
     kif_to_kifu.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
     kif_to_pivot.py
@@ -50,14 +53,6 @@ pip install tomli
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
 2. ターミナルで `python.exe remove_all_temporary.py` コマンドを実行してください
-3. 📂`temporary/kif` フォルダーの中の 📄`*.kif` ファイルは削除されます
-4. 📂`temporary/kif-done` フォルダーの中の 📄`*.kif` ファイルは削除されます
-5. 📂`temporary/kifu` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-6. 📂`temporary/kifu-done` フォルダーの中の 📄`*.kifu` ファイルは削除されます
-7. 📂`temporary/pivot` フォルダーの中の 📄`*.json` ファイルは削除されます
-8. 📂`temporary/pivot-done` フォルダーの中の 📄`*.json` ファイルは削除されます
-9. 📂`temporary/toml` フォルダーの中の 📄`*.toml` ファイルは削除されます
-10. 📂`temporary/toml-done` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
 ## 出力ファイルを全部消す
 
@@ -68,13 +63,6 @@ pip install tomli
 3. 📂`output` フォルダーの中の 📄`*.kifu` ファイルは削除されます
 4. 📂`output` フォルダーの中の 📄`*.json` ファイルは削除されます
 5. 📂`output` フォルダーの中の 📄`*.toml` ファイルは削除されます
-
-## temporary/kif-done フォルダーから kif フォルダーへファイルを逆移動
-
-1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. 注意。これは壊れたファイルを元に戻す機能では **ありません**
-3. ターミナルで `python.exe undo_kif.py` コマンドを実行してください
-4. 📂`temporary/kifu-done` フォルダーにあるファイルが 📂`kifu` へ移動します
 
 ## 動作テスト .kif変換
 

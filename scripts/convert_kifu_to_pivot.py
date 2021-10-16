@@ -16,7 +16,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
     Parameters
     ----------
     output_folder : str
-        'temporary/pivot' か `output`
+        'temporary/to-pivot/pivot' か `temporary/to-pivot/output`
     """
 
     data = {}
