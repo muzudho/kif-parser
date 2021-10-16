@@ -113,10 +113,10 @@ def row_number_type(matched):
     `    "999": {`
     `    "9999": {`
     👆 元はインデントが4つですが、
-    `  "0": {`
-    ` "99": {`
-    `"999": {`
-    `"9999": {`
+    `  "0":{`
+    ` "99":{`
+    `"999":{`
+    `"9999":{`
     👆 スクリーンの縦幅に1000行も並べば十分と想定し、3桁以下の行番号が見やすくなるように整形します
     """
     global __row_number, __state, __subState, __text
@@ -125,7 +125,7 @@ def row_number_type(matched):
     if 4 < digits:
         digits = 3
     padding = "".ljust(3-digits)
-    __text += f'{padding}"{__row_number}": {{\n'
+    __text += f'{padding}"{__row_number}":{{\n'
 
 
 def comment_type(line):
