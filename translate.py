@@ -8,41 +8,39 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 def translate(source, destination, template, debug):
     if source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
-        reversible_convert_kifu_to_pivot = ReversibleConvertKifuToPivot(
+        kifu2pivot = ReversibleConvertKifuToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
-        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_ready()
-        for kifu_file in reversible_convert_kifu_to_pivot.target_files():
-            reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_one(
-                kifu_file)
-        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_clean()
+        kifu2pivot.reversible_convert_kifu_to_pivot_ready()
+        for kifu_file in kifu2pivot.target_files():
+            kifu2pivot.round_trip_translate(kifu_file)
+        kifu2pivot.reversible_convert_kifu_to_pivot_clean()
     else:
         # KIFファイルをPIVOTへ変換します
-        reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot(
+        kif2pivot = ReversibleConvertKifToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
-        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_ready()
-        for kif_file in reversible_convert_kif_to_pivot.target_files():
-            reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_one(
-                kif_file=kif_file)
-        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_clean()
+        kif2pivot.reversible_convert_kif_to_pivot_ready()
+        for kif_file in kif2pivot.target_files():
+            kif2pivot.round_trip_translate(kif_file=kif_file)
+        kif2pivot.reversible_convert_kif_to_pivot_clean()
 
     if destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
-        reversible_convert_pivot_to_kifu = ReversibleConvertPivotToKifu(
+        pivot2kifu = ReversibleConvertPivotToKifu(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
-        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_ready()
-        for pivot_file in reversible_convert_pivot_to_kifu.target_files():
-            reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_one(
-                pivot_file)
-        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_clean()
+        pivot2kifu.reversible_convert_pivot_to_kifu_ready()
+        for pivot_file in pivot2kifu.target_files():
+            pivot2kifu.round_trip_translate(
+                pivot_file=pivot_file)
+        pivot2kifu.reversible_convert_pivot_to_kifu_clean()
     else:
         # PIVOTファイルをKIFへ変換します
-        reversible_convert_pivot_to_kif = ReversibleConvertPivotToKif(
+        pivot2kif = ReversibleConvertPivotToKif(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
-        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_ready()
-        for pivot_file in reversible_convert_pivot_to_kif.target_files():
-            reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_one(
-                pivot_file)
-        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_clean()
+        pivot2kif.reversible_convert_pivot_to_kif_ready()
+        for pivot_file in pivot2kif.target_files():
+            pivot2kif.round_trip_translate(
+                pivot_file=pivot_file)
+        pivot2kif.reversible_convert_pivot_to_kif_clean()
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
