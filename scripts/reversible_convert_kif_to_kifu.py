@@ -48,11 +48,6 @@ class ReversibleConvertKifToKifu():
         for kif_file in kif_files:
             self.reversible_convert_kif_to_kifu_one(kif_file=kif_file)
 
-        # (i) 後ろから1. 変換の途中で作ったファイルは削除します
-        if not self._debug:
-            remove_all_temporary(
-                echo=False, no_remove_output_pivot=self._no_remove_output_pivot)
-
     def reversible_convert_kif_to_kifu_one(self, kif_file):
         # (c) レイヤー２にあるファイルの SHA256 生成
         layer2_file_sha256 = create_sha256_by_file_path(kif_file)
@@ -88,3 +83,9 @@ class ReversibleConvertKifToKifu():
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy_file_to_folder(object_file, self._last_layer_folder)
+
+    def reversible_convert_kif_to_kifu_clean(self):
+        # (i) 後ろから1. 変換の途中で作ったファイルは削除します
+        if not self._debug:
+            remove_all_temporary(
+                echo=False, no_remove_output_pivot=self._no_remove_output_pivot)

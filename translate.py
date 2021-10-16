@@ -12,12 +12,14 @@ def translate(source, destination, template, debug):
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
         reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_ready()
         reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot()
+        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_clean()
     else:
         # KIFファイルをPIVOTへ変換します
         reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
         reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_ready()
         reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot()
+        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_clean()
 
     if destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
@@ -25,12 +27,14 @@ def translate(source, destination, template, debug):
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
         reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_ready()
         reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu()
+        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_clean()
     else:
         # PIVOTファイルをKIFへ変換します
         reversible_convert_pivot_to_kif = ReversibleConvertPivotToKif(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_ready()
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif()
+        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_clean()
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

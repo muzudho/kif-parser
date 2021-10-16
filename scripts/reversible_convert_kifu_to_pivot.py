@@ -45,11 +45,6 @@ class ReversibleConvertKifuToPivot():
         for kifu_file in kifu_files:
             self.reversible_convert_kifu_to_pivot_one(kifu_file)
 
-        # (i) 後ろから1. 変換の途中で作ったファイルは削除します
-        if not self._debug:
-            remove_all_temporary(
-                echo=False, no_remove_output_pivot=self._no_remove_output_pivot)
-
     def reversible_convert_kifu_to_pivot_one(self, kifu_file):
 
         # (c) レイヤー２にあるファイルの SHA256 生成
@@ -91,3 +86,9 @@ class ReversibleConvertKifuToPivot():
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy_file_to_folder(object_file, self._last_layer_folder)
+
+    def reversible_convert_kifu_to_pivot_clean(self):
+        # (i) 後ろから1. 変換の途中で作ったファイルは削除します
+        if not self._debug:
+            remove_all_temporary(
+                echo=False, no_remove_output_pivot=self._no_remove_output_pivot)
