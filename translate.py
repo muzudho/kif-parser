@@ -7,6 +7,9 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 
 
 def translate(source, destination, template, debug):
+    if debug:
+        print(f"[DEBUG] translate.py translate(): to_pivot")
+
     if source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
         to_pivot = ReversibleConvertKifuToPivot(
@@ -24,6 +27,9 @@ def translate(source, destination, template, debug):
     for input_file in to_pivot.target_files():
         to_pivot.round_trip_translate(input_file)
     to_pivot.clean_temporary()
+
+    if debug:
+        print(f"[DEBUG] translate.py translate(): from_pivot")
 
     if destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
