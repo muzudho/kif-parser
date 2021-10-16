@@ -74,7 +74,9 @@ class ExplainRowP():
 explain_row_p = ExplainRowP()
 
 
-class BookmarkP():
+class BookmarkRowP():
+    """しおり行パーサー"""
+
     def __init__(self):
         # indent, bookmark, comment
         self._bookmark_statement = re.compile(r"^(\s*)\&([^#]*)#?(.*)?$")
@@ -110,7 +112,7 @@ class BookmarkP():
         return f'{s}\n'
 
 
-bookmark_p = BookmarkP()
+bookmark_row_p = BookmarkRowP()
 
 
 class KeyValuePairStatementP():
