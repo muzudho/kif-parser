@@ -72,16 +72,25 @@ explain_p = ExplanationP()
 
 class BookmarkP():
     def __init__(self):
-        self._bookmark_statement = re.compile(r"^(\s)*\&([^#]*)#?(.*)?$")
+        # indent, bookmark, comment
+        self._bookmark_statement = re.compile(r"^(\s*)\&([^#]*)#?(.*)?$")
 
     def match(self, line):
         return self._bookmark_statement.match(line)
 
-    def to_pivot(self, data, row_number, bookmark):
+    def to_pivot(self, data, row_number, indent, bookmark, comment):
         data[f'{row_number}'] = {
             "type": "bookmark",
-            "bookmark": f"{bookmark}",
         }
+
+        if indent:
+            data[f'{row_number}']["indent"] = indent
+
+        if bookmark:
+            data[f'{row_number}']["bookmark"] = bookmark
+
+        if comment:
+            data[f'{row_number}']["comment"] = comment
 
     def from_pivot(self, row_data):
         s = ""

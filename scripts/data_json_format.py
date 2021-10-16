@@ -42,7 +42,7 @@ def format_data_json(text):
             # 行番号
             # =====
             row_number_type(row_number_matched)
-        elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>" or __state == "<Result>":
+        elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>" or __state == "<Bookmark>" or __state == "<Result>":
             result_type(line)
         elif __state == "<Move>":
             if __subState == "<Move.Move>":
@@ -108,6 +108,13 @@ def format_data_json(text):
                 if matched:
                     type_type(matched)
                     __state = "<Explain>"
+                else:
+                    raise ValueError(line)
+            elif line == '        "type": "bookmark",':
+                matched = __type_pattern.match(line)
+                if matched:
+                    type_type(matched)
+                    __state = "<Bookmark>"
                 else:
                     raise ValueError(line)
             elif line == '        "type": "move",':

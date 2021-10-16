@@ -178,11 +178,13 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             row_number += 1
             continue
 
-        # しおりの解析
+        # Bookmark（しおり）
         result = bookmark_p.match(line)
         if result:
-            bookmark = result.group(1)
-            bookmark_p.to_pivot(data, row_number, bookmark)
+            indent = result.group(1)
+            bookmark = result.group(2)
+            comment = result.group(3)
+            bookmark_p.to_pivot(data, row_number, indent, bookmark, comment)
             row_number += 1
             continue
 
