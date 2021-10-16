@@ -13,9 +13,9 @@ def translate(source, destination, template, debug):
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
     else:
         # KIFファイルをPIVOTへ変換します
-        reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot()
-        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot(
+        reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
+        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot()
 
     if destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
