@@ -55,7 +55,7 @@ class ReversibleConvertKifToKifu():
 
         # (d-1) 目的のファイル（KIFU UTF-8）へ変換
         object_file = convert_kif_to_kifu(
-            input_file, output_folder=self._object_folder)
+            input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
                 f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): (d-1) parse fail. input_file=[{input_file}]")

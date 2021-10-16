@@ -1,10 +1,9 @@
-import shutil
 import os
 import codecs
 import sys
 
 
-def convert_kif_to_kifu(kif_file, output_folder):
+def convert_kif_to_kifu(kif_file, output_folder, debug=False):
     """(1) kif_file(*.kif)ファイルを読み取ります
     (2) *.kifuファイルを output_folder へ生成します
 
@@ -34,10 +33,13 @@ def convert_kif_to_kifu(kif_file, output_folder):
         # Append new extention
         out_path = os.path.join(output_folder, f"{stem}.kifu")
 
-        with codecs.open(out_path, "w", encoding='utf-8') as fOut:
+        if debug:
+            print(
+                f"[DEBUG] convert_kif_to_kifu.py convert_kif_to_kifu(): Write to [{out_path}]")
+        with codecs.open(out_path, "w", encoding='utf-8') as f_out:
 
             # UTF-8形式に変換して保存
             for row in f:
-                fOut.write(row)
+                f_out.write(row)
 
     return out_path
