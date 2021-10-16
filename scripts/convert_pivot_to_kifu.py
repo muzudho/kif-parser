@@ -2,9 +2,6 @@ import os
 import json
 import sys
 from collections import OrderedDict
-from scripts.kifu_specification import moves_header_row_p, \
-    move_row_p, \
-    key_value_pair_row_p, result_row_p
 from scripts.shogidokoro_template import ShogidokoroTemplate
 
 
@@ -48,7 +45,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "kvPair":
             kifu_text += template.key_value_pair_row(row_data)
         elif row_data["type"] == "result":
-            kifu_text += result_row_p.from_pivot(row_data)
+            kifu_text += template.result_row(row_data)
         elif row_data["type"] == "metadata":
             # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
             pass
