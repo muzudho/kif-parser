@@ -33,6 +33,7 @@ def translate(source, destination, template, debug):
 
     # 最終フォルダーを掃除
     to_pivot.clean_last_layer_folder()
+    from_pivot.clean_last_layer_folder()
 
     for input_file in to_pivot.outside_input_files():
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
@@ -42,13 +43,8 @@ def translate(source, destination, template, debug):
         # レイヤー２フォルダーにあるファイルを往復翻訳します
         to_pivot.round_trip_translate(next_file)
 
-    # 一時フォルダーを掃除
-    to_pivot.clean_temporary()
-
     if debug:
         print(f"[DEBUG] translate.py translate(): from_pivot")
-
-    from_pivot.clean_last_layer_folder()
 
     for input_file in from_pivot.outside_input_files():
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
