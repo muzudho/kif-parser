@@ -6,7 +6,7 @@
 ## KIF から KIFU へ変換（またその逆）
 
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
+2. ターミナルで `python.exe debug.py --tool kif2kifu` コマンドを実行してください
 3. 📄`input/*.kif` は UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
 
 同様に、逆の操作として `python.exe kifu_to_kif.py` というコマンドがあります  
@@ -56,8 +56,8 @@
         /to-pivot
             # (from-pivotと同様)
 
-    kif_to_kifu.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
-    kif_to_pivot.py
+    debug.py
+    kif_to_pivot.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
     kif_to_toml.py
     kifu_to_kif.py
     kifu_to_pivot.py

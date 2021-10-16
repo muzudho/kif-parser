@@ -1,17 +1,21 @@
 import argparse
 from scripts.reversible_convert_kif_to_kifu import reversible_convert_kif_to_kifu
 
+"""使い方
+
+python.exe debug.py --tool kif2kifu
+"""
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
 
-    # Description
-    parser = argparse.ArgumentParser(
-        description='Convert from .kif file to .kifu file.')
+    parser = argparse.ArgumentParser(description='Debug tool.')
     # `--` - Option arg
     # `action='store_true'` - Flag
     parser.add_argument(
-        '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
+        '--tool', help='"kif2kifu".')
     args = parser.parse_args()
 
-    reversible_convert_kif_to_kifu(debug=args.debug)
+    if args.tool == "kif2kifu":
+        # KIF to KIFU
+        reversible_convert_kif_to_kifu(debug=True)
