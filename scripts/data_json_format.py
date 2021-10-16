@@ -19,7 +19,7 @@ __time_number_pattern = re.compile(r'^            (\d+)(,?)$')
 # Example: `            "src": 87`
 # 👆元。末尾にカンマが付くこともあります。値がダブルクォーテーションで囲まれていないこともあります
 # 値の部分は 半角スペースもダブルクォーテーションも入ってくるから最長マッチ（+?）がうまくいってほしい
-__comment_pattern = re.compile(r'\s*"(\w+)": ("?.+?"?)(,?)$')
+__property_pattern = re.compile(r'\s*"(\w+)": ("?.+?"?)(,?)$')
 # 閉じ } かっこ
 __end_breath = re.compile(r'\s*}}(,?)')
 
@@ -66,15 +66,15 @@ def format_data_json(text):
                     __text += f'"num":{spaces}"{num}",'
             elif line == '        "m": {':
                 __text = __text.rstrip()
-                __text += f"{line.lstrip()}"
+                __text += '"m":{'
                 __subState = "<Move.Move>"
             elif line == '        "time": [':
                 __text = __text.rstrip()
-                __text += f"{line.lstrip()}"
+                __text += '"time":['
                 __subState = "<Move.Time>"
             elif line == '        "total": [':
-                # 上の行にある Time の右にくっつくようにします
-                __text += f"{line.lstrip()}"
+                __text = __text.rstrip()
+                __text += '"total":['
                 __subState = "<Move.Total>"
             elif line == '    },':
                 # おわり
@@ -182,7 +182,7 @@ def comment_type(line):
         __text += f"{line.lstrip()}\n"
         __state = "<None>"
     else:
-        matched = __comment_pattern.match(line)
+        matched = __property_pattern.match(line)
         if matched:
             key = matched.group(1)
             value = matched.group(2)
@@ -208,8 +208,7 @@ def move_move_type(line):
         __text += f"{line.lstrip()}\n"
         __subState = "<None>"
     else:
-        print(f"Move.Move [{line}]")
-        matched = __comment_pattern.match(line)
+        matched = __property_pattern.match(line)
         if matched:
             key = matched.group(1)
             value = matched.group(2)
@@ -217,7 +216,6 @@ def move_move_type(line):
             __text += f'"{key}":{value}{comma}'
         else:
             raise ValueError(f"<Move.Move>Type No matched. [{line}]")
-        # __text += f"{line.lstrip()} "
 
 
 def move_time_type(line):
