@@ -2,8 +2,7 @@ import os
 import json
 import sys
 from collections import OrderedDict
-from scripts.kifu_specification import bookmark_row_p, \
-    moves_header_row_p, \
+from scripts.kifu_specification import moves_header_row_p, \
     move_row_p, \
     key_value_pair_row_p, result_row_p
 from scripts.shogidokoro_template import ShogidokoroTemplate
@@ -41,7 +40,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "explain":
             kifu_text += template.explain_row(row_data)
         elif row_data["type"] == "bookmark":
-            kifu_text += bookmark_row_p.from_pivot(row_data)
+            kifu_text += template.bookmark_row(row_data)
         elif row_data["type"] == "movesHeader":
             kifu_text += moves_header_row_p.from_pivot(row_data)
         elif row_data["type"] == "move":

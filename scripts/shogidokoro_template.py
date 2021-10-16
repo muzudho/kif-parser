@@ -22,3 +22,16 @@ class ShogidokoroTemplate():
             s += f'#{row_data["comment"]}'
 
         return f'{s}\n'
+
+    def bookmark_row(self, row_data):
+        s = ""
+
+        if "indent" in row_data:
+            s += row_data["indent"]
+
+        s += f'&{row_data["bookmark"]}'
+
+        if "comment" in row_data:
+            s += f'#{row_data["comment"]}'
+
+        return f'{s}\n'
