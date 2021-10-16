@@ -42,36 +42,48 @@ if __name__ == "__main__":
         # KIF to KIFU
         reversible_convert_kif_to_kifu = ReversibleConvertKifToKifu(debug=True)
         reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu_ready()
-        reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu()
-        reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu_clean()
+        for kif_file in reversible_convert_kif_to_kifu.target_files():
+            reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu_one(
+                kif_file=kif_file)
+            reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu_clean()
     elif args.tool == "kif2pivot":
-        reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot()
-        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_ready()
-        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot(
+        reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot(
             debug=True)
+        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_ready()
+        for kif_file in reversible_convert_kif_to_pivot.target_files():
+            reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_one(
+                kif_file=kif_file)
         reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_clean()
     elif args.tool == "kifu2kif":
         reversible_convert_kifu_to_kif = ReversibleConvertKifuToKif(debug=True)
         reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif_ready()
-        reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif()
+        for kifu_file in reversible_convert_kifu_to_kif.target_files():
+            reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif_one(
+                kifu_file)
         reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif_clean()
     elif args.tool == "kifu2pivot":
         reversible_convert_kifu_to_pivot = ReversibleConvertKifuToPivot(
             debug=True)
         reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_ready()
-        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot()
+        for kifu_file in reversible_convert_kifu_to_pivot.target_files():
+            reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_one(
+                kifu_file)
         reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_clean()
     elif args.tool == "pivot2kif":
         reversible_convert_pivot_to_kif = ReversibleConvertPivotToKif(
             debug=True)
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_ready()
-        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif()
+        for pivot_file in reversible_convert_pivot_to_kif.target_files():
+            reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_one(
+                pivot_file)
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_clean()
     elif args.tool == "pivot2kifu":
         reversible_convert_pivot_to_kifu = ReversibleConvertPivotToKifu(
             debug=True)
         reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_ready()
-        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu()
+        for pivot_file in reversible_convert_pivot_to_kifu.target_files():
+            reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_one(
+                pivot_file)
         reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_clean()
 
     if args.rmout:

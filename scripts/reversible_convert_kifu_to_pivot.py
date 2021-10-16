@@ -43,10 +43,6 @@ class ReversibleConvertKifuToPivot():
         """レイヤー２にあるファイルのリスト"""
         return glob.glob(self._layer2_file_pattern)
 
-    def reversible_convert_kifu_to_pivot(self):
-        for kifu_file in self.target_files():
-            self.reversible_convert_kifu_to_pivot_one(kifu_file)
-
     def reversible_convert_kifu_to_pivot_one(self, kifu_file):
 
         # (c) レイヤー２にあるファイルの SHA256 生成
