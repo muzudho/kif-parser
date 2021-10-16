@@ -11,6 +11,8 @@ python.exe debug.py --rmout
 python.exe debug.py --rmtmp
 """
 import argparse
+from scripts.change_place import change_place
+from scripts.copy_file import copy_file
 from scripts.reversible_convert_kif_to_kifu import ReversibleConvertKifToKifu
 from scripts.reversible_convert_kif_to_pivot import ReversibleConvertKifToPivot
 from scripts.reversible_convert_kifu_to_kif import ReversibleConvertKifuToKif
@@ -20,7 +22,6 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.remove_all_input import remove_all_input
-from scripts.copy_file_to_folder import copy_file_to_folder
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
@@ -59,7 +60,8 @@ if __name__ == "__main__":
         conv.clean_last_layer_folder()
 
         for input_file in conv.outside_input_files():
-            copy_file_to_folder(input_file, conv.layer2_folder, debug=True)
+            copy = change_place(conv.layer2_folder, input_file)
+            copy_file(input_file, copy, debug=True)
 
         for input_file in conv.target_files():
             conv.round_trip_translate(input_file)

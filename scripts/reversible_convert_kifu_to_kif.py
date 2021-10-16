@@ -1,10 +1,11 @@
 import glob
 import os
+from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
+from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
-from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -87,8 +88,8 @@ class ReversibleConvertKifuToKif():
                 f"[WARNING] Irreversible conversion. basename={basename}")
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
-        copy_file_to_folder(
-            object_file, self._last_layer_folder, debug=self._debug)
+        copy = change_place(self._last_layer_folder, object_file)
+        copy_file(object_file, copy, debug=self._debug)
 
     def clean_temporary(self):
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します
