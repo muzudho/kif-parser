@@ -26,7 +26,7 @@
 2. ターミナルで `python.exe debug.py --tool pivot2kif` コマンドを実行してください
 3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
 
-同様に、逆の操作として `python.exe pivot_to_kifu.py` というコマンドがあります
+同様に、逆の操作として `python.exe debug.py --tool pivot2kifu` というコマンドがあります
 
 # 以前の記事
 
