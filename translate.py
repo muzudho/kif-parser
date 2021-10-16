@@ -4,6 +4,27 @@ from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_
 from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
 from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
 
+
+def translate(source, destination, template, debug):
+    if source == 'kifu':
+        # KIFUファイルをPIVOTへ変換します
+        reversible_convert_kifu_to_pivot(
+            debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
+    else:
+        # KIFファイルをPIVOTへ変換します
+        reversible_convert_kif_to_pivot(
+            debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
+
+    if destination == 'kifu':
+        # PIVOTファイルをKIFUへ変換します
+        reversible_convert_pivot_to_kifu(
+            debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
+    else:
+        # PIVOTファイルをKIFへ変換します
+        reversible_convert_pivot_to_kif(
+            debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
+
+
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
     """
@@ -34,20 +55,5 @@ if __name__ == "__main__":
     print(f"-d {args.destination}")
     print(f"-t {args.template}")
 
-    if args.source == 'kifu':
-        # KIFUファイルをPIVOTへ変換します
-        reversible_convert_kifu_to_pivot(
-            debug=args.debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=args.template)
-    else:
-        # KIFファイルをPIVOTへ変換します
-        reversible_convert_kif_to_pivot(
-            debug=args.debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=args.template)
-
-    if args.destination == 'kifu':
-        # PIVOTファイルをKIFUへ変換します
-        reversible_convert_pivot_to_kifu(
-            debug=args.debug, first_layer_folder='./temporary/output-pivot', template_name=args.template)
-    else:
-        # PIVOTファイルをKIFへ変換します
-        reversible_convert_pivot_to_kif(
-            debug=args.debug, first_layer_folder='./temporary/output-pivot', template_name=args.template)
+    translate(source=args.source, destination=args.destination,
+              template=args.template, debug=args.debug)
