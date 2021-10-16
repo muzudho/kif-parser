@@ -1,5 +1,5 @@
 import argparse
-from scripts.reverse_convert_pivot_to_kifu import reverse_convert_pivot_to_kifu
+from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
@@ -13,4 +13,4 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
-    reverse_convert_pivot_to_kifu(debug=args.debug)
+    reversible_convert_pivot_to_kifu(debug=args.debug)
