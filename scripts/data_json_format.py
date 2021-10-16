@@ -26,14 +26,11 @@ def format_data_json(text):
         # [Debug]
         # __text += f"{__state} {__subState}"
 
-        result = __row_number_pattern.match(line)
-        if result:
+        row_number_matched = __row_number_pattern.match(line)
+        if row_number_matched:
             # 行番号
             # =====
-            __row_number = int(result.group(1))
-            digits = number_digits(__row_number)
-            padding = "".ljust(5-digits)
-            __text += f'    {padding}"{__row_number}": {{\n'
+            row_number_type(row_number_matched)
         elif line == "}":
             # 最後の閉じかっこ
             __text += f"\n{line.lstrip()}"
@@ -104,6 +101,31 @@ def format_data_json(text):
         # print(f"[line] {line}")
     # print(f"[__text] {__text}")
     return __text
+
+
+def row_number_type(matched):
+    """json.dumps()で整形されたテキストに含まれる行番号の行を再整形します
+
+    Examples
+    --------
+    `    "0": {`
+    `    "99": {`
+    `    "999": {`
+    `    "9999": {`
+    👆 元はインデントが4つですが、
+    `  "0": {`
+    ` "99": {`
+    `"999": {`
+    `"9999": {`
+    👆 スクリーンの縦幅に1000行も並べば十分と想定し、3桁以下の行番号が見やすくなるように整形します
+    """
+    global __row_number, __state, __subState, __text
+    __row_number = int(matched.group(1))
+    digits = number_digits(__row_number)
+    if 4 < digits:
+        digits = 3
+    padding = "".ljust(3-digits)
+    __text += f'{padding}"{__row_number}": {{\n'
 
 
 def comment_type(line):
