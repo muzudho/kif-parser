@@ -242,7 +242,10 @@ class MoveRowP():
         末尾にコメントが打てる
         """
         self._move_row = re.compile(
-            r"^\s*(\d+)\s+([^ ]+)\s*\(?\s*([0-9:]+)?\s*/?\s*([0-9:]+)?\s*\)?(.*)#?(.*)?$")
+            r"^\s*(\d+)\s+([^ ]+)\s*\(?\s*([0-9:]+)?\s*/?\s*([0-9:]+)?\s*\)?\s*#?(.*)?$")
+        #         -----   -------    --------------         ---------            ----
+        #         1       2          3                      4                    5
+        #         num     move       time                   total                comment
 
     def match(self, line):
         return self._move_row.match(line)
