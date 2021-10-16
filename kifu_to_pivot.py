@@ -6,7 +6,6 @@ from remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.copy_file_to_folder import copy_file_to_folder
-from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -33,8 +32,7 @@ def __main(debug=False):
     last_layer_folder = 'output'
 
     # 1. 最終レイヤーの フォルダー を空っぽにします
-    if not debug:
-        clear_all_records_in_folder(last_layer_folder, echo=False)
+    clear_all_records_in_folder(last_layer_folder, echo=False)
 
     # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
     input_files = glob.glob(layer1_file_pattern)
@@ -82,8 +80,8 @@ def __main(debug=False):
                 f"WARNING: Irreversible conversion. basename={basename}")
             # continue
 
-        # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
-        move_file_to_folder(pivot_file, last_layer_folder)
+        # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
+        copy_file_to_folder(pivot_file, last_layer_folder)
 
     # 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
