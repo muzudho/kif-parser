@@ -106,11 +106,12 @@ def format_data_json(text):
                 else:
                     raise ValueError(line)
             elif line == '        "type": "move",':
-                # 上の行にくる `    "7": {` といったものの右にくっつき、
-                # 下の行にくる num を右にくっつけます
-                __text = __text.rstrip()
-                __text += f"{line.strip()} "
-                __state = "<Move>"
+                matched = __type_pattern.match(line)
+                if matched:
+                    type_type(matched)
+                    __state = "<Move>"
+                else:
+                    raise ValueError(line)
             else:
                 __text += f"{line}\n"
         # print(f"[line] {line}")
