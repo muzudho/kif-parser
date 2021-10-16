@@ -16,7 +16,7 @@ from scripts.reversible_convert_kif_to_pivot import ReversibleConvertKifToPivot
 from scripts.reversible_convert_kifu_to_kif import ReversibleConvertKifuToKif
 from scripts.reversible_convert_kifu_to_pivot import ReversibleConvertKifuToPivot
 from scripts.reversible_convert_pivot_to_kif import ReversibleConvertPivotToKif
-from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
+from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKifu
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.remove_all_input import remove_all_input
@@ -58,7 +58,9 @@ if __name__ == "__main__":
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif(
             debug=True)
     elif args.tool == "pivot2kifu":
-        reversible_convert_pivot_to_kifu(debug=True)
+        reversible_convert_pivot_to_kifu = ReversibleConvertPivotToKifu()
+        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu(
+            debug=True)
 
     if args.rmout:
         clear_all_records_in_folder('output')

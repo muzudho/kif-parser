@@ -8,81 +8,86 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def reversible_convert_pivot_to_kifu(debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
+class ReversibleConvertPivotToKifu():
+    def __init__(self):
+        pass
 
-    # (a) Layer 1. 入力フォルダ―
-    first_layer_file_pattern = os.path.join(first_layer_folder, '*.json')
+    def reversible_convert_pivot_to_kifu(self, debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
 
-    # (a) Layer 2. 入力フォルダ―のコピーフォルダー
-    layer2_folder = 'temporary/from-pivot/pivot'
-    layer2_file_pattern = './temporary/from-pivot/pivot/*.json'
+        # (a) Layer 1. 入力フォルダ―
+        first_layer_file_pattern = os.path.join(first_layer_folder, '*.json')
 
-    # (a) Layer 3. Pivotフォルダ―(なし)
+        # (a) Layer 2. 入力フォルダ―のコピーフォルダー
+        layer2_folder = 'temporary/from-pivot/pivot'
+        layer2_file_pattern = './temporary/from-pivot/pivot/*.json'
 
-    # (a) 中間Layer.
-    middle_folder = 'temporary/from-pivot/object'
+        # (a) Layer 3. Pivotフォルダ―(なし)
 
-    # (a) Layer 4. 逆方向のフォルダ―
-    layer4_folder = 'temporary/from-pivot/reverse-pivot'
+        # (a) 中間Layer.
+        middle_folder = 'temporary/from-pivot/object'
 
-    # (a) 最終Layer.
-    last_layer_folder = 'output'
+        # (a) Layer 4. 逆方向のフォルダ―
+        layer4_folder = 'temporary/from-pivot/reverse-pivot'
 
-    # (b-1) 最終レイヤーの フォルダー を空っぽにします
-    clear_all_records_in_folder(last_layer_folder, echo=False)
+        # (a) 最終Layer.
+        last_layer_folder = 'output'
 
-    # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-    input_files = glob.glob(first_layer_file_pattern)
-    for input_file in input_files:
-        copy_file_to_folder(input_file, layer2_folder)
+        # (b-1) 最終レイヤーの フォルダー を空っぽにします
+        clear_all_records_in_folder(last_layer_folder, echo=False)
 
-    # (b-3) レイヤー２にあるファイルのリスト
-    pivot_files = glob.glob(layer2_file_pattern)
+        # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
+        input_files = glob.glob(first_layer_file_pattern)
+        for input_file in input_files:
+            copy_file_to_folder(input_file, layer2_folder)
 
-    for pivot_file in pivot_files:
+        # (b-3) レイヤー２にあるファイルのリスト
+        pivot_files = glob.glob(layer2_file_pattern)
 
-        # (c) レイヤー２にあるファイルの SHA256 生成
-        layer2_file_sha256 = create_sha256_by_file_path(pivot_file)
+        for pivot_file in pivot_files:
 
-        # (d-1) 目的のファイル（KIFU）へ変換
-        object_file = convert_pivot_to_kifu(
-            pivot_file, output_folder=middle_folder, template_name=template_name)
-        if object_file is None:
-            print(
-                f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (d-1) parse fail. pivot_file={pivot_file}")
-            continue
+            # (c) レイヤー２にあるファイルの SHA256 生成
+            layer2_file_sha256 = create_sha256_by_file_path(pivot_file)
 
-        # ここから逆の操作を行います
-
-        # (e-1)
-        reversed_pivot_file = convert_kifu_to_pivot(
-            object_file, output_folder=layer4_folder)
-        if reversed_pivot_file is None:
-            print(
-                f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (e-1) parse fail. object_file={object_file}")
-            continue
-
-        # (f) レイヤー４にあるファイルの SHA256 生成
-        layer4_file_sha256 = create_sha256_by_file_path(reversed_pivot_file)
-
-        # (g) 一致比較
-        if layer2_file_sha256 != layer4_file_sha256:
-            try:
-                basename = os.path.basename(pivot_file)
-            except:
+            # (d-1) 目的のファイル（KIFU）へ変換
+            object_file = convert_pivot_to_kifu(
+                pivot_file, output_folder=middle_folder, template_name=template_name)
+            if object_file is None:
                 print(
-                    f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (g) pivot_file={pivot_file} except={os.system.exc_info()[0]}")
-                raise
+                    f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (d-1) parse fail. pivot_file={pivot_file}")
+                continue
 
-            # 不可逆な変換だが、とりあえず通します
-            print(
-                f"[WARNING] Irreversible conversion. basename={basename}")
-            # continue
+            # ここから逆の操作を行います
 
-        # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
-        copy_file_to_folder(object_file, last_layer_folder)
+            # (e-1)
+            reversed_pivot_file = convert_kifu_to_pivot(
+                object_file, output_folder=layer4_folder)
+            if reversed_pivot_file is None:
+                print(
+                    f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (e-1) parse fail. object_file={object_file}")
+                continue
 
-    # (i) 後ろから1. 変換の途中で作ったファイルは削除します
-    if not debug:
-        remove_all_temporary(
-            echo=False, no_remove_output_pivot=no_remove_output_pivot)
+            # (f) レイヤー４にあるファイルの SHA256 生成
+            layer4_file_sha256 = create_sha256_by_file_path(
+                reversed_pivot_file)
+
+            # (g) 一致比較
+            if layer2_file_sha256 != layer4_file_sha256:
+                try:
+                    basename = os.path.basename(pivot_file)
+                except:
+                    print(
+                        f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (g) pivot_file={pivot_file} except={os.system.exc_info()[0]}")
+                    raise
+
+                # 不可逆な変換だが、とりあえず通します
+                print(
+                    f"[WARNING] Irreversible conversion. basename={basename}")
+                # continue
+
+            # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
+            copy_file_to_folder(object_file, last_layer_folder)
+
+        # (i) 後ろから1. 変換の途中で作ったファイルは削除します
+        if not debug:
+            remove_all_temporary(
+                echo=False, no_remove_output_pivot=no_remove_output_pivot)
