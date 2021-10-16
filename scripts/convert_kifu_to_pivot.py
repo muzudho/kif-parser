@@ -47,7 +47,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         "type": "metadata",
         "generatingSoftwareIsProbably": {
             "shogidokoro": shogi_dokoro,
-            "shogi-gui": shogi_gui,
+            "shogiGui": shogi_gui,
         }
     }
 

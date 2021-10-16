@@ -3,6 +3,7 @@ import json
 import sys
 from collections import OrderedDict
 from scripts.shogidokoro_template import ShogidokoroTemplate
+from scripts.shogigui_template import ShogiguiTemplate
 
 
 def convert_pivot_to_kifu(pivot_file, output_folder):
@@ -26,7 +27,10 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
     # .kifu テキストを作ります
     kifu_text = ""
 
-    # ビュー
+    best_rate = 0
+    shogidokoro_rate = 1
+    shogigui_rate = 0
+    # 将棋所テンプレート（デフォルト）
     template = ShogidokoroTemplate()
 
     # 行パーサーです
@@ -47,8 +51,24 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "result":
             kifu_text += template.result_row(row_data)
         elif row_data["type"] == "metadata":
-            # 元の `.kifu` には無い、このアプリケーションが付けた情報なので、無視します
-            pass
+            generating_software_is_probably = row_data["generatingSoftwareIsProbably"]
+            if "shogidokoro" in generating_software_is_probably:
+                shogidokoro_rate = int(
+                    generating_software_is_probably["shogidokoro"])
+                # 将棋所テンプレート
+                if best_rate < shogidokoro_rate:
+                    print(f"[DEBUG] 将棋所テンプレートに変えます")
+                    template = ShogidokoroTemplate()
+                    best_rate = shogidokoro_rate
+
+            if "shogiGui" in generating_software_is_probably:
+                shogigui_rate = int(
+                    generating_software_is_probably["shogiGui"])
+                # ShogiGUIテンプレート
+                if best_rate < shogigui_rate:
+                    print(f"[DEBUG] ShogiGUIテンプレートに変えます")
+                    template = ShogiguiTemplate()
+                    best_rate = shogigui_rate
         else:
             # Error
             print(
