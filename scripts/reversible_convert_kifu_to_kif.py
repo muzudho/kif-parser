@@ -54,7 +54,7 @@ class ReversibleConvertKifuToKif():
 
         # (d-1) 目的のファイル（KIF Shift-JIS）へ変換
         object_file = convert_kifu_to_kif(
-            input_file, output_folder=self._object_folder)
+            input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
                 f"[ERROR] reversible_convert_kifu_to_kif.py reversible_convert_kifu_to_kif(): Parse fail. input_file={input_file}")

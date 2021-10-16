@@ -85,7 +85,7 @@ class ReversibleConvertKifToPivot():
 
         # (e-2) Shift-JIS から UTF-8 へ変更
         reversed_kif_file = convert_kifu_to_kif(
-            reversed_kifu_file, output_folder=self._layer5_folder)
+            reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
         if reversed_kif_file is None:
             print(
                 f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-2) parse fail. reversed_kifu_file={reversed_kifu_file}")

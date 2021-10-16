@@ -65,7 +65,7 @@ class ReversibleConvertKifToKifu():
 
         # (e-1) UTF-8 から Shift-JIS へ変換
         reversed_kif_file = convert_kifu_to_kif(
-            object_file, output_folder=self._layer4_folder)
+            object_file, output_folder=self._layer4_folder, debug=self._debug)
 
         # (f) レイヤー４にあるファイルの SHA256 生成
         layer4_file_sha256 = create_sha256_by_file_path(reversed_kif_file)
