@@ -12,7 +12,7 @@ python.exe debug.py --rmtmp
 """
 import argparse
 from scripts.reversible_convert_kif_to_kifu import ReversibleConvertKifToKifu
-from scripts.reversible_convert_kif_to_pivot import reversible_convert_kif_to_pivot
+from scripts.reversible_convert_kif_to_pivot import ReversibleConvertKifToPivot
 from scripts.reversible_convert_kifu_to_kif import reversible_convert_kifu_to_kif
 from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_pivot
 from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
@@ -43,7 +43,9 @@ if __name__ == "__main__":
         reversible_convert_kif_to_kifu = ReversibleConvertKifToKifu(debug=True)
         reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu()
     elif args.tool == "kif2pivot":
-        reversible_convert_kif_to_pivot(debug=True)
+        reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot()
+        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot(
+            debug=True)
     elif args.tool == "kifu2kif":
         reversible_convert_kifu_to_kif(debug=True)
     elif args.tool == "kifu2pivot":
