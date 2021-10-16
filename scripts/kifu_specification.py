@@ -135,21 +135,33 @@ class KeyValuePairStatementP():
 
         data[f'{row_number}'] = dict
 
-    def from_pivot(self, key, value, comment):
-        s = ""
+    def from_pivot(self, row_data):
+        key = row_data["key"]
+
+        if "value" in row_data:
+            value = row_data["value"]
+        else:
+            value = None
+
+        if "comment" in row_data:
+            comment = row_data["comment"]
+        else:
+            comment = None
+
+        text = ""
 
         if key:
-            s += key
+            text += key
 
-        s += "："
+        text += "："
 
         if value:
-            s += value
+            text += value
 
         if comment:
-            s += f"#{comment}"
+            text += f"#{comment}"
 
-        return f"{s}\n"
+        return f"{text}\n"
 
 
 key_value_pair_statement_p = KeyValuePairStatementP()

@@ -42,24 +42,8 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             kifu_text += moves_header_statement_p.from_pivot(row_data)
         elif row_data["type"] == "move":
             kifu_text += move_statement_p.from_pivot(row_data)
-
-        # Key-value pair
         elif row_data["type"] == "kvPair":
-            key = row_data["key"]
-
-            if "value" in row_data:
-                value = row_data["value"]
-            else:
-                value = None
-
-            if "comment" in row_data:
-                comment = row_data["comment"]
-            else:
-                comment = None
-
-            kifu_text += key_value_pair_statement_p.from_pivot(
-                key, value, comment)
-
+            kifu_text += key_value_pair_statement_p.from_pivot(row_data)
         elif row_data["type"] == "result":
             if "reason" in row_data:
                 # Example: `まで52手で時間切れにより後手の勝ち`

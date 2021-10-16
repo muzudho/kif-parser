@@ -186,8 +186,8 @@ def convert_pivot_to_toml(pivot_file, output_folder):
             else:
                 comment = None
 
-            buffer += key_value_pair_statement_p.from_pivot(
-                row_number, key, value, comment)
+            buffer += key_value_pair_statement_p.from_pivot(row_data,
+                                                            row_number, key, value, comment)
 
             pre_section_type = "<GAMEINFO>"
 
