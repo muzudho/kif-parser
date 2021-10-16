@@ -1,3 +1,7 @@
+"""
+WIP
+まだできていません
+"""
 import glob
 from remove_all_output import clear_all_records_in_folder
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
