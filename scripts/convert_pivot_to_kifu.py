@@ -3,7 +3,7 @@ import json
 import sys
 from collections import OrderedDict
 from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_row_p, \
-    moves_header_statement_p, \
+    moves_header_row_p, \
     move_statement_p, \
     key_value_pair_row_p, result_statement_p
 
@@ -39,7 +39,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "bookmark":
             kifu_text += bookmark_row_p.from_pivot(row_data)
         elif row_data["type"] == "movesHeader":
-            kifu_text += moves_header_statement_p.from_pivot(row_data)
+            kifu_text += moves_header_row_p.from_pivot(row_data)
         elif row_data["type"] == "move":
             kifu_text += move_statement_p.from_pivot(row_data)
         elif row_data["type"] == "kvPair":

@@ -185,8 +185,8 @@ class PlayerPhaseP():
 player_phase_p = PlayerPhaseP()
 
 
-class MovesHeaderStatementP():
-    """指し手リストのヘッダー パーサー
+class MovesHeaderRowP():
+    """指し手リストのヘッダー行パーサー
 
     Example
     -------
@@ -219,7 +219,7 @@ class MovesHeaderStatementP():
         return f"{s}\n"
 
 
-moves_header_statement_p = MovesHeaderStatementP()
+moves_header_row_p = MovesHeaderRowP()
 
 
 class MoveStatementP():

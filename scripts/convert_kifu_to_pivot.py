@@ -4,7 +4,7 @@ from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_ro
     sign_p, \
     move_statement_p, move_p, expended_time_p, total_expended_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, \
-    moves_header_statement_p, \
+    moves_header_row_p, \
     key_value_pair_row_p
 from scripts.generator_identification import generator_identification
 from scripts.data_json_format import format_data_json
@@ -191,11 +191,11 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
         # 指し手リストの先頭行
         # Example: `手数----指手---------消費時間-- # この行は、なくてもいい`
-        result = moves_header_statement_p.match(line)
+        result = moves_header_row_p.match(line)
         if result:
             moves_header = result.group(1)
             comment = result.group(2)
-            moves_header_statement_p.to_pivot(
+            moves_header_row_p.to_pivot(
                 data, row_number, moves_header, comment)
             row_number += 1
             continue
