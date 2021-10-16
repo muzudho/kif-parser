@@ -7,9 +7,9 @@ from scripts.reversible_convert_pivot_to_kif import ReversibleConvertPivotToKif
 from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKifu
 
 
-def translate_one_file(input_file, to_pivot, from_pivot, debug=False):
+def translate_file_in_loop(input_file, to_pivot, from_pivot, debug=False):
     if debug:
-        print(f"[DEBUG] translate.py translate(): to_pivot")
+        print(f"[DEBUG] translate.py translate_file_in_loop(): to_pivot")
 
     # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
     next_file = change_place(to_pivot.layer2_folder, input_file)
@@ -21,7 +21,7 @@ def translate_one_file(input_file, to_pivot, from_pivot, debug=False):
         return
 
     if debug:
-        print(f"[DEBUG] translate.py translate(): from_pivot")
+        print(f"[DEBUG] translate.py translate_file_in_loop(): from_pivot")
 
     # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
     next_file = change_place(from_pivot.layer2_folder, object_file)
@@ -59,7 +59,7 @@ def translate_folder(source, destination, template, debug):
 
     # フォルダー一括処理
     for input_file in to_pivot.outside_input_files():
-        translate_one_file(input_file, to_pivot, from_pivot, debug)
+        translate_file_in_loop(input_file, to_pivot, from_pivot, debug)
 
     from_pivot.clean_temporary()
 
