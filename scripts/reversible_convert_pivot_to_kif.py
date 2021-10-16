@@ -38,11 +38,11 @@ class ReversibleConvertPivotToKif():
         self._no_remove_output_pivot = no_remove_output_pivot
         self._template_name = template_name
 
-    def ready_folder(self):
+    def clean_last_layer_folder(self):
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
-        if not self._debug:
-            clear_all_records_in_folder(self._last_layer_folder, echo=False)
+        clear_all_records_in_folder(self._last_layer_folder, echo=False)
 
+    def ready_folder(self):
         # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
         input_files = glob.glob(self._first_layer_file_pattern)
         for input_file in input_files:

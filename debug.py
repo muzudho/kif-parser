@@ -55,6 +55,7 @@ if __name__ == "__main__":
         conv = ReversibleConvertPivotToKifu(debug=True)
 
     if conv:
+        conv.clean_last_layer_folder()
         conv.ready_folder()
         for input_file in conv.target_files():
             conv.round_trip_translate(input_file)

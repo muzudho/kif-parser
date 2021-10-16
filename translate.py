@@ -15,6 +15,7 @@ def translate(source, destination, template, debug):
         to_pivot = ReversibleConvertKifToPivot(
             debug=debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
 
+    to_pivot.clean_last_layer_folder()
     to_pivot.ready_folder()
     for input_file in to_pivot.target_files():
         to_pivot.round_trip_translate(input_file)
@@ -29,6 +30,7 @@ def translate(source, destination, template, debug):
         from_pivot = ReversibleConvertPivotToKif(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
 
+    from_pivot.clean_last_layer_folder()
     from_pivot.ready_folder()
     for input_file in from_pivot.target_files():
         from_pivot.round_trip_translate(input_file)
