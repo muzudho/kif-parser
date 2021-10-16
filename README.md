@@ -62,6 +62,50 @@ python.exe translate.py -s kif -d kifu -t shogidokoro
 
 * `20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogidokoro].kifu`
 
+ファイルを１つ１つ指定することはできず、フォルダーの中にあるファイルがすべて翻訳の対象になります  
+
+## Danger（危険）
+
+危険な操作を先に覚えてしまいましょう  
+
+### 翻訳の過程で作られる一時ファイルを全部残す
+
+```shell
+python.exe translate.py -s kif -d kifu -t shogidokoro --debug
+                                                      -------
+                                                      1
+```
+
+1. `--debug` - 翻訳の途中で大量の一時ファイルを作りますが、それを消さずに残します
+
+以下のフォルダーの中を確認してみてください
+
+* 📂`temporary/to-pivot/kif`
+* 📂`temporary/to-pivot/kifu`
+* 📂`temporary/to-pivot/object`
+* 📂`temporary/to-pivot/reverse-kifu`
+* 📂`temporary/to-pivot/reverse-kif`
+* 📂`temporary/output-pivot`
+* 📂`temporary/from-pivot/pivot`
+* 📂`temporary/from-pivot/reverse-pivot`
+
+### inputフォルダーの中のファイル消す
+
+📂`input` フォルダーの中の棋譜ファイルを削除するコマンドは以下の通りです  
+
+```shell
+python.exe debug.py --rmin
+                    ------
+                    1
+```
+
+* `--rmin` - remove input の略語。inputフォルダーの中の `.kif`, `.kifu`, `.json`, `.toml` ファイルを削除します
+
+他に 📂`output`フォルダーの中を消す `--rmout`、  
+📂`temporary`フォルダーの中を消す `--rmtmp` オプションもあります
+
+フォルダーのクリアーは、翻訳のあとに行われます
+
 ## Documents
 
 未整理  

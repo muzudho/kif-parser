@@ -120,13 +120,6 @@ pip install tomli
 4. 📂`input` フォルダーの中の 📄`*.json` ファイルは削除されます
 5. 📂`input` フォルダーの中の 📄`*.toml` ファイルは削除されます
 
-## 危険な操作 - テストデータ フォルダーの内容を、入力フォルダーへコピー
-
-**DANGER** 📂`input` フォルダーの中身を上書きするコマンドです  
-
-1. ターミナルで `python.exe copy_test_data_to_input_danger.py` コマンドを実行してください
-2. 📂`test_data` フォルダーの中の (📄`*.kif`, 📄`*.kifu`, 📄`*.json`, 📄`*.toml`)ファイルを 📂`input` へコピーします
-
 ## PIVOT 仕様
 
 ### row_type - 行の型
