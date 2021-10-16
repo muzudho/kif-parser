@@ -5,7 +5,7 @@ import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_toml import convert_pivot_to_toml
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
-from scripts.copy_files_to_folder import copy_files_to_folder
+from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.move_file_to_folder import move_file_to_folder
 
 
@@ -35,7 +35,9 @@ def __main(debug=False):
         clear_all_records_in_folder(last_layer_folder, echo=False)
 
     # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-    copy_files_to_folder(layer1_file_pattern, layer2_folder)
+    input_files = glob.glob(layer1_file_pattern)
+    for input_file in input_files:
+        copy_file_to_folder(input_file, layer2_folder)
 
     # 3. レイヤー２にあるファイルのリスト
     kif_files = glob.glob(layer2_file_pattern)
@@ -46,7 +48,8 @@ def __main(debug=False):
         # layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # Shift-JIS から UTF-8 へ変更
-        kifu_file = convert_kif_to_kifu(kif_file, output_folder='temporary/kifu')
+        kifu_file = convert_kif_to_kifu(
+            kif_file, output_folder='temporary/kifu')
         if kifu_file is None:
             continue
 

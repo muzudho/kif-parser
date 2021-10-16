@@ -8,7 +8,7 @@ import argparse
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
-from scripts.copy_files_to_folder import copy_files_to_folder
+from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
@@ -39,7 +39,9 @@ def __main(debug=False):
         clear_all_records_in_folder(last_layer_folder, echo=False)
 
     # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-    copy_files_to_folder(layer1_file_pattern, layer2_folder)
+    input_files = glob.glob(layer1_file_pattern)
+    for input_file in input_files:
+        copy_file_to_folder(input_file, layer2_folder)
 
     # (b-3) レイヤー２にあるファイルのリスト
     kif_files = glob.glob(layer2_file_pattern)
@@ -100,7 +102,7 @@ def __main(debug=False):
                 f"[WARNING] Irreversible conversion. basename={basename}")
             # continue
 
-        # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
+        # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         move_file_to_folder(object_file, last_layer_folder)
 
     # (i) 後ろから1. 変換の途中で作ったファイルは削除します

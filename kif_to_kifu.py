@@ -6,7 +6,7 @@ from remove_all_output import clear_all_records_in_folder
 from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
-from scripts.copy_files_to_folder import copy_files_to_folder
+from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
@@ -37,7 +37,9 @@ def __main(debug=False):
         clear_all_records_in_folder(last_layer_folder, echo=False)
 
     # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-    copy_files_to_folder(layer1_file_pattern, layer2_folder)
+    input_files = glob.glob(layer1_file_pattern)
+    for input_file in input_files:
+        copy_file_to_folder(input_file, layer2_folder)
 
     # 3. レイヤー２にあるファイルのリスト
     kif_files = glob.glob(layer2_file_pattern)
