@@ -82,7 +82,7 @@ class ReversibleConvertKifToKifu():
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy_file_to_folder(object_file, self._last_layer_folder)
 
-    def reversible_convert_kif_to_kifu_clean(self):
+    def clean_temporary(self):
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します
         if not self._debug:
             remove_all_temporary(

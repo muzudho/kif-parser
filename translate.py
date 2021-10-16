@@ -13,7 +13,7 @@ def translate(source, destination, template, debug):
         kifu2pivot.reversible_convert_kifu_to_pivot_ready()
         for kifu_file in kifu2pivot.target_files():
             kifu2pivot.round_trip_translate(kifu_file)
-        kifu2pivot.reversible_convert_kifu_to_pivot_clean()
+        kifu2pivot.clean_temporary()
     else:
         # KIFファイルをPIVOTへ変換します
         kif2pivot = ReversibleConvertKifToPivot(
@@ -21,7 +21,7 @@ def translate(source, destination, template, debug):
         kif2pivot.reversible_convert_kif_to_pivot_ready()
         for kif_file in kif2pivot.target_files():
             kif2pivot.round_trip_translate(kif_file=kif_file)
-        kif2pivot.reversible_convert_kif_to_pivot_clean()
+        kif2pivot.clean_temporary()
 
     if destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
@@ -31,7 +31,7 @@ def translate(source, destination, template, debug):
         for pivot_file in pivot2kifu.target_files():
             pivot2kifu.round_trip_translate(
                 pivot_file=pivot_file)
-        pivot2kifu.reversible_convert_pivot_to_kifu_clean()
+        pivot2kifu.clean_temporary()
     else:
         # PIVOTファイルをKIFへ変換します
         pivot2kif = ReversibleConvertPivotToKif(
@@ -40,7 +40,7 @@ def translate(source, destination, template, debug):
         for pivot_file in pivot2kif.target_files():
             pivot2kif.round_trip_translate(
                 pivot_file=pivot_file)
-        pivot2kif.reversible_convert_pivot_to_kif_clean()
+        pivot2kif.clean_temporary()
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
