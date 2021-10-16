@@ -58,6 +58,13 @@ class ReversibleConvertPivotToKifu():
         return glob.glob(self._layer2_file_pattern)
 
     def round_trip_translate(self, input_file):
+        """
+        Returns
+        -------
+        str
+            最終成果ファイルへのパス
+        """
+
         # (c) レイヤー２にあるファイルの SHA256 生成
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
@@ -67,7 +74,7 @@ class ReversibleConvertPivotToKifu():
         if object_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (d-1) parse fail. input_file={input_file}")
-            return
+            return None
 
         # ここから逆の操作を行います
 
@@ -77,7 +84,7 @@ class ReversibleConvertPivotToKifu():
         if reversed_pivot_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (e-1) parse fail. object_file={object_file}")
-            return
+            return None
 
         # (f) レイヤー４にあるファイルの SHA256 生成
         layer4_file_sha256 = create_sha256_by_file_path(
@@ -100,6 +107,8 @@ class ReversibleConvertPivotToKifu():
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy = change_place(self._last_layer_folder, object_file)
         copy_file(object_file, copy, debug=self._debug)
+
+        return object_file
 
     def clean_temporary(self):
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します

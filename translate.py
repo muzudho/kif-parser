@@ -8,8 +8,6 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 
 
 def translate(source, destination, template, debug):
-    if debug:
-        print(f"[DEBUG] translate.py translate(): to_pivot")
 
     # to-pivot
     if source == 'kifu':
@@ -36,23 +34,28 @@ def translate(source, destination, template, debug):
     from_pivot.clean_last_layer_folder()
 
     for input_file in to_pivot.outside_input_files():
+        if debug:
+            print(f"[DEBUG] translate.py translate(): to_pivot")
+
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
         next_file = change_place(to_pivot.layer2_folder, input_file)
         copy_file(input_file, next_file, debug=debug)
 
         # レイヤー２フォルダーにあるファイルを往復翻訳します
-        to_pivot.round_trip_translate(next_file)
+        # TODO 最終出力ファイル、または失敗を判定したい
+        object_file = to_pivot.round_trip_translate(next_file)
+        if not object_file:
+            continue
 
-    if debug:
-        print(f"[DEBUG] translate.py translate(): from_pivot")
+        if debug:
+            print(f"[DEBUG] translate.py translate(): from_pivot")
 
-    for input_file in from_pivot.outside_input_files():
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
-        next_file = change_place(from_pivot.layer2_folder, input_file)
-        copy_file(input_file, next_file, debug=debug)
+        next_file = change_place(from_pivot.layer2_folder, object_file)
+        copy_file(object_file, next_file, debug=debug)
 
         # レイヤー２フォルダーにあるファイルを往復翻訳します
-        from_pivot.round_trip_translate(next_file)
+        _final_file = from_pivot.round_trip_translate(next_file)
 
     from_pivot.clean_temporary()
 

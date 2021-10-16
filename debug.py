@@ -64,7 +64,7 @@ if __name__ == "__main__":
             copy_file(input_file, copy, debug=True)
 
         for input_file in conv.target_files():
-            conv.round_trip_translate(input_file)
+            _object_file = conv.round_trip_translate(input_file)
         conv.clean_temporary()
 
     if args.rmout:

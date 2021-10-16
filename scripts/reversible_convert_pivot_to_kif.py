@@ -63,6 +63,13 @@ class ReversibleConvertPivotToKif():
         return glob.glob(self._layer2_file_pattern)
 
     def round_trip_translate(self, input_file):
+        """
+        Returns
+        -------
+        str
+            最終成果ファイルへのパス
+        """
+
         # (c) レイヤー２にあるファイルの SHA256 生成
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
@@ -72,7 +79,7 @@ class ReversibleConvertPivotToKif():
         if kifu_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): Parse fail. input_file={input_file}")
-            return
+            return None
 
         # (d-2) 目的のファイル(KIF Shift-JIS)へ変換
         object_file = convert_kifu_to_kif(
@@ -80,7 +87,7 @@ class ReversibleConvertPivotToKif():
         if object_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): Parse fail. input_file={input_file}")
-            return
+            return None
 
         # ここから逆の操作を行います
 
@@ -90,7 +97,7 @@ class ReversibleConvertPivotToKif():
         if reversed_kifu_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): Parse fail. input_file={input_file}")
-            return
+            return None
 
         # (e-2)
         reversed_pivot_file = convert_kifu_to_pivot(
@@ -98,7 +105,7 @@ class ReversibleConvertPivotToKif():
         if reversed_pivot_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): Parse fail. input_file={input_file}")
-            return
+            return None
 
         # (f) レイヤー５にあるファイルの SHA256 生成
         layer5_file_sha256 = create_sha256_by_file_path(
@@ -120,6 +127,8 @@ class ReversibleConvertPivotToKif():
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy = change_place(self._last_layer_folder, object_file)
         copy_file(object_file, copy, debug=self._debug)
+
+        return object_file
 
     def clean_temporary(self):
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します
