@@ -24,7 +24,38 @@ readyok
 
 👆 問題なければ `readyok` と表示されます
 
+## Smoke test（最初の動作確認）
+
+このアプリケーションの最上位ディレクトリーに  
+
+* 📄`20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kif`
+* 📄`20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kifu`
+
+という KIFファイルと、 KIFUファイル を置いてあります。  
+これは [ShogiGUI](http://shogigui.siganus.com/) で出力したファイルですが、これを [将棋所](http://shogidokoro.starfree.jp/) のフォーマットに変換する例を示します  
+
+同じく最上位ディレクトリーに 📂`input` フォルダーがありますので、ここに 📄`20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kif` のコピーを置いてください。  
+このアプリケーションで棋譜ファイルを使う（翻訳する）場合、必ずバックアップを取っておいて コピーの方を使ってください  
+
+以下のコマンドを打鍵してください  
+
+```shell
+python.exe translate.py -s kif -d kifu -t shogidokoro
+                        ------ ------- --------------
+                        1      2       3
+```
+
+1. `-s kif` - 変換前は kif 形式です。他に `kifu` を指定できます
+2. `-d kifu` - 変換後は kifu 形式です。他に `kif` を指定できます
+3. `-t shogidokoro` - 変換後は 将棋所のフォーマットにします。他に `shogigui` を指定できます
+
+そのあと、同じく最上位ディレクトリーの 📂`output` フォルダーの中を確認してください。以下のファイルが生成されています  
+
+* `20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogidokoro].kifu`
+
 ## Documents
+
+未整理  
 
 * 📖　[.kifファイルの問題点の洗い出し](./docs/research.md)
 * 📖　[.kifファイルの利用実態の調査](./docs/examples)
