@@ -59,7 +59,7 @@ if __name__ == "__main__":
         conv.clean_last_layer_folder()
 
         for input_file in conv.outside_input_files():
-            copy_file_to_folder(input_file, conv.layer2_folder)
+            copy_file_to_folder(input_file, conv.layer2_folder, debug=True)
 
         for input_file in conv.target_files():
             conv.round_trip_translate(input_file)

@@ -4,7 +4,7 @@ import os
 import sys
 
 
-def copy_file_to_folder(input_file, output_folder):
+def copy_file_to_folder(input_file, output_folder, debug=False):
 
     # basename
     try:
@@ -18,5 +18,8 @@ def copy_file_to_folder(input_file, output_folder):
 
     if input_file == copy_file:
         raise ValueError(f"[FATAL] Copy same. [{input_file}]")
+
+    if debug:
+        print(f"[DEBUG] Copy from [{input_file}] to [{copy_file}]")
 
     shutil.copyfile(input_file, copy_file)

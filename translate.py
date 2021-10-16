@@ -19,7 +19,7 @@ def translate(source, destination, template, debug):
     to_pivot.clean_last_layer_folder()
 
     for input_file in to_pivot.outside_input_files():
-        copy_file_to_folder(input_file, to_pivot.layer2_folder)
+        copy_file_to_folder(input_file, to_pivot.layer2_folder, debug=debug)
 
     for input_file in to_pivot.target_files():
         to_pivot.round_trip_translate(input_file)
@@ -37,7 +37,7 @@ def translate(source, destination, template, debug):
     from_pivot.clean_last_layer_folder()
 
     for input_file in from_pivot.outside_input_files():
-        copy_file_to_folder(input_file, from_pivot.layer2_folder)
+        copy_file_to_folder(input_file, from_pivot.layer2_folder, debug=debug)
 
     for input_file in from_pivot.target_files():
         from_pivot.round_trip_translate(input_file)

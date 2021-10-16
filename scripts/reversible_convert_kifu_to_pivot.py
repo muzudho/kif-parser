@@ -87,7 +87,8 @@ class ReversibleConvertKifuToPivot():
                 f"[WARNING] Irreversible conversion to-pivot. basename={basename}")
 
         # (h) 後ろから2. 中間ファイルを 最終フォルダ―へコピーします
-        copy_file_to_folder(object_file, self._last_layer_folder)
+        copy_file_to_folder(
+            object_file, self._last_layer_folder, debug=self._debug)
 
     def clean_temporary(self):
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します
