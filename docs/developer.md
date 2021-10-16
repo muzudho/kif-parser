@@ -15,7 +15,7 @@
 ## KIF から PIVOT へ変換
 
 1. 📂`input` フォルダーに `*.kif` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
+2. ターミナルで `python.exe debug.py --tool kif2pivot` コマンドを実行してください
 3. JSON形式に変換して 📂`output` へ 📄`*[kifu-pivot].json` （PIVOT）が出力されます
 
 同様に、逆の操作として `python.exe kifu_to_pivot.py` というコマンドがあります
@@ -57,7 +57,7 @@
             # (from-pivotと同様)
 
     debug.py
-    kif_to_pivot.py    # `*_to_*.py` は、用途により使わないものもあるかも知れません
+    # `*_to_*.py` は、用途により使わないものもあるかも知れません
     kif_to_toml.py
     kifu_to_kif.py
     kifu_to_pivot.py

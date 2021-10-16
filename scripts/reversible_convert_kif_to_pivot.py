@@ -53,7 +53,7 @@ def reversible_convert_kif_to_pivot(debug=False, last_layer_folder='output', no_
             kif_file, output_folder=layer2b_folder)
         if kifu_file is None:
             print(
-                f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-1) parse fail. kif_file={kif_file}")
+                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-1) parse fail. kif_file={kif_file}")
             continue
 
         # (d-2) 目的のファイル（Pivot）へ変換
@@ -61,7 +61,7 @@ def reversible_convert_kif_to_pivot(debug=False, last_layer_folder='output', no_
             kifu_file, output_folder=object_folder)
         if object_file is None:
             print(
-                f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-2) parse fail. kifu_file={kifu_file}")
+                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-2) parse fail. kifu_file={kifu_file}")
             continue
 
         # ここから逆の操作を行います
@@ -71,7 +71,7 @@ def reversible_convert_kif_to_pivot(debug=False, last_layer_folder='output', no_
             object_file, output_folder=layer4_folder, template_name=template_name)
         if reversed_kifu_file is None:
             print(
-                f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-1) parse fail. object_file={object_file}")
+                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-1) parse fail. object_file={object_file}")
             continue
 
         # (e-2) Shift-JIS から UTF-8 へ変更
@@ -79,7 +79,7 @@ def reversible_convert_kif_to_pivot(debug=False, last_layer_folder='output', no_
             reversed_kifu_file, output_folder=layer5_folder)
         if reversed_kif_file is None:
             print(
-                f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-2) parse fail. reversed_kifu_file={reversed_kifu_file}")
+                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-2) parse fail. reversed_kifu_file={reversed_kifu_file}")
             continue
 
         # (f) レイヤー５にあるファイルの SHA256 生成
@@ -91,7 +91,7 @@ def reversible_convert_kif_to_pivot(debug=False, last_layer_folder='output', no_
                 basename = os.path.basename(kif_file)
             except:
                 print(
-                    f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (g) parse fail. kif_file={kif_file} except={system.exc_info()[0]}")
+                    f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (g) parse fail. kif_file={kif_file} except={system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します
