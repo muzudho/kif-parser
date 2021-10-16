@@ -24,9 +24,9 @@ def translate(source, destination, template, debug):
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
     else:
         # PIVOTファイルをKIFへ変換します
-        reversible_convert_pivot_to_kif = ReversibleConvertPivotToKif()
-        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif(
+        reversible_convert_pivot_to_kif = ReversibleConvertPivotToKif(
             debug=debug, first_layer_folder='./temporary/output-pivot', template_name=template)
+        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif()
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
