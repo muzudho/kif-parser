@@ -6,6 +6,7 @@ from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_ro
     moves_header_row_p, \
     move_row_p, \
     key_value_pair_row_p, result_row_p
+from scripts.shogidokoro_template import ShogidokoroTemplate
 
 
 def convert_pivot_to_kifu(pivot_file, output_folder):
@@ -29,11 +30,14 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
     # .kifu テキストを作ります
     kifu_text = ""
 
+    # ビュー
+    template = ShogidokoroTemplate()
+
     # 行パーサーです
     for row_number, row_data in data.items():
 
         if row_data["type"] == "comment":
-            kifu_text += comment_row_p.from_pivot(row_data)
+            kifu_text += template.comment_row(row_data)
         elif row_data["type"] == "explain":
             kifu_text += explain_row_p.from_pivot(row_data)
         elif row_data["type"] == "bookmark":

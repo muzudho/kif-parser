@@ -22,14 +22,6 @@ class CommentRowP():
         if comment:
             data[f'{row_number}']["comment"] = comment
 
-    def from_pivot(self, row_data):
-        s = ""
-
-        if "indent" in row_data:
-            s += row_data["indent"]
-
-        return f'{s}#{row_data["comment"]}\n'
-
 
 comment_row_p = CommentRowP()
 
