@@ -9,7 +9,7 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def __main(debug=False):
+def __main(debug=False, template_name=""):
 
     # Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kifu'
@@ -57,7 +57,7 @@ def __main(debug=False):
         # ここから逆の操作を行います
 
         reversed_kifu_file = convert_pivot_to_kifu(
-            pivot_file, output_folder=layer4_folder)
+            pivot_file, output_folder=layer4_folder, template_name=template_name)
         if reversed_kifu_file is None:
             print(f"Parse fail. kifu_file={kifu_file}")
             continue

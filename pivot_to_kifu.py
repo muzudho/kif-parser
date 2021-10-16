@@ -10,7 +10,7 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def __main(debug=False):
+def __main(debug=False, template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.json'
@@ -48,7 +48,7 @@ def __main(debug=False):
 
         # (d-1) 目的のファイル（KIFU）へ変換
         object_file = convert_pivot_to_kifu(
-            pivot_file, output_folder=middle_folder)
+            pivot_file, output_folder=middle_folder, template_name=template_name)
         if object_file is None:
             print(
                 f"[ERROR] pivot_to_kifu.py __main: (d-1) parse fail. pivot_file={pivot_file}")

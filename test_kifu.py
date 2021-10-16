@@ -10,7 +10,7 @@ import sys
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 
 
-def __main(debug=False):
+def __main(debug=False, template_name=""):
 
     # Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kifu'
@@ -51,7 +51,7 @@ def __main(debug=False):
 
         # 5. Pivot から 目的の棋譜ファイルへ変換
         reverse_kifu_file = convert_pivot_to_kifu(
-            pivot_file, output_folder='temporary/reverse-kifu')
+            pivot_file, output_folder='temporary/reverse-kifu', template_name=template_name)
         if reverse_kifu_file is None:
             print(f"Parse fail. pivot_file={pivot_file}")
 

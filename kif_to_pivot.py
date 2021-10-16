@@ -13,7 +13,7 @@ from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def __main(debug=False):
+def __main(debug=False, template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kif'
@@ -71,7 +71,7 @@ def __main(debug=False):
 
         # (e-1)
         reversed_kifu_file = convert_pivot_to_kifu(
-            object_file, output_folder=layer4_folder)
+            object_file, output_folder=layer4_folder, template_name=template_name)
         if reversed_kifu_file is None:
             print(
                 f"[ERROR] kif_to_pivot.py __main: (e-1) parse fail. object_file={object_file}")

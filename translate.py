@@ -5,7 +5,7 @@ if __name__ == "__main__":
     """
     Example
     -------
-    `translate.py -s "./input/20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kifu" -d "./output/20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kifu" -t "shogigui"`
+    `translate.py -s "./input/20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kifu" -d "./output/20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogidokoro].kifu" -t "shogidokoro"`
     """
 
     # Description
