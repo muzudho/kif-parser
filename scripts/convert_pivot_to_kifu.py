@@ -4,7 +4,7 @@ import sys
 from collections import OrderedDict
 from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_row_p, \
     moves_header_row_p, \
-    move_statement_p, \
+    move_row_p, \
     key_value_pair_row_p, result_row_p
 
 
@@ -41,7 +41,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "movesHeader":
             kifu_text += moves_header_row_p.from_pivot(row_data)
         elif row_data["type"] == "move":
-            kifu_text += move_statement_p.from_pivot(row_data)
+            kifu_text += move_row_p.from_pivot(row_data)
         elif row_data["type"] == "kvPair":
             kifu_text += key_value_pair_row_p.from_pivot(row_data)
         elif row_data["type"] == "result":

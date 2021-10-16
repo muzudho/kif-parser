@@ -222,7 +222,7 @@ class MovesHeaderRowP():
 moves_header_row_p = MovesHeaderRowP()
 
 
-class MoveStatementP():
+class MoveRowP():
     def __init__(self):
         # 棋譜ファイル KIF 形式
         # -------------------
@@ -335,7 +335,7 @@ class MoveStatementP():
         return f"{kifu_text}\n"
 
 
-move_statement_p = MoveStatementP()
+move_row_p = MoveRowP()
 
 
 class MoveP():

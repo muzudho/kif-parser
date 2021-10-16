@@ -3,7 +3,7 @@ import json
 import sys
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, \
-    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
+    judge_statement1_p, judge_statement2_p, judge_statement3_p, move_row_p, \
     key_value_pair_row_p
 
 
@@ -156,7 +156,7 @@ def convert_pivot_to_toml(pivot_file, output_folder):
 [section.moves]
 """
 
-            buffer += move_statement_p.from_pivot(
+            buffer += move_row_p.from_pivot(
                 num=row_data["num"],  # Move num（n手目）
                 m=row_data["m"],  # Move（指し手）
                 time=row_data["time"],  # Expended time（消費時間）

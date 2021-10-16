@@ -2,7 +2,7 @@ import os
 import json
 from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_row_p, \
     sign_p, \
-    move_statement_p, move_p, expended_time_p, total_expended_time_p, judge_statement1_p, \
+    move_row_p, move_p, expended_time_p, total_expended_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, \
     moves_header_row_p, \
     key_value_pair_row_p
@@ -58,8 +58,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         if line.strip() == '':
             continue
 
-        # Move（指し手）
-        result = move_statement_p.match(line)
+        # Move row（指し手行）
+        result = move_row_p.match(line)
         if result:
             num = result.group(1)  # Move num
             m = result.group(2)  # Move
