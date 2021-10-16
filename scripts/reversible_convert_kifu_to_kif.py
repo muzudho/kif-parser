@@ -11,7 +11,7 @@ from scripts.test_lib import create_sha256_by_file_path
 def reversible_convert_kifu_to_kif(debug=False, no_remove_output_pivot=False):
 
     # (a) Layer 1. 入力フォルダ―
-    layer1_file_pattern = './input/*.kifu'
+    first_layer_file_pattern = './input/*.kifu'
 
     # (a) Layer 2. 入力フォルダ―のコピーフォルダー
     layer2_folder = 'temporary/no-pivot/kifu'
@@ -33,7 +33,7 @@ def reversible_convert_kifu_to_kif(debug=False, no_remove_output_pivot=False):
         clear_all_records_in_folder(last_layer_folder, echo=False)
 
     # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-    input_files = glob.glob(layer1_file_pattern)
+    input_files = glob.glob(first_layer_file_pattern)
     for input_file in input_files:
         copy_file_to_folder(input_file, layer2_folder)
 

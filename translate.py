@@ -43,12 +43,11 @@ if __name__ == "__main__":
         reversible_convert_kif_to_pivot(
             debug=args.debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=args.template)
 
-    # TODO input ではなく './temporary/output-pivot' からファイルを入力したい
     if args.destination == 'kifu':
         # PIVOTファイルをKIFUへ変換します
         reversible_convert_pivot_to_kifu(
-            debug=args.debug, template_name=args.template)
+            debug=args.debug, first_layer_folder='./temporary/output-pivot', template_name=args.template)
     else:
         # PIVOTファイルをKIFへ変換します
         reversible_convert_pivot_to_kif(
-            debug=args.debug, template_name=args.template)
+            debug=args.debug, first_layer_folder='./temporary/output-pivot', template_name=args.template)

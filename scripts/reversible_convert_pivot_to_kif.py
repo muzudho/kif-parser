@@ -10,10 +10,10 @@ from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 
 
-def reversible_convert_pivot_to_kif(debug=False, no_remove_output_pivot=False, template_name=""):
+def reversible_convert_pivot_to_kif(debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
-    layer1_file_pattern = './input/*.json'
+    first_layer_file_pattern = os.path.join(first_layer_folder, '*.json')
 
     # (a) Layer 2. 入力フォルダ―のコピーフォルダー
     layer2_folder = 'temporary/from-pivot/pivot'
@@ -37,7 +37,7 @@ def reversible_convert_pivot_to_kif(debug=False, no_remove_output_pivot=False, t
         clear_all_records_in_folder(last_layer_folder, echo=False)
 
     # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-    input_files = glob.glob(layer1_file_pattern)
+    input_files = glob.glob(first_layer_file_pattern)
     for input_file in input_files:
         copy_file_to_folder(input_file, layer2_folder)
 
