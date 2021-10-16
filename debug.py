@@ -47,9 +47,8 @@ if __name__ == "__main__":
         reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot(
             debug=True)
     elif args.tool == "kifu2kif":
-        reversible_convert_kifu_to_kif = ReversibleConvertKifuToKif()
-        reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif(
-            debug=True)
+        reversible_convert_kifu_to_kif = ReversibleConvertKifuToKif(debug=True)
+        reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif()
     elif args.tool == "kifu2pivot":
         reversible_convert_kifu_to_pivot = ReversibleConvertKifuToPivot()
         reversible_convert_kifu_to_pivot(debug=True)
