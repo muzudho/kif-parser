@@ -14,11 +14,11 @@ from scripts.move_file_to_folder import move_file_to_folder
 def __main(debug=False):
 
     # Layer 1. 入力フォルダ―
-    first_layer_file_pattern = './input/*.kif'
+    first_layer_file_pattern = 'input/*.kif'
 
     # Layer 2. 入力フォルダ―のコピーフォルダー
     layer2_folder = 'temporary/kif'
-    layer2_file_pattern = './temporary/kif/*.kif'
+    layer2_file_pattern = 'temporary/kif/*.kif'
 
     # Layer 3. Pivotフォルダ―
     layer3_folder = 'temporary/pivot'

@@ -11,7 +11,7 @@ from scripts.test_lib import create_sha256_by_file_path
 class ReversibleConvertKifuToPivot():
     def __init__(self, debug=False, last_layer_folder='output', no_remove_output_pivot=False, template_name=""):
         # (a) Layer 1. 入力フォルダ―
-        self._first_layer_file_pattern = './input/*.kifu'
+        self._first_layer_file_pattern = 'input/*.kifu'
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
         self._layer2_folder = 'temporary/to-pivot/kifu'

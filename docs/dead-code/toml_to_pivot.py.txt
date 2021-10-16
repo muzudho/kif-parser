@@ -8,11 +8,11 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 def __main(debug=False):
 
     # Layer 1. 入力フォルダ―
-    first_layer_file_pattern = './input/*.toml'
+    first_layer_file_pattern = 'input/*.toml'
 
     # Layer 2. 入力フォルダ―のコピーフォルダー
     layer2_folder = 'temporary/toml'
-    layer2_file_pattern = './temporary/toml/*.toml'
+    layer2_file_pattern = 'temporary/toml/*.toml'
 
     # 中間Layer.
     middle_folder = 'temporary/object'
