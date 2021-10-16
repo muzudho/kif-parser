@@ -5,7 +5,6 @@ WIP
 import glob
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 import argparse
-from remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_toml import convert_pivot_to_toml
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.copy_file_to_folder import copy_file_to_folder

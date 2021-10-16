@@ -4,7 +4,7 @@ import os
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
-from remove_all_temporary import remove_all_temporary
+from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_file_to_folder import copy_file_to_folder

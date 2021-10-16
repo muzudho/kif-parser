@@ -14,6 +14,8 @@ from scripts.reversible_convert_kifu_to_kif import reversible_convert_kifu_to_ki
 from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_pivot
 from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
 from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
+from scripts.clear_all_records_in_folder import clear_all_records_in_folder
+from scripts.remove_all_temporary import remove_all_temporary
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
@@ -26,6 +28,8 @@ if __name__ == "__main__":
         '--tool', help='kif2kifu, kif2pivot, kifu2kif, kifu2pivot, pivot2kif, pivot2kifu.')
     parser.add_argument(
         '--rmout', action='store_true', help='Clean output folder after translation.')
+    parser.add_argument(
+        '--rmtmp', action='store_true', help='Clean temporary folder after translation.')
     args = parser.parse_args()
 
     if args.tool == "kif2kifu":
@@ -44,3 +48,6 @@ if __name__ == "__main__":
 
     if args.rmout:
         clear_all_records_in_folder('output')
+
+    if args.rmtmp:
+        remove_all_temporary()

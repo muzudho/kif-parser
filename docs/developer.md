@@ -53,13 +53,15 @@
             /reverse-kifu
             /reverse-pivot
             /reverse-toml
+        /no-pivot
+            # (from-pivotと同様)
+        /output-pivot
+            # 入力フォルダ―としても利用されます
         /to-pivot
             # (from-pivotと同様)
 
     debug.py
-    # `*_to_*.py` は、用途により使わないものもあるかも知れません
     LICENSE
-    remove_all_temporary.py
 ```
 
 ## (WIP) PIVOT から TOML へ変換
@@ -74,7 +76,7 @@ pip install tomli
 テンポラリー フォルダーの中のものは、よく上書き、削除されるので、壊されたくないものは置かないでください  
 
 1. 注意。消えると困るオリジナルの棋譜ファイルは 別のところに保存しておいてください
-2. ターミナルで `python.exe remove_all_temporary.py` コマンドを実行してください
+2. ターミナルで `python.exe debug.py --rmtmp` コマンドを実行してください
 
 ## 出力ファイルを全部消す
 
@@ -93,7 +95,7 @@ pip install tomli
 1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
 2. ターミナルで `python.exe test_kif.py` コマンドを実行してください
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe debug.py --rmtmp` コマンドを実行してください
 
 ## 動作テスト .kifu変換
 
@@ -102,7 +104,7 @@ pip install tomli
 1. 📂`input` に `*.kifu` ファイルをたくさん入れてください
 2. ターミナルで `python.exe test_kifu.py` コマンドを実行してください
 3. 変換が壊れていれば、標準出力にメッセージが出ます。問題がなければメッセージは出力されません
-4. ゴミファイルが溜まっているので消すために、`python.exe remove_all_temporary.py` コマンドを実行してください
+4. ゴミファイルが溜まっているので消すために、`python.exe debug.py --rmtmp` コマンドを実行してください
 
 ## デバッグモード
 

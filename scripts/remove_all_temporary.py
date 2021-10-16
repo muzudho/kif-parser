@@ -62,8 +62,3 @@ def remove_all_temporary(echo=True, no_remove_output_pivot=False):
                 if echo:
                     print(f"Remove: {file}")
                 os.remove(file)
-
-
-# このファイルを直接実行したときは、以下の関数を呼び出します
-if __name__ == "__main__":
-    remove_all_temporary()
