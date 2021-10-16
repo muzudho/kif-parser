@@ -52,6 +52,20 @@ ShogiGUI で 「変化」の機能が見たくて しおり を試しに使っ�
 
 👆 コメントが置けるところ全てにコメントを置いているファイル
 
+## empty[shogigui].kifu
+
+```plain
+#KIF version=2.0 encoding=UTF-8
+手合割：平手
+先手：
+後手：
+手数----指手---------消費時間--
+
+
+```
+
+👆 ShogiGUIはファイルの最後に２つの空行がある？  
+
 ## surokiti0510-muzudho-20211004_204159[shogiextend].kifu  
 
 👆 SHOGI-EXTEND でも独自解釈の `.kifu` (UTF-8) 形式ファイルを出力しています。  
