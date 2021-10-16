@@ -42,7 +42,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         elif row_data["type"] == "bookmark":
             kifu_text += template.bookmark_row(row_data)
         elif row_data["type"] == "movesHeader":
-            kifu_text += moves_header_row_p.from_pivot(row_data)
+            kifu_text += template.moves_header_row(row_data)
         elif row_data["type"] == "move":
             kifu_text += move_row_p.from_pivot(row_data)
         elif row_data["type"] == "kvPair":

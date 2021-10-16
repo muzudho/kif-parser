@@ -176,14 +176,6 @@ class MovesHeaderRowP():
         if comment:
             data[f'{row_number}']["comment"] = comment
 
-    def from_pivot(self, row_data):
-        s = row_data["movesHeader"]
-
-        if "comment" in row_data:
-            s += f'#{row_data["comment"]}'
-
-        return f"{s}\n"
-
 
 moves_header_row_p = MovesHeaderRowP()
 

@@ -35,3 +35,11 @@ class ShogidokoroTemplate():
             s += f'#{row_data["comment"]}'
 
         return f'{s}\n'
+
+    def moves_header_row(self, row_data):
+        s = row_data["movesHeader"]
+
+        if "comment" in row_data:
+            s += f'#{row_data["comment"]}'
+
+        return f"{s}\n"
