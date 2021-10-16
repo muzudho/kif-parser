@@ -46,10 +46,12 @@ class ReversibleConvertKifToPivot():
         for input_file in input_files:
             copy_file_to_folder(input_file, self._layer2_folder)
 
+    def target_files(self):
+        """レイヤー２にあるファイルのリスト"""
+        return glob.glob(self._layer2_file_pattern)
+
     def reversible_convert_kif_to_pivot(self):
-        # レイヤー２にあるファイルのリスト
-        kif_files = glob.glob(self._layer2_file_pattern)
-        for kif_file in kif_files:
+        for kif_file in self.target_files():
             self.reversible_convert_kif_to_pivot_one(kif_file=kif_file)
 
     def reversible_convert_kif_to_pivot_one(self, kif_file):

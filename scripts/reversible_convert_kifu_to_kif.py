@@ -41,10 +41,12 @@ class ReversibleConvertKifuToKif():
         for input_file in input_files:
             copy_file_to_folder(input_file, self._layer2_folder)
 
+    def target_files(self):
+        """レイヤー２にあるファイルのリスト"""
+        return glob.glob(self._layer2_file_pattern)
+
     def reversible_convert_kifu_to_kif(self):
-        # レイヤー２にあるファイルのリスト
-        kifu_files = glob.glob(self._layer2_file_pattern)
-        for kifu_file in kifu_files:
+        for kifu_file in self.target_files():
             self.reversible_convert_kifu_to_kif_one(kifu_file)
 
     def reversible_convert_kifu_to_kif_one(self, kifu_file):
