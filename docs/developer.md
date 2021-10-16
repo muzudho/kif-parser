@@ -9,7 +9,7 @@
 2. ターミナルで `python.exe debug.py --tool kif2kifu` コマンドを実行してください
 3. 📄`input/*.kif` は UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
 
-同様に、逆の操作として `python.exe kifu_to_kif.py` というコマンドがあります  
+同様に、逆の操作として `python.exe debug --tool kifu2kif` というコマンドがあります  
 
 
 ## KIF から PIVOT へ変換
@@ -58,16 +58,12 @@
 
     debug.py
     # `*_to_*.py` は、用途により使わないものもあるかも知れません
-    kif_to_toml.py
-    kifu_to_kif.py
     kifu_to_pivot.py
     LICENSE
     pivot_to_kif.py
     pivot_to_kifu.py
-    pivot_to_toml.py # WIP 作業中
     remove_all_output.py
     remove_all_temporary.py
-    toml_to_pivot.py
 ```
 
 ## (WIP) PIVOT から TOML へ変換
