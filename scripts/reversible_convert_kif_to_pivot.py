@@ -92,7 +92,7 @@ def reversible_convert_kif_to_pivot(debug=False, template_name=""):
                 basename = os.path.basename(kif_file)
             except:
                 print(
-                    f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (g) kif_file={kif_file} except={system.exc_info()[0]}")
+                    f"[ERROR] kif_to_pivot.py reversible_convert_kifu_to_pivot: (g) parse fail. kif_file={kif_file} except={system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

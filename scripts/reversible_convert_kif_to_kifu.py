@@ -52,7 +52,7 @@ def reversible_convert_kif_to_kifu(debug=False):
             kif_file, output_folder=object_folder)
         if object_file is None:
             print(
-                f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): parse fail. kif_file=[{kif_file}]")
+                f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): (d-1) parse fail. kif_file=[{kif_file}]")
             continue
 
         # ここから逆の操作を行います
@@ -70,7 +70,7 @@ def reversible_convert_kif_to_kifu(debug=False):
                 basename = os.path.basename(kif_file)
             except:
                 print(
-                    f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): kif_file={kif_file} except={system.exc_info()[0]}")
+                    f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): (g) parse fail. kif_file={kif_file} except={system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します
