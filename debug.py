@@ -6,6 +6,9 @@ python.exe debug.py --tool kifu2kif
 python.exe debug.py --tool kifu2pivot
 python.exe debug.py --tool pivot2kif
 python.exe debug.py --tool pivot2kifu
+python.exe debug.py --rmin
+python.exe debug.py --rmout
+python.exe debug.py --rmtmp
 """
 import argparse
 from scripts.reversible_convert_kif_to_kifu import reversible_convert_kif_to_kifu
@@ -16,6 +19,7 @@ from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_
 from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.remove_all_temporary import remove_all_temporary
+from scripts.remove_all_input import remove_all_input
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
@@ -26,6 +30,8 @@ if __name__ == "__main__":
     # `action='store_true'` - Flag
     parser.add_argument(
         '--tool', help='kif2kifu, kif2pivot, kifu2kif, kifu2pivot, pivot2kif, pivot2kifu.')
+    parser.add_argument(
+        '--rmin', action='store_true', help='Clean input folder after translation.')
     parser.add_argument(
         '--rmout', action='store_true', help='Clean output folder after translation.')
     parser.add_argument(
@@ -51,3 +57,6 @@ if __name__ == "__main__":
 
     if args.rmtmp:
         remove_all_temporary()
+
+    if args.rmin:
+        remove_all_input()

@@ -114,7 +114,7 @@ pip install tomli
 
 **DANGER** 📂`input` フォルダーの中身を消すコマンドです  
 
-1. ターミナルで `python.exe remove_all_input_danger.py` コマンドを実行してください
+1. ターミナルで `python.exe debug.py --rmin` コマンドを実行してください
 2. 📂`input` フォルダーの中の 📄`*.kif` ファイルは削除されます
 3. 📂`input` フォルダーの中の 📄`*.kifu` ファイルは削除されます
 4. 📂`input` フォルダーの中の 📄`*.json` ファイルは削除されます
