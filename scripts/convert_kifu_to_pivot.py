@@ -11,7 +11,7 @@ from scripts.data_json_format import format_data_json
 import sys
 
 
-def convert_kifu_to_pivot(kifu_file, output_folder):
+def convert_kifu_to_pivot(kifu_file, output_folder, debug=False):
     """KIFUファイルを読込んで、JSONファイルを出力します
     Parameters
     ----------
@@ -33,7 +33,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         return None
 
     # insert new extention
-    output_pivot = os.path.join(output_folder, f"{stem}[kifu-pivot].json")
+    out_path = os.path.join(output_folder, f"{stem}[kifu-pivot].json")
 
     # とりあえず KIFU を読んでみます
     row_number = 1
@@ -255,7 +255,11 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
     # 最終行まで解析終わり
 
-    with open(output_pivot, 'w', encoding='utf-8') as fOut:
+    if debug:
+        print(
+            f"[DEBUG] convert_kifu_to_pivot.py convert_kifu_to_pivot(): Write to [{out_path}]")
+
+    with open(out_path, 'w', encoding='utf-8') as f_out:
         # JSON出力
         # dumps そのままでは、配列の要素が複数行に改行されるのが気になる
         text = json.dumps(data, indent=4, ensure_ascii=False)
@@ -264,6 +268,6 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
         text = format_data_json(text)
         # print(f"[整形後text] {text}")
 
-        fOut.write(text)
+        f_out.write(text)
 
-    return output_pivot
+    return out_path

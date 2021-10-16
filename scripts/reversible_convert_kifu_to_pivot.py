@@ -54,7 +54,7 @@ class ReversibleConvertKifuToPivot():
 
         # (d-1) 目的のファイル（Pivot）へ変換
         object_file = convert_kifu_to_pivot(
-            input_file, output_folder=self._object_folder)
+            input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
                 f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (d-1) parse fail. input_file={input_file}")

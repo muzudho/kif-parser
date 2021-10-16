@@ -66,7 +66,7 @@ class ReversibleConvertPivotToKifu():
 
         # (e-1)
         reversed_pivot_file = convert_kifu_to_pivot(
-            object_file, output_folder=self._layer4_folder)
+            object_file, output_folder=self._layer4_folder, debug=self._debug)
         if reversed_pivot_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (e-1) parse fail. object_file={object_file}")
