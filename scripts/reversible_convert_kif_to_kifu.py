@@ -47,21 +47,20 @@ class ReversibleConvertKifToKifu():
         kif_files = glob.glob(self._layer2_file_pattern)
 
         for kif_file in kif_files:
-            self.reversible_convert_kif_to_kifu_one(
-                kif_file=kif_file, object_folder=self._object_folder, layer4_folder=self._layer4_folder, last_layer_folder=self._last_layer_folder)
+            self.reversible_convert_kif_to_kifu_one(kif_file=kif_file)
 
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します
         if not self._debug:
             remove_all_temporary(
                 echo=False, no_remove_output_pivot=self._no_remove_output_pivot)
 
-    def reversible_convert_kif_to_kifu_one(self, kif_file, object_folder, layer4_folder, last_layer_folder):
+    def reversible_convert_kif_to_kifu_one(self, kif_file):
         # (c) レイヤー２にあるファイルの SHA256 生成
         layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
         # (d-1) 目的のファイル（KIFU UTF-8）へ変換
         object_file = convert_kif_to_kifu(
-            kif_file, output_folder=object_folder)
+            kif_file, output_folder=self._object_folder)
         if object_file is None:
             print(
                 f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): (d-1) parse fail. kif_file=[{kif_file}]")
@@ -71,7 +70,7 @@ class ReversibleConvertKifToKifu():
 
         # (e-1) UTF-8 から Shift-JIS へ変換
         reversed_kif_file = convert_kifu_to_kif(
-            object_file, output_folder=layer4_folder)
+            object_file, output_folder=self._layer4_folder)
 
         # (f) レイヤー４にあるファイルの SHA256 生成
         layer4_file_sha256 = create_sha256_by_file_path(reversed_kif_file)
@@ -89,4 +88,4 @@ class ReversibleConvertKifToKifu():
             print(f"[WARNING] Irreversible conversion. basename={basename}")
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
-        copy_file_to_folder(object_file, last_layer_folder)
+        copy_file_to_folder(object_file, self._last_layer_folder)
