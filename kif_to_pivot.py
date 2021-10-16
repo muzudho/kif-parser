@@ -15,94 +15,95 @@ from scripts.test_lib import create_sha256_by_file_path
 
 def __main(debug=False):
 
-    # Layer 1. 入力フォルダ―
+    # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kif'
 
-    # Layer 2. 入力フォルダ―のコピーフォルダー
+    # (a) Layer 2. 入力フォルダ―のコピーフォルダー
     layer2_folder = 'temporary/kif'
     layer2_file_pattern = './temporary/kif/*.kif'
 
-    # Layer 3. Pivotフォルダ―
-    # (なし)
+    # (a) Layer 3. Pivotフォルダ―(なし)
 
-    # 中間Layer.
+    # (a) 中間Layer.
     object_folder = 'temporary/object'
 
-    # Layer 4. 逆方向のフォルダ―
+    # (a) Layer 4. 逆方向のフォルダ―
     layer4_folder = 'temporary/reverse-kifu'
     layer5_folder = 'temporary/reverse-kif'
 
-    # 最終Layer.
+    # (a) 最終Layer.
     last_layer_folder = 'output'
 
-    # 1. 最終レイヤーの フォルダー を空っぽにします
+    # (b-1) 最終レイヤーの フォルダー を空っぽにします
     if not debug:
         clear_all_records_in_folder(last_layer_folder, echo=False)
 
-    # 2. レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
+    # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
     copy_files_to_folder(layer1_file_pattern, layer2_folder)
 
-    # 3. レイヤー２にあるファイルのリスト
+    # (b-3) レイヤー２にあるファイルのリスト
     kif_files = glob.glob(layer2_file_pattern)
 
     for kif_file in kif_files:
 
-        # レイヤー２にあるファイルの SHA256 生成
+        # (c) レイヤー２にあるファイルの SHA256 生成
         layer2_file_sha256 = create_sha256_by_file_path(kif_file)
 
-        # Shift-JIS から UTF-8 へ変更
-        kifu_file = convert_kif_to_kifu(kif_file, output_folder='temporary/kifu')
+        # (d-1) Shift-JIS から UTF-8 へ変更
+        kifu_file = convert_kif_to_kifu(
+            kif_file, output_folder='temporary/kifu')
         if kifu_file is None:
             print(
-                f"Error: kif_to_pivot.py kif parse fail. kif_file={kif_file}")
+                f"[ERROR] kif_to_pivot.py __main: (d-1) parse fail. kif_file={kif_file}")
             continue
 
-        # 4. Pivot へ変換
-        pivot_file = convert_kifu_to_pivot(
+        # (d-2) 目的のファイル（Pivot）へ変換
+        object_file = convert_kifu_to_pivot(
             kifu_file, output_folder=object_folder)
-        if pivot_file is None:
+        if object_file is None:
             print(
-                f"Error: kif_to_pivot.py kifu parse fail. kifu_file={kifu_file}")
+                f"[ERROR] kif_to_pivot.py __main: (d-2) parse fail. kifu_file={kifu_file}")
             continue
 
         # ここから逆の操作を行います
 
+        # (e-1)
         reversed_kifu_file = convert_pivot_to_kifu(
-            pivot_file, output_folder=layer4_folder)
+            object_file, output_folder=layer4_folder)
         if reversed_kifu_file is None:
             print(
-                f"Error: kifu_to_pivot.py pivot parse fail. pivot_file={pivot_file}")
+                f"[ERROR] kif_to_pivot.py __main: (e-1) parse fail. object_file={object_file}")
             continue
 
-        # Shift-JIS から UTF-8 へ変更
-        reversed_kif_file = convert_kifu_to_kif(reversed_kifu_file, output_folder=layer5_folder)
+        # (e-2) Shift-JIS から UTF-8 へ変更
+        reversed_kif_file = convert_kifu_to_kif(
+            reversed_kifu_file, output_folder=layer5_folder)
         if reversed_kif_file is None:
             print(
-                f"Error: kif_to_pivot.py kif parse fail. reversed_kifu_file={reversed_kifu_file}")
+                f"[ERROR] kif_to_pivot.py __main: (e-2) parse fail. reversed_kifu_file={reversed_kifu_file}")
             continue
 
-        # レイヤー５にあるファイルの SHA256 生成
+        # (f) レイヤー５にあるファイルの SHA256 生成
         layer5_file_sha256 = create_sha256_by_file_path(reversed_kif_file)
 
-        # 一致比較
+        # (g) 一致比較
         if layer2_file_sha256 != layer5_file_sha256:
-            # Error
             try:
                 basename = os.path.basename(kif_file)
             except:
                 print(
-                    f"Error: kif_file={kif_file} except={system.exc_info()[0]}")
+                    f"[ERROR] kif_to_pivot.py __main: (g) kif_file={kif_file} except={system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します
             print(
-                f"WARNING: Irreversible conversion. basename={basename}")
+                f"[WARNING] Irreversible conversion. basename={basename}")
             # continue
 
-        # 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
-        move_file_to_folder(pivot_file, last_layer_folder)
+        # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へ移動します
+        move_file_to_folder(object_file, last_layer_folder)
 
-    # 後ろから1. 変換の途中で作ったファイルは削除します
+    # (i) 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
         remove_all_temporary(echo=False)
 
