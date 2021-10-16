@@ -41,10 +41,10 @@ class ReversibleConvertPivotToKifu():
     def outside_input_files(self):
         return glob.glob(self._first_layer_file_pattern)
 
-    def ready_folder(self):
-        # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-        for input_file in self.outside_input_files():
-            copy_file_to_folder(input_file, self._layer2_folder)
+    @property
+    def layer2_folder(self):
+        """レイヤー２フォルダ―"""
+        return self._layer2_folder
 
     def target_files(self):
         """レイヤー２にあるファイルのリスト"""
