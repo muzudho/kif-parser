@@ -45,11 +45,12 @@ def translate(source, destination, template, debug):
     from_pivot.clean_last_layer_folder()
 
     for input_file in from_pivot.outside_input_files():
-        copy = change_place(from_pivot.layer2_folder, input_file)
-        copy_file(input_file, copy, debug=debug)
+        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
+        next_file = change_place(from_pivot.layer2_folder, input_file)
+        copy_file(input_file, next_file, debug=debug)
 
-    for input_file in from_pivot.target_files():
-        from_pivot.round_trip_translate(input_file)
+        # レイヤー２フォルダーにあるファイルを往復翻訳します
+        from_pivot.round_trip_translate(next_file)
 
     from_pivot.clean_temporary()
 
