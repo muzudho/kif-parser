@@ -8,6 +8,9 @@ __row_number = None
 __row_number_pattern = re.compile(r'^    "(\d+)": \{$')
 # Example: `        "num": "270",`
 __move_number_pattern = re.compile(r'^        "num": "(\d+)",$')
+# Example: `            0,`
+# Example: `            0`
+__time_number_pattern = re.compile(r'^            (\d+)(,?)$')
 
 
 def format_data_json(text):
@@ -134,7 +137,14 @@ def move_time_type(line):
         __text += f"{line.lstrip()} "
         __subState = "<None>"
     else:
-        __text += f"{line.lstrip()} "
+        result = __time_number_pattern.match(line)
+        if result:
+            number = int(result.group(1))
+            comma = result.group(2)
+            digits = number_digits(number)
+            padding = "".ljust(2-digits)
+            __text += f"{padding}{number}{comma}"
+        # __text += f"{line.lstrip()} "
 
 
 def move_total_type(line):
@@ -145,10 +155,17 @@ def move_total_type(line):
         __text += f"{line.lstrip()}\n"
         __subState = "<None>"
     else:
-        __text += f"{line.lstrip()} "
+        result = __time_number_pattern.match(line)
+        if result:
+            number = int(result.group(1))
+            comma = result.group(2)
+            digits = number_digits(number)
+            padding = "".ljust(2-digits)
+            __text += f"{padding}{number}{comma}"
+        # __text += f"{line.lstrip()} "
 
 
-def number_digits(number):
+def number_digits(number: int):
     """数の桁数を返します"""
 
     # 行番号が1桁のとき7

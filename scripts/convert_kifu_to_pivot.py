@@ -249,9 +249,12 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
     with open(output_pivot, 'w', encoding='utf-8') as fOut:
         # JSON出力
-        # TODO でも配列が改行されるの気になる
+        # dumps そのままでは、配列の要素が複数行に改行されるのが気になる
         text = json.dumps(data, indent=4, ensure_ascii=False)
+
+        # そこで再整形
         text = format_data_json(text)
+
         fOut.write(text)
 
     return output_pivot
