@@ -5,6 +5,9 @@ __subState = None
 __text = None
 __row_number = None
 
+# Example: `        "type": "kvPair",`
+__type_pattern = re.compile(r'^\s*"(\w+)": "(\w+)",$')
+#
 __row_number_pattern = re.compile(r'^    "(\d+)": \{$')
 # Example: `        "num": "270",`
 __move_number_pattern = re.compile(r'^        "num": "(\d+)",$')
@@ -79,9 +82,12 @@ def format_data_json(text):
                 __text = __text.rstrip()
                 __text += f"{line.lstrip()} "
             elif line == '        "type": "kvPair",':
-                __state = "<KvPair>"
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()} "
+                matched = __type_pattern.match(line)
+                if matched:
+                    type_type(matched)
+                    __state = "<KvPair>"
+                else:
+                    raise ValueError(line)
             elif line == '        "type": "movesHeader",':
                 __state = "<MovesHeader>"
                 __text = __text.rstrip()
@@ -126,6 +132,22 @@ def row_number_type(matched):
         digits = 3
     padding = "".ljust(3-digits)
     __text += f'{padding}"{__row_number}":{{\n'
+
+
+def type_type(matched):
+    """
+    Examples
+    --------
+    `        "type": "kvPair",`
+    👆 元
+    `"type":"kvPair",`
+    👆 変換後
+    """
+    global __row_number, __state, __subState, __text
+    key = matched.group(1)
+    value = matched.group(2)
+    __text = __text.rstrip()
+    __text += f'"{key}":"{value}",'
 
 
 def comment_type(line):
