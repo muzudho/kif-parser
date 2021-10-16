@@ -17,7 +17,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
         print(f"Error: pivot_file={pivot_file} except={sys.exc_info()[0]}")
         raise
 
-    if not basename.lower().endswith('[data].json'):
+    if not basename.lower().endswith('[kifu-pivot].json'):
         return None
     stem, _extention = os.path.splitext(basename)
 
@@ -95,8 +95,8 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
                 f"Error: pivot_to_kifu.py unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
             return None
 
-    # stem の末尾に `[data]` が付いているので外します
-    if not stem.endswith('[data]'):
+    # stem の末尾に `[kifu-pivot]` が付いているので外します
+    if not stem.endswith('[kifu-pivot]'):
         print(f"Error stem=[{stem}]")
         return None
 
