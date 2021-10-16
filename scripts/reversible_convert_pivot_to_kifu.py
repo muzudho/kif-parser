@@ -9,39 +9,43 @@ from scripts.test_lib import create_sha256_by_file_path
 
 
 class ReversibleConvertPivotToKifu():
-    def __init__(self):
-        pass
-
-    def reversible_convert_pivot_to_kifu(self, debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
-
+    def __init__(self, debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
         # (a) Layer 1. 入力フォルダ―
-        first_layer_file_pattern = os.path.join(first_layer_folder, '*.json')
+        self._first_layer_file_pattern = os.path.join(
+            first_layer_folder, '*.json')
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
-        layer2_folder = 'temporary/from-pivot/pivot'
-        layer2_file_pattern = './temporary/from-pivot/pivot/*.json'
+        self._layer2_folder = 'temporary/from-pivot/pivot'
+        self._layer2_file_pattern = './temporary/from-pivot/pivot/*.json'
 
         # (a) Layer 3. Pivotフォルダ―(なし)
 
         # (a) 中間Layer.
-        middle_folder = 'temporary/from-pivot/object'
+        self._middle_folder = 'temporary/from-pivot/object'
 
         # (a) Layer 4. 逆方向のフォルダ―
-        layer4_folder = 'temporary/from-pivot/reverse-pivot'
+        self._layer4_folder = 'temporary/from-pivot/reverse-pivot'
 
         # (a) 最終Layer.
-        last_layer_folder = 'output'
+        self._last_layer_folder = 'output'
+
+        self._debug = debug
+        self._first_layer_folder = first_layer_folder
+        self._no_remove_output_pivot = no_remove_output_pivot
+        self._template_name = template_name
+
+    def reversible_convert_pivot_to_kifu(self):
 
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
-        clear_all_records_in_folder(last_layer_folder, echo=False)
+        clear_all_records_in_folder(self._last_layer_folder, echo=False)
 
         # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-        input_files = glob.glob(first_layer_file_pattern)
+        input_files = glob.glob(self._first_layer_file_pattern)
         for input_file in input_files:
-            copy_file_to_folder(input_file, layer2_folder)
+            copy_file_to_folder(input_file, self._layer2_folder)
 
         # (b-3) レイヤー２にあるファイルのリスト
-        pivot_files = glob.glob(layer2_file_pattern)
+        pivot_files = glob.glob(self._layer2_file_pattern)
 
         for pivot_file in pivot_files:
 
@@ -50,7 +54,7 @@ class ReversibleConvertPivotToKifu():
 
             # (d-1) 目的のファイル（KIFU）へ変換
             object_file = convert_pivot_to_kifu(
-                pivot_file, output_folder=middle_folder, template_name=template_name)
+                pivot_file, output_folder=self._middle_folder, template_name=self._template_name)
             if object_file is None:
                 print(
                     f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (d-1) parse fail. pivot_file={pivot_file}")
@@ -60,7 +64,7 @@ class ReversibleConvertPivotToKifu():
 
             # (e-1)
             reversed_pivot_file = convert_kifu_to_pivot(
-                object_file, output_folder=layer4_folder)
+                object_file, output_folder=self._layer4_folder)
             if reversed_pivot_file is None:
                 print(
                     f"[ERROR] reversible_convert_pivot_to_kifu.py reversible_convert_pivot_to_kifu: (e-1) parse fail. object_file={object_file}")
@@ -85,9 +89,9 @@ class ReversibleConvertPivotToKifu():
                 # continue
 
             # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
-            copy_file_to_folder(object_file, last_layer_folder)
+            copy_file_to_folder(object_file, self._last_layer_folder)
 
         # (i) 後ろから1. 変換の途中で作ったファイルは削除します
-        if not debug:
+        if not self._debug:
             remove_all_temporary(
-                echo=False, no_remove_output_pivot=no_remove_output_pivot)
+                echo=False, no_remove_output_pivot=self._no_remove_output_pivot)

@@ -58,9 +58,9 @@ if __name__ == "__main__":
             debug=True)
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif()
     elif args.tool == "pivot2kifu":
-        reversible_convert_pivot_to_kifu = ReversibleConvertPivotToKifu()
-        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu(
+        reversible_convert_pivot_to_kifu = ReversibleConvertPivotToKifu(
             debug=True)
+        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu()
 
     if args.rmout:
         clear_all_records_in_folder('output')
