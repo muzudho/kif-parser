@@ -2,7 +2,9 @@ from os import error
 import re
 
 
-class CommentP():
+class CommentRowP():
+    """コメント行パーサー"""
+
     def __init__(self):
         self._comment_statement = re.compile(r"^([^#]*)#(.+)$")
 
@@ -29,10 +31,12 @@ class CommentP():
         return f'{s}#{row_data["comment"]}\n'
 
 
-comment_p = CommentP()
+comment_row_p = CommentRowP()
 
 
-class ExplanationP():
+class ExplainRowP():
+    """指し手の解説行パーサー"""
+
     def __init__(self):
         self._explain_statement = re.compile(r"^(\s)*\*([^#]*)#?(.+)?$")
 
@@ -67,7 +71,7 @@ class ExplanationP():
         return f'{s}\n'
 
 
-explain_p = ExplanationP()
+explain_row_p = ExplainRowP()
 
 
 class BookmarkP():
@@ -181,8 +185,8 @@ player_phase_p = PlayerPhaseP()
 class MovesHeaderStatementP():
     """指し手リストのヘッダー パーサー
 
-    Examples
-    --------
+    Example
+    -------
     棋譜ファイル KIF 形式
     `手数----指手---------消費時間-- # この行は、なくてもいい`
     """
