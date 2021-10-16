@@ -99,3 +99,7 @@ class BaseTemplate():
             judge = row_data["judge"]
             return judge_statement2_p.from_pivot(
                 num, judge)
+
+    def end_of_file(self):
+        """ファイルの最後"""
+        return ""

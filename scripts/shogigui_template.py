@@ -98,3 +98,8 @@ class ShogiguiTemplate(BaseTemplate):
             kifu_text += f"#{comment}"
 
         return f"{kifu_text}\n"
+
+    def end_of_file(self):
+        """ファイルの最後
+        ShogiGUIのファイルの最後は空行が２つです"""
+        return "\n"

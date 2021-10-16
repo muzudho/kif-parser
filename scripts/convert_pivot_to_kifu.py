@@ -57,7 +57,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
                     generating_software_is_probably["shogidokoro"])
                 # 将棋所テンプレート
                 if best_rate < shogidokoro_rate:
-                    print(f"[DEBUG] 将棋所テンプレートに変えます")
+                    # print(f"[DEBUG] 将棋所テンプレートに変えます")
                     template = ShogidokoroTemplate()
                     best_rate = shogidokoro_rate
 
@@ -66,7 +66,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
                     generating_software_is_probably["shogiGui"])
                 # ShogiGUIテンプレート
                 if best_rate < shogigui_rate:
-                    print(f"[DEBUG] ShogiGUIテンプレートに変えます")
+                    # print(f"[DEBUG] ShogiGUIテンプレートに変えます")
                     template = ShogiguiTemplate()
                     best_rate = shogigui_rate
         else:
@@ -74,6 +74,9 @@ def convert_pivot_to_kifu(pivot_file, output_folder):
             print(
                 f"Error: pivot_to_kifu.py unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
             return None
+
+    # 最終行に空行が続くケースもあります
+    kifu_text += template.end_of_file()
 
     # stem の末尾に `[kifu-pivot]` が付いているので外します
     if not stem.endswith('[kifu-pivot]'):
