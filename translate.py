@@ -1,6 +1,8 @@
 import argparse
 from scripts.reversible_convert_kif_to_pivot import reversible_convert_kif_to_pivot
 from scripts.reversible_convert_kifu_to_pivot import reversible_convert_kifu_to_pivot
+from scripts.reversible_convert_pivot_to_kif import reversible_convert_pivot_to_kif
+from scripts.reversible_convert_pivot_to_kifu import reversible_convert_pivot_to_kifu
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
 if __name__ == "__main__":
@@ -40,3 +42,13 @@ if __name__ == "__main__":
         # KIFファイルをPIVOTへ変換します
         reversible_convert_kif_to_pivot(
             debug=args.debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=args.template)
+
+    # TODO input ではなく './temporary/output-pivot' からファイルを入力したい
+    if args.destination == 'kifu':
+        # PIVOTファイルをKIFUへ変換します
+        reversible_convert_pivot_to_kifu(
+            debug=args.debug, template_name=args.template)
+    else:
+        # PIVOTファイルをKIFへ変換します
+        reversible_convert_pivot_to_kif(
+            debug=args.debug, template_name=args.template)
