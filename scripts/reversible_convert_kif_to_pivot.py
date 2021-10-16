@@ -8,7 +8,6 @@ from remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.copy_file_to_folder import copy_file_to_folder
-from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -99,10 +98,9 @@ def reversible_convert_kif_to_pivot(debug=False, template_name=""):
             # 不可逆な変換だが、とりあえず通します
             print(
                 f"[WARNING] Irreversible conversion. basename={basename}")
-            # continue
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
-        move_file_to_folder(object_file, last_layer_folder)
+        copy_file_to_folder(object_file, last_layer_folder)
 
     # (i) 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
