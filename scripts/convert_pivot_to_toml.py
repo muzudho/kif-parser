@@ -4,7 +4,7 @@ import sys
 from collections import OrderedDict
 from scripts.toml_specification import player_phase_p, \
     judge_statement1_p, judge_statement2_p, judge_statement3_p, move_statement_p, \
-    key_value_pair_statement_p
+    key_value_pair_row_p
 
 
 def convert_pivot_to_toml(pivot_file, output_folder):
@@ -186,8 +186,8 @@ def convert_pivot_to_toml(pivot_file, output_folder):
             else:
                 comment = None
 
-            buffer += key_value_pair_statement_p.from_pivot(row_data,
-                                                            row_number, key, value, comment)
+            buffer += key_value_pair_row_p.from_pivot(row_data,
+                                                      row_number, key, value, comment)
 
             pre_section_type = "<GAMEINFO>"
 

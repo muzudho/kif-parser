@@ -115,8 +115,9 @@ class BookmarkRowP():
 bookmark_row_p = BookmarkRowP()
 
 
-class KeyValuePairStatementP():
-    """TODO 対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にある"""
+class KeyValuePairRowP():
+    """キー値ペア行
+    対局情報は　`ユーザが任意のものを追加できる`　と `棋譜ファイル KIF 形式` にあります"""
 
     def __init__(self):
         # Example: `キーワード：オプション # コメント`
@@ -170,7 +171,7 @@ class KeyValuePairStatementP():
         return f"{text}\n"
 
 
-key_value_pair_statement_p = KeyValuePairStatementP()
+key_value_pair_row_p = KeyValuePairRowP()
 
 
 class PlayerPhaseP():

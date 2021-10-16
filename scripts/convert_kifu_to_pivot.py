@@ -5,7 +5,7 @@ from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_ro
     move_statement_p, move_p, expended_time_p, total_expended_time_p, judge_statement1_p, \
     judge_statement2_p, judge_statement3_p, reason_p, \
     moves_header_statement_p, \
-    key_value_pair_statement_p
+    key_value_pair_row_p
 from scripts.generator_identification import generator_identification
 from scripts.data_json_format import format_data_json
 import sys
@@ -200,13 +200,13 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             row_number += 1
             continue
 
-        # ユーザー定義の対局情報の行の解析
-        result = key_value_pair_statement_p.match(line)
+        # Key-value pair row（キー値ペア行）
+        result = key_value_pair_row_p.match(line)
         if result:
             key = result.group(1)
             value = result.group(2)
             comment = result.group(3)
-            key_value_pair_statement_p.to_pivot(
+            key_value_pair_row_p.to_pivot(
                 data, row_number, key, value, comment)
             row_number += 1
             continue
