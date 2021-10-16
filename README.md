@@ -2,7 +2,29 @@
 
 WIP 作業中です。  
 
-![20211016blog6.png](./docs/img/20211016blog6.png)  
+## Attention（注意）
+
+初めに注意。  
+棋譜ファイルはバックアップを残しておいてください。  
+このアプリケーションでは、棋譜ファイルのコピーを利用してください。  
+
+## Set up（設定）
+
+```shell
+python.exe is_ready.py
+# または
+is_ready.py
+```
+
+👆 [Python3](https://www.python.org/)をインストールして、`is_ready.py` スクリプトを実行してください
+
+```shell
+readyok
+```
+
+👆 問題なければ `readyok` と表示されます
+
+## Documents
 
 * 📖　[.kifファイルの問題点の洗い出し](./docs/research.md)
 * 📖　[.kifファイルの利用実態の調査](./docs/examples)
@@ -10,39 +32,6 @@ WIP 作業中です。
 * 📖　[.kifファイルの国際化に向けた翻訳について](./docs/translation.md)
 * 📖　[kif-parser の展望](./docs/vision.md)  
 * 📖　[kif-parser 開発者向けドキュメント](./docs/developer.md)  
-
-## Set up - このスクリプトの使い方
-
-初めに注意。  
-棋譜ファイルは別にバックアップを残しておいてください。  
-このアプリケーションでは、棋譜ファイルのコピーを利用してください。  
-
-**Python 3** を使いこなすスキルがあるものとします。  
-
-## KIF から KIFU へ変換（またその逆）
-
-1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
-3. 📄`input/*.kif` は UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
-
-同様に、逆の操作として `python.exe kifu_to_kif.py` というコマンドがあります  
-
-
-## KIF から PIVOT へ変換
-
-1. 📂`input` フォルダーに `*.kif` ファイルをたくさん入れてください
-2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
-3. JSON形式に変換して 📂`output` へ 📄`*[kifu-pivot].json` （PIVOT）が出力されます
-
-同様に、逆の操作として `python.exe kifu_to_pivot.py` というコマンドがあります
-
-## PIVOT から KIF へ変換
-
-1. 📂`input` フォルダーに `*[kifu-pivot].json` 形式のPIVOTファイルをたくさん入れてください
-2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
-3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
-
-同様に、逆の操作として `python.exe pivot_to_kifu.py` というコマンドがあります
 
 ## Other site documents
 

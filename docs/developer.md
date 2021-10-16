@@ -1,5 +1,35 @@
 # kif-parser 開発者向けドキュメント
 
+![20211016blog6.png](./docs/img/20211016blog6.png)  
+👆 PIVOTファイルの例  
+
+## KIF から KIFU へ変換（またその逆）
+
+1. 📂`input` フォルダーに 📄`*.kif` ファイルをたくさん入れてください
+2. ターミナルで `python.exe kif_to_kifu.py` コマンドを実行してください
+3. 📄`input/*.kif` は UTF-8形式に変換して 📂`output` へ 📄`*.kifu` が出力されます
+
+同様に、逆の操作として `python.exe kifu_to_kif.py` というコマンドがあります  
+
+
+## KIF から PIVOT へ変換
+
+1. 📂`input` フォルダーに `*.kif` ファイルをたくさん入れてください
+2. ターミナルで `python.exe kif_to_pivot.py` コマンドを実行してください
+3. JSON形式に変換して 📂`output` へ 📄`*[kifu-pivot].json` （PIVOT）が出力されます
+
+同様に、逆の操作として `python.exe kifu_to_pivot.py` というコマンドがあります
+
+## PIVOT から KIF へ変換
+
+1. 📂`input` フォルダーに `*[kifu-pivot].json` 形式のPIVOTファイルをたくさん入れてください
+2. ターミナルで `python.exe pivot_to_kif.py` コマンドを実行してください
+3. KIF形式に変換して 📂`output` へ 📄`*.kif` が出力されます
+
+同様に、逆の操作として `python.exe pivot_to_kifu.py` というコマンドがあります
+
+# 以前の記事
+
 `*_danger.py` は 📂`input` フォルダーの内容を破壊します。誤ってダブルクリックすることのないようにしましょう。  
 
 リリース時に必要なフォルダー階層は以下の通りです  
