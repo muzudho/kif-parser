@@ -42,9 +42,6 @@ def format_data_json(text):
             # 行番号
             # =====
             row_number_type(row_number_matched)
-        elif line == "}":
-            # 最後の閉じかっこ
-            __text += f"\n{line.lstrip()}"
         elif __state == "<Comment>" or __state == "<KvPair>" or __state == "<MovesHeader>" or __state == "<Explain>" or __state == "<Result>":
             result_type(line)
         elif __state == "<Move>":
@@ -128,6 +125,11 @@ def format_data_json(text):
                 else:
                     raise ValueError(line)
             else:
+                """その他
+                先頭の {
+                最後の }
+                appendix ブロック
+                """
                 __text += f"{line}\n"
         # print(f"[line] {line}")
     # print(f"[__text] {__text}")
