@@ -42,10 +42,13 @@ class ReversibleConvertPivotToKif():
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
         clear_all_records_in_folder(self._last_layer_folder, echo=False)
 
+    def outside_input_files(self):
+        """レイヤー１フォルダ―にあるファイル"""
+        return glob.glob(self._first_layer_file_pattern)
+
     def ready_folder(self):
         # (b-2) レイヤー１フォルダ―にあるファイルを レイヤー２フォルダ―へコピーします
-        input_files = glob.glob(self._first_layer_file_pattern)
-        for input_file in input_files:
+        for input_file in self.outside_input_files():
             copy_file_to_folder(input_file, self._layer2_folder)
 
     def target_files(self):
