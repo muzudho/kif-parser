@@ -30,8 +30,7 @@ class ReversibleConvertKifuToPivot():
         self._no_remove_output_pivot = no_remove_output_pivot
         self._template_name = template_name
 
-    def reversible_convert_kifu_to_pivot(self):
-
+    def reversible_convert_kifu_to_pivot_ready(self):
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
         clear_all_records_in_folder(self._last_layer_folder, echo=False)
 
@@ -40,9 +39,9 @@ class ReversibleConvertKifuToPivot():
         for input_file in input_files:
             copy_file_to_folder(input_file, self._layer2_folder)
 
-        # (b-3) レイヤー２にあるファイルのリスト
+    def reversible_convert_kifu_to_pivot(self):
+        # レイヤー２にあるファイルのリスト
         kifu_files = glob.glob(self._layer2_file_pattern)
-
         for kifu_file in kifu_files:
             self.reversible_convert_kifu_to_pivot_one(kifu_file)
 

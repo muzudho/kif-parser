@@ -41,25 +41,31 @@ if __name__ == "__main__":
     if args.tool == "kif2kifu":
         # KIF to KIFU
         reversible_convert_kif_to_kifu = ReversibleConvertKifToKifu(debug=True)
+        reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu_ready()
         reversible_convert_kif_to_kifu.reversible_convert_kif_to_kifu()
     elif args.tool == "kif2pivot":
         reversible_convert_kif_to_pivot = ReversibleConvertKifToPivot()
+        reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot_ready()
         reversible_convert_kif_to_pivot.reversible_convert_kif_to_pivot(
             debug=True)
     elif args.tool == "kifu2kif":
         reversible_convert_kifu_to_kif = ReversibleConvertKifuToKif(debug=True)
+        reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif_ready()
         reversible_convert_kifu_to_kif.reversible_convert_kifu_to_kif()
     elif args.tool == "kifu2pivot":
         reversible_convert_kifu_to_pivot = ReversibleConvertKifuToPivot(
             debug=True)
-        reversible_convert_kifu_to_pivot()
+        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot_ready()
+        reversible_convert_kifu_to_pivot.reversible_convert_kifu_to_pivot()
     elif args.tool == "pivot2kif":
         reversible_convert_pivot_to_kif = ReversibleConvertPivotToKif(
             debug=True)
+        reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif_ready()
         reversible_convert_pivot_to_kif.reversible_convert_pivot_to_kif()
     elif args.tool == "pivot2kifu":
         reversible_convert_pivot_to_kifu = ReversibleConvertPivotToKifu(
             debug=True)
+        reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu_ready()
         reversible_convert_pivot_to_kifu.reversible_convert_pivot_to_kifu()
 
     if args.rmout:

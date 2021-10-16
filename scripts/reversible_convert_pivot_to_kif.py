@@ -38,8 +38,7 @@ class ReversibleConvertPivotToKif():
         self._no_remove_output_pivot = no_remove_output_pivot
         self._template_name = template_name
 
-    def reversible_convert_pivot_to_kif(self):
-
+    def reversible_convert_pivot_to_kif_ready(self):
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
         if not self._debug:
             clear_all_records_in_folder(self._last_layer_folder, echo=False)
@@ -49,9 +48,9 @@ class ReversibleConvertPivotToKif():
         for input_file in input_files:
             copy_file_to_folder(input_file, self._layer2_folder)
 
-        # (b-3) レイヤー２にあるファイルのリスト
+    def reversible_convert_pivot_to_kif(self):
+        # レイヤー２にあるファイルのリスト
         pivot_files = glob.glob(self._layer2_file_pattern)
-
         for pivot_file in pivot_files:
             self.reversible_convert_pivot_to_kif_one(pivot_file)
 
