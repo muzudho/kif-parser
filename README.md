@@ -104,8 +104,6 @@ python.exe debug.py --rmin
 他に 📂`output`フォルダーの中を消す `--rmout`、  
 📂`temporary`フォルダーの中を消す `--rmtmp` オプションもあります
 
-フォルダーのクリアーは、翻訳のあとに行われます
-
 ## Documents
 
 未整理  
