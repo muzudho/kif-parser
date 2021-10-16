@@ -2,7 +2,7 @@ from scripts.base_template import BaseTemplate
 
 
 class ShogidokoroTemplate(BaseTemplate):
-    """将棋所テンプレート"""
+    """ShogiGUIテンプレート"""
 
     def __init__(self):
         pass
