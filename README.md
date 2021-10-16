@@ -2,6 +2,15 @@
 
 WIP 作業中です。  
 
+将棋ソフト間で受け渡しされる棋譜ファイル形式（`.kif`, `.kifu`）の仕様のゆらぎを解決するためのプログラムです。  
+ShogiGUI で作成した `.kifu` ファイルを、 将棋所のフォーマットに変換したり、その逆ができます。  
+このアプリケーションは 翻訳 に似ています  
+
+現在対応を進めているのは２ソフトです
+
+* [将棋所](http://shogidokoro.starfree.jp/)
+* [ShogiGUI](http://shogigui.siganus.com/)
+
 ## Attention（注意）
 
 初めに注意。  
@@ -32,7 +41,7 @@ readyok
 * 📄`20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kifu`
 
 という KIFファイルと、 KIFUファイル を置いてあります。  
-これは [ShogiGUI](http://shogigui.siganus.com/) で出力したファイルですが、これを [将棋所](http://shogidokoro.starfree.jp/) のフォーマットに変換する例を示します  
+これは ShogiGUI で出力したファイルですが、これを 将棋所 のフォーマットに変換する例を示します  
 
 同じく最上位ディレクトリーに 📂`input` フォルダーがありますので、ここに 📄`20211002_223506_KifuwarabeW31B22vsKifuwarabeW31B22[shogigui].kif` のコピーを置いてください。  
 このアプリケーションで棋譜ファイルを使う（翻訳する）場合、必ずバックアップを取っておいて コピーの方を使ってください  
