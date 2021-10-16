@@ -224,25 +224,28 @@ moves_header_row_p = MovesHeaderRowP()
 
 class MoveRowP():
     def __init__(self):
-        # 棋譜ファイル KIF 形式
-        # -------------------
-        # Example: `1 ７六歩(77) ( 0:16/00:00:16)`
-        # Example: `2 ３四歩(33) ( 0:00/00:00:00)`
-        # Example: `3 中断 ( 0:03/ 0:00:19)`
-        #
-        # 将棋所
-        # -----
-        # Example: `   1 ７六歩(77)    (00:01 / 00:00:01)`
-        # Example: `  22 同　角(88)    (00:01 / 00:00:11)`
-        #
-        # Shogi GUI
-        # ---------
-        # Example: `   1 ７六歩(77)        ( 0:00/00:00:00)`
-        self._move_statement = re.compile(
-            r"^\s*(\d+)\s+([^ ]+)\s*\(?\s*([0-9:]+)?\s*/?\s*([0-9:]+)?\s*\)?(.*)$")
+        """
+        Example
+        -------
+        棋譜ファイル KIF 形式
+        `1 ７六歩(77) ( 0:16/00:00:16)`
+        `2 ３四歩(33) ( 0:00/00:00:00)`
+        `3 中断 ( 0:03/ 0:00:19)`
+
+        将棋所
+        `   1 ７六歩(77)    (00:01 / 00:00:01)`
+        `  22 同　角(88)    (00:01 / 00:00:11)`
+
+        Shogi GUI
+        `   1 ７六歩(77)        ( 0:00/00:00:00)`
+
+        末尾にコメントが打てる
+        """
+        self._move_row = re.compile(
+            r"^\s*(\d+)\s+([^ ]+)\s*\(?\s*([0-9:]+)?\s*/?\s*([0-9:]+)?\s*\)?(.*)#?(.*)?$")
 
     def match(self, line):
-        return self._move_statement.match(line)
+        return self._move_row.match(line)
 
     def from_pivot(self, row_data):
         kifu_text = ""
@@ -331,6 +334,11 @@ class MoveRowP():
 
         if time and total:
             kifu_text += f"({timeMin:02}:{timeSec:02} / {totalExpendedTimeHr:02}:{totalMin:02}:{totalSec:02})"
+
+        # Comment（コメント）
+        if "comment" in row_data:
+            comment = row_data["comment"]
+            kifu_text += f"#{comment}"
 
         return f"{kifu_text}\n"
 
