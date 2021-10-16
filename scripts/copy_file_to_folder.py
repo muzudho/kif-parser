@@ -15,4 +15,8 @@ def copy_file_to_folder(input_file, output_folder):
         raise
 
     copy_file = os.path.join(output_folder, basename)
+
+    if input_file == copy_file:
+        raise ValueError(f"[FATAL] Copy same. [{input_file}]")
+
     shutil.copyfile(input_file, copy_file)

@@ -15,7 +15,7 @@ class ReversibleConvertKifuToPivot():
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
         self._layer2_folder = 'temporary/to-pivot/kifu'
-        self._layer2_file_pattern = './temporary/to-pivot/kifu/*.kifu'
+        self._layer2_file_pattern = 'temporary/to-pivot/kifu/*.kifu'
 
         # (a) Layer 3. Pivotフォルダ―(なし)
 
@@ -86,7 +86,7 @@ class ReversibleConvertKifuToPivot():
             print(
                 f"[WARNING] Irreversible conversion to-pivot. basename={basename}")
 
-        # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
+        # (h) 後ろから2. 中間ファイルを 最終フォルダ―へコピーします
         copy_file_to_folder(object_file, self._last_layer_folder)
 
     def clean_temporary(self):

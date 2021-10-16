@@ -18,7 +18,7 @@ class ReversibleConvertKifToPivot():
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
         self._layer2_folder = 'temporary/to-pivot/kif'
-        self._layer2_file_pattern = './temporary/to-pivot/kif/*.kif'
+        self._layer2_file_pattern = 'temporary/to-pivot/kif/*.kif'
 
         self._layer2b_folder = 'temporary/to-pivot/kifu'
 

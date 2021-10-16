@@ -18,7 +18,7 @@ class ReversibleConvertPivotToKif():
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
         self._layer2_folder = 'temporary/from-pivot/pivot'
-        self._layer2_file_pattern = './temporary/from-pivot/pivot/*[[]data[]].json'
+        self._layer2_file_pattern = 'temporary/from-pivot/pivot/*[[]kifu-pivot[]].json'
         self._layer2b_folder = 'temporary/from-pivot/kifu'
 
         # (a) Layer 3. Pivotフォルダ―(なし)
@@ -79,7 +79,7 @@ class ReversibleConvertPivotToKif():
 
         # (e-1)
         reversed_kifu_file = convert_kif_to_kifu(
-            object_file, output_folder=self._layer4_folder, template_name=self._template_name)
+            object_file, output_folder=self._layer4_folder)  # , template_name=self._template_name
         if reversed_kifu_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): Parse fail. input_file={input_file}")
@@ -87,7 +87,7 @@ class ReversibleConvertPivotToKif():
 
         # (e-2)
         reversed_pivot_file = convert_kifu_to_pivot(
-            reversed_kifu_file, output_folder=self._layer5_folder, template_name=self._template_name)
+            reversed_kifu_file, output_folder=self._layer5_folder)  # , template_name=self._template_name
         if reversed_pivot_file is None:
             print(
                 f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): Parse fail. input_file={input_file}")

@@ -15,7 +15,7 @@ class ReversibleConvertKifuToKif():
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
         self._layer2_folder = 'temporary/no-pivot/kifu'
-        self._layer2_file_pattern = './temporary/no-pivot/kifu/*.kifu'
+        self._layer2_file_pattern = 'temporary/no-pivot/kifu/*.kifu'
 
         # (a) Layer 3. Pivotフォルダ―(なし)
 
