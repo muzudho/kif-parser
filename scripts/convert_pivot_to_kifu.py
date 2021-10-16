@@ -6,7 +6,7 @@ from scripts.shogidokoro_template import ShogidokoroTemplate
 from scripts.shogigui_template import ShogiguiTemplate
 
 
-def convert_pivot_to_kifu(pivot_file, output_folder, template_name=""):
+def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=False):
     # basename
     try:
         basename = os.path.basename(pivot_file)
@@ -17,8 +17,6 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name=""):
     if not basename.lower().endswith('[kifu-pivot].json'):
         return None
     stem, _extention = os.path.splitext(basename)
-
-    kifuFile = ""
 
     # Pivotファイル（JSON形式）を読込みます
     with open(pivot_file, encoding='utf-8') as f:
@@ -95,11 +93,16 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name=""):
 
     # New .kifu ファイル出力
     # stem の末尾に `[テンプレート名]` を付けます
-    kifuFile = os.path.join(output_folder, f"{stem}[{template.name}].kifu")
-    with open(kifuFile, mode='w', encoding='utf-8') as fOut:
-        fOut.write(kifu_text)
+    out_path = os.path.join(output_folder, f"{stem}[{template.name}].kifu")
 
-    return kifuFile
+    if debug:
+        print(
+            f"[DEBUG] convert_pivot_to_kifu.py convert_pivot_to_kifu(): Write to [{out_path}]")
+
+    with open(out_path, mode='w', encoding='utf-8') as f_out:
+        f_out.write(kifu_text)
+
+    return out_path
 
 
 def remove_suffix(stem, suffix):
