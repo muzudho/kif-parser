@@ -12,6 +12,7 @@ from scripts.test_lib import create_sha256_by_file_path
 class ReversibleConvertPivotToKifu():
     def __init__(self, debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
         # (a) Layer 1. 入力フォルダ―
+        self._first_layer_folder = first_layer_folder
         self._first_layer_file_pattern = os.path.join(
             first_layer_folder, '*.json')
 
@@ -41,6 +42,11 @@ class ReversibleConvertPivotToKifu():
 
     def outside_input_files(self):
         return glob.glob(self._first_layer_file_pattern)
+
+    @property
+    def layer1_folder(self):
+        """レイヤー１フォルダ―"""
+        return self._first_layer_folder
 
     @property
     def layer2_folder(self):

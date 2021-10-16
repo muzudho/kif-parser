@@ -15,6 +15,7 @@ from scripts.test_lib import create_sha256_by_file_path
 class ReversibleConvertKifToPivot():
     def __init__(self, debug=False, last_layer_folder='output', no_remove_output_pivot=False, template_name=""):
         # (a) Layer 1. 入力フォルダ―
+        self._first_layer_folder = 'input'
         self._first_layer_file_pattern = 'input/*.kif'
 
         # (a) Layer 2. 入力フォルダ―のコピーフォルダー
@@ -44,6 +45,11 @@ class ReversibleConvertKifToPivot():
     def outside_input_files(self):
         """レイヤー１フォルダ―にあるファイル"""
         return glob.glob(self._first_layer_file_pattern)
+
+    @property
+    def layer1_folder(self):
+        """レイヤー１フォルダ―"""
+        return self._first_layer_folder
 
     @property
     def layer2_folder(self):

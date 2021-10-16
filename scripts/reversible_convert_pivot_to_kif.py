@@ -14,6 +14,7 @@ from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 class ReversibleConvertPivotToKif():
     def __init__(self, debug=False, first_layer_folder='input', no_remove_output_pivot=False, template_name=""):
         # (a) Layer 1. 入力フォルダ―
+        self._first_layer_folder = first_layer_folder
         self._first_layer_file_pattern = os.path.join(
             first_layer_folder, '*.json')
 
@@ -46,6 +47,11 @@ class ReversibleConvertPivotToKif():
     def outside_input_files(self):
         """レイヤー１フォルダ―にあるファイル"""
         return glob.glob(self._first_layer_file_pattern)
+
+    @property
+    def layer1_folder(self):
+        """レイヤー１フォルダ―"""
+        return self._first_layer_folder
 
     @property
     def layer2_folder(self):
