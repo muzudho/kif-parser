@@ -7,8 +7,9 @@ if __name__ == "__main__":
     """
     Example
     -------
-    `translate.py -s kifu -d kifu -t "shogidokoro"`
-    👆 inputフォルダーの中にあるKIFUファイルを shogidokoroのKIFUファイル形式に変換して outputフォルダーへ出力します
+    `translate.py -s kifu -d kifu -t "shogidokoro" --debug`
+    👆 inputフォルダーの中にあるKIFUファイルを shogidokoroのKIFUファイル形式に変換して outputフォルダーへ出力します。
+    --debug フラグを付けると temporaryフォルダーの中に変換過程のファイルが残ります
     """
 
     # Description
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '-d', '--destination', default='kif', help='Translate to x. "kif"(Default) or "kifu".')
     parser.add_argument(
-        '-t', '--template', default='shogidokoro', help='.kifu Style. "shogidokoro"(Default) or "shogigui".')
+        '-t', '--template', default='', help='.kifu Style. ""(Default) or "shogidokoro" or "shogigui".')
     args = parser.parse_args()
 
     print(f"--debug {args.debug}")
@@ -33,7 +34,9 @@ if __name__ == "__main__":
 
     if args.source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
-        reversible_convert_kifu_to_pivot(debug=args.debug)
+        reversible_convert_kifu_to_pivot(
+            debug=args.debug, last_layer_folder='./temporary/output-pivot', template_name=args.template)
     else:
         # KIFファイルをPIVOTへ変換します
-        reversible_convert_kif_to_pivot(debug=args.debug)
+        reversible_convert_kif_to_pivot(
+            debug=args.debug, last_layer_folder='./temporary/output-pivot', template_name=args.template)

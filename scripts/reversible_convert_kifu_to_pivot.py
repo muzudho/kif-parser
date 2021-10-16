@@ -8,7 +8,7 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def reversible_convert_kifu_to_pivot(debug=False, template_name=""):
+def reversible_convert_kifu_to_pivot(debug=False, last_layer_folder='output', template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kifu'
@@ -25,9 +25,6 @@ def reversible_convert_kifu_to_pivot(debug=False, template_name=""):
 
     # (a) Layer 4. 逆入力フォルダ―
     layer4_folder = 'temporary/to-pivot/reverse-kifu'
-
-    # (a) 最終Layer.
-    last_layer_folder = 'output'
 
     # (b-1) 最終レイヤーの フォルダー を空っぽにします
     clear_all_records_in_folder(last_layer_folder, echo=False)
@@ -49,7 +46,8 @@ def reversible_convert_kifu_to_pivot(debug=False, template_name=""):
         object_file = convert_kifu_to_pivot(
             kifu_file, output_folder=object_folder)
         if object_file is None:
-            print(f"Parse fail. kifu_file={kifu_file}")
+            print(
+                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (d-1) parse fail. kifu_file={kifu_file}")
             continue
 
         # ここから逆の操作を行います
@@ -58,7 +56,8 @@ def reversible_convert_kifu_to_pivot(debug=False, template_name=""):
         reversed_kifu_file = convert_pivot_to_kifu(
             object_file, output_folder=layer4_folder, template_name=template_name)
         if reversed_kifu_file is None:
-            print(f"Parse fail. kifu_file={kifu_file}")
+            print(
+                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (e-1) parse fail. kifu_file={kifu_file}")
             continue
 
         # (f) レイヤー４にあるファイルの SHA256 生成
@@ -75,7 +74,7 @@ def reversible_convert_kifu_to_pivot(debug=False, template_name=""):
 
             # 不可逆な変換だが、とりあえず通します
             print(
-                f"WARNING: Irreversible conversion. basename={basename}")
+                f"[WARNING] Irreversible conversion to-pivot. basename={basename}")
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy_file_to_folder(object_file, last_layer_folder)

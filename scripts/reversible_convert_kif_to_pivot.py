@@ -11,7 +11,7 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def reversible_convert_kif_to_pivot(debug=False, template_name=""):
+def reversible_convert_kif_to_pivot(debug=False, last_layer_folder='output', template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kif'
@@ -30,9 +30,6 @@ def reversible_convert_kif_to_pivot(debug=False, template_name=""):
     # (a) Layer 4. 逆方向のフォルダ―
     layer4_folder = 'temporary/to-pivot/reverse-kifu'
     layer5_folder = 'temporary/to-pivot/reverse-kif'
-
-    # (a) 最終Layer.
-    last_layer_folder = 'output'
 
     # (b-1) 最終レイヤーの フォルダー を空っぽにします
     if not debug:
