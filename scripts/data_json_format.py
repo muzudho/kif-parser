@@ -78,9 +78,12 @@ def format_data_json(text):
                 raise ValueError(f"[ERROR] [{line}]\n")
         else:
             if line == '        "type": "comment",':
-                __state = "<Comment>"
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()} "
+                matched = __type_pattern.match(line)
+                if matched:
+                    type_type(matched)
+                    __state = "<Comment>"
+                else:
+                    raise ValueError(line)
             elif line == '        "type": "kvPair",':
                 matched = __type_pattern.match(line)
                 if matched:
@@ -89,13 +92,19 @@ def format_data_json(text):
                 else:
                     raise ValueError(line)
             elif line == '        "type": "movesHeader",':
-                __state = "<MovesHeader>"
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()} "
+                matched = __type_pattern.match(line)
+                if matched:
+                    type_type(matched)
+                    __state = "<MovesHeader>"
+                else:
+                    raise ValueError(line)
             elif line == '        "type": "explain",':
-                __state = "<Explain>"
-                __text = __text.rstrip()
-                __text += f"{line.lstrip()} "
+                matched = __type_pattern.match(line)
+                if matched:
+                    type_type(matched)
+                    __state = "<Explain>"
+                else:
+                    raise ValueError(line)
             elif line == '        "type": "move",':
                 # 上の行にくる `    "7": {` といったものの右にくっつき、
                 # 下の行にくる num を右にくっつけます
