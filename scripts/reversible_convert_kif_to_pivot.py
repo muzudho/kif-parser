@@ -12,7 +12,7 @@ from scripts.move_file_to_folder import move_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def reversible_convert_kifu_to_pivot(debug=False, template_name=""):
+def reversible_convert_kif_to_pivot(debug=False, template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kif'
