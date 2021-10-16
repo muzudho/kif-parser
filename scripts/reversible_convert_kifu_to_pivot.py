@@ -8,7 +8,7 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def reversible_convert_kifu_to_pivot(debug=False, last_layer_folder='output', template_name=""):
+def reversible_convert_kifu_to_pivot(debug=False, last_layer_folder='output', no_remove_output_pivot=False, template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kifu'
@@ -81,4 +81,5 @@ def reversible_convert_kifu_to_pivot(debug=False, last_layer_folder='output', te
 
     # (i) 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
-        remove_all_temporary(echo=False)
+        remove_all_temporary(
+            echo=False, no_remove_output_pivot=no_remove_output_pivot)

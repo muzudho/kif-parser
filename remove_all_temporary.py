@@ -2,7 +2,7 @@ import os
 import glob
 
 
-def remove_all_temporary(echo=True):
+def remove_all_temporary(echo=True, no_remove_output_pivot=False):
     pattern_list = (
         "./temporary/from-pivot/kif/*.kif",
         "./temporary/from-pivot/kifu/*.kifu",
@@ -30,8 +30,6 @@ def remove_all_temporary(echo=True):
         "./temporary/no-pivot/reverse-pivot/*.json",
         "./temporary/no-pivot/reverse-toml/*.toml",
 
-        "./temporary/output-pivot/*.json",
-
         "./temporary/to-pivot/kif/*.kif",
         "./temporary/to-pivot/kifu/*.kifu",
         "./temporary/to-pivot/pivot/*.json",
@@ -46,12 +44,24 @@ def remove_all_temporary(echo=True):
         "./temporary/to-pivot/reverse-toml/*.toml",
     )
 
+    pattern_list2 = (
+        "./temporary/output-pivot/*.json",
+    )
+
     for pattern in pattern_list:
         file_list = glob.glob(pattern)
         for file in file_list:
             if echo:
                 print(f"Remove: {file}")
             os.remove(file)
+
+    if not no_remove_output_pivot:
+        for pattern in pattern_list2:
+            file_list = glob.glob(pattern)
+            for file in file_list:
+                if echo:
+                    print(f"Remove: {file}")
+                os.remove(file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します

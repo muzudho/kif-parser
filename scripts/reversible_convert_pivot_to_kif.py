@@ -10,7 +10,7 @@ from scripts.convert_kif_to_kifu import convert_kif_to_kifu
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 
 
-def reversible_convert_pivot_to_kif(debug=False, template_name=""):
+def reversible_convert_pivot_to_kif(debug=False, no_remove_output_pivot=False, template_name=""):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.json'
@@ -103,4 +103,5 @@ def reversible_convert_pivot_to_kif(debug=False, template_name=""):
 
     # (i) 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
-        remove_all_temporary(echo=False)
+        remove_all_temporary(
+            echo=False, no_remove_output_pivot=no_remove_output_pivot)

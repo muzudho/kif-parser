@@ -35,8 +35,8 @@ if __name__ == "__main__":
     if args.source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
         reversible_convert_kifu_to_pivot(
-            debug=args.debug, last_layer_folder='./temporary/output-pivot', template_name=args.template)
+            debug=args.debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=args.template)
     else:
         # KIFファイルをPIVOTへ変換します
         reversible_convert_kif_to_pivot(
-            debug=args.debug, last_layer_folder='./temporary/output-pivot', template_name=args.template)
+            debug=args.debug, last_layer_folder='./temporary/output-pivot', no_remove_output_pivot=True, template_name=args.template)

@@ -9,7 +9,7 @@ from scripts.copy_file_to_folder import copy_file_to_folder
 from scripts.test_lib import create_sha256_by_file_path
 
 
-def reversible_convert_kif_to_kifu(debug=False):
+def reversible_convert_kif_to_kifu(debug=False, no_remove_output_pivot=False):
 
     # (a) Layer 1. 入力フォルダ―
     layer1_file_pattern = './input/*.kif'
@@ -81,4 +81,5 @@ def reversible_convert_kif_to_kifu(debug=False):
 
     # (i) 後ろから1. 変換の途中で作ったファイルは削除します
     if not debug:
-        remove_all_temporary(echo=False)
+        remove_all_temporary(
+            echo=False, no_remove_output_pivot=no_remove_output_pivot)
