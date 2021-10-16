@@ -5,6 +5,10 @@ from scripts.kifu_specification import sign_p, piece_type_p
 class ShogidokoroTemplate(BaseTemplate):
     """将棋所テンプレート"""
 
+    @property
+    def name(self):
+        return "shogidokoro"
+
     def move_row(self, row_data):
         kifu_text = ""
 

@@ -23,7 +23,7 @@ Example:
         "type": "metadata",
         "generatingSoftwareIsProbably": {
             "shogidokoro": 1,
-            "shogiGui": 0
+            "shogigui": 0
         }
     },
   "1":{"type":"comment","comment":" KIF形式棋譜ファイル"},

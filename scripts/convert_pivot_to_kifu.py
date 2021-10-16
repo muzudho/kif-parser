@@ -67,9 +67,9 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name=""):
                         template = ShogidokoroTemplate()
                         best_rate = shogidokoro_rate
 
-                if "shogiGui" in generating_software_is_probably:
+                if "shogigui" in generating_software_is_probably:
                     shogigui_rate = int(
-                        generating_software_is_probably["shogiGui"])
+                        generating_software_is_probably["shogigui"])
                     # ShogiGUIテンプレート
                     if best_rate < shogigui_rate:
                         # print(f"[DEBUG] ShogiGUIテンプレートに変えます")
@@ -85,15 +85,27 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name=""):
     kifu_text += template.end_of_file()
 
     # stem の末尾に `[kifu-pivot]` が付いているので外します
-    if not stem.endswith('[kifu-pivot]'):
-        print(f"Error stem=[{stem}]")
-        return None
+    stem = remove_suffix(stem, '[kifu-pivot]')
 
-    stem = stem[:-len('[kifu-pivot]')]
+    # stem の末尾に `[shogidokoro]` が付いていたら外します
+    stem = remove_suffix(stem, '[shogidokoro]')
+
+    # stem の末尾に `[shogigui]` が付いていたら外します
+    stem = remove_suffix(stem, '[shogigui]')
 
     # New .kifu ファイル出力
-    kifuFile = os.path.join(output_folder, f"{stem}.kifu")
+    # stem の末尾に `[テンプレート名]` を付けます
+    kifuFile = os.path.join(output_folder, f"{stem}[{template.name}].kifu")
     with open(kifuFile, mode='w', encoding='utf-8') as fOut:
         fOut.write(kifu_text)
 
     return kifuFile
+
+
+def remove_suffix(stem, suffix):
+    """stem の末尾に suffix が付いていたら外します"""
+
+    if not stem.endswith(suffix):
+        return stem
+
+    return stem[:-len(suffix)]

@@ -5,6 +5,10 @@ from scripts.kifu_specification import sign_p, piece_type_p
 class ShogiguiTemplate(BaseTemplate):
     """ShogiGUIテンプレート"""
 
+    @property
+    def name(self):
+        return "shogigui"
+
     def move_row(self, row_data):
         kifu_text = ""
 
