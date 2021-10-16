@@ -7,7 +7,31 @@ from scripts.reversible_convert_pivot_to_kif import ReversibleConvertPivotToKif
 from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKifu
 
 
-def translate(source, destination, template, debug):
+def translate_one_file(input_file, to_pivot, from_pivot, debug=False):
+    if debug:
+        print(f"[DEBUG] translate.py translate(): to_pivot")
+
+    # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
+    next_file = change_place(to_pivot.layer2_folder, input_file)
+    copy_file(input_file, next_file, debug=debug)
+
+    # レイヤー２フォルダーにあるファイルを往復翻訳します
+    object_file = to_pivot.round_trip_translate(next_file)
+    if not object_file:
+        return
+
+    if debug:
+        print(f"[DEBUG] translate.py translate(): from_pivot")
+
+    # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
+    next_file = change_place(from_pivot.layer2_folder, object_file)
+    copy_file(object_file, next_file, debug=debug)
+
+    # レイヤー２フォルダーにあるファイルを往復翻訳します
+    _final_file = from_pivot.round_trip_translate(next_file)
+
+
+def translate_folder(source, destination, template, debug):
 
     # to-pivot
     if source == 'kifu':
@@ -33,29 +57,9 @@ def translate(source, destination, template, debug):
     to_pivot.clean_last_layer_folder()
     from_pivot.clean_last_layer_folder()
 
+    # フォルダー一括処理
     for input_file in to_pivot.outside_input_files():
-        if debug:
-            print(f"[DEBUG] translate.py translate(): to_pivot")
-
-        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
-        next_file = change_place(to_pivot.layer2_folder, input_file)
-        copy_file(input_file, next_file, debug=debug)
-
-        # レイヤー２フォルダーにあるファイルを往復翻訳します
-        # TODO 最終出力ファイル、または失敗を判定したい
-        object_file = to_pivot.round_trip_translate(next_file)
-        if not object_file:
-            continue
-
-        if debug:
-            print(f"[DEBUG] translate.py translate(): from_pivot")
-
-        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
-        next_file = change_place(from_pivot.layer2_folder, object_file)
-        copy_file(object_file, next_file, debug=debug)
-
-        # レイヤー２フォルダーにあるファイルを往復翻訳します
-        _final_file = from_pivot.round_trip_translate(next_file)
+        translate_one_file(input_file, to_pivot, from_pivot, debug)
 
     from_pivot.clean_temporary()
 
@@ -90,5 +94,5 @@ if __name__ == "__main__":
     print(f"-d {args.destination}")
     print(f"-t {args.template}")
 
-    translate(source=args.source, destination=args.destination,
-              template=args.template, debug=args.debug)
+    translate_folder(source=args.source, destination=args.destination,
+                     template=args.template, debug=args.debug)
