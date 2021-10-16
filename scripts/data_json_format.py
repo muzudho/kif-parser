@@ -47,10 +47,8 @@ def format_data_json(text):
         elif __state == "<Move>":
             if __subState == "<Move.Move>":
                 move_move_type(line)
-            elif __subState == "<Move.Time>":
+            elif __subState == "<Move.Time>" or __subState == "<Move.Total>":
                 move_time_type(line)
-            elif __subState == "<Move.Total>":
-                move_total_type(line)
             elif line.startswith('        "num":'):
                 result = __move_number_pattern.match(line)
                 if result:
@@ -80,7 +78,8 @@ def format_data_json(text):
                 __state = "<None>"
                 __subState = "<None>"
             else:
-                raise ValueError(f"[ERROR] [{line}]\n")
+                raise ValueError(
+                    f"[ERROR] __state={__state} __subState={__subState} [{line}]\n")
         else:
             if line == '        "type": "comment",':
                 matched = __type_pattern.match(line)
@@ -243,28 +242,10 @@ def move_move_type(line):
 def move_time_type(line):
     global __state, __subState, __text
 
-    if line == "        ],":  # 末尾にカンマが付いている
+    if line == "        ]," or line == "        ]":
         __text = __text.rstrip()
         # 次にくる Total を右にくっつけます
         __text += f"{line.lstrip()} "
-        __subState = "<None>"
-    else:
-        result = __time_number_pattern.match(line)
-        if result:
-            number = int(result.group(1))
-            comma = result.group(2)
-            digits = number_digits(number)
-            padding = "".ljust(2-digits)
-            __text += f"{padding}{number}{comma}"
-        # __text += f"{line.lstrip()} "
-
-
-def move_total_type(line):
-    global __state, __subState, __text
-
-    if line == "        ]":  # 末尾にカンマが付いていない
-        __text = __text.rstrip()
-        __text += f"{line.lstrip()}\n"
         __subState = "<None>"
     else:
         result = __time_number_pattern.match(line)

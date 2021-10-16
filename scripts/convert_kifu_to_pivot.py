@@ -65,6 +65,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
             m = result.group(2)  # Move
             time = result.group(3)  # Expended time（消費時間）
             total = result.group(4)  # Total expended time（消費時間合計）
+            comment = result.group(5)  # Comment（コメント）
 
             data[f'{row_number}'] = {
                 "type": "move",
@@ -125,13 +126,13 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                         square = int(src[1:-1])
                         data[f'{row_number}']["m"]["src"] = square
 
-                    # 後ろにコメントが書けるはず
+                    # エラー？
                     unimplemented = result2.group(7)
                     if unimplemented:
                         data[f'{row_number}']["m"]["unimplemented"] = unimplemented
 
                 else:
-                    data[f'{row_number}']["m"] = {"Unknown": m}
+                    raise ValueError(f"row_number={row_number} line=[{line}]")
 
             # Expended time（消費時間）
             if time:
@@ -151,6 +152,10 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
                     sec = int(result2.group(3))  # second
                     total_expended_time_p.to_pivot(
                         data, row_number, hr, min, sec)
+
+            # Comment（コメント）
+            # if comment:
+            #    data[f'{row_number}']["comment"] = comment
 
             row_number += 1
             continue
@@ -257,6 +262,7 @@ def convert_kifu_to_pivot(kifu_file, output_folder):
 
         # そこで再整形
         text = format_data_json(text)
+        #print(f"[整形後text] {text}")
 
         fOut.write(text)
 
