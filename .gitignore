@@ -23,6 +23,21 @@ temporary/to-pivot/reverse-kifu/*.kifu
 temporary/to-pivot/reverse-pivot/*.json
 temporary/to-pivot/reverse-toml/*.toml
 
+temporary/no-pivot/kif/*.kif
+temporary/no-pivot/kifu/*.kifu
+temporary/no-pivot/pivot/*.json
+temporary/no-pivot/toml/*.toml
+temporary/no-pivot/object/*.kif
+temporary/no-pivot/object/*.kifu
+temporary/no-pivot/object/*.json
+temporary/no-pivot/object/*.toml
+temporary/no-pivot/reverse-kif/*.kif
+temporary/no-pivot/reverse-kifu/*.kifu
+temporary/no-pivot/reverse-pivot/*.json
+temporary/no-pivot/reverse-toml/*.toml
+
+temporary/output-pivot/*.json
+
 temporary/from-pivot/kif/*.kif
 temporary/from-pivot/kifu/*.kifu
 temporary/from-pivot/pivot/*.json

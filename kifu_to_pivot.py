@@ -13,4 +13,5 @@ if __name__ == "__main__":
         '--debug', action='store_true', help='Leave temporary files created during the conversion process without deleting them.')
     args = parser.parse_args()
 
+    # KIFUファイルをPIVOTへ変換します
     reversible_convert_kifu_to_pivot(debug=args.debug)

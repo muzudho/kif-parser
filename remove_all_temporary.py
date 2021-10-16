@@ -30,6 +30,8 @@ def remove_all_temporary(echo=True):
         "./temporary/no-pivot/reverse-pivot/*.json",
         "./temporary/no-pivot/reverse-toml/*.toml",
 
+        "./temporary/output-pivot/*.json",
+
         "./temporary/to-pivot/kif/*.kif",
         "./temporary/to-pivot/kifu/*.kifu",
         "./temporary/to-pivot/pivot/*.json",
