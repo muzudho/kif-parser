@@ -483,7 +483,7 @@ class TotalExpendedTimeP():
 total_expended_time_p = TotalExpendedTimeP()
 
 
-class ResultStatementP():
+class ResultRowP():
 
     def from_pivot(self, row_data):
         if "reason" in row_data:
@@ -509,7 +509,7 @@ class ResultStatementP():
                 num, judge)
 
 
-result_statement_p = ResultStatementP()
+result_row_p = ResultRowP()
 
 
 class JudgeStatement1P():
