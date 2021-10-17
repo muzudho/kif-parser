@@ -3,7 +3,7 @@ import os
 import inspect
 from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
-from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
+from scripts.convert_kifu_to_pivot import ConvertKifuToPivot
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
@@ -88,7 +88,8 @@ class ReversibleConvertKifToPivot():
             return None
 
         # (d-2) 目的のファイル（Pivot）へ変換
-        object_file = convert_kifu_to_pivot(
+        convert_kifu_to_pivot = ConvertKifuToPivot()
+        object_file = convert_kifu_to_pivot.convert_kifu_to_pivot(
             kifu_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(

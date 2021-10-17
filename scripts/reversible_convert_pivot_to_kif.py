@@ -9,7 +9,7 @@ from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.convert_kifu_to_kif import ConvertKifuToKif
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kif_to_kifu import ConvertKifToKifu
-from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
+from scripts.convert_kifu_to_pivot import ConvertKifuToPivot
 
 
 class ReversibleConvertPivotToKif():
@@ -110,7 +110,8 @@ class ReversibleConvertPivotToKif():
             return None
 
         # (e-2)
-        reversed_pivot_file = convert_kifu_to_pivot(
+        convert_kifu_to_pivot = ConvertKifuToPivot()
+        reversed_pivot_file = convert_kifu_to_pivot.convert_kifu_to_pivot(
             reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
         if reversed_pivot_file is None:
             print(
