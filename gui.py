@@ -5,8 +5,8 @@ import tkinter.ttk as ttk
 
 def __main():
     global left_combobox_value, right_combobox_value
-    global left_text_box_value, right_text_box_value
-    global left_text_box, right_text_box
+    global left_encode_text_box_value, left_encode_text_box, right_encode_text_box_value, right_encode_text_box
+    global left_file_text_box_value, left_file_text_box, right_file_text_box_value, right_file_text_box
     global left_text_area, right_text_area
 
     values = ('Shogi-dokoro', 'Shogi GUI')
@@ -21,9 +21,12 @@ def __main():
     ...|  | Japanese |           | English |  |
     .30|  +----------+           +---------+  |
     .40|  +----------+           +---------+  |
-    ...|  | File1    |           | File2   |  |
+    ...|  | KIFU     |           | KIF     |  |
     .60|  +----------+           +---------+  |
     .70|  +----------+           +---------+  |
+    ...|  | File1    |           | File2   |  |
+    .90|  +----------+           +---------+  |
+    100|  +----------+           +---------+  |
     ...|  |          |           |         |  |
     160|  |          |  +-----+  |         |  |
     ...|  |          |  | --> |  |         |  |
@@ -45,7 +48,7 @@ def __main():
 
     # 左コンボボックス
     left_combobox_value = tk.StringVar()
-    left_combobox_value.set("Shogi-dokoro")
+    left_combobox_value.set("Shogi GUI")
     left_combobox = ttk.Combobox(
         window, height=3, textvariable=left_combobox_value, values=values)
     left_combobox.place(x=10*scale, y=10*scale,
@@ -54,26 +57,44 @@ def __main():
 
     # 右コンボボックス
     right_combobox_value = tk.StringVar()
-    right_combobox_value.set("Shogi GUI")
+    right_combobox_value.set("Shogi-dokoro")
     right_combobox = ttk.Combobox(
         window, height=3, textvariable=right_combobox_value, values=values)
     right_combobox.place(x=270*scale, y=10*scale,
                          width=200*scale, height=20*scale)
     right_combobox.bind('<<ComboboxSelected>>', right_combobox_selected)
 
-    # 左テキストボックス
-    left_text_box_value = tk.StringVar()
-    left_text_box = tk.Entry(window, textvariable=left_text_box_value)
-    left_text_box.place(x=10*scale, y=40*scale,
-                        width=200*scale, height=20*scale)
-    left_text_box.insert(tk.END, "demo_in[shogigui]")
+    # 左テキストボックス1（エンコーディング）
+    left_encode_text_box_value = tk.StringVar()
+    left_encode_text_box = tk.Entry(
+        window, textvariable=left_encode_text_box_value)
+    left_encode_text_box.place(x=10*scale, y=40*scale,
+                               width=200*scale, height=20*scale)
+    left_encode_text_box.insert(tk.END, "demo_in[shogigui]")
 
-    # 右テキストボックス
-    right_text_box_value = tk.StringVar()
-    right_text_box = tk.Entry(window, textvariable=right_text_box_value)
-    right_text_box.place(x=270*scale, y=40*scale,
-                         width=200*scale, height=20*scale)
-    right_text_box.insert(tk.END, "demo_out[shogidokoro]")
+    # 右テキストボックス1（エンコーディング）
+    right_encode_text_box_value = tk.StringVar()
+    right_encode_text_box = tk.Entry(
+        window, textvariable=right_encode_text_box_value)
+    right_encode_text_box.place(x=270*scale, y=40*scale,
+                                width=200*scale, height=20*scale)
+    right_encode_text_box.insert(tk.END, "demo_out[shogidokoro]")
+
+    # 左テキストボックス2（ファイル名）
+    left_file_text_box_value = tk.StringVar()
+    left_file_text_box = tk.Entry(
+        window, textvariable=left_file_text_box_value)
+    left_file_text_box.place(x=10*scale, y=40*scale,
+                             width=200*scale, height=20*scale)
+    left_file_text_box.insert(tk.END, "demo_in[shogigui]")
+
+    # 右テキストボックス2（ファイル名）
+    right_file_text_box_value = tk.StringVar()
+    right_file_text_box = tk.Entry(
+        window, textvariable=right_file_text_box_value)
+    right_file_text_box.place(x=270*scale, y=40*scale,
+                              width=200*scale, height=20*scale)
+    right_file_text_box.insert(tk.END, "demo_out[shogidokoro]")
 
     # 左テキストエリア
     left_text_area = tk.Text(window)
@@ -100,23 +121,23 @@ def __main():
 
 
 def left_combobox_selected(e):
-    global left_combobox_value, left_text_box_value, left_text_box
+    global left_combobox_value, left_file_text_box_value
     generator = left_combobox_value.get()
     print(f"left_combobox_selected txt={generator} e={e}")
     if generator == "Shogi GUI":
-        left_text_box_value.set(f"demo-in[shogigui]")
+        left_file_text_box_value.set(f"demo-in[shogigui]")
     else:
-        left_text_box_value.set(f"demo-in[shogidokoro]")
+        left_file_text_box_value.set(f"demo-in[shogidokoro]")
 
 
 def right_combobox_selected(e):
-    global right_combobox_value, right_text_box_value, right_text_box
+    global right_combobox_value, right_file_text_box_value
     generator = right_combobox_value.get()
     print(f"right_combobox_selected txt={generator} e={e}")
     if generator == "Shogi GUI":
-        right_text_box_value.set(f"demo-out[shogigui]")
+        right_file_text_box_value.set(f"demo-out[shogigui]")
     else:
-        right_text_box_value.set(f"demo-out[shogidokoro]")
+        right_file_text_box_value.set(f"demo-out[shogidokoro]")
 
 
 def copy_left_to_right():
