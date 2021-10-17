@@ -1,4 +1,5 @@
 import os
+import inspect
 import json
 from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_row_p, \
     sign_p, \
@@ -251,14 +252,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder, debug=False):
 
         # 解析漏れ
         print(
-            f"Error: kifu_to_pivot.py unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
+            f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
         return None
 
     # 最終行まで解析終わり
 
     if debug:
         print(
-            f"[DEBUG] convert_kifu_to_pivot.py convert_kifu_to_pivot(): Write to [{out_path}]")
+            f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Write to [{out_path}]")
 
     with open(out_path, 'w', encoding='utf-8') as f_out:
         # JSON出力

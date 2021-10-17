@@ -1,4 +1,5 @@
 import os
+import inspect
 import codecs
 import sys
 
@@ -36,7 +37,7 @@ def convert_kif_to_kifu(kif_file, output_folder, debug=False):
 
         if debug:
             print(
-                f"[DEBUG] convert_kif_to_kifu.py convert_kif_to_kifu(): Write to [{out_path}]")
+                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Write to [{out_path}]")
         with codecs.open(out_path, "w", encoding='utf-8') as f_out:
 
             # UTF-8形式に変換して保存

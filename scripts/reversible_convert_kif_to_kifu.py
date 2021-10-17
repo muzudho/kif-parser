@@ -1,6 +1,6 @@
 import glob
-from os import system
 import os
+import inspect
 from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
@@ -72,7 +72,7 @@ class ReversibleConvertKifToKifu():
             input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
-                f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): (d-1) parse fail. input_file=[{input_file}]")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (d-1) parse fail. input_file=[{input_file}]")
             return None
 
         # ここから逆の操作を行います
@@ -90,7 +90,7 @@ class ReversibleConvertKifToKifu():
                 basename = os.path.basename(input_file)
             except:
                 print(
-                    f"Basename fail. (g) parse fail. input_file={input_file} except={system.exc_info()[0]}")
+                    f"Basename fail. (g) parse fail. input_file={input_file} except={os.system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

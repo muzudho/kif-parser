@@ -1,5 +1,6 @@
 import glob
 import os
+import inspect
 from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
@@ -70,7 +71,7 @@ class ReversibleConvertKifuToPivot():
             input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
-                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (d-1) parse fail. input_file={input_file}")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (d-1) parse fail. input_file={input_file}")
             return None
 
         # ここから逆の操作を行います
@@ -80,7 +81,7 @@ class ReversibleConvertKifuToPivot():
             object_file, output_folder=self._layer4_folder, template_name=self._template_name, debug=self._debug)
         if reversed_kifu_file is None:
             print(
-                f"[ERROR] reversible_convert_kifu_to_pivot.py reversible_convert_kifu_to_pivot(): (e-1) parse fail. input_file={input_file}")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (e-1) parse fail. input_file={input_file}")
             return None
 
         # (f) レイヤー４にあるファイルの SHA256 生成

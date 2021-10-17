@@ -1,6 +1,6 @@
 import glob
-from os import system
 import os
+import inspect
 from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
@@ -76,7 +76,7 @@ class ReversibleConvertKifToPivot():
             input_file, output_folder=self._layer2b_folder, debug=self._debug)
         if kifu_file is None:
             print(
-                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-1) parse fail. input_file={input_file}")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (d-1) parse fail. input_file={input_file}")
             return None
 
         # (d-2) 目的のファイル（Pivot）へ変換
@@ -84,7 +84,7 @@ class ReversibleConvertKifToPivot():
             kifu_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
-                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (d-2) parse fail. kifu_file={kifu_file}")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (d-2) parse fail. kifu_file={kifu_file}")
             return None
 
         # ここから逆の操作を行います
@@ -94,7 +94,7 @@ class ReversibleConvertKifToPivot():
             object_file, output_folder=self._layer4_folder, template_name=self._template_name, debug=self._debug)
         if reversed_kifu_file is None:
             print(
-                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-1) parse fail. object_file={object_file}")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (e-1) parse fail. object_file={object_file}")
             return None
 
         # (e-2) Shift-JIS から UTF-8 へ変更
@@ -102,7 +102,7 @@ class ReversibleConvertKifToPivot():
             reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
         if reversed_kif_file is None:
             print(
-                f"[ERROR] reversible_convert_kif_to_pivot.py reversible_convert_kifu_to_pivot: (e-2) parse fail. reversed_kifu_file={reversed_kifu_file}")
+                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (e-2) parse fail. reversed_kifu_file={reversed_kifu_file}")
             return None
 
         # (f) レイヤー５にあるファイルの SHA256 生成
@@ -114,7 +114,7 @@ class ReversibleConvertKifToPivot():
                 basename = os.path.basename(input_file)
             except:
                 print(
-                    f"Basename fail. (g) parse fail. input_file={input_file} except={system.exc_info()[0]}")
+                    f"Basename fail. (g) parse fail. input_file={input_file} except={os.system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

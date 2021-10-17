@@ -1,4 +1,5 @@
 import os
+import inspect
 import codecs
 import sys
 
@@ -41,7 +42,7 @@ def convert_kifu_to_kif(input_file, output_folder, debug=False):
 
         if debug:
             print(
-                f"[DEBUG] convert_kifu_to_kif.py convert_kifu_to_kif(): Write from [{input_file}](UTF-8) to [{out_path}](Shift-JIS)")
+                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Write from [{input_file}](UTF-8) to [{out_path}](Shift-JIS)")
 
         try:
             # TODO UTF-8 から Shift-JIS へ変換できない文字（波線）などが現れた時、エラーにならないように何とかしたい

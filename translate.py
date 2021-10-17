@@ -1,3 +1,5 @@
+import os
+import inspect
 import argparse
 from scripts.change_place import change_place
 from scripts.copy_file import copy_file
@@ -25,7 +27,7 @@ class Translator():
         to_pivot, from_pivot = Translator._do_it_before_translation(
             source=self._source, destination=self._destination, template=self._destination_template,
             debug=self._debug)
-        # TODO 処理
+
         Translator._translate_file_in_loop(
             input_file, to_pivot, from_pivot, self._debug)
 
@@ -75,7 +77,8 @@ class Translator():
     @classmethod
     def _translate_file_in_loop(clazz, input_file, to_pivot, from_pivot, debug=False):
         if debug:
-            print(f"[DEBUG] translate.py _translate_file_in_loop(): to_pivot")
+            print(
+                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: to_pivot")
 
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
         next_file = change_place(to_pivot.layer2_folder, input_file)
@@ -87,7 +90,8 @@ class Translator():
             return
 
         if debug:
-            print(f"[DEBUG] translate.py _translate_file_in_loop(): from_pivot")
+            print(
+                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: from_pivot")
 
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
         next_file = change_place(from_pivot.layer2_folder, object_file)

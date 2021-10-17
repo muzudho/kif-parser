@@ -193,7 +193,7 @@ def copy_left_to_right():
     global right_text_area
     # TODO 左のテキストボックスの内容を
     content = left_text_area.get("1.0", 'end-1c')
-    print(f"content=[{content}]")
+    # print(f"content=[{content}]")
     # TODO 📂`input` へ保存します
     input_filename = left_file_text_box_value.get()
     print(f"input_filename=[{input_filename}]")
@@ -241,7 +241,7 @@ def copy_left_to_right():
     print(
         f"[TRACE] source=[{source}] destination=[{destination}] source_template=[{source_template}] destination_template=[{destination_template}]")
     translator = Translator(source=source, destination=destination,
-                            source_template=source_template, destination_template=destination_template, debug=False)
+                            source_template=source_template, destination_template=destination_template, debug=True)
 
     # TODO ファイル単位で翻訳します
     translator.translate_file(input_filename)

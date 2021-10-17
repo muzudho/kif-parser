@@ -1,4 +1,5 @@
 import os
+import inspect
 import json
 import sys
 from collections import OrderedDict
@@ -7,6 +8,12 @@ from scripts.shogigui_template import ShogiguiTemplate
 
 
 def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=False):
+    """
+    Parameters
+    ----------
+    template_name : str
+        往復変換のときは source_template と destination_template のどちらかよく確認してください
+    """
     # basename
     try:
         basename = os.path.basename(pivot_file)
@@ -62,7 +69,9 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
                         generating_software_is_probably["shogidokoro"])
                     # 将棋所テンプレート
                     if best_rate < shogidokoro_rate:
-                        # print(f"[DEBUG] 将棋所テンプレートに変えます")
+                        if debug:
+                            print(
+                                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: 将棋所テンプレートに変えます")
                         template = ShogidokoroTemplate()
                         best_rate = shogidokoro_rate
 
@@ -71,13 +80,15 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
                         generating_software_is_probably["shogigui"])
                     # ShogiGUIテンプレート
                     if best_rate < shogigui_rate:
-                        # print(f"[DEBUG] ShogiGUIテンプレートに変えます")
+                        if debug:
+                            print(
+                                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: ShogiGUIテンプレートに変えます")
                         template = ShogiguiTemplate()
                         best_rate = shogigui_rate
         else:
             # Error
             print(
-                f"Error: pivot_to_kifu.py unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
+                f"[Error] {os.path.basename(__file__)} unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
             return None
 
     # 最終行に空行が続くケースもあります
@@ -98,7 +109,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
 
     if debug:
         print(
-            f"[DEBUG] convert_pivot_to_kifu.py convert_pivot_to_kifu(): Write to [{out_path}]")
+            f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Write to [{out_path}] template_name=[{template_name}]")
 
     with open(out_path, mode='w', encoding='utf-8') as f_out:
         f_out.write(kifu_text)

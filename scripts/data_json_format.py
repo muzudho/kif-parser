@@ -87,7 +87,7 @@ def format_data_json(text):
                 __subState = "<None>"
             else:
                 raise ValueError(
-                    f"[ERROR] data_json_format.py format_data_json: __state={__state} __subState={__subState} [{line}]\n")
+                    f"__state={__state} __subState={__subState} [{line}]\n")
         else:
             if line == '        "type": "comment",':
                 matched = __type_pattern.match(line)
