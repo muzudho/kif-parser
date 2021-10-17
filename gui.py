@@ -17,23 +17,26 @@ def __main():
     encoding_name_list = ('KIFU (UTF-8)', 'KIF (Shift-JIS)')
 
     """
-    .                2  2     2  2         4  4
-    ......1          1  2     6  7         7  8
-    ...0  0          0  0     0  0         0  0
+    .            1   2  2     2  2         4  4
+    ......1      5   1  2     6  7         7  8
+    ...0  0      0   0  0     0  0         0  0
     ..0+--------------------------------------+
     ...|                                      |
     .10|  +----------+           +---------+  |
     ...|  | Japanese |           | English |  |
     .25|  +----------+           +---------+  |
-    .35|  +----------+                        |
+    .30|  +----------+                        |
     ...|  | Stem     |                        |
-    .50|  +----------+                        |
-    .60|  +----------+           +---------+  |
+    .45|  +----------+                        |
+    .50|  +----------+           +---------+  |
     ...|  | KIFU     |           | KIF     |  |
-    .75|  +----------+           +---------+  |
-    .85|  +----------+           +---------+  |
+    .65|  +----------+           +---------+  |
+    .70|  +----------+           +---------+  |
     ...|  | File1    |           | File2   |  |
-    100|  +----------+           +---------+  |
+     85|  +----------+           +---------+  |
+    .90|         +---+                        |
+    ...|         |Btn|                        |
+    105|         +---+                        |
     110|  +----------+           +---------+  |
     ...|  |          |           |         |  |
     160|  |          |  +-----+  |         |  |
@@ -79,7 +82,7 @@ def __main():
     left_stem_text_box_value.trace("w", on_left_stem_text_box_value_changed)
     left_stem_text_box = tk.Entry(
         window, textvariable=left_stem_text_box_value)
-    left_stem_text_box.place(x=10*scale, y=35*scale,
+    left_stem_text_box.place(x=10*scale, y=30*scale,
                              width=200*scale, height=15*scale)
     left_stem_text_box.insert(tk.END, "demo")
 
@@ -88,7 +91,7 @@ def __main():
     left_encoding_combobox_value.set("KIFU (UTF-8)")
     left_encoding_combobox = ttk.Combobox(
         window, height=3, textvariable=left_encoding_combobox_value, values=encoding_name_list)
-    left_encoding_combobox.place(x=10*scale, y=60*scale,
+    left_encoding_combobox.place(x=10*scale, y=50*scale,
                                  width=200*scale, height=15*scale)
     left_encoding_combobox.bind(
         '<<ComboboxSelected>>', left_encoding_combobox_selected)
@@ -98,7 +101,7 @@ def __main():
     right_encoding_combobox_value.set("KIFU (UTF-8)")
     right_encoding_combobox = ttk.Combobox(
         window, height=3, textvariable=right_encoding_combobox_value, values=encoding_name_list)
-    right_encoding_combobox.place(x=270*scale, y=60*scale,
+    right_encoding_combobox.place(x=270*scale, y=50*scale,
                                   width=200*scale, height=15*scale)
     right_encoding_combobox.bind(
         '<<ComboboxSelected>>', right_encoding_combobox_selected)
@@ -107,7 +110,7 @@ def __main():
     left_file_text_box_value = tk.StringVar()
     left_file_text_box = tk.Entry(
         window, textvariable=left_file_text_box_value)
-    left_file_text_box.place(x=10*scale, y=85*scale,
+    left_file_text_box.place(x=10*scale, y=70*scale,
                              width=200*scale, height=15*scale)
     left_file_text_box.insert(tk.END, "input/demo[shogigui].kifu")
     left_file_text_box.configure(state='readonly')
@@ -116,10 +119,16 @@ def __main():
     right_file_text_box_value = tk.StringVar()
     right_file_text_box = tk.Entry(
         window, textvariable=right_file_text_box_value)
-    right_file_text_box.place(x=270*scale, y=85*scale,
+    right_file_text_box.place(x=270*scale, y=70*scale,
                               width=200*scale, height=15*scale)
     right_file_text_box.insert(tk.END, "output/demo[shogidokoro].kifu")
     right_file_text_box.configure(state='readonly')
+
+    # [↑フォーマット推測]ボタン
+    left_to_right_button = ttk.Button(
+        window, text='↑フォーマット推測', command=recognition)
+    left_to_right_button.place(x=150*scale, y=90*scale,
+                               width=60*scale, height=15*scale)
 
     # 左テキストエリア
     left_text_area = tk.Text(window)
@@ -206,6 +215,11 @@ def create_right_file_name():
     else:
         filename += ".kifu"
     return filename
+
+
+def recognition():
+    """TODO フォーマット認識ボタン"""
+    pass
 
 
 def copy_left_to_right():
