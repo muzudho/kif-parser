@@ -28,8 +28,8 @@ class ConvertKifuToPivot():
         data[0] = {
             "type": "metadata",
             "generatingSoftwareIsProbably": {
-                "shogidokoro": generator_identification.shogidokoro,
-                "shogigui": generator_identification.shogigui,
+                "shogidokoro": generator_identification._Y["shogidokoro"],
+                "shogigui": generator_identification._Y["shogigui"],
             }
         }
 

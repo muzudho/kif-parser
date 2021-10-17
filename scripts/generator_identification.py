@@ -10,16 +10,15 @@ class GeneratorIdentification():
             r"^.*\(\s\d:\d{2}/\d{2}:\d{2}:\d{2}\)$")
 
         # Result
-        self._shogidokoro = 0
-        self._shogigui = 0
+        self._Y = {
+            "shogidokoro": 0,
+            "shogigui": 0,
+        }
 
     @property
-    def shogidokoro(self):
-        return self._shogidokoro
-
-    @property
-    def shogigui(self):
-        return self._shogigui
+    def Y(self):
+        """Result"""
+        return self._Y
 
     def read_all_text(self, text):
         """テキストを読込ませてください"""
@@ -33,8 +32,8 @@ class GeneratorIdentification():
                 shogi_gui_time_stamp_flag = True
             pass
 
-        self._shogidokoro = 1
-        self._shogigui = 0
+        self._Y["shogidokoro"] = 1
+        self._Y["shogigui"] = 0
 
         if shogi_gui_time_stamp_flag:
-            self._shogigui += 10
+            self._Y["shogigui"] += 10

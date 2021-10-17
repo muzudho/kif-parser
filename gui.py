@@ -2,8 +2,8 @@ import os
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
-
 from translate import Translator
+from scripts.generator_identification import GeneratorIdentification
 
 
 def __main():
@@ -219,6 +219,12 @@ def create_right_file_name():
 
 def recognition():
     """TODO フォーマット認識ボタン"""
+    global left_text_area
+    left_textbox_content = left_text_area.get("1.0", 'end-1c')
+    generator_identification = GeneratorIdentification()
+    generator_identification.read_all_text(left_textbox_content)
+    print(
+        f'[DEBUG] shogidokoro={generator_identification._Y["shogidokoro"]} shogigui={generator_identification._Y["shogigui"]}')
     pass
 
 
@@ -227,13 +233,14 @@ def copy_left_to_right():
     global left_generator_combobox_value
     global right_generator_combobox_value
     global left_encoding_combobox_value, right_encoding_combobox_value
-    global left_file_text_box_value, left_text_area
+    global left_file_text_box_value
+    global left_text_area
     global right_file_text_box_value
     global right_text_area
-    # TODO 左のテキストボックスの内容を
+    # 左のテキストボックスの内容を
     left_textbox_content = left_text_area.get("1.0", 'end-1c')
     # print(f"left_textbox_content=[{left_textbox_content}]")
-    # TODO 📂`input` へ保存します
+    # 📂`input` へ保存します
     input_filename = left_file_text_box_value.get()
     print(f"input_filename=[{input_filename}]")
 
