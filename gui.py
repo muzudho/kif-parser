@@ -4,8 +4,10 @@ import tkinter.ttk as ttk
 
 
 def __main():
-    global left_text_area, right_text_area
     global left_combobox_value, right_combobox_value
+    global left_text_box_value, right_text_box_value
+    global left_text_box, right_text_box
+    global left_text_area, right_text_area
 
     values = ('Shogi-dokoro', 'Shogi GUI')
 
@@ -60,13 +62,15 @@ def __main():
     right_combobox.bind('<<ComboboxSelected>>', right_combobox_selected)
 
     # 左テキストボックス
-    left_text_box = tk.Entry(window)
+    left_text_box_value = tk.StringVar()
+    left_text_box = tk.Entry(window, textvariable=left_text_box_value)
     left_text_box.place(x=10*scale, y=40*scale,
                         width=200*scale, height=20*scale)
     left_text_box.insert(tk.END, "demo_in[shogigui]")
 
     # 右テキストボックス
-    right_text_box = tk.Entry(window)
+    right_text_box_value = tk.StringVar()
+    right_text_box = tk.Entry(window, textvariable=right_text_box_value)
     right_text_box.place(x=270*scale, y=40*scale,
                          width=200*scale, height=20*scale)
     right_text_box.insert(tk.END, "demo_out[shogidokoro]")
@@ -96,13 +100,23 @@ def __main():
 
 
 def left_combobox_selected(e):
-    global left_combobox_value
-    print(f"left_combobox_selected txt={left_combobox_value.get()} e={e}")
+    global left_combobox_value, left_text_box_value, left_text_box
+    generator = left_combobox_value.get()
+    print(f"left_combobox_selected txt={generator} e={e}")
+    if generator == "Shogi GUI":
+        left_text_box_value.set(f"demo-in[shogigui]")
+    else:
+        left_text_box_value.set(f"demo-in[shogidokoro]")
 
 
 def right_combobox_selected(e):
-    global right_combobox_value
-    print(f"right_combobox_selected txt={right_combobox_value.get()} e={e}")
+    global right_combobox_value, right_text_box_value, right_text_box
+    generator = right_combobox_value.get()
+    print(f"right_combobox_selected txt={generator} e={e}")
+    if generator == "Shogi GUI":
+        right_text_box_value.set(f"demo-out[shogigui]")
+    else:
+        right_text_box_value.set(f"demo-out[shogidokoro]")
 
 
 def copy_left_to_right():
