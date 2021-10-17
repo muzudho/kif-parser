@@ -8,16 +8,22 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 
 
 class Translator():
-    def __init__(self, source, destination, template, debug=False):
+    def __init__(self, source, destination, source_template, destination_template, debug=False):
         self._source = source
         self._destination = destination
-        self._template = template
+
+        # 入力のジェネレーターを示します
+        self._source_template = source_template
+
+        # 出力のジェネレーターを示します
+        self._destination_template = destination_template
+
         self._debug = debug
 
     def translate_file(self, input_file):
         """WIP 未テスト"""
         to_pivot, from_pivot = Translator._do_it_before_translation(
-            source=self._source, destination=self._destination, template=self._template,
+            source=self._source, destination=self._destination, template=self._destination_template,
             debug=self._debug)
         # TODO 処理
         Translator._translate_file_in_loop(
@@ -27,7 +33,7 @@ class Translator():
 
     def translate_files_in_folder(self):
         to_pivot, from_pivot = Translator._do_it_before_translation(
-            source=self._source, destination=self._destination, template=self._template,
+            source=self._source, destination=self._destination, template=self._destination_template,
             debug=self._debug)
 
         # フォルダー一括処理
@@ -117,7 +123,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '-d', '--destination', default='kif', help='Translate to x. "kif"(Default) or "kifu".')
     parser.add_argument(
-        '-t', '--template', default='', help='.kifu Style. ""(Default) or "shogidokoro" or "shogigui".')
+        '-t', '--template', default='', help='Destination file Style. ""(Default) or "shogidokoro" or "shogigui".')
     args = parser.parse_args()
 
     print(f"--debug {args.debug}")
@@ -125,6 +131,7 @@ if __name__ == "__main__":
     print(f"-d {args.destination}")
     print(f"-t {args.template}")
 
+    # TODO source_template を自動判定したい
     translator = Translator(source=args.source, destination=args.destination,
-                            template=args.template, debug=args.debug)
+                            destination_template=args.template, debug=args.debug)
     translator.translate_files_in_folder()

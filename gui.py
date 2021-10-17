@@ -185,7 +185,9 @@ def create_right_file_name():
 
 def copy_left_to_right():
     """左のテキストボックスの内容を、右のテキストボックスにコピーする機能"""
-    global right_generator_combobox_value, left_encoding_combobox_value, right_encoding_combobox_value
+    global left_generator_combobox_value
+    global right_generator_combobox_value
+    global left_encoding_combobox_value, right_encoding_combobox_value
     global left_file_text_box_value, left_text_area
     global right_file_text_box_value
     global right_text_area
@@ -215,11 +217,16 @@ def copy_left_to_right():
             f_out.write(content)
 
     # TODO 翻訳ツール作成
+    left_generator = left_generator_combobox_value.get()
+    if left_generator == "Shogi GUI":
+        source_template = "shogigui"
+    else:
+        source_template = "shogidokoro"
     right_generator = right_generator_combobox_value.get()
     if right_generator == "Shogi GUI":
-        template = "shogigui"
+        destination_template = "shogigui"
     else:
-        template = "shogidokoro"
+        destination_template = "shogidokoro"
     left_encoding = left_encoding_combobox_value.get()
     if left_encoding == "KIF (Shift-JIS)":
         source = "kif"
@@ -230,8 +237,11 @@ def copy_left_to_right():
         destination = "kif"
     else:
         destination = "kifu"
+
+    print(
+        f"[TRACE] source=[{source}] destination=[{destination}] source_template=[{source_template}] destination_template=[{destination_template}]")
     translator = Translator(source=source, destination=destination,
-                            template=template, debug=False)
+                            source_template=source_template, destination_template=destination_template, debug=False)
 
     # TODO ファイル単位で翻訳します
     translator.translate_file(input_filename)
@@ -269,10 +279,11 @@ def copy_left_to_right():
 
 def copy_right_to_left():
     """右のテキストボックスの内容を、左のテキストボックスにコピーする機能"""
-    global right_text_area, left_text_area
-    left_text_area.delete('1.0', 'end')
-    text = right_text_area.get("1.0", 'end-1c')
-    left_text_area.insert("1.0", text)
+    pass
+    # global right_text_area, left_text_area
+    # left_text_area.delete('1.0', 'end')
+    # text = right_text_area.get("1.0", 'end-1c')
+    # left_text_area.insert("1.0", text)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
