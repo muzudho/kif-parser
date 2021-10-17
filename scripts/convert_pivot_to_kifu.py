@@ -9,38 +9,31 @@ from scripts.shogigui_template import ShogiguiTemplate
 
 class ConvertPivotToKifu():
 
-    def __init__(self, input_file, debug=False):
-        self._input_file = input_file
+    def __init__(self, debug=False):
         self._debug = debug
-        pass
 
-    def _read_input(self):
-        # basename
-        try:
-            basename = os.path.basename(self._input_file)
-        except:
-            print(
-                f"Basename fail. input_file={self._input_file} except={sys.exc_info()[0]}")
-            raise
-
-        if not basename.lower().endswith('[kifu-pivot].json'):
-            return None, None
-        stem, _extention = os.path.splitext(basename)
-
-        # Pivotファイル（JSON形式）を読込みます
-        with open(self._input_file, encoding='utf-8') as f:
-            data = json.loads(f.read(), object_pairs_hook=OrderedDict)
-
-        return stem, data
-
-    def convert_pivot_to_kifu(self, output_folder, desinated_template_name=""):
+    def convert_pivot_to_kifu(self, pivot_file, output_folder, desinated_template_name=""):
         """
         Parameters
         ----------
         desinated_template_name : str
             往復変換のときは source_template と destination_template のどちらかよく確認してください
         """
-        stem, data = self._read_input()
+        # basename
+        try:
+            basename = os.path.basename(pivot_file)
+        except:
+            print(
+                f"Basename fail. pivot_file={pivot_file} except={sys.exc_info()[0]}")
+            raise
+
+        if not basename.lower().endswith('[kifu-pivot].json'):
+            return None
+        stem, _extention = os.path.splitext(basename)
+
+        # Pivotファイル（JSON形式）を読込みます
+        with open(pivot_file, encoding='utf-8') as f:
+            data = json.loads(f.read(), object_pairs_hook=OrderedDict)
 
         # .kifu テキストを作ります
         kifu_text = ""
@@ -100,7 +93,7 @@ class ConvertPivotToKifu():
             else:
                 # Error
                 print(
-                    f"[Error] {os.path.basename(__file__)} unimplemented row_number={row_number} row_data={row_data} input_file=[{self._input_file}]")
+                    f"[Error] {os.path.basename(__file__)} unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
                 return None
 
         # 最終行に空行が続くケースもあります

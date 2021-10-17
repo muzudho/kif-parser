@@ -77,9 +77,9 @@ class ReversibleConvertPivotToKifu():
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) 目的のファイル（KIFU）へ変換
-        pivot2kifu = ConvertPivotToKifu(input_file, debug=self._debug)
+        pivot2kifu = ConvertPivotToKifu(debug=self._debug)
         object_file = pivot2kifu.convert_pivot_to_kifu(
-            output_folder=self._middle_folder, desinated_template_name=self._destination_template)
+            input_file, output_folder=self._middle_folder, desinated_template_name=self._destination_template)
         if object_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] (d-1) parse fail. input_file={input_file}")

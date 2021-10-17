@@ -100,9 +100,9 @@ class ReversibleConvertKifToPivot():
         # ここから逆の操作を行います
 
         # (e-1)
-        rev_kifu2pivot = ConvertPivotToKifu(object_file, debug=self._debug)
+        rev_kifu2pivot = ConvertPivotToKifu(debug=self._debug)
         reversed_kifu_file = rev_kifu2pivot.convert_pivot_to_kifu(
-            output_folder=self._layer4_folder, desinated_template_name=self._source_template)
+            object_file, output_folder=self._layer4_folder, desinated_template_name=self._source_template)
         if reversed_kifu_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] (e-1) parse fail. object_file={object_file}")
