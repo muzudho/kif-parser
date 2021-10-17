@@ -5,32 +5,33 @@ import tkinter.ttk as ttk
 
 def __main():
     global left_text_area, right_text_area
+    global left_combobox_value, right_combobox_value
 
     values = ('Shogi-dokoro', 'Shogi GUI')
 
     """
-                    2  2     2  2         4  4
-        1          1  2     6  7         7  8
-    0  0          0  0     0  0         0  0
-    0+--------------------------------------+
-    |                                      |
-    10|  +----------+           +---------+  |
-    |  | Japanese |           | English |  |
-    30|  +----------+           +---------+  |
-    40|  +----------+           +---------+  |
-    |  | Japanese |           | English |  |
-    60|  +----------+           +---------+  |
-    70|  +----------+           +---------+  |
-    |  |          |           |         |  |
+    .                2  2     2  2         4  4
+    ......1          1  2     6  7         7  8
+    ...0  0          0  0     0  0         0  0
+    ..0+--------------------------------------+
+    ...|                                      |
+    .10|  +----------+           +---------+  |
+    ...|  | Japanese |           | English |  |
+    .30|  +----------+           +---------+  |
+    .40|  +----------+           +---------+  |
+    ...|  | File1    |           | File2   |  |
+    .60|  +----------+           +---------+  |
+    .70|  +----------+           +---------+  |
+    ...|  |          |           |         |  |
     160|  |          |  +-----+  |         |  |
-    |  |          |  | --> |  |         |  |
+    ...|  |          |  | --> |  |         |  |
     190|  |          |  +-----+  |         |  |
     210|  |          |  +-----+  |         |  |
-    |  |          |  | <-- |  |         |  |
+    ...|  |          |  | <-- |  |         |  |
     240|  |          |  +-----+  |         |  |
-    |  |          |           |         |  |
+    ...|  |          |           |         |  |
     350|  +----------+           +---------+  |
-    |                                      |
+    ...|                                      |
     360+--------------------------------------+
     """
     scale = 2
@@ -47,13 +48,7 @@ def __main():
         window, height=3, textvariable=left_combobox_value, values=values)
     left_combobox.place(x=10*scale, y=10*scale,
                         width=200*scale, height=20*scale)
-
-    def left_combobox_selected(e):
-        print(f"left_combobox_selected txt={left_combobox_value.get()} e={e}")
-
-    left_combobox.bind(
-        '<<ComboboxSelected>>',
-        left_combobox_selected)
+    left_combobox.bind('<<ComboboxSelected>>', left_combobox_selected)
 
     # 右コンボボックス
     right_combobox_value = tk.StringVar()
@@ -62,6 +57,7 @@ def __main():
         window, height=3, textvariable=right_combobox_value, values=values)
     right_combobox.place(x=270*scale, y=10*scale,
                          width=200*scale, height=20*scale)
+    right_combobox.bind('<<ComboboxSelected>>', right_combobox_selected)
 
     # 左テキストボックス
     left_text_box = tk.Entry(window)
@@ -97,6 +93,16 @@ def __main():
                                width=40*scale, height=30*scale)
 
     window.mainloop()
+
+
+def left_combobox_selected(e):
+    global left_combobox_value
+    print(f"left_combobox_selected txt={left_combobox_value.get()} e={e}")
+
+
+def right_combobox_selected(e):
+    global right_combobox_value
+    print(f"right_combobox_selected txt={right_combobox_value.get()} e={e}")
 
 
 def copy_left_to_right():
