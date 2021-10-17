@@ -7,7 +7,7 @@ from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
-from scripts.convert_kif_to_kifu import convert_kif_to_kifu
+from scripts.convert_kif_to_kifu import ConvertKifToKifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.test_lib import create_sha256_by_file_path
 
@@ -79,7 +79,8 @@ class ReversibleConvertKifToPivot():
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) Shift-JIS から UTF-8 へ変更
-        kifu_file = convert_kif_to_kifu(
+        convert_kif_to_kifu = ConvertKifToKifu()
+        kifu_file = convert_kif_to_kifu.convert_kif_to_kifu(
             input_file, output_folder=self._layer2b_folder, debug=self._debug)
         if kifu_file is None:
             print(
@@ -98,7 +99,7 @@ class ReversibleConvertKifToPivot():
 
         # (e-1)
         reversed_kifu_file = convert_pivot_to_kifu(
-            object_file, output_folder=self._layer4_folder, template_name=self._source_template, debug=self._debug)
+            object_file, output_folder=self._layer4_folder, desinated_template_name=self._source_template, debug=self._debug)
         if reversed_kifu_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] (e-1) parse fail. object_file={object_file}")

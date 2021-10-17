@@ -6,7 +6,7 @@ from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
-from scripts.convert_kif_to_kifu import convert_kif_to_kifu
+from scripts.convert_kif_to_kifu import ConvertKifToKifu
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -78,7 +78,8 @@ class ReversibleConvertKifuToKif():
         # ここから逆の操作を行います
 
         # (e-1)
-        reversed_kifu_file = convert_kif_to_kifu(
+        convert_kif_to_kifu = ConvertKifToKifu()
+        reversed_kifu_file = convert_kif_to_kifu.convert_kif_to_kifu(
             object_file, output_folder=self._layer4_folder, debug=self._debug)
         if reversed_kifu_file is None:
             print(

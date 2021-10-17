@@ -5,7 +5,7 @@ from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
-from scripts.convert_kif_to_kifu import convert_kif_to_kifu
+from scripts.convert_kif_to_kifu import ConvertKifToKifu
 from scripts.convert_kifu_to_kif import convert_kifu_to_kif
 from scripts.test_lib import create_sha256_by_file_path
 
@@ -68,7 +68,8 @@ class ReversibleConvertKifToKifu():
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) 目的のファイル（KIFU UTF-8）へ変換
-        object_file = convert_kif_to_kifu(
+        convert_kif_to_kifu = ConvertKifToKifu()
+        object_file = convert_kif_to_kifu.convert_kif_to_kifu(
             input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
