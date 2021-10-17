@@ -1,3 +1,4 @@
+import os
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -182,9 +183,20 @@ def create_right_file_name():
 def copy_left_to_right():
     """左のテキストボックスの内容を、右のテキストボックスにコピーする機能"""
     global left_file_text_box_value, left_text_area, right_text_area
-    # TODO 左のテキストボックスの内容を 📂`input` へ保存します
+    # TODO 左のテキストボックスの内容を
+    content = left_text_area.get("1.0", 'end-1c')
+    print(f"content=[{content}]")
+    # TODO 📂`input` へ保存します
     left_filename = left_file_text_box_value.get()
     print(f"left_filename=[{left_filename}]")
+
+    try:
+        basename = os.path.basename(left_filename)
+    except:
+        print(
+            f"Basename fail. left_filename={left_filename} except={sys.exc_info()[0]}")
+        raise
+
     # TODO ファイル単位で翻訳します
     # TODO 📂`output` に出来ているファイルを読み込み、右のテキストボックスへ出力します
     right_text_area.delete('1.0', 'end')

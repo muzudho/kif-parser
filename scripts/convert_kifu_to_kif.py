@@ -28,7 +28,8 @@ def convert_kifu_to_kif(input_file, output_folder, debug=False):
         try:
             basename = os.path.basename(input_file)
         except:
-            print(f"Error: input_file={input_file} except={sys.exc_info()[0]}")
+            print(
+                f"Basename fail. input_file={input_file} except={sys.exc_info()[0]}")
             raise
 
         stem, extention = os.path.splitext(basename)

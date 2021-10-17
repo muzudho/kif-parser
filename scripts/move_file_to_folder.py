@@ -12,7 +12,7 @@ def move_file_to_folder(src_file, dst_folder):
         basename = os.path.basename(src_file)
     except:
         print(
-            f"[ERROR] move_file_to_folder.py move_file_to_folder: src_file={src_file} except={sys.exc_info()[0]}")
+            f"Basename fail. src_file={src_file} except={sys.exc_info()[0]}")
         raise
 
     # `.` や `*` や `/` がここを通ってきてないか、最終チェックしておきます

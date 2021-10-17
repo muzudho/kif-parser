@@ -92,7 +92,7 @@ class ReversibleConvertKifuToPivot():
                 basename = os.path.basename(input_file)
             except:
                 print(
-                    f"Error: input_file={input_file} except={os.system.exc_info()[0]}")
+                    f"Basename fail. input_file={input_file} except={os.system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

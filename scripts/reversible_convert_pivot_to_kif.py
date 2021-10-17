@@ -117,7 +117,7 @@ class ReversibleConvertPivotToKif():
                 basename = os.path.basename(input_file)
             except:
                 print(
-                    f"[ERROR] reversible_convert_pivot_to_kif.py reversible_convert_pivot_to_kif(): input_file={input_file} except={os.system.exc_info()[0]}")
+                    f"Basename fail. input_file={input_file} except={os.system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

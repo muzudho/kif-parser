@@ -90,7 +90,7 @@ class ReversibleConvertKifToKifu():
                 basename = os.path.basename(input_file)
             except:
                 print(
-                    f"[ERROR] reversible_convert_kif_to_kifu.py reversible_convert_kif_to_kifu(): (g) parse fail. input_file={input_file} except={system.exc_info()[0]}")
+                    f"Basename fail. (g) parse fail. input_file={input_file} except={system.exc_info()[0]}")
                 raise
 
             # 不可逆な変換だが、とりあえず通します

@@ -25,7 +25,8 @@ def convert_kifu_to_pivot(kifu_file, output_folder, debug=False):
     try:
         basename = os.path.basename(kifu_file)
     except:
-        print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+        print(
+            f"Basename fail. kifu_file={kifu_file} except={sys.exc_info()[0]}")
         raise
 
     stem, extention = os.path.splitext(basename)

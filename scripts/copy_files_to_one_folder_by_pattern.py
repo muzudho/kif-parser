@@ -14,7 +14,7 @@ def copy_files_to_one_folder_by_pattern(file_pattern, dst_folder):
             basename = os.path.basename(file)
         except:
             print(
-                f"Error: file={file} except={sys.exc_info()[0]}")
+                f"Basename fail. file={file} except={sys.exc_info()[0]}")
             raise
 
         # `.` や `*` や `/` がここを通ってきてないか、最終チェックしておきます

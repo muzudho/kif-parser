@@ -12,7 +12,8 @@ def convert_toml_to_pivot(toml_file, output_folder):
     try:
         basename = os.path.basename(toml_file)
     except:
-        print(f"Error: toml_file={toml_file} except={sys.exc_info()[0]}")
+        print(
+            f"Basename fail. toml_file={toml_file} except={sys.exc_info()[0]}")
         raise
 
     stem, extention = os.path.splitext(basename)

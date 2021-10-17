@@ -11,7 +11,8 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
     try:
         basename = os.path.basename(pivot_file)
     except:
-        print(f"Error: pivot_file={pivot_file} except={sys.exc_info()[0]}")
+        print(
+            f"Basename fail. pivot_file={pivot_file} except={sys.exc_info()[0]}")
         raise
 
     if not basename.lower().endswith('[kifu-pivot].json'):
