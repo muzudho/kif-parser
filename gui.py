@@ -4,12 +4,13 @@ import tkinter.ttk as ttk
 
 
 def __main():
-    global left_combobox_value, right_combobox_value
-    global left_encode_text_box_value, left_encode_text_box, right_encode_text_box_value, right_encode_text_box
+    global left_generator_combobox_value, right_generator_combobox_value
+    global left_encoding_combobox_value, right_encoding_combobox_value
     global left_file_text_box_value, left_file_text_box, right_file_text_box_value, right_file_text_box
     global left_text_area, right_text_area
 
-    values = ('Shogi-dokoro', 'Shogi GUI')
+    generator_name_list = ('Shogi-dokoro', 'Shogi GUI')
+    encoding_name_list = ('KIFU (UTF-8)', 'KIF (Shift-JIS)')
 
     """
     .                2  2     2  2         4  4
@@ -46,65 +47,71 @@ def __main():
     # window.geometry("480x360")
     window.geometry("960x720")
 
-    # 左コンボボックス
-    left_combobox_value = tk.StringVar()
-    left_combobox_value.set("Shogi GUI")
-    left_combobox = ttk.Combobox(
-        window, height=3, textvariable=left_combobox_value, values=values)
-    left_combobox.place(x=10*scale, y=10*scale,
-                        width=200*scale, height=20*scale)
-    left_combobox.bind('<<ComboboxSelected>>', left_combobox_selected)
+    # 左コンボボックス（ジェネレーター名）
+    left_generator_combobox_value = tk.StringVar()
+    left_generator_combobox_value.set("Shogi GUI")
+    left_generator_combobox = ttk.Combobox(
+        window, height=3, textvariable=left_generator_combobox_value, values=generator_name_list)
+    left_generator_combobox.place(x=10*scale, y=10*scale,
+                                  width=200*scale, height=20*scale)
+    left_generator_combobox.bind(
+        '<<ComboboxSelected>>', left_generator_combobox_selected)
 
-    # 右コンボボックス
-    right_combobox_value = tk.StringVar()
-    right_combobox_value.set("Shogi-dokoro")
-    right_combobox = ttk.Combobox(
-        window, height=3, textvariable=right_combobox_value, values=values)
-    right_combobox.place(x=270*scale, y=10*scale,
-                         width=200*scale, height=20*scale)
-    right_combobox.bind('<<ComboboxSelected>>', right_combobox_selected)
+    # 右コンボボックス（ジェネレーター名）
+    right_generator_combobox_value = tk.StringVar()
+    right_generator_combobox_value.set("Shogi-dokoro")
+    right_generator_combobox = ttk.Combobox(
+        window, height=3, textvariable=right_generator_combobox_value, values=generator_name_list)
+    right_generator_combobox.place(x=270*scale, y=10*scale,
+                                   width=200*scale, height=20*scale)
+    right_generator_combobox.bind(
+        '<<ComboboxSelected>>', right_generator_combobox_selected)
 
-    # 左テキストボックス1（エンコーディング）
-    left_encode_text_box_value = tk.StringVar()
-    left_encode_text_box = tk.Entry(
-        window, textvariable=left_encode_text_box_value)
-    left_encode_text_box.place(x=10*scale, y=40*scale,
-                               width=200*scale, height=20*scale)
-    left_encode_text_box.insert(tk.END, "demo_in[shogigui]")
+    # 左コンボボックス（エンコーディング）
+    left_encoding_combobox_value = tk.StringVar()
+    left_encoding_combobox_value.set("KIFU (UTF-8)")
+    left_encoding_combobox = ttk.Combobox(
+        window, height=3, textvariable=left_encoding_combobox_value, values=encoding_name_list)
+    left_encoding_combobox.place(x=10*scale, y=40*scale,
+                                 width=200*scale, height=20*scale)
+    left_encoding_combobox.bind(
+        '<<ComboboxSelected>>', left_encoding_combobox_selected)
 
-    # 右テキストボックス1（エンコーディング）
-    right_encode_text_box_value = tk.StringVar()
-    right_encode_text_box = tk.Entry(
-        window, textvariable=right_encode_text_box_value)
-    right_encode_text_box.place(x=270*scale, y=40*scale,
-                                width=200*scale, height=20*scale)
-    right_encode_text_box.insert(tk.END, "demo_out[shogidokoro]")
+    # 右コンボボックス（エンコーディング）
+    right_encoding_combobox_value = tk.StringVar()
+    right_encoding_combobox_value.set("KIFU (UTF-8)")
+    right_encoding_combobox = ttk.Combobox(
+        window, height=3, textvariable=right_encoding_combobox_value, values=encoding_name_list)
+    right_encoding_combobox.place(x=270*scale, y=40*scale,
+                                  width=200*scale, height=20*scale)
+    right_encoding_combobox.bind(
+        '<<ComboboxSelected>>', right_encoding_combobox_selected)
 
     # 左テキストボックス2（ファイル名）
     left_file_text_box_value = tk.StringVar()
     left_file_text_box = tk.Entry(
         window, textvariable=left_file_text_box_value)
-    left_file_text_box.place(x=10*scale, y=40*scale,
+    left_file_text_box.place(x=10*scale, y=70*scale,
                              width=200*scale, height=20*scale)
-    left_file_text_box.insert(tk.END, "demo_in[shogigui]")
+    left_file_text_box.insert(tk.END, "demo-in[shogigui].kifu")
 
     # 右テキストボックス2（ファイル名）
     right_file_text_box_value = tk.StringVar()
     right_file_text_box = tk.Entry(
         window, textvariable=right_file_text_box_value)
-    right_file_text_box.place(x=270*scale, y=40*scale,
+    right_file_text_box.place(x=270*scale, y=70*scale,
                               width=200*scale, height=20*scale)
-    right_file_text_box.insert(tk.END, "demo_out[shogidokoro]")
+    right_file_text_box.insert(tk.END, "demo-out[shogidokoro].kifu")
 
     # 左テキストエリア
     left_text_area = tk.Text(window)
-    left_text_area.place(x=10*scale, y=70*scale,
-                         width=200*scale, height=280*scale)
+    left_text_area.place(x=10*scale, y=100*scale,
+                         width=200*scale, height=250*scale)
 
     # 右テキストエリア
     right_text_area = tk.Text(window)
-    right_text_area.place(x=270*scale, y=70*scale,
-                          width=200*scale, height=280*scale)
+    right_text_area.place(x=270*scale, y=100*scale,
+                          width=200*scale, height=250*scale)
 
     # [-->]ボタン
     left_to_right_button = ttk.Button(
@@ -120,24 +127,56 @@ def __main():
     window.mainloop()
 
 
-def left_combobox_selected(e):
-    global left_combobox_value, left_file_text_box_value
-    generator = left_combobox_value.get()
-    print(f"left_combobox_selected txt={generator} e={e}")
-    if generator == "Shogi GUI":
-        left_file_text_box_value.set(f"demo-in[shogigui]")
-    else:
-        left_file_text_box_value.set(f"demo-in[shogidokoro]")
+def left_generator_combobox_selected(e):
+    filename = create_left_file_name("demo-in")
+    left_file_text_box_value.set(filename)
 
 
-def right_combobox_selected(e):
-    global right_combobox_value, right_file_text_box_value
-    generator = right_combobox_value.get()
-    print(f"right_combobox_selected txt={generator} e={e}")
+def right_generator_combobox_selected(e):
+    filename = create_right_file_name("demo-in")
+    right_file_text_box_value.set(filename)
+
+
+def left_encoding_combobox_selected(e):
+    filename = create_left_file_name("demo-in")
+    left_file_text_box_value.set(filename)
+
+
+def right_encoding_combobox_selected(e):
+    filename = create_right_file_name("demo-in")
+    right_file_text_box_value.set(filename)
+
+
+def create_left_file_name(stem):
+    global left_generator_combobox_value, left_encoding_combobox_value
+    filename = stem
+    generator = left_generator_combobox_value.get()
     if generator == "Shogi GUI":
-        right_file_text_box_value.set(f"demo-out[shogigui]")
+        filename += "[shogigui]"
     else:
-        right_file_text_box_value.set(f"demo-out[shogidokoro]")
+        filename += "[shogidokoro]"
+    encoding = left_encoding_combobox_value.get()
+    if encoding == "KIF (Shift-JIS)":
+        filename += ".kif"
+    else:
+        filename += ".kifu"
+    return filename
+
+
+def create_right_file_name(stem):
+    global right_generator_combobox_value, right_encoding_combobox_value
+    filename = stem
+    generator = right_generator_combobox_value.get()
+    if generator == "Shogi GUI":
+        filename += "[shogigui]"
+    else:
+        filename += "[shogidokoro]"
+    encoding = right_encoding_combobox_value.get()
+    if encoding == "KIF (Shift-JIS)":
+        filename += ".kif"
+    else:
+        filename += ".kifu"
+    return filename
 
 
 def copy_left_to_right():
