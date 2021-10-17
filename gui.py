@@ -146,10 +146,11 @@ def __main():
     left_to_right_button.place(x=220*scale, y=160*scale,
                                width=40*scale, height=30*scale)
     # [<--]ボタン
-    right_to_left_button = ttk.Button(
-        window, text='<--', command=copy_right_to_left)
-    right_to_left_button.place(x=220*scale, y=210*scale,
-                               width=40*scale, height=30*scale)
+    # right_to_left_button = ttk.Button(
+    #    window, text='<--', command=copy_right_to_left)
+    # right_to_left_button.place(x=220*scale, y=210*scale,
+    #                           width=40*scale, height=30*scale)
+    # right_to_left_button.configure(state='readonly')  # WIP まだできてない
 
     window.mainloop()
 
@@ -219,13 +220,28 @@ def create_right_file_name():
 
 def recognition():
     """TODO フォーマット認識ボタン"""
+    global left_generator_combobox_value
     global left_text_area
     left_textbox_content = left_text_area.get("1.0", 'end-1c')
     generator_identification = GeneratorIdentification()
     generator_identification.read_all_text(left_textbox_content)
     print(
         f'[DEBUG] shogidokoro={generator_identification._Y["shogidokoro"]} shogigui={generator_identification._Y["shogigui"]}')
-    pass
+
+    best_key = "shogidokoro"
+    best_value = -1
+    for key, value in generator_identification._Y.items():
+        if best_value < value:
+            best_key = key
+            best_value = value
+
+    print(
+        f'[DEBUG] best_key={best_key} best_value={best_value}')
+
+    if best_key == "shogigui":
+        left_generator_combobox_value.set("Shogi GUI")
+    else:
+        left_generator_combobox_value.set("Shogi-dokoro")
 
 
 def copy_left_to_right():
@@ -321,7 +337,7 @@ def copy_left_to_right():
 
 
 def copy_right_to_left():
-    """右のテキストボックスの内容を、左のテキストボックスにコピーする機能"""
+    """WIP 右のテキストボックスの内容を、左のテキストボックスにコピーする機能"""
     pass
     # global right_text_area, left_text_area
     # left_text_area.delete('1.0', 'end')
