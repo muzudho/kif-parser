@@ -90,7 +90,7 @@ class ReversibleConvertKifToPivot():
         # (d-2) 目的のファイル（Pivot）へ変換
         kifu2pivot = ConvertKifuToPivot(
             debug=self._debug)
-        object_file = kifu2pivot.convert_kifu_to_pivot(
+        object_file = kifu2pivot.convert_file_from_kifu_to_pivot(
             kifu_file, output_folder=self._object_folder)
         if object_file is None:
             print(

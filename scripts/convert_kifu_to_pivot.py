@@ -17,38 +17,13 @@ class ConvertKifuToPivot():
     def __init__(self, debug=False):
         self._debug = debug
 
-    def convert_kifu_to_pivot(self, kifu_file, output_folder):
-        """KIFUファイルを読込んで、JSONファイルを出力します
-        Parameters
-        ----------
-        output_folder : str
-            'temporary/to-pivot/pivot' か `temporary/to-pivot/output`
-        """
-
+    def convert_text_from_kifu_to_pivot(self, in_text):
         data = {}
-
-        # basename
-        try:
-            basename = os.path.basename(kifu_file)
-        except:
-            print(
-                f"Basename fail. kifu_file={kifu_file} except={sys.exc_info()[0]}")
-            raise
-
-        stem, extention = os.path.splitext(basename)
-        if extention.lower() != '.kifu':
-            return None
-
-        # insert new extention
-        out_path = os.path.join(output_folder, f"{stem}[kifu-pivot].json")
-
-        # とりあえず KIFU を読んでみます
         row_number = 1
-        with open(kifu_file, encoding='utf-8') as f:
-            text = f.read().rstrip()
 
         # この棋譜を生成したソフトが何か当てに行きます
-        shogi_dokoro, shogi_gui = generator_identification.read_all_text(text)
+        shogi_dokoro, shogi_gui = generator_identification.read_all_text(
+            in_text)
         # 0行目に情報を追加するものとします
         data[0] = {
             "type": "metadata",
@@ -58,7 +33,7 @@ class ConvertKifuToPivot():
             }
         }
 
-        lines = text.split('\n')
+        lines = in_text.split('\n')
         for line in lines:
 
             # 空行は読み飛ばします。「変化」の直前に有ったりします
@@ -258,24 +233,58 @@ class ConvertKifuToPivot():
 
             # 解析漏れ
             print(
-                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] unimplemented row_number={row_number} line=[{line}]")
             return None
 
         # 最終行まで解析終わり
 
+        # JSON出力
+        # dumps そのままでは、配列の要素が複数行に改行されるのが気になる
+        out_text = json.dumps(data, indent=4, ensure_ascii=False)
+
+        # そこで再整形
+        out_text = format_data_json(out_text)
+        # print(f"[整形後text] {out_text}")
+
+        return out_text
+
+    def convert_file_from_kifu_to_pivot(self, input_file, output_folder):
+        """KIFUファイルを読込んで、JSONファイルを出力します
+        Parameters
+        ----------
+        output_folder : str
+            'temporary/to-pivot/pivot' か `temporary/to-pivot/output`
+        """
+
+        # basename
+        try:
+            basename = os.path.basename(input_file)
+        except:
+            print(
+                f"Basename fail. input_file={input_file} except={sys.exc_info()[0]}")
+            raise
+
+        stem, extention = os.path.splitext(basename)
+        if extention.lower() != '.kifu':
+            return None
+
+        # insert new extention
+        out_path = os.path.join(output_folder, f"{stem}[kifu-pivot].json")
+
+        # とりあえず KIFU を読んでみます
+        with open(input_file, encoding='utf-8') as f:
+            in_text = f.read().rstrip()
+
+        out_text = self.convert_text_from_kifu_to_pivot(in_text)
+        if not out_text:
+            print(
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Convert fail. input_file=[{input_file}]")
+            return None
+
         if self._debug:
             print(
                 f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Write to [{out_path}]")
-
         with open(out_path, 'w', encoding='utf-8') as f_out:
-            # JSON出力
-            # dumps そのままでは、配列の要素が複数行に改行されるのが気になる
-            text = json.dumps(data, indent=4, ensure_ascii=False)
-
-            # そこで再整形
-            text = format_data_json(text)
-            # print(f"[整形後text] {text}")
-
-            f_out.write(text)
+            f_out.write(out_text)
 
         return out_path

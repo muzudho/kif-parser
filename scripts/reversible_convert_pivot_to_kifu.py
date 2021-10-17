@@ -90,7 +90,7 @@ class ReversibleConvertPivotToKifu():
 
         # (e-1)
         rev_pivot2kifu = ConvertKifuToPivot(debug=self._debug)
-        reversed_pivot_file = rev_pivot2kifu.convert_kifu_to_pivot(
+        reversed_pivot_file = rev_pivot2kifu.convert_file_from_kifu_to_pivot(
             object_file, output_folder=self._layer4_folder)
         if reversed_pivot_file is None:
             print(
