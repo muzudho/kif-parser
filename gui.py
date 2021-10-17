@@ -13,8 +13,11 @@ values = ('Shogi-dokoro', 'Shogi GUI')
    |                                      |
  10|  +----------+           +---------+  |
    |  | Japanese |           | English |  |
+ 30|  +----------+           +---------+  |
  40|  +----------+           +---------+  |
- 50|  +----------+           +---------+  |
+   |  | Japanese |           | English |  |
+ 60|  +----------+           +---------+  |
+ 70|  +----------+           +---------+  |
    |  |          |           |         |  |
 160|  |          |  +-----+  |         |  |
    |  |          |  | --> |  |         |  |
@@ -39,23 +42,33 @@ left_combobox_value = tk.StringVar()
 left_combobox_value.set("Shogi-dokoro")
 left_combobox = ttk.Combobox(
     window, height=3, textvariable=left_combobox_value, values=values)
-left_combobox.place(x=10*scale, y=10*scale, width=200*scale, height=30*scale)
+left_combobox.place(x=10*scale, y=10*scale, width=200*scale, height=20*scale)
 
 # 右コンボボックス
 right_combobox_value = tk.StringVar()
 right_combobox_value.set("Shogi GUI")
 right_combobox = ttk.Combobox(
     window, height=3, textvariable=right_combobox_value, values=values)
-right_combobox.place(x=270*scale, y=10*scale, width=200*scale, height=30*scale)
+right_combobox.place(x=270*scale, y=10*scale, width=200*scale, height=20*scale)
+
+# 左テキストボックス
+left_text_box = tk.Entry(window)
+left_text_box.place(x=10*scale, y=40*scale, width=200*scale, height=20*scale)
+left_text_box.insert(tk.END, "demo_in[shogigui]")
+
+# 右テキストボックス
+right_text_box = tk.Entry(window)
+right_text_box.place(x=270*scale, y=40*scale, width=200*scale, height=20*scale)
+right_text_box.insert(tk.END, "demo_out[shogidokoro]")
 
 # 左テキストエリア
 left_text_area = tk.Text(window)
-left_text_area.place(x=10*scale, y=50*scale, width=200*scale, height=300*scale)
+left_text_area.place(x=10*scale, y=70*scale, width=200*scale, height=280*scale)
 
 # 右テキストエリア
 right_text_area = tk.Text(window)
-right_text_area.place(x=270*scale, y=50*scale,
-                      width=200*scale, height=300*scale)
+right_text_area.place(x=270*scale, y=70*scale,
+                      width=200*scale, height=280*scale)
 
 
 def copy_left_to_right():
