@@ -62,7 +62,8 @@ if __name__ == "__main__":
         conv = ReversibleConvertPivotToKif(destination_template="", debug=True)
     elif args.tool == "pivot2kifu":
         # PIVOT to KIFU
-        conv = ReversibleConvertPivotToKifu(debug=True)
+        conv = ReversibleConvertPivotToKifu(
+            destination_template="", debug=True)
 
     if conv:
         conv.clean_last_layer_folder()

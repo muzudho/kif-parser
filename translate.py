@@ -63,7 +63,7 @@ class Translator():
         if destination == 'kifu':
             # PIVOTファイルをKIFUへ変換します
             from_pivot = ReversibleConvertPivotToKifu(
-                debug=debug, first_layer_folder='temporary/output-pivot', destination_template_name=destination_template)
+                debug=debug, first_layer_folder='temporary/output-pivot', destination_template=destination_template)
         else:
             # PIVOTファイルをKIFへ変換します
             from_pivot = ReversibleConvertPivotToKif(
