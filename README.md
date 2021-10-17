@@ -126,3 +126,7 @@ python.exe debug.py --rmin
 UTF-8, Shift-JIS変換  
 
 📖　[BOMの消去](https://qiita.com/msk02/items/c3a1c4a1e1ef94c37228)  
+
+tkinter  
+
+📖 [【Python3】tkinterでonChange的なイベントを捕まえたい](https://qiita.com/haruyan_hopemucci/items/6718188c7820336e6900)  

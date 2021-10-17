@@ -8,6 +8,7 @@ from translate import Translator
 
 def __main():
     global left_generator_combobox_value, right_generator_combobox_value
+    global left_stem_text_box_value
     global left_encoding_combobox_value, right_encoding_combobox_value
     global left_file_text_box_value, left_file_text_box, right_file_text_box_value, right_file_text_box
     global left_text_area, right_text_area
@@ -23,14 +24,17 @@ def __main():
     ...|                                      |
     .10|  +----------+           +---------+  |
     ...|  | Japanese |           | English |  |
-    .30|  +----------+           +---------+  |
-    .40|  +----------+           +---------+  |
-    ...|  | KIFU     |           | KIF     |  |
+    .25|  +----------+           +---------+  |
+    .35|  +----------+                        |
+    ...|  | Stem     |                        |
+    .50|  +----------+                        |
     .60|  +----------+           +---------+  |
-    .70|  +----------+           +---------+  |
+    ...|  | KIFU     |           | KIF     |  |
+    .75|  +----------+           +---------+  |
+    .85|  +----------+           +---------+  |
     ...|  | File1    |           | File2   |  |
-    .90|  +----------+           +---------+  |
     100|  +----------+           +---------+  |
+    110|  +----------+           +---------+  |
     ...|  |          |           |         |  |
     160|  |          |  +-----+  |         |  |
     ...|  |          |  | --> |  |         |  |
@@ -56,7 +60,7 @@ def __main():
     left_generator_combobox = ttk.Combobox(
         window, height=3, textvariable=left_generator_combobox_value, values=generator_name_list)
     left_generator_combobox.place(x=10*scale, y=10*scale,
-                                  width=200*scale, height=20*scale)
+                                  width=200*scale, height=15*scale)
     left_generator_combobox.bind(
         '<<ComboboxSelected>>', left_generator_combobox_selected)
 
@@ -66,17 +70,26 @@ def __main():
     right_generator_combobox = ttk.Combobox(
         window, height=3, textvariable=right_generator_combobox_value, values=generator_name_list)
     right_generator_combobox.place(x=270*scale, y=10*scale,
-                                   width=200*scale, height=20*scale)
+                                   width=200*scale, height=15*scale)
     right_generator_combobox.bind(
         '<<ComboboxSelected>>', right_generator_combobox_selected)
+
+    # 左テキストボックス1（ファイル名基幹部）
+    left_stem_text_box_value = tk.StringVar()
+    left_stem_text_box_value.trace("w", on_left_stem_text_box_value_changed)
+    left_stem_text_box = tk.Entry(
+        window, textvariable=left_stem_text_box_value)
+    left_stem_text_box.place(x=10*scale, y=35*scale,
+                             width=200*scale, height=15*scale)
+    left_stem_text_box.insert(tk.END, "demo")
 
     # 左コンボボックス（エンコーディング）
     left_encoding_combobox_value = tk.StringVar()
     left_encoding_combobox_value.set("KIFU (UTF-8)")
     left_encoding_combobox = ttk.Combobox(
         window, height=3, textvariable=left_encoding_combobox_value, values=encoding_name_list)
-    left_encoding_combobox.place(x=10*scale, y=40*scale,
-                                 width=200*scale, height=20*scale)
+    left_encoding_combobox.place(x=10*scale, y=60*scale,
+                                 width=200*scale, height=15*scale)
     left_encoding_combobox.bind(
         '<<ComboboxSelected>>', left_encoding_combobox_selected)
 
@@ -85,8 +98,8 @@ def __main():
     right_encoding_combobox_value.set("KIFU (UTF-8)")
     right_encoding_combobox = ttk.Combobox(
         window, height=3, textvariable=right_encoding_combobox_value, values=encoding_name_list)
-    right_encoding_combobox.place(x=270*scale, y=40*scale,
-                                  width=200*scale, height=20*scale)
+    right_encoding_combobox.place(x=270*scale, y=60*scale,
+                                  width=200*scale, height=15*scale)
     right_encoding_combobox.bind(
         '<<ComboboxSelected>>', right_encoding_combobox_selected)
 
@@ -94,27 +107,27 @@ def __main():
     left_file_text_box_value = tk.StringVar()
     left_file_text_box = tk.Entry(
         window, textvariable=left_file_text_box_value)
-    left_file_text_box.place(x=10*scale, y=70*scale,
-                             width=200*scale, height=20*scale)
-    left_file_text_box.insert(tk.END, "input/demo-left[shogigui].kifu")
+    left_file_text_box.place(x=10*scale, y=85*scale,
+                             width=200*scale, height=15*scale)
+    left_file_text_box.insert(tk.END, "input/demo[shogigui].kifu")
 
     # 右テキストボックス2（ファイル名）
     right_file_text_box_value = tk.StringVar()
     right_file_text_box = tk.Entry(
         window, textvariable=right_file_text_box_value)
-    right_file_text_box.place(x=270*scale, y=70*scale,
-                              width=200*scale, height=20*scale)
-    right_file_text_box.insert(tk.END, "output/demo-right[shogidokoro].kifu")
+    right_file_text_box.place(x=270*scale, y=85*scale,
+                              width=200*scale, height=15*scale)
+    right_file_text_box.insert(tk.END, "output/demo[shogidokoro].kifu")
 
     # 左テキストエリア
     left_text_area = tk.Text(window)
-    left_text_area.place(x=10*scale, y=100*scale,
-                         width=200*scale, height=250*scale)
+    left_text_area.place(x=10*scale, y=110*scale,
+                         width=200*scale, height=240*scale)
 
     # 右テキストエリア
     right_text_area = tk.Text(window)
-    right_text_area.place(x=270*scale, y=100*scale,
-                          width=200*scale, height=250*scale)
+    right_text_area.place(x=270*scale, y=110*scale,
+                          width=200*scale, height=240*scale)
 
     # [-->]ボタン
     left_to_right_button = ttk.Button(
@@ -140,6 +153,13 @@ def right_generator_combobox_selected(e):
     right_file_text_box_value.set(filename)
 
 
+def on_left_stem_text_box_value_changed(*args):
+    left_filename = create_left_file_name()
+    left_file_text_box_value.set(left_filename)
+    right_filename = create_right_file_name()
+    right_file_text_box_value.set(right_filename)
+
+
 def left_encoding_combobox_selected(e):
     filename = create_left_file_name()
     left_file_text_box_value.set(filename)
@@ -152,7 +172,9 @@ def right_encoding_combobox_selected(e):
 
 def create_left_file_name():
     global left_generator_combobox_value, left_encoding_combobox_value
-    filename = "input/demo-left"
+    filename = "input/"
+    stem = left_stem_text_box_value.get()
+    filename += stem
     generator = left_generator_combobox_value.get()
     if generator == "Shogi GUI":
         filename += "[shogigui]"
@@ -168,7 +190,9 @@ def create_left_file_name():
 
 def create_right_file_name():
     global right_generator_combobox_value, right_encoding_combobox_value
-    filename = "output/demo-right"
+    filename = "output/"
+    stem = left_stem_text_box_value.get()  # 左のを使う
+    filename += stem
     generator = right_generator_combobox_value.get()
     if generator == "Shogi GUI":
         filename += "[shogigui]"
