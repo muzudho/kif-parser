@@ -4,6 +4,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import codecs
 
+from translate import Translator
+
 
 def __main():
     global left_generator_combobox_value, right_generator_combobox_value
@@ -183,6 +185,7 @@ def create_right_file_name():
 
 def copy_left_to_right():
     """左のテキストボックスの内容を、右のテキストボックスにコピーする機能"""
+    global right_generator_combobox_value, left_encoding_combobox_value, right_encoding_combobox_value
     global left_file_text_box_value, left_text_area, right_text_area
     # TODO 左のテキストボックスの内容を
     content = left_text_area.get("1.0", 'end-1c')
@@ -209,11 +212,34 @@ def copy_left_to_right():
         with codecs.open(input_filename, "w", encoding='utf-8') as f_out:
             f_out.write(content)
 
+    # TODO 翻訳ツール作成
+    right_generator = right_generator_combobox_value.get()
+    if right_generator == "Shogi GUI":
+        template = "shogigui"
+    else:
+        template = "shogidokoro"
+    left_encoding = left_encoding_combobox_value.get()
+    if left_encoding == "KIF (Shift-JIS)":
+        source = "kif"
+    else:
+        source = "kifu"
+    right_encoding = right_encoding_combobox_value.get()
+    if right_encoding == "KIF (Shift-JIS)":
+        destination = "kif"
+    else:
+        destination = "kifu"
+    translator = Translator(source=source, destination=destination,
+                            template=template, debug=False)
+
     # TODO ファイル単位で翻訳します
-    # TODO 📂`output` に出来ているファイルを読み込み、右のテキストボックスへ出力します
-    right_text_area.delete('1.0', 'end')
-    text = left_text_area.get("1.0", 'end-1c')
-    right_text_area.insert("1.0", text)
+    translator.translate_file(input_filename)
+
+    # TODO 📂`output` に出来ているファイルを読み込み
+
+    # TODO右のテキストボックスへ出力します
+    # right_text_area.delete('1.0', 'end')
+    # text = left_text_area.get("1.0", 'end-1c')
+    # right_text_area.insert("1.0", text)
 
 
 def copy_right_to_left():

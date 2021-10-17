@@ -21,7 +21,7 @@ class Translator():
             debug=self._debug)
         # TODO 処理
         Translator._translate_file_in_loop(
-            input_file, to_pivot, from_pivot, self.debug)
+            input_file, to_pivot, from_pivot, self._debug)
 
         Translator._do_it_after_translation(from_pivot)
 
