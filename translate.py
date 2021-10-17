@@ -133,5 +133,6 @@ if __name__ == "__main__":
 
     # TODO source_template を自動判定したい
     translator = Translator(source=args.source, destination=args.destination,
+                            source_template="",
                             destination_template=args.template, debug=args.debug)
     translator.translate_files_in_folder()
