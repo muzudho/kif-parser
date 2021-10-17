@@ -2,6 +2,7 @@ import os
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
+import codecs
 
 
 def __main():
@@ -94,7 +95,7 @@ def __main():
         window, textvariable=left_file_text_box_value)
     left_file_text_box.place(x=10*scale, y=70*scale,
                              width=200*scale, height=20*scale)
-    left_file_text_box.insert(tk.END, "demo-left[shogigui].kifu")
+    left_file_text_box.insert(tk.END, "input/demo-left[shogigui].kifu")
 
     # 右テキストボックス2（ファイル名）
     right_file_text_box_value = tk.StringVar()
@@ -102,7 +103,7 @@ def __main():
         window, textvariable=right_file_text_box_value)
     right_file_text_box.place(x=270*scale, y=70*scale,
                               width=200*scale, height=20*scale)
-    right_file_text_box.insert(tk.END, "demo-right[shogidokoro].kifu")
+    right_file_text_box.insert(tk.END, "output/demo-right[shogidokoro].kifu")
 
     # 左テキストエリア
     left_text_area = tk.Text(window)
@@ -150,7 +151,7 @@ def right_encoding_combobox_selected(e):
 
 def create_left_file_name():
     global left_generator_combobox_value, left_encoding_combobox_value
-    filename = "demo-left"
+    filename = "input/demo-left"
     generator = left_generator_combobox_value.get()
     if generator == "Shogi GUI":
         filename += "[shogigui]"
@@ -166,7 +167,7 @@ def create_left_file_name():
 
 def create_right_file_name():
     global right_generator_combobox_value, right_encoding_combobox_value
-    filename = "demo-right"
+    filename = "output/demo-right"
     generator = right_generator_combobox_value.get()
     if generator == "Shogi GUI":
         filename += "[shogigui]"
@@ -187,15 +188,26 @@ def copy_left_to_right():
     content = left_text_area.get("1.0", 'end-1c')
     print(f"content=[{content}]")
     # TODO 📂`input` へ保存します
-    left_filename = left_file_text_box_value.get()
-    print(f"left_filename=[{left_filename}]")
+    input_filename = left_file_text_box_value.get()
+    print(f"input_filename=[{input_filename}]")
 
     try:
-        basename = os.path.basename(left_filename)
+        basename = os.path.basename(input_filename)
     except:
         print(
-            f"Basename fail. left_filename={left_filename} except={sys.exc_info()[0]}")
+            f"Basename fail. input_filename={input_filename} except={sys.exc_info()[0]}")
         raise
+
+    stem, extention = os.path.splitext(basename)
+    if extention == ".kif":
+        # UTF-8 --> Shift-JIS 変換して保存
+        # TODO UTF-8 から Shift-JIS へ変換できない文字（波線）などが現れた時、エラーにならないように何とかしたい
+        with codecs.open(input_filename, "w", encoding='shift_jis') as f_out:
+            f_out.write(content)
+    else:
+        # TODO BOM付きにも対応したい
+        with codecs.open(input_filename, "w", encoding='utf-8') as f_out:
+            f_out.write(content)
 
     # TODO ファイル単位で翻訳します
     # TODO 📂`output` に出来ているファイルを読み込み、右のテキストボックスへ出力します
