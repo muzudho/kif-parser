@@ -9,28 +9,38 @@ from scripts.shogigui_template import ShogiguiTemplate
 
 class ConvertPivotToKifu():
 
-    def convert_pivot_to_kifu(self, pivot_file, output_folder, desinated_template_name="", debug=False):
+    def __init__(self, input_file, debug=False):
+        self._input_file = input_file
+        self._debug = debug
+        pass
+
+    def _read_input(self):
+        # basename
+        try:
+            basename = os.path.basename(self._input_file)
+        except:
+            print(
+                f"Basename fail. input_file={self._input_file} except={sys.exc_info()[0]}")
+            raise
+
+        if not basename.lower().endswith('[kifu-pivot].json'):
+            return None, None
+        stem, _extention = os.path.splitext(basename)
+
+        # Pivotファイル（JSON形式）を読込みます
+        with open(self._input_file, encoding='utf-8') as f:
+            data = json.loads(f.read(), object_pairs_hook=OrderedDict)
+
+        return stem, data
+
+    def convert_pivot_to_kifu(self, output_folder, desinated_template_name=""):
         """
         Parameters
         ----------
         desinated_template_name : str
             往復変換のときは source_template と destination_template のどちらかよく確認してください
         """
-        # basename
-        try:
-            basename = os.path.basename(pivot_file)
-        except:
-            print(
-                f"Basename fail. pivot_file={pivot_file} except={sys.exc_info()[0]}")
-            raise
-
-        if not basename.lower().endswith('[kifu-pivot].json'):
-            return None
-        stem, _extention = os.path.splitext(basename)
-
-        # Pivotファイル（JSON形式）を読込みます
-        with open(pivot_file, encoding='utf-8') as f:
-            data = json.loads(f.read(), object_pairs_hook=OrderedDict)
+        stem, data = self._read_input()
 
         # .kifu テキストを作ります
         kifu_text = ""
@@ -71,7 +81,7 @@ class ConvertPivotToKifu():
                             generating_software_is_probably["shogidokoro"])
                         # 将棋所テンプレート
                         if best_rate < shogidokoro_rate:
-                            if debug:
+                            if self._debug:
                                 print(
                                     f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] 将棋所テンプレートに変えます")
                             template_obj = ShogidokoroTemplate()
@@ -82,7 +92,7 @@ class ConvertPivotToKifu():
                             generating_software_is_probably["shogigui"])
                         # ShogiGUIテンプレート
                         if best_rate < shogigui_rate:
-                            if debug:
+                            if self._debug:
                                 print(
                                     f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] ShogiGUIテンプレートに変えます")
                             template_obj = ShogiguiTemplate()
@@ -90,7 +100,7 @@ class ConvertPivotToKifu():
             else:
                 # Error
                 print(
-                    f"[Error] {os.path.basename(__file__)} unimplemented row_number={row_number} row_data={row_data} pivot_file=[{pivot_file}]")
+                    f"[Error] {os.path.basename(__file__)} unimplemented row_number={row_number} row_data={row_data} input_file=[{self._input_file}]")
                 return None
 
         # 最終行に空行が続くケースもあります
@@ -110,7 +120,7 @@ class ConvertPivotToKifu():
         out_path = os.path.join(
             output_folder, f"{stem}[{template_obj.name}].kifu")
 
-        if debug:
+        if self._debug:
             print(
                 f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Write to [{out_path}] desinated_template_name=[{desinated_template_name}]")
 
