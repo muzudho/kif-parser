@@ -252,14 +252,14 @@ def convert_kifu_to_pivot(kifu_file, output_folder, debug=False):
 
         # 解析漏れ
         print(
-            f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
+            f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
         return None
 
     # 最終行まで解析終わり
 
     if debug:
         print(
-            f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Write to [{out_path}]")
+            f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Write to [{out_path}]")
 
     with open(out_path, 'w', encoding='utf-8') as f_out:
         # JSON出力

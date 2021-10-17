@@ -11,6 +11,9 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 
 class Translator():
     def __init__(self, source, destination, source_template, destination_template, debug=False):
+        if debug:
+            print(f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] source_template=[{source_template}] destination_template=[{destination_template}]")
+
         self._source = source
         self._destination = destination
 
@@ -79,7 +82,7 @@ class Translator():
     def _translate_file_in_loop(clazz, input_file, to_pivot, from_pivot, debug=False):
         if debug:
             print(
-                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: to_pivot")
+                f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] to_pivot")
 
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
         next_file = change_place(to_pivot.layer2_folder, input_file)
@@ -92,7 +95,7 @@ class Translator():
 
         if debug:
             print(
-                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: from_pivot")
+                f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] from_pivot")
 
         # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
         next_file = change_place(from_pivot.layer2_folder, object_file)

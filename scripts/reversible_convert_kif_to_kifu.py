@@ -72,7 +72,7 @@ class ReversibleConvertKifToKifu():
             input_file, output_folder=self._object_folder, debug=self._debug)
         if object_file is None:
             print(
-                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (d-1) parse fail. input_file=[{input_file}]")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] (d-1) parse fail. input_file=[{input_file}]")
             return None
 
         # ここから逆の操作を行います
@@ -94,7 +94,8 @@ class ReversibleConvertKifToKifu():
                 raise
 
             # 不可逆な変換だが、とりあえず通します
-            print(f"[WARNING] Irreversible conversion. basename={basename}")
+            print(
+                f"[WARNING] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Irreversible conversion. basename={basename}")
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy = change_place(self._last_layer_folder, object_file)

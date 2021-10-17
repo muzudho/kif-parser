@@ -71,7 +71,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
                     if best_rate < shogidokoro_rate:
                         if debug:
                             print(
-                                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: 将棋所テンプレートに変えます")
+                                f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] 将棋所テンプレートに変えます")
                         template = ShogidokoroTemplate()
                         best_rate = shogidokoro_rate
 
@@ -82,7 +82,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
                     if best_rate < shogigui_rate:
                         if debug:
                             print(
-                                f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: ShogiGUIテンプレートに変えます")
+                                f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] ShogiGUIテンプレートに変えます")
                         template = ShogiguiTemplate()
                         best_rate = shogigui_rate
         else:
@@ -109,7 +109,7 @@ def convert_pivot_to_kifu(pivot_file, output_folder, template_name="", debug=Fal
 
     if debug:
         print(
-            f"[DEBUG] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Write to [{out_path}] template_name=[{template_name}]")
+            f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Write to [{out_path}] template_name=[{template_name}]")
 
     with open(out_path, mode='w', encoding='utf-8') as f_out:
         f_out.write(kifu_text)

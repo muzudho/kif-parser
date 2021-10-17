@@ -14,6 +14,10 @@ from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
 
 class ReversibleConvertPivotToKif():
     def __init__(self, destination_template, debug=False, first_layer_folder='input', no_remove_output_pivot=False):
+        if debug:
+            print(
+                f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] destination_template=[{destination_template}]")
+
         # (a) Layer 1. 入力フォルダ―
         self._first_layer_folder = first_layer_folder
         self._first_layer_file_pattern = os.path.join(
@@ -70,6 +74,9 @@ class ReversibleConvertPivotToKif():
         str
             最終成果ファイルへのパス
         """
+        if self._debug:
+            print(
+                f"[DEBUG] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] destination_template=[{self._destination_template}]")
 
         # (c) レイヤー２にあるファイルの SHA256 生成
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
@@ -79,7 +86,7 @@ class ReversibleConvertPivotToKif():
             input_file, output_folder=self._layer2b_folder, template_name=self._destination_template, debug=self._debug)
         if kifu_file is None:
             print(
-                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Parse fail. input_file={input_file}")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Parse fail. input_file={input_file}")
             return None
 
         # (d-2) 目的のファイル(KIF Shift-JIS)へ変換
@@ -87,7 +94,7 @@ class ReversibleConvertPivotToKif():
             kifu_file, output_folder=self._middle_folder, debug=self._debug)
         if object_file is None:
             print(
-                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Parse fail. input_file={input_file}")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Parse fail. input_file={input_file}")
             return None
 
         # ここから逆の操作を行います
@@ -97,7 +104,7 @@ class ReversibleConvertPivotToKif():
             object_file, output_folder=self._layer4_folder, debug=self._debug)
         if reversed_kifu_file is None:
             print(
-                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Parse fail. input_file={input_file}")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Parse fail. input_file={input_file}")
             return None
 
         # (e-2)
@@ -105,7 +112,7 @@ class ReversibleConvertPivotToKif():
             reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
         if reversed_pivot_file is None:
             print(
-                f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: Parse fail. input_file={input_file}")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Parse fail. input_file={input_file}")
             return None
 
         # (f) レイヤー５にあるファイルの SHA256 生成
@@ -123,7 +130,7 @@ class ReversibleConvertPivotToKif():
 
             # 不可逆な変換だが、とりあえず通します
             print(
-                f"[WARNING] Irreversible conversion. basename={basename}")
+                f"[WARNING] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Irreversible conversion. basename={basename}")
 
         # (h) 後ろから2. 中間レイヤー フォルダ―の中身を 最終レイヤー フォルダ―へコピーします
         copy = change_place(self._last_layer_folder, object_file)

@@ -19,7 +19,7 @@ def move_file_to_folder(src_file, dst_folder):
     _stem, extention = os.path.splitext(basename)
     if not (extention.lower() in ['.kif', '.kifu', '.json', '.toml']):
         print(
-            f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: record file move fail. move_file_to_folder_by_pattern_list.py src_file=[{src_file}]")
+            f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] record file move fail. move_file_to_folder_by_pattern_list.py src_file=[{src_file}]")
         return
 
     dst_file = os.path.join(dst_folder, basename)
