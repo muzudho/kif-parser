@@ -6,7 +6,7 @@ from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
-from scripts.convert_kifu_to_kif import convert_kifu_to_kif
+from scripts.convert_kifu_to_kif import ConvertKifuToKif
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kif_to_kifu import ConvertKifToKifu
 from scripts.convert_kifu_to_pivot import convert_kifu_to_pivot
@@ -90,7 +90,8 @@ class ReversibleConvertPivotToKif():
             return None
 
         # (d-2) 目的のファイル(KIF Shift-JIS)へ変換
-        object_file = convert_kifu_to_kif(
+        convert_kifu_to_kif = ConvertKifuToKif()
+        object_file = convert_kifu_to_kif.convert_kifu_to_kif(
             kifu_file, output_folder=self._middle_folder, debug=self._debug)
         if object_file is None:
             print(

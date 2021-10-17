@@ -8,7 +8,7 @@ from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import ConvertKifToKifu
-from scripts.convert_kifu_to_kif import convert_kifu_to_kif
+from scripts.convert_kifu_to_kif import ConvertKifuToKif
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -106,7 +106,8 @@ class ReversibleConvertKifToPivot():
             return None
 
         # (e-2) Shift-JIS から UTF-8 へ変更
-        reversed_kif_file = convert_kifu_to_kif(
+        convert_kifu_to_kif = ConvertKifuToKif()
+        reversed_kif_file = convert_kifu_to_kif.convert_kifu_to_kif(
             reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
         if reversed_kif_file is None:
             print(

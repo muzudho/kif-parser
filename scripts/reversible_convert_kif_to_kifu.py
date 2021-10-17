@@ -6,7 +6,7 @@ from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_kif_to_kifu import ConvertKifToKifu
-from scripts.convert_kifu_to_kif import convert_kifu_to_kif
+from scripts.convert_kifu_to_kif import ConvertKifuToKif
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -79,7 +79,8 @@ class ReversibleConvertKifToKifu():
         # ここから逆の操作を行います
 
         # (e-1) UTF-8 から Shift-JIS へ変換
-        reversed_kif_file = convert_kifu_to_kif(
+        convert_kifu_to_kif = ConvertKifuToKif()
+        reversed_kif_file = convert_kifu_to_kif.convert_kifu_to_kif(
             object_file, output_folder=self._layer4_folder, debug=self._debug)
 
         # (f) レイヤー４にあるファイルの SHA256 生成
