@@ -13,28 +13,11 @@ import sys
 
 
 class ConvertKifuToPivot():
-    def __init__(self, input_file, debug=False):
-        self._input_file = input_file
+
+    def __init__(self, debug=False):
         self._debug = debug
 
-    def _read_input(self):
-        # basename
-        try:
-            basename = os.path.basename(self._input_file)
-        except:
-            print(
-                f"Basename fail. self._input_file={self._input_file} except={sys.exc_info()[0]}")
-            raise
-
-        stem, extention = os.path.splitext(basename)
-        if extention.lower() != '.kifu':
-            return None, None
-
-        with open(self._input_file, encoding='utf-8') as f:
-            text = f.read().rstrip()
-            return stem, text
-
-    def convert_kifu_to_pivot(self, output_folder):
+    def convert_kifu_to_pivot(self, kifu_file, output_folder):
         """KIFUファイルを読込んで、JSONファイルを出力します
         Parameters
         ----------
@@ -43,13 +26,26 @@ class ConvertKifuToPivot():
         """
 
         data = {}
-        stem, text = self._read_input()
+
+        # basename
+        try:
+            basename = os.path.basename(kifu_file)
+        except:
+            print(
+                f"Basename fail. kifu_file={kifu_file} except={sys.exc_info()[0]}")
+            raise
+
+        stem, extention = os.path.splitext(basename)
+        if extention.lower() != '.kifu':
+            return None
 
         # insert new extention
         out_path = os.path.join(output_folder, f"{stem}[kifu-pivot].json")
 
         # とりあえず KIFU を読んでみます
         row_number = 1
+        with open(kifu_file, encoding='utf-8') as f:
+            text = f.read().rstrip()
 
         # この棋譜を生成したソフトが何か当てに行きます
         shogi_dokoro, shogi_gui = generator_identification.read_all_text(text)
@@ -262,7 +258,7 @@ class ConvertKifuToPivot():
 
             # 解析漏れ
             print(
-                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] unimplemented row_number={row_number} line=[{line}] input_file=[{self._input_file}]")
+                f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] unimplemented row_number={row_number} line=[{line}] kifu_file=[{kifu_file}]")
             return None
 
         # 最終行まで解析終わり

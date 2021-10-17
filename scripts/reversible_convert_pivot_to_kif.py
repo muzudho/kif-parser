@@ -112,9 +112,9 @@ class ReversibleConvertPivotToKif():
 
         # (e-2)
         rev_pivot2kifu = ConvertKifuToPivot(
-            reversed_kifu_file, debug=self._debug)
+            debug=self._debug)
         reversed_pivot_file = rev_pivot2kifu.convert_kifu_to_pivot(
-            output_folder=self._layer5_folder)
+            reversed_kifu_file, output_folder=self._layer5_folder)
         if reversed_pivot_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Parse fail. input_file={input_file}")

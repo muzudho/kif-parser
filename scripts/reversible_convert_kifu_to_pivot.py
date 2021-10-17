@@ -75,9 +75,9 @@ class ReversibleConvertKifuToPivot():
 
         # (d-1) 目的のファイル（Pivot）へ変換
         kifu2pivot = ConvertKifuToPivot(
-            input_file, debug=self._debug)
+            debug=self._debug)
         object_file = kifu2pivot.convert_kifu_to_pivot(
-            output_folder=self._object_folder)
+            input_file, output_folder=self._object_folder)
         if object_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] (d-1) parse fail. input_file={input_file}")
