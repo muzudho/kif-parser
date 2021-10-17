@@ -93,7 +93,7 @@ def __main():
         window, textvariable=left_file_text_box_value)
     left_file_text_box.place(x=10*scale, y=70*scale,
                              width=200*scale, height=20*scale)
-    left_file_text_box.insert(tk.END, "demo-in[shogigui].kifu")
+    left_file_text_box.insert(tk.END, "demo-left[shogigui].kifu")
 
     # 右テキストボックス2（ファイル名）
     right_file_text_box_value = tk.StringVar()
@@ -101,7 +101,7 @@ def __main():
         window, textvariable=right_file_text_box_value)
     right_file_text_box.place(x=270*scale, y=70*scale,
                               width=200*scale, height=20*scale)
-    right_file_text_box.insert(tk.END, "demo-out[shogidokoro].kifu")
+    right_file_text_box.insert(tk.END, "demo-right[shogidokoro].kifu")
 
     # 左テキストエリア
     left_text_area = tk.Text(window)
@@ -128,28 +128,28 @@ def __main():
 
 
 def left_generator_combobox_selected(e):
-    filename = create_left_file_name("demo-in")
+    filename = create_left_file_name()
     left_file_text_box_value.set(filename)
 
 
 def right_generator_combobox_selected(e):
-    filename = create_right_file_name("demo-in")
+    filename = create_right_file_name()
     right_file_text_box_value.set(filename)
 
 
 def left_encoding_combobox_selected(e):
-    filename = create_left_file_name("demo-in")
+    filename = create_left_file_name()
     left_file_text_box_value.set(filename)
 
 
 def right_encoding_combobox_selected(e):
-    filename = create_right_file_name("demo-in")
+    filename = create_right_file_name()
     right_file_text_box_value.set(filename)
 
 
-def create_left_file_name(stem):
+def create_left_file_name():
     global left_generator_combobox_value, left_encoding_combobox_value
-    filename = stem
+    filename = "demo-left"
     generator = left_generator_combobox_value.get()
     if generator == "Shogi GUI":
         filename += "[shogigui]"
@@ -163,9 +163,9 @@ def create_left_file_name(stem):
     return filename
 
 
-def create_right_file_name(stem):
+def create_right_file_name():
     global right_generator_combobox_value, right_encoding_combobox_value
-    filename = stem
+    filename = "demo-right"
     generator = right_generator_combobox_value.get()
     if generator == "Shogi GUI":
         filename += "[shogigui]"
@@ -181,7 +181,12 @@ def create_right_file_name(stem):
 
 def copy_left_to_right():
     """左のテキストボックスの内容を、右のテキストボックスにコピーする機能"""
-    global left_text_area, right_text_area
+    global left_file_text_box_value, left_text_area, right_text_area
+    # TODO 左のテキストボックスの内容を 📂`input` へ保存します
+    left_filename = left_file_text_box_value.get()
+    print(f"left_filename=[{left_filename}]")
+    # TODO ファイル単位で翻訳します
+    # TODO 📂`output` に出来ているファイルを読み込み、右のテキストボックスへ出力します
     right_text_area.delete('1.0', 'end')
     text = left_text_area.get("1.0", 'end-1c')
     right_text_area.insert("1.0", text)
