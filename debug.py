@@ -42,18 +42,26 @@ if __name__ == "__main__":
 
     conv = None
 
+    # no-pivot
     if args.tool == "kif2kifu":
         # KIF to KIFU
         conv = ReversibleConvertKifToKifu(debug=True)
-    elif args.tool == "kif2pivot":
-        conv = ReversibleConvertKifToPivot(debug=True)
     elif args.tool == "kifu2kif":
+        # KIFU to KIF
         conv = ReversibleConvertKifuToKif(debug=True)
+    # to-pivot
+    elif args.tool == "kif2pivot":
+        # KIF to PIVOT
+        conv = ReversibleConvertKifToPivot(source_template="", debug=True)
     elif args.tool == "kifu2pivot":
+        # KIFU to PIVOT
         conv = ReversibleConvertKifuToPivot(source_template="", debug=True)
+    # from-pivot
     elif args.tool == "pivot2kif":
+        # PIVOT to KIF
         conv = ReversibleConvertPivotToKif(debug=True)
     elif args.tool == "pivot2kifu":
+        # PIVOT to KIFU
         conv = ReversibleConvertPivotToKifu(debug=True)
 
     if conv:

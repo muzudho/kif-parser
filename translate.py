@@ -56,8 +56,8 @@ class Translator():
                                                     debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True)
         else:
             # KIFファイルをPIVOTへ変換します
-            to_pivot = ReversibleConvertKifToPivot(
-                debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True, destination_template_name=destination_template)
+            to_pivot = ReversibleConvertKifToPivot(source_template=source_template,
+                                                   debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True)
 
         # from-pivot
         if destination == 'kifu':
