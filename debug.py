@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # from-pivot
     elif args.tool == "pivot2kif":
         # PIVOT to KIF
-        conv = ReversibleConvertPivotToKif(debug=True)
+        conv = ReversibleConvertPivotToKif(destination_template="", debug=True)
     elif args.tool == "pivot2kifu":
         # PIVOT to KIFU
         conv = ReversibleConvertPivotToKifu(debug=True)

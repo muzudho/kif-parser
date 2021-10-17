@@ -67,7 +67,7 @@ class Translator():
         else:
             # PIVOTファイルをKIFへ変換します
             from_pivot = ReversibleConvertPivotToKif(
-                debug=debug, first_layer_folder='temporary/output-pivot', destination_template_name=destination_template)
+                debug=debug, first_layer_folder='temporary/output-pivot', destination_template=destination_template)
 
         # 最終フォルダーを掃除
         to_pivot.clean_last_layer_folder()
