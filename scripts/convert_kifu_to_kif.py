@@ -1,6 +1,5 @@
 import os
 import inspect
-import codecs
 import sys
 
 
@@ -23,7 +22,7 @@ def convert_kifu_to_kif(input_file, output_folder, debug=False):
         encoding = 'utf-8'
 
     # シフトJISエンコードのテキストファイルの読み込み
-    with codecs.open(input_file, "r", encoding=encoding) as f_in:
+    with open(input_file, "r", encoding=encoding) as f_in:
 
         # basename
         try:
@@ -46,7 +45,7 @@ def convert_kifu_to_kif(input_file, output_folder, debug=False):
 
         try:
             # TODO UTF-8 から Shift-JIS へ変換できない文字（波線）などが現れた時、エラーにならないように何とかしたい
-            with codecs.open(out_path, "w", encoding='shift_jis') as f_out:
+            with open(out_path, "w", encoding='shift_jis') as f_out:
 
                 # UTF-8 --> Shift-JIS 変換して保存
                 for row in f_in:

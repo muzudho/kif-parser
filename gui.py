@@ -2,7 +2,6 @@ import os
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
-import codecs
 
 from translate import Translator
 
@@ -192,8 +191,8 @@ def copy_left_to_right():
     global right_file_text_box_value
     global right_text_area
     # TODO 左のテキストボックスの内容を
-    content = left_text_area.get("1.0", 'end-1c')
-    # print(f"content=[{content}]")
+    left_textbox_content = left_text_area.get("1.0", 'end-1c')
+    # print(f"left_textbox_content=[{left_textbox_content}]")
     # TODO 📂`input` へ保存します
     input_filename = left_file_text_box_value.get()
     print(f"input_filename=[{input_filename}]")
@@ -209,12 +208,14 @@ def copy_left_to_right():
     if extention == ".kif":
         # UTF-8 --> Shift-JIS 変換して保存
         # TODO UTF-8 から Shift-JIS へ変換できない文字（波線）などが現れた時、エラーにならないように何とかしたい
-        with codecs.open(input_filename, "w", encoding='shift_jis') as f_out:
-            f_out.write(content)
+        left_text_encoding = 'shift_jis'
     else:
         # TODO BOM付きにも対応したい
-        with codecs.open(input_filename, "w", encoding='utf-8') as f_out:
-            f_out.write(content)
+        left_text_encoding = 'utf-8'
+
+    with open(input_filename, "w", encoding=left_text_encoding) as f_out:
+        # TODO 改行コードがUnixになったりする（＾～＾）
+        f_out.write(left_textbox_content)
 
     # TODO 翻訳ツール作成
     left_generator = left_generator_combobox_value.get()
@@ -264,17 +265,12 @@ def copy_left_to_right():
         # TODO BOM付きにも対応したい
         encoding = 'utf-8'
 
-    with codecs.open(input_filename, "r", encoding=encoding) as f_in:
+    with open(input_filename, "r", encoding=encoding) as f_in:
         text = ""
         for row in f_in:
             text += row
         right_text_area.delete('1.0', 'end')
         right_text_area.insert("1.0", text)
-
-    # TODO右のテキストボックスへ出力します
-    # right_text_area.delete('1.0', 'end')
-    # text = left_text_area.get("1.0", 'end-1c')
-    # right_text_area.insert("1.0", text)
 
 
 def copy_right_to_left():
