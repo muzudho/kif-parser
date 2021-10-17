@@ -7,7 +7,7 @@ from scripts.kifu_specification import comment_row_p, explain_row_p, bookmark_ro
     judge_statement2_p, judge_statement3_p, reason_p, \
     moves_header_row_p, \
     key_value_pair_row_p
-from scripts.generator_identification import generator_identification
+from scripts.generator_identification import GeneratorIdentification
 from scripts.data_json_format import format_data_json
 import sys
 
@@ -22,14 +22,14 @@ class ConvertKifuToPivot():
         row_number = 1
 
         # この棋譜を生成したソフトが何か当てに行きます
-        shogi_dokoro, shogi_gui = generator_identification.read_all_text(
-            in_text)
+        generator_identification = GeneratorIdentification()
+        generator_identification.read_all_text(in_text)
         # 0行目に情報を追加するものとします
         data[0] = {
             "type": "metadata",
             "generatingSoftwareIsProbably": {
-                "shogidokoro": shogi_dokoro,
-                "shogigui": shogi_gui,
+                "shogidokoro": generator_identification.shogidokoro,
+                "shogigui": generator_identification.shogigui,
             }
         }
 
