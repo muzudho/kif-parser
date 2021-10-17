@@ -8,10 +8,37 @@ from scripts.reversible_convert_pivot_to_kifu import ReversibleConvertPivotToKif
 
 
 class Translator():
-    def __init__(self):
-        pass
+    def __init__(self, source, destination, template, debug=False):
+        self._source = source
+        self._destination = destination
+        self._template = template
+        self._debug = debug
 
-    def do_it_before_translation(self, source, destination, template, debug=False):
+    def translate_file(self, input_file):
+        """WIP 未テスト"""
+        to_pivot, from_pivot = Translator._do_it_before_translation(
+            source=self._source, destination=self._destination, template=self._template,
+            debug=self._debug)
+        # TODO 処理
+        Translator._translate_file_in_loop(
+            input_file, to_pivot, from_pivot, self.debug)
+
+        Translator._do_it_after_translation(from_pivot)
+
+    def translate_files_in_folder(self):
+        to_pivot, from_pivot = Translator._do_it_before_translation(
+            source=self._source, destination=self._destination, template=self._template,
+            debug=self._debug)
+
+        # フォルダー一括処理
+        for input_file in to_pivot.outside_input_files():
+            Translator._translate_file_in_loop(
+                input_file, to_pivot, from_pivot, self._debug)
+
+        Translator._do_it_after_translation(from_pivot)
+
+    @classmethod
+    def _do_it_before_translation(clazz, source, destination, template, debug=False):
         """翻訳前にやること"""
         # to-pivot
         if source == 'kifu':
@@ -39,16 +66,6 @@ class Translator():
 
         return to_pivot, from_pivot
 
-    def translate_files_in_folder(self, to_pivot, from_pivot, debug=False):
-
-        # フォルダー一括処理
-        for input_file in to_pivot.outside_input_files():
-            Translator._translate_file_in_loop(
-                input_file, to_pivot, from_pivot, debug)
-
-    def do_it_after_translation(self):
-        from_pivot.clean_temporary()
-
     @classmethod
     def _translate_file_in_loop(clazz, input_file, to_pivot, from_pivot, debug=False):
         if debug:
@@ -72,6 +89,10 @@ class Translator():
 
         # レイヤー２フォルダーにあるファイルを往復翻訳します
         _final_file = from_pivot.round_trip_translate(next_file)
+
+    @classmethod
+    def _do_it_after_translation(clazz, from_pivot):
+        from_pivot.clean_temporary()
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
@@ -104,10 +125,6 @@ if __name__ == "__main__":
     print(f"-d {args.destination}")
     print(f"-t {args.template}")
 
-    translator = Translator()
-    to_pivot, from_pivot = translator.do_it_before_translation(source=args.source, destination=args.destination,
-                                                               template=args.template)
-    translator.translate_files_in_folder(
-        to_pivot, from_pivot, debug=args.debug)
-
-    translator.do_it_after_translation()
+    translator = Translator(source=args.source, destination=args.destination,
+                            template=args.template, debug=args.debug)
+    translator.translate_files_in_folder()
