@@ -115,7 +115,6 @@ def __main():
         window, textvariable=left_file_text_box_value)
     left_file_text_box.place(x=10*scale, y=70*scale,
                              width=200*scale, height=15*scale)
-    left_file_text_box.insert(tk.END, "input/demo[shogigui].kifu")
     left_file_text_box.configure(state='readonly')
 
     # 右テキストボックス2（ファイル名）
@@ -123,7 +122,6 @@ def __main():
         window, textvariable=right_file_text_box_value)
     right_file_text_box.place(x=270*scale, y=70*scale,
                               width=200*scale, height=15*scale)
-    right_file_text_box.insert(tk.END, "output/demo[shogidokoro].kifu")
     right_file_text_box.configure(state='readonly')
 
     # [↑フォーマット推測]ボタン
