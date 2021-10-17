@@ -25,7 +25,7 @@ class Translator():
     def translate_file(self, input_file):
         # TODO source_template
         to_pivot, from_pivot = Translator._do_it_before_translation(
-            source=self._source, destination=self._destination, destination_template=self._destination_template,
+            source=self._source, destination=self._destination, source_template=self._source_template, destination_template=self._destination_template,
             debug=self._debug)
 
         Translator._translate_file_in_loop(
@@ -36,7 +36,7 @@ class Translator():
     def translate_files_in_folder(self):
         # TODO source_template
         to_pivot, from_pivot = Translator._do_it_before_translation(
-            source=self._source, destination=self._destination, destination_template=self._destination_template,
+            source=self._source, destination=self._destination, source_template=self._source_template, destination_template=self._destination_template,
             debug=self._debug)
 
         # フォルダー一括処理
@@ -47,13 +47,13 @@ class Translator():
         Translator._do_it_after_translation(from_pivot)
 
     @classmethod
-    def _do_it_before_translation(clazz, source, destination, destination_template, debug=False):
+    def _do_it_before_translation(clazz, source, destination, source_template, destination_template, debug=False):
         """翻訳前にやること"""
         # to-pivot
         if source == 'kifu':
             # KIFUファイルをPIVOTへ変換します
-            to_pivot = ReversibleConvertKifuToPivot(
-                debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True, destination_template_name=destination_template)
+            to_pivot = ReversibleConvertKifuToPivot(source_template=source_template,
+                                                    debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True)
         else:
             # KIFファイルをPIVOTへ変換します
             to_pivot = ReversibleConvertKifToPivot(

@@ -50,7 +50,7 @@ if __name__ == "__main__":
     elif args.tool == "kifu2kif":
         conv = ReversibleConvertKifuToKif(debug=True)
     elif args.tool == "kifu2pivot":
-        conv = ReversibleConvertKifuToPivot(debug=True)
+        conv = ReversibleConvertKifuToPivot(source_template="", debug=True)
     elif args.tool == "pivot2kif":
         conv = ReversibleConvertPivotToKif(debug=True)
     elif args.tool == "pivot2kifu":
