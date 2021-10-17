@@ -13,7 +13,7 @@ from scripts.test_lib import create_sha256_by_file_path
 
 
 class ReversibleConvertKifToPivot():
-    def __init__(self, debug=False, last_layer_folder='output', no_remove_output_pivot=False, template_name=""):
+    def __init__(self, debug=False, last_layer_folder='output', no_remove_output_pivot=False, destination_template_name=""):
         # (a) Layer 1. 入力フォルダ―
         self._first_layer_folder = 'input'
         self._first_layer_file_pattern = 'input/*.kif'
@@ -36,7 +36,7 @@ class ReversibleConvertKifToPivot():
         self._debug = debug
         self._last_layer_folder = last_layer_folder
         self._no_remove_output_pivot = no_remove_output_pivot
-        self._template_name = template_name
+        self._destination_template_name = destination_template_name
 
     def clean_last_layer_folder(self):
         # (b-1) 最終レイヤーの フォルダー を空っぽにします
@@ -91,7 +91,7 @@ class ReversibleConvertKifToPivot():
 
         # (e-1)
         reversed_kifu_file = convert_pivot_to_kifu(
-            object_file, output_folder=self._layer4_folder, template_name=self._template_name, debug=self._debug)
+            object_file, output_folder=self._layer4_folder, template_name=self._destination_template_name, debug=self._debug)
         if reversed_kifu_file is None:
             print(
                 f"[ERROR] {os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}: (e-1) parse fail. object_file={object_file}")

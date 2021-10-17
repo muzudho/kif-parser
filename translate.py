@@ -23,9 +23,9 @@ class Translator():
         self._debug = debug
 
     def translate_file(self, input_file):
-        """WIP 未テスト"""
+        # TODO source_template
         to_pivot, from_pivot = Translator._do_it_before_translation(
-            source=self._source, destination=self._destination, template=self._destination_template,
+            source=self._source, destination=self._destination, destination_template=self._destination_template,
             debug=self._debug)
 
         Translator._translate_file_in_loop(
@@ -34,8 +34,9 @@ class Translator():
         Translator._do_it_after_translation(from_pivot)
 
     def translate_files_in_folder(self):
+        # TODO source_template
         to_pivot, from_pivot = Translator._do_it_before_translation(
-            source=self._source, destination=self._destination, template=self._destination_template,
+            source=self._source, destination=self._destination, destination_template=self._destination_template,
             debug=self._debug)
 
         # フォルダー一括処理
@@ -46,27 +47,27 @@ class Translator():
         Translator._do_it_after_translation(from_pivot)
 
     @classmethod
-    def _do_it_before_translation(clazz, source, destination, template, debug=False):
+    def _do_it_before_translation(clazz, source, destination, destination_template, debug=False):
         """翻訳前にやること"""
         # to-pivot
         if source == 'kifu':
             # KIFUファイルをPIVOTへ変換します
             to_pivot = ReversibleConvertKifuToPivot(
-                debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
+                debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True, destination_template_name=destination_template)
         else:
             # KIFファイルをPIVOTへ変換します
             to_pivot = ReversibleConvertKifToPivot(
-                debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True, template_name=template)
+                debug=debug, last_layer_folder='temporary/output-pivot', no_remove_output_pivot=True, destination_template_name=destination_template)
 
         # from-pivot
         if destination == 'kifu':
             # PIVOTファイルをKIFUへ変換します
             from_pivot = ReversibleConvertPivotToKifu(
-                debug=debug, first_layer_folder='temporary/output-pivot', template_name=template)
+                debug=debug, first_layer_folder='temporary/output-pivot', destination_template_name=destination_template)
         else:
             # PIVOTファイルをKIFへ変換します
             from_pivot = ReversibleConvertPivotToKif(
-                debug=debug, first_layer_folder='temporary/output-pivot', template_name=template)
+                debug=debug, first_layer_folder='temporary/output-pivot', destination_template_name=destination_template)
 
         # 最終フォルダーを掃除
         to_pivot.clean_last_layer_folder()
