@@ -5,7 +5,7 @@ from scripts.change_place import change_place
 from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
-from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
+from scripts.convert_pivot_to_kifu import ConvertPivotToKifu
 from scripts.convert_kifu_to_kif import ConvertKifuToKif
 from scripts.test_lib import create_sha256_by_file_path
 from scripts.convert_kif_to_kifu import ConvertKifToKifu
@@ -82,7 +82,8 @@ class ReversibleConvertPivotToKif():
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) KIFUへ変換
-        kifu_file = convert_pivot_to_kifu(
+        convert_pivot_to_kifu = ConvertPivotToKifu()
+        kifu_file = convert_pivot_to_kifu.convert_pivot_to_kifu(
             input_file, output_folder=self._layer2b_folder, desinated_template_name=self._destination_template, debug=self._debug)
         if kifu_file is None:
             print(

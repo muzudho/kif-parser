@@ -6,7 +6,7 @@ from scripts.clear_all_records_in_folder import clear_all_records_in_folder
 from scripts.copy_file import copy_file
 from scripts.remove_all_temporary import remove_all_temporary
 from scripts.convert_kifu_to_pivot import ConvertKifuToPivot
-from scripts.convert_pivot_to_kifu import convert_pivot_to_kifu
+from scripts.convert_pivot_to_kifu import ConvertPivotToKifu
 from scripts.test_lib import create_sha256_by_file_path
 
 
@@ -85,7 +85,8 @@ class ReversibleConvertKifuToPivot():
         # ここから逆の操作を行います
 
         # (e-1)
-        reversed_kifu_file = convert_pivot_to_kifu(
+        convert_pivot_to_kifu = ConvertPivotToKifu()
+        reversed_kifu_file = convert_pivot_to_kifu.convert_pivot_to_kifu(
             object_file, output_folder=self._layer4_folder, desinated_template_name=self._source_template, debug=self._debug)
         if reversed_kifu_file is None:
             print(
