@@ -186,7 +186,9 @@ def create_right_file_name():
 def copy_left_to_right():
     """左のテキストボックスの内容を、右のテキストボックスにコピーする機能"""
     global right_generator_combobox_value, left_encoding_combobox_value, right_encoding_combobox_value
-    global left_file_text_box_value, left_text_area, right_text_area
+    global left_file_text_box_value, left_text_area
+    global right_file_text_box_value
+    global right_text_area
     # TODO 左のテキストボックスの内容を
     content = left_text_area.get("1.0", 'end-1c')
     print(f"content=[{content}]")
@@ -235,6 +237,29 @@ def copy_left_to_right():
     translator.translate_file(input_filename)
 
     # TODO 📂`output` に出来ているファイルを読み込み
+    output_filename = right_file_text_box_value.get()
+    try:
+        basename = os.path.basename(output_filename)
+    except:
+        print(
+            f"Basename fail. output_filename={output_filename} except={sys.exc_info()[0]}")
+        raise
+
+    stem, extention = os.path.splitext(basename)
+    if extention == ".kif":
+        # UTF-8 --> Shift-JIS 変換して保存
+        # TODO UTF-8 から Shift-JIS へ変換できない文字（波線）などが現れた時、エラーにならないように何とかしたい
+        encoding = 'shift_jis'
+    else:
+        # TODO BOM付きにも対応したい
+        encoding = 'utf-8'
+
+    with codecs.open(input_filename, "r", encoding=encoding) as f_in:
+        text = ""
+        for row in f_in:
+            text += row
+        right_text_area.delete('1.0', 'end')
+        right_text_area.insert("1.0", text)
 
     # TODO右のテキストボックスへ出力します
     # right_text_area.delete('1.0', 'end')

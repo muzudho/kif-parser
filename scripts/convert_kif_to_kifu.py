@@ -17,7 +17,7 @@ def convert_kif_to_kifu(kif_file, output_folder, debug=False):
     out_path = ""
 
     # シフトJISエンコードのテキストファイルの読み込み
-    with codecs.open(kif_file, "r", encoding='shift_jis') as f:
+    with codecs.open(kif_file, "r", encoding='shift_jis') as f_in:
 
         # basename
         try:
@@ -40,7 +40,7 @@ def convert_kif_to_kifu(kif_file, output_folder, debug=False):
         with codecs.open(out_path, "w", encoding='utf-8') as f_out:
 
             # UTF-8形式に変換して保存
-            for row in f:
+            for row in f_in:
                 f_out.write(row)
 
     return out_path
