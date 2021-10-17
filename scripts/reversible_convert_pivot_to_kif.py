@@ -82,8 +82,8 @@ class ReversibleConvertPivotToKif():
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) KIFUへ変換
-        convert_pivot_to_kifu = ConvertPivotToKifu()
-        kifu_file = convert_pivot_to_kifu.convert_pivot_to_kifu(
+        pivot2kifu = ConvertPivotToKifu()
+        kifu_file = pivot2kifu.convert_pivot_to_kifu(
             input_file, output_folder=self._layer2b_folder, desinated_template_name=self._destination_template, debug=self._debug)
         if kifu_file is None:
             print(
@@ -91,8 +91,8 @@ class ReversibleConvertPivotToKif():
             return None
 
         # (d-2) 目的のファイル(KIF Shift-JIS)へ変換
-        convert_kifu_to_kif = ConvertKifuToKif()
-        object_file = convert_kifu_to_kif.convert_kifu_to_kif(
+        kifu2kif = ConvertKifuToKif()
+        object_file = kifu2kif.convert_kifu_to_kif(
             kifu_file, output_folder=self._middle_folder, debug=self._debug)
         if object_file is None:
             print(
@@ -102,8 +102,8 @@ class ReversibleConvertPivotToKif():
         # ここから逆の操作を行います
 
         # (e-1)
-        convert_kif_to_kifu = ConvertKifToKifu()
-        reversed_kifu_file = convert_kif_to_kifu.convert_kif_to_kifu(
+        rev_kifu2kif = ConvertKifToKifu()
+        reversed_kifu_file = rev_kifu2kif.convert_kif_to_kifu(
             object_file, output_folder=self._layer4_folder, debug=self._debug)
         if reversed_kifu_file is None:
             print(
@@ -111,9 +111,10 @@ class ReversibleConvertPivotToKif():
             return None
 
         # (e-2)
-        convert_kifu_to_pivot = ConvertKifuToPivot()
-        reversed_pivot_file = convert_kifu_to_pivot.convert_kifu_to_pivot(
-            reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
+        rev_pivot2kifu = ConvertKifuToPivot(
+            reversed_kifu_file, debug=self._debug)
+        reversed_pivot_file = rev_pivot2kifu.convert_kifu_to_pivot(
+            output_folder=self._layer5_folder)
         if reversed_pivot_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] Parse fail. input_file={input_file}")

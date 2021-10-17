@@ -79,8 +79,8 @@ class ReversibleConvertKifToPivot():
         layer2_file_sha256 = create_sha256_by_file_path(input_file)
 
         # (d-1) Shift-JIS から UTF-8 へ変更
-        convert_kif_to_kifu = ConvertKifToKifu()
-        kifu_file = convert_kif_to_kifu.convert_kif_to_kifu(
+        kif2kifu = ConvertKifToKifu()
+        kifu_file = kif2kifu.convert_kif_to_kifu(
             input_file, output_folder=self._layer2b_folder, debug=self._debug)
         if kifu_file is None:
             print(
@@ -88,9 +88,10 @@ class ReversibleConvertKifToPivot():
             return None
 
         # (d-2) 目的のファイル（Pivot）へ変換
-        convert_kifu_to_pivot = ConvertKifuToPivot()
-        object_file = convert_kifu_to_pivot.convert_kifu_to_pivot(
-            kifu_file, output_folder=self._object_folder, debug=self._debug)
+        kifu2pivot = ConvertKifuToPivot(
+            kifu_file, debug=self._debug)
+        object_file = kifu2pivot.convert_kifu_to_pivot(
+            output_folder=self._object_folder)
         if object_file is None:
             print(
                 f"[ERROR] [{os.path.basename(__file__)} {inspect.currentframe().f_back.f_code.co_name}] (d-2) parse fail. kifu_file={kifu_file}")
@@ -99,8 +100,8 @@ class ReversibleConvertKifToPivot():
         # ここから逆の操作を行います
 
         # (e-1)
-        convert_pivot_to_kifu = ConvertPivotToKifu()
-        reversed_kifu_file = convert_pivot_to_kifu.convert_pivot_to_kifu(
+        rev_kifu2pivot = ConvertPivotToKifu()
+        reversed_kifu_file = rev_kifu2pivot.convert_pivot_to_kifu(
             object_file, output_folder=self._layer4_folder, desinated_template_name=self._source_template, debug=self._debug)
         if reversed_kifu_file is None:
             print(
@@ -108,8 +109,8 @@ class ReversibleConvertKifToPivot():
             return None
 
         # (e-2) Shift-JIS から UTF-8 へ変更
-        convert_kifu_to_kif = ConvertKifuToKif()
-        reversed_kif_file = convert_kifu_to_kif.convert_kifu_to_kif(
+        rev_kif2kifu = ConvertKifuToKif()
+        reversed_kif_file = rev_kif2kifu.convert_kifu_to_kif(
             reversed_kifu_file, output_folder=self._layer5_folder, debug=self._debug)
         if reversed_kif_file is None:
             print(
