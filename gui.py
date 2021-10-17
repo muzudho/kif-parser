@@ -293,7 +293,7 @@ def copy_left_to_right():
         # TODO 改行コードがUnixになったりする（＾～＾）
         f_out.write(left_textbox_content)
 
-    # TODO 翻訳ツール作成
+    # 翻訳ツール作成
     left_generator = left_generator_combobox_value.get()
     if left_generator == "Shogi GUI":
         source_template = "shogigui"
@@ -320,10 +320,10 @@ def copy_left_to_right():
     translator = Translator(source=source, destination=destination,
                             source_template=source_template, destination_template=destination_template, debug=True)
 
-    # TODO ファイル単位で翻訳します
+    # ファイル単位で翻訳します
     translator.translate_file(input_filename)
 
-    # TODO 📂`output` に出来ているファイルを読み込み
+    # 📂`output` に出来ているファイルを読み込み
     output_filename = right_file_text_box_value.get()
     try:
         basename = os.path.basename(output_filename)
@@ -341,7 +341,7 @@ def copy_left_to_right():
         # TODO BOM付きにも対応したい
         encoding = 'utf-8'
 
-    with open(input_filename, "r", encoding=encoding) as f_in:
+    with open(output_filename, "r", encoding=encoding) as f_in:
         text = ""
         for row in f_in:
             text += row
