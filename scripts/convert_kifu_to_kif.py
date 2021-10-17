@@ -3,8 +3,8 @@ import codecs
 import sys
 
 
-def convert_kifu_to_kif(kifu_file, output_folder, debug=False):
-    """(1) kifu_file(*.kifu)ファイルを読み取ります
+def convert_kifu_to_kif(input_file, output_folder, debug=False):
+    """(1) input_file(*.kifu)ファイルを読み取ります
     (2) *.kifファイルを kif フォルダーへ生成します
     (3) 読み終えた *.kifuファイルは done_folder フォルダーへ移動します
 
@@ -15,14 +15,20 @@ def convert_kifu_to_kif(kifu_file, output_folder, debug=False):
         KIFUファイルでなかったなら空文字列
     """
 
+    # BOM付きUTF-8か、BOM無しUTF-8かを見分けます
+    if is_utf8_file_with_bom(input_file):
+        encoding = 'utf-8-sig'
+    else:
+        encoding = 'utf-8'
+
     # シフトJISエンコードのテキストファイルの読み込み
-    with codecs.open(kifu_file, "r", encoding='utf-8') as f:
+    with codecs.open(input_file, "r", encoding=encoding) as f_in:
 
         # basename
         try:
-            basename = os.path.basename(kifu_file)
+            basename = os.path.basename(input_file)
         except:
-            print(f"Error: kifu_file={kifu_file} except={sys.exc_info()[0]}")
+            print(f"Error: input_file={input_file} except={sys.exc_info()[0]}")
             raise
 
         stem, extention = os.path.splitext(basename)
@@ -34,11 +40,25 @@ def convert_kifu_to_kif(kifu_file, output_folder, debug=False):
 
         if debug:
             print(
-                f"[DEBUG] convert_kifu_to_kif.py convert_kifu_to_kif(): Write to [{out_path}]")
-        with codecs.open(out_path, "w", encoding='shift_jis') as f_out:
+                f"[DEBUG] convert_kifu_to_kif.py convert_kifu_to_kif(): Write from [{input_file}](UTF-8) to [{out_path}](Shift-JIS)")
 
-            # UTF-8形式に変換して保存
-            for row in f:
-                f_out.write(row)
+        try:
+            # TODO UTF-8 から Shift-JIS へ変換できない文字（波線）などが現れた時、エラーにならないように何とかしたい
+            with codecs.open(out_path, "w", encoding='shift_jis') as f_out:
+
+                # UTF-8 --> Shift-JIS 変換して保存
+                for row in f_in:
+                    f_out.write(row)
+        except:
+            raise ValueError(
+                f"Write fail. Write from [{input_file}](UTF-8) to [{out_path}](Shift-JIS)")
 
     return out_path
+
+
+def is_utf8_file_with_bom(filename):
+    """utf-8 ファイルが BOM ありかどうかを判定します
+    📖 [Python Tips： Python で UTF-8 の BOM ありなしを見分けたい](https://www.lifewithpython.com/2017/10/python-detect-bom-in-utf8-file.html)
+    """
+    line_first = open(filename, encoding='utf-8').readline()
+    return (line_first[0] == '\ufeff')

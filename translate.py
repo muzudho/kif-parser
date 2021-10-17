@@ -60,12 +60,14 @@ def do_it_before_translation(source, destination, template, debug=False):
     return to_pivot, from_pivot
 
 
-def translate_folder(to_pivot, from_pivot, debug=False):
+def translate_files_in_folder(to_pivot, from_pivot, debug=False):
 
     # フォルダー一括処理
     for input_file in to_pivot.outside_input_files():
         translate_file_in_loop(input_file, to_pivot, from_pivot, debug)
 
+
+def do_it_after_translation():
     from_pivot.clean_temporary()
 
 
@@ -101,4 +103,6 @@ if __name__ == "__main__":
 
     to_pivot, from_pivot = do_it_before_translation(source=args.source, destination=args.destination,
                                                     template=args.template)
-    translate_folder(to_pivot, from_pivot, debug=args.debug)
+    translate_files_in_folder(to_pivot, from_pivot, debug=args.debug)
+
+    do_it_after_translation()
