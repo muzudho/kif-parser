@@ -31,8 +31,8 @@ def translate_file_in_loop(input_file, to_pivot, from_pivot, debug=False):
     _final_file = from_pivot.round_trip_translate(next_file)
 
 
-def translate_folder(source, destination, template, debug):
-
+def do_it_before_translation(source, destination, template, debug=False):
+    """翻訳前にやること"""
     # to-pivot
     if source == 'kifu':
         # KIFUファイルをPIVOTへ変換します
@@ -56,6 +56,11 @@ def translate_folder(source, destination, template, debug):
     # 最終フォルダーを掃除
     to_pivot.clean_last_layer_folder()
     from_pivot.clean_last_layer_folder()
+
+    return to_pivot, from_pivot
+
+
+def translate_folder(to_pivot, from_pivot, debug=False):
 
     # フォルダー一括処理
     for input_file in to_pivot.outside_input_files():
@@ -94,5 +99,6 @@ if __name__ == "__main__":
     print(f"-d {args.destination}")
     print(f"-t {args.template}")
 
-    translate_folder(source=args.source, destination=args.destination,
-                     template=args.template, debug=args.debug)
+    to_pivot, from_pivot = do_it_before_translation(source=args.source, destination=args.destination,
+                                                    template=args.template)
+    translate_folder(to_pivot, from_pivot, debug=args.debug)
