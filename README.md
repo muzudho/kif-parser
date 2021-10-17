@@ -11,12 +11,6 @@ ShogiGUI で作成した `.kifu` ファイルを、 将棋所のフォーマッ�
 * [将棋所](http://shogidokoro.starfree.jp/)
 * [ShogiGUI](http://shogigui.siganus.com/)
 
-## Attention（注意）
-
-初めに注意。  
-棋譜ファイルはバックアップを残しておいてください。  
-このアプリケーションでは、棋譜ファイルのコピーを利用してください。  
-
 ## Set up（設定）
 
 ```shell
@@ -32,6 +26,25 @@ readyok
 ```
 
 👆 問題なければ `readyok` と表示されます
+
+## デスクトップGUI版
+
+![20211017shogi26.png](./docs/img/20211017shogi26.png)  
+
+```shell
+python.exe gui.py
+# または
+gui.py
+```
+
+👆 操作方法は画面を見て想像してください。 GUI版の説明は省略します
+
+## Attention（注意）
+
+初めに注意。  
+以下のスクリプト版を使う場合、  
+棋譜ファイルはバックアップを残しておいてください。  
+このアプリケーションでは、棋譜ファイルのコピーを利用してください。  
 
 ## Smoke test（最初の動作確認）
 
