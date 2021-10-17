@@ -44,6 +44,14 @@ left_combobox = ttk.Combobox(
     window, height=3, textvariable=left_combobox_value, values=values)
 left_combobox.place(x=10*scale, y=10*scale, width=200*scale, height=20*scale)
 
+
+def left_combobox_selected(e):
+    print(f"left_combobox_selected txt={left_combobox_value.get()} e={e}")
+
+
+left_combobox.bind(
+    '<<ComboboxSelected>>',
+    left_combobox_selected)
 # 右コンボボックス
 right_combobox_value = tk.StringVar()
 right_combobox_value.set("Shogi GUI")
