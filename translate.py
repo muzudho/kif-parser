@@ -11,29 +11,6 @@ class Translator():
     def __init__(self):
         pass
 
-    def translate_file_in_loop(self, input_file, to_pivot, from_pivot, debug=False):
-        if debug:
-            print(f"[DEBUG] translate.py translate_file_in_loop(): to_pivot")
-
-        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
-        next_file = change_place(to_pivot.layer2_folder, input_file)
-        copy_file(input_file, next_file, debug=debug)
-
-        # レイヤー２フォルダーにあるファイルを往復翻訳します
-        object_file = to_pivot.round_trip_translate(next_file)
-        if not object_file:
-            return
-
-        if debug:
-            print(f"[DEBUG] translate.py translate_file_in_loop(): from_pivot")
-
-        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
-        next_file = change_place(from_pivot.layer2_folder, object_file)
-        copy_file(object_file, next_file, debug=debug)
-
-        # レイヤー２フォルダーにあるファイルを往復翻訳します
-        _final_file = from_pivot.round_trip_translate(next_file)
-
     def do_it_before_translation(self, source, destination, template, debug=False):
         """翻訳前にやること"""
         # to-pivot
@@ -66,11 +43,35 @@ class Translator():
 
         # フォルダー一括処理
         for input_file in to_pivot.outside_input_files():
-            self.translate_file_in_loop(
+            Translator._translate_file_in_loop(
                 input_file, to_pivot, from_pivot, debug)
 
     def do_it_after_translation(self):
         from_pivot.clean_temporary()
+
+    @classmethod
+    def _translate_file_in_loop(clazz, input_file, to_pivot, from_pivot, debug=False):
+        if debug:
+            print(f"[DEBUG] translate.py _translate_file_in_loop(): to_pivot")
+
+        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
+        next_file = change_place(to_pivot.layer2_folder, input_file)
+        copy_file(input_file, next_file, debug=debug)
+
+        # レイヤー２フォルダーにあるファイルを往復翻訳します
+        object_file = to_pivot.round_trip_translate(next_file)
+        if not object_file:
+            return
+
+        if debug:
+            print(f"[DEBUG] translate.py _translate_file_in_loop(): from_pivot")
+
+        # 入力フォルダ―にあるファイルを、レイヤー２フォルダーにコピーします
+        next_file = change_place(from_pivot.layer2_folder, object_file)
+        copy_file(object_file, next_file, debug=debug)
+
+        # レイヤー２フォルダーにあるファイルを往復翻訳します
+        _final_file = from_pivot.round_trip_translate(next_file)
 
 
 # このファイルを直接実行したときは、以下の関数を呼び出します
